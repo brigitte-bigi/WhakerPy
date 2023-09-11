@@ -131,13 +131,13 @@ For a more complex example of an already in-used web frontend, see:
 
 ## Projects using `WhakerPy `
 
-`WhakerPy` was initially developed within SPPAS <http://sppas/org>; it was 
+`WhakerPy` was initially developed within SPPAS <https://sppas.org>; it was 
 extracted from its original software by its author to lead its own life as 
 standalone package. The "setup" of SPPAS is entirely based on whakerpy API,
 and it's website too.
 
 Other projects: 
-- pages of the website "<https://auto-cuedspeech.org>" are created by whakerpy.
+- pages of the website <https://auto-cuedspeech.org> are created by whakerpy.
 - *contact the author if your project is using whakerpy*
 
 
