@@ -1,0 +1,95 @@
+/*
+:filename: css.colors_light.css
+:author:   Brigitte Bigi
+:contact:  develop@sppas.org
+:summary:  Light colors
+:license:  GNU GPL v3
+
+
+.. _This file is part of SPPAS: https://sppas.org/
+..
+    -------------------------------------------------------------------------
+
+     ___   __    __    __    ___
+    /     |  \  |  \  |  \  /              the automatic
+    \__   |__/  |__/  |___| \__             annotation and
+       \  |     |     |   |    \             analysis
+    ___/  |     |     |   | ___/              of speech
+
+    Copyright (C) 2011-2023 Brigitte Bigi
+    Laboratoire Parole et Langage, Aix-en-Provence, France
+
+    Use of this software is governed by the GNU Public License, version 3.
+
+    SPPAS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    SPPAS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with SPPAS. If not, see <http://www.gnu.org/licenses/>.
+
+    This banner notice must not be removed.
+
+    -------------------------------------------------------------------------
+
+*/
+
+.light {
+    --logo-color: rgb(87, 117, 177);   /* the color of the SPPAS logo */
+
+    /* Main colors */
+    --bg-color: rgb(250, 250, 252);
+    --bg-color-alt: rgba(225, 225, 225, 0.6);
+    --fg-color: rgb(0, 5, 10);
+    --fg-color-alt: rgb(28, 28, 28);
+    --border-color: rgb(28, 28, 28);
+    --border-color-alt: rgba(28, 28, 28, 0.5);
+    --focus-border-color: rgba(0, 191, 255, 0.8);
+    --columns-sep-color-light: rgb(241, 241, 245);
+    --columns-sep-color-dark: rgb(41, 41, 45);
+
+    /* Background colors */
+    --header-bg-color: rgba(87, 117, 177, 0.7);
+    --nav-bg-color: rgba(87, 117, 177, 0.7);
+    --footer-bg-color: rgba(17, 27, 57, 0.8);
+    --buttons-bg-color: rgb(225, 225, 220);
+    --progress-bg-color: rgb(49, 47, 85);
+
+    /* Foreground colors of HTML elements */
+    --header-fg-color: rgb(241, 241, 245);
+    --footer-fg-color: rgb(241, 241, 245);
+    --progress-color: rgb(20, 25, 30);
+    --buttons-color: rgb(20, 25, 30);
+
+    --h1-color: rgb(20, 20, 70);
+    --h2-color: rgb(35, 35, 95);
+    --h3-color: rgb(50, 50, 100);
+    --h4-color: rgb(65, 70, 110);
+    --h5-color: rgb(65, 70, 115);
+    --h6-color: rgb(65, 70, 125);
+
+    --a-color: rgb(0, 100, 120);
+    --mark-color: rgb(90, 96, 108);
+    --ins-color: rgba(20, 200, 20, 0.8);
+    --del-color: rgba(240, 40, 40, 0.8);
+    --s-color: rgb(100, 100, 100);
+    --blockquote-border-color: var(--logo-color);
+    --blockquote-footer-color: var(--logo-color);
+
+    --table-border-color: var(--footer-bg-color);
+    --table-row-stripped-bg-color: rgba(210, 212, 222, 0.4);
+    --table-head-bg-color: rgb(204, 202, 212);
+    --table-head-fg-color: rgb(14, 12, 22);
+    --table-caption-bg-color: var(--footer-bg-color);
+    --table-caption-fg-color: rgb(210, 222, 252);
+
+    /* Other colors */
+    --shadow-color: rgba(110, 120, 140, 0.8);
+
+}

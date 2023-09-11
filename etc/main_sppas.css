@@ -1,0 +1,158 @@
+/*
+:filename: css/main.css
+:author:   Brigitte Bigi
+:contact:  develop@sppas.org
+:summary:  Style to be used for any SPPAS Web-based UI application.
+
+.. _This file is part of SPPAS: https://sppas.org/
+..
+    -------------------------------------------------------------------------
+
+     ___   __    __    __    ___
+    /     |  \  |  \  |  \  /              the automatic
+    \__   |__/  |__/  |___| \__             annotation and
+       \  |     |     |   |    \             analysis
+    ___/  |     |     |   | ___/              of speech
+
+    Copyright (C) 2011-2023 Brigitte Bigi
+    Laboratoire Parole et Langage, Aix-en-Provence, France
+
+    Use of this software is governed by the GNU Public License, version 3.
+
+    SPPAS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    SPPAS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with SPPAS. If not, see <http://www.gnu.org/licenses/>.
+
+    This banner notice must not be removed.
+
+    -------------------------------------------------------------------------
+
+*/
+body > footer > *  > .flex-item {
+    text-align: left;
+}
+
+.card header span {
+    color: var(--bg-color);
+    font-size: 250%;
+    position: relative;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin: auto;
+    text-align: center;
+}
+
+/* ------------- BOOK NAVIGATION ------------- */
+
+.side-nav {
+    z-index: 9;
+    background: var(--bg-color-alt);
+    color: inherit;
+    width: 18rem;
+    height: 100%;
+    position: fixed;
+    top: var(--typography-spacing-vertical);  /* modified for Clamming tool */
+    left: 0;
+    padding-left: 0.5rem;
+    padding-top: 1rem;
+    /*margin: 0 auto;*/
+    margin-left: 1rem;
+    padding-bottom: 6rem;
+    font-size: 90%;
+    overflow: unset;
+    overflow-x: hidden;
+}
+
+#toc-content {
+    margin-left: 18rem;
+}
+
+
+/* Book table of content */
+li.h1 {
+    font-size: 110%;
+    padding-left: 0rem;
+    margin-bottom: 1rem;
+}
+li.h2 {
+    font-size: 100%;
+    padding-left: 0rem;
+}
+li.h3 {
+    font-size: 90%;
+    padding-left: 1rem;
+}
+li.h4 {
+    font-size: 80%;
+    padding-left: 2rem;
+}
+
+li.h1 a {
+    color: var(--h1-color);
+    text-decoration: none;
+    font-weight: var(--font-weight-bold);
+}
+li.h2 a {
+    color: var(--h2-color);
+    text-decoration: none;
+    font-weight: var(--font-weight-semibold);
+    text-overflow: ellipsis;
+}
+li.h3 a {
+    color: var(--h3-color);
+    text-decoration: none;
+    font-weight: var(--font-weight-normal);
+    text-overflow: ellipsis;
+}
+li.h4 a {
+    color: var(--h4-color);
+    text-decoration: none;
+    font-weight: var(--font-weight-thin);
+    text-wrap: none;
+    text-overflow: ellipsis;
+}
+
+/* For printing the chapter's book */
+
+@media print {
+    .side-nav {
+        /* Migrate to a top nav for printing or small screens */
+        z-index: 9;
+        color: inherit;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        padding-top: 1rem;
+        padding-bottom: 0.3rem;
+        margin: 0 auto;
+        font-size: 90%;
+        overflow: unset;
+    }
+
+    #toc-content {
+        margin-left: 1rem;
+    }
+
+    body > header {
+        display: none;
+    }
+    body > nav {
+        display: none;
+    }
+    body > footer {
+        display: none;
+    }
+}
+
+

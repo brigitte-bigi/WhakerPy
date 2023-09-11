@@ -1,0 +1,42 @@
+// filename: sppas.ui.htmlmaker.htmlmaker.yuml
+// author:   Brigitte Bigi
+// contact:  develop@sppas.org
+// summary:  UML class diagram for Hyper Text Markup Language Maker of SPPAS.
+//
+// This file is part of SPPAS: https://sppas.org/
+//     Copyright (C) 2011-2023 Brigitte Bigi
+//     Laboratoire Parole et Langage, Aix-en-Provence, France
+//     Use of this software is governed by the GNU Public License, version 3.
+//
+// Copy/paste the following at:
+// https://yuml.me/diagram/scruffy/class/draw
+// Or try with: https://github.com/jaime-olivares/yuml-diagram
+
+// -------------------
+// Class descriptions
+// -------------------
+
+// An HTML page is a tree of nodes.
+// The root has 2 children: the head and the body
+[HTMLTree|-id:str;+head:HTMLHeadNode;+body:HTMLNode|serialize()]
+
+// A Node of an HTML tree
+[BaseNode|identifier: str; parent: BaseNode|is_leaf();is_root();get_parent();set_parent()]
+[EmptyNode|tag: str; attributes: dict|get_tag()|is_attribute(k);set_attribute(k,v);add_attribute(k,v);remove_attribute(k);serialize()]
+[HTMLNode|children:list;value:str|get_child(id);has_child(id);append_child(node);insert_child(pos,node);remove_child(id);pop_child(pos)|set_value(v)]
+[HTMLHeadNode|title();meta();script();link();css()]
+
+// -------------------
+// Class relations
+// -------------------
+
+[HTMLTree]-2>[HTMLNode]
+[EmptyNode]^[BaseNode]
+[HTMLNode]^[EmptyNode]
+
+[HTMLComment]^[BaseNode]
+[HTMLImage]^[EmptyNode]
+[HTMLInputText]^[EmptyNode]
+[HTMLHeadNode]^[HTMLNode]
+[HTMLButton]^[HTMLNode]
+[HTMLRadioBox]^[HTMLNode]

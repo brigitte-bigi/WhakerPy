@@ -1,0 +1,198 @@
+/*
+Author: Brigitte Bigi
+
+This style is inspired from:
+https://heydon.github.io/Inclusive-Components/cards-redundant-click-read-more/#card-link
+
+This is a base class to create a cards panel with card items.
+The style of each element inside a card will be subclassed as needed.
+
+ */
+
+.cards-panel {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    grid-column-gap: 5rem;
+    grid-row-gap: 5rem;
+}
+
+.full-cards-panel {
+    grid-template-columns: none;
+    /* if the cards are in a flexbox */
+    flex-direction: row;
+}
+
+.card {
+    position: relative;
+    background-color: var(--bg-color);
+    border: var(--border-width) solid var(--bg-color-alt);
+    border-radius: calc(3 * var(--border-width));
+    /* Display elements inside a card: */
+    display: flex;
+    flex-direction: column;
+    line-height: calc(1.2*var(--line-height));
+    box-shadow: -0.2rem 0.2rem 0.6rem 0.2rem var(--shadow-color);
+    opacity: 90%;
+}
+
+.card:hover {
+    opacity: 100%;
+}
+
+.card + .card {
+    margin-top: 0;
+}
+
+.card > * > h3,
+.card > * > h2
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border: none;
+}
+
+.card > * > h2
+{
+    font-size: calc(1.5 * var(--font-size));
+    padding-bottom: 1.5rem;
+}
+.card > * > h2:after
+{
+    border: none;
+}
+
+.card > * > h3
+{
+    font-size: calc(1.2 * var(--font-size));
+    padding-bottom: 0.5rem;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .card {
+        max-width: 75%;
+        max-height: 30rem;
+    }
+    .full-card {
+        max-width: 100%;
+        max-height: none;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .card {
+        max-width: 20rem;
+    }
+    .full-card {
+        max-width: 100%;
+    }
+}
+
+.card * {
+    min-height: 1rem;
+    min-width: 1rem;
+}
+
+.card header {
+    min-height: 4rem;
+    max-height: 10rem;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem));
+    background: var(--header-bg-color);
+    color: var(--fg-color);
+    border-top-right-radius: calc(4 * var(--border-width));
+    border-top-left-radius: calc(4 * var(--border-width));
+    text-align: center;
+}
+
+.card header img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-top-right-radius: calc(4 * var(--border-width));
+    border-top-left-radius: calc(4 * var(--border-width));
+}
+
+.card main {
+    padding: 1rem;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.card footer {
+    text-align: center;
+    margin: auto;
+}
+
+.card footer *:not(img) {
+    padding: 1rem;
+}
+
+.card footer > :last-child {
+    margin-top: auto;
+    margin-bottom: 0.75rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.card > * > a[role=button], .card > * > button {
+    border: calc(var(--border-width)/2) solid var(--a-color);
+}
+.card > * > a[role=button]:hover, .card > * > button:enabled:hover {
+    border: calc(var(--border-width)/2) dashed var(--a-color);
+}
+
+
+/* ----------------------------------------------------------------- */
+/* enumerate cards */
+/* ----------------------------------------------------------------- */
+
+ol.enumerate-cards {
+    list-style: none;
+    padding: 0;
+}
+
+li.enumerate-cards-item + li {
+    margin-top: 1rem;
+}
+
+li.enumerate-cards-item {
+    background: var(--bg-color-alt);
+    font-weight: var(--font-weight-black);
+    font-size: calc(var(--font-size) * 1.25);
+    margin: auto;
+    max-width: 80%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    width: calc(100% - 2rem);
+    box-shadow: 0.25rem 0.25rem 0.75rem rgb(0 0 0 / 0.1);
+}
+
+li.enumerate-cards-item::before {
+    background: var(--logo-color);
+    counter-increment: list-item;
+    content: counter(list-item);
+    font-size: calc(var(--font-size) * 2);
+    font-weight: var(--font-weight-black);
+    width: 1.5em;
+    height: 1.5em;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+li.enumerate-cards-item:nth-child(even) {
+    background: var(--table-row-stripped-bg-color);
+    flex-direction: row-reverse;
+    margin-right: -2rem;
+    margin-left: 2rem;
+}
