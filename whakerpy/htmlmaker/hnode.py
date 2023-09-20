@@ -907,7 +907,10 @@ class HTMLNode(EmptyNode):
             html += "\n"
             if self._value is not None:
                 try:
-                    html += indent + "    " + self._value
+                    # For some tags, the space char is meaningful. textarea is one of them. others???
+                    if self.tag != "textarea":
+                        html += indent + " " * nbs
+                    html += self._value
                     html += "\n"
                 except TypeError as e:
                     logging.error(str(e))
