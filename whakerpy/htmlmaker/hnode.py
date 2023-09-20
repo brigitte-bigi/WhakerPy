@@ -892,6 +892,7 @@ class HTMLNode(EmptyNode):
 
         """
         indent = " "*nbs
+        # Element begin tag
         html = indent + "<" + self.tag
         for key in self._attributes:
             html += " "
@@ -901,24 +902,24 @@ class HTMLNode(EmptyNode):
                 html += self._attributes[key]
                 html += '"'
         html += ">"
+        # Element value or children nodes
         if self._value is not None or len(self._children) > 0:
             html += "\n"
-
-        if self._value is not None:
-            try:
-                html += indent + "    " + self._value
-                html += "\n"
-            except TypeError as e:
-                logging.error(str(e))
-                if logging.getLogger().getEffectiveLevel() == 0:
-                    traceback.print_exc()
-                html += indent + "    'Unexpected data type'"
-                html += "\n"
-
-        for node_id in self._children:
-            html += node_id.serialize(nbs+4)
-
-        html += indent + "</" + self.tag + ">\n"
+            if self._value is not None:
+                try:
+                    html += indent + "    " + self._value
+                    html += "\n"
+                except TypeError as e:
+                    logging.error(str(e))
+                    if logging.getLogger().getEffectiveLevel() == 0:
+                        traceback.print_exc()
+                    html += indent + "    'Unexpected data type'"
+                    html += "\n"
+            for node_id in self._children:
+                html += node_id.serialize(nbs+4)
+            html += indent
+        # Element end tag
+        html += "</" + self.tag + ">\n"
         return html
 
     # -----------------------------------------------------------------------
