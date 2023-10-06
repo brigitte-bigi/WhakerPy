@@ -45,6 +45,9 @@ from whakerpy.htmlmaker.hexc import NodeInvalidIdentifierError
 from whakerpy.htmlmaker.hexc import NodeTagError
 from whakerpy.htmlmaker.hexc import NodeChildTagError
 from whakerpy.htmlmaker.hexc import NodeKeyError
+from whakerpy.htmlmaker.hexc import NodeIdentifierError
+from whakerpy.htmlmaker.hexc import NodeAttributeError
+from whakerpy.htmlmaker.hexc import NodeParentIdentifierError
 
 # ---------------------------------------------------------------------------
 
@@ -57,32 +60,56 @@ class TestExceptions(unittest.TestCase):
         except TypeError as e:
             self.assertTrue(isinstance(e, NodeTypeError))
             self.assertTrue("9110" in str(e))
-            self.assertTrue(9110, e.status)
+            self.assertEqual(9110, e.status)
 
         try:
             raise NodeInvalidIdentifierError("invalid identifier")
         except ValueError as e:
             self.assertTrue(isinstance(e, NodeInvalidIdentifierError))
             self.assertTrue("9310" in str(e))
-            self.assertTrue(9310, e.status)
+            self.assertEqual(9310,  e.status)
+
+        try:
+            raise NodeParentIdentifierError("invalid identifier", "expected one")
+        except ValueError as e:
+            self.assertTrue(isinstance(e, NodeParentIdentifierError))
+            self.assertTrue(isinstance(e, ValueError))
+            self.assertTrue("9312" in str(e))
+            self.assertEqual(9312,  e.status)
 
         try:
             raise NodeTagError("invalid tag")
         except ValueError as e:
             self.assertTrue(isinstance(e, NodeTagError))
             self.assertTrue("9320" in str(e))
-            self.assertTrue(9320, e.status)
+            self.assertEqual(9320, e.status)
 
         try:
             raise NodeChildTagError("invalid child tag")
         except ValueError as e:
             self.assertTrue(isinstance(e, NodeChildTagError))
             self.assertTrue("9325" in str(e))
-            self.assertTrue(9325, e.status)
+            self.assertEqual(9325, e.status)
+
+        try:
+            raise NodeAttributeError("invalid child tag")
+        except ValueError as e:
+            self.assertTrue(isinstance(e, NodeAttributeError))
+            self.assertTrue(isinstance(e, ValueError))
+            self.assertTrue("9330" in str(e))
+            self.assertEqual(9330, e.status)
 
         try:
             raise NodeKeyError("data name", "key")
         except KeyError as e:
             self.assertTrue(isinstance(e, NodeKeyError))
             self.assertTrue("9400" in str(e))
-            self.assertTrue(9400, e.status)
+            self.assertEqual(9400, e.status)
+
+        try:
+            raise NodeIdentifierError("data name", "key")
+        except KeyError as e:
+            self.assertTrue(isinstance(e, NodeIdentifierError))
+            self.assertTrue(isinstance(e, KeyError))
+            self.assertTrue("9410" in str(e))
+            self.assertEqual(9410, e.status)

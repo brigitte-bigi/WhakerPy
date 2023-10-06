@@ -40,11 +40,11 @@
 
 import unittest
 
-from whakerpy.htmlmaker.hexc import NodeTypeError
 from whakerpy.htmlmaker.hexc import NodeInvalidIdentifierError
 from whakerpy.htmlmaker.hexc import NodeTagError
 from whakerpy.htmlmaker.hexc import NodeChildTagError
 from whakerpy.htmlmaker.hexc import NodeKeyError
+from whakerpy.htmlmaker.hexc import NodeAttributeError
 
 from whakerpy.htmlmaker.hnode import BaseNode
 from whakerpy.htmlmaker.hnode import EmptyNode
@@ -157,12 +157,15 @@ class TestBaseNode(unittest.TestCase):
 
     def test_has_child(self):
         node1 = BaseNode()
-        node2 = BaseNode(identifier="test_id")
+        node2 = BaseNode(identifier="parent_id")
         node3 = BaseNode(parent="parent_id", identifier="test_id")
         # Check that has_child returns True for node3 (as it has a parent)
-        self.assertFalse(node3.has_child(node1))
-        self.assertFalse(node1.has_child(node2))
-        self.assertFalse(node2.has_child(node3))
+        self.assertFalse(node3.has_child(node1.identifier))
+        self.assertFalse(node1.has_child(node2.identifier))
+        self.assertFalse(node2.has_child(node3.identifier))
+
+    def test_serialize(self):
+        self.assertEqual("", BaseNode().serialize())
 
 # ---------------------------------------------------------------------------
 
@@ -180,6 +183,24 @@ class TestEmptyNode(unittest.TestCase):
 
         node = EmptyNode(None, None, "img", {"src": "path/file"})
         self.assertEqual(1, node.nb_attributes())
+
+    # -----------------------------------------------------------------------
+
+    def test_check_attribute(self):
+        # Wrong type
+        with self.assertRaises(NodeAttributeError):
+            e = EmptyNode(None, None, "img")
+            e.check_attribute(BaseNode())
+
+        # Unknown attribute
+        with self.assertRaises(NodeAttributeError):
+            e = EmptyNode(None, None, "img")
+            e.check_attribute("toto")
+
+        e = EmptyNode(None, None, "img")
+        self.assertTrue(e.check_attribute("src"))
+        self.assertTrue(e.check_attribute("alt"))
+        self.assertTrue(e.check_attribute("loop"))  # but should be False
 
     # -----------------------------------------------------------------------
 
@@ -209,6 +230,33 @@ class TestEmptyNode(unittest.TestCase):
         self.assertTrue(empty_node.has_attribute("rel"))
         self.assertEqual(empty_node.get_attribute_value("rel"), "nofollow")
 
+        # Add another one
+        empty_node.add_attribute("required", None)
+        self.assertTrue(empty_node.has_attribute("required"))
+        self.assertEqual(empty_node.get_attribute_value("required"), None)
+        # Set the value to an existing un-valued attribute
+        empty_node.add_attribute("required", "true")
+        self.assertEqual(empty_node.get_attribute_value("required"), "true")
+
+        # Add another one
+        empty_node.add_attribute("class", "nice")
+        self.assertTrue(empty_node.has_attribute("class"))
+        self.assertEqual(empty_node.get_attribute_value("class"), "nice")
+        # Append a new value to an existing attribute
+        empty_node.add_attribute("class", "pretty")
+        self.assertEqual(empty_node.get_attribute_value("class"), "nice pretty")
+
+    def test_remove_attribute(self):
+        empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
+
+        empty_node.add_attribute("required", None)
+        empty_node.remove_attribute("required")
+        self.assertFalse(empty_node.has_attribute("rel"))
+
+        empty_node.add_attribute("class", "nice")
+        empty_node.remove_attribute("class")
+        self.assertFalse(empty_node.has_attribute("class"))
+
     def test_get_set_attribute(self):
         empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
         # Check if set_attribute method sets the attribute correctly and replaces existing one
@@ -216,6 +264,10 @@ class TestEmptyNode(unittest.TestCase):
         self.assertEqual(empty_node.get_attribute_value("href"), "https://example.org")
         # Check if get_attribute_keys method returns the list of attribute keys
         self.assertEqual(empty_node.get_attribute_keys(), ["href", "target"])
+
+        # Attribute values given as list
+        empty_node.set_attribute("class", ["nice", "pretty"])
+        self.assertEqual(empty_node.get_attribute_value("class"), "nice pretty")
 
     def test_has_attribute(self):
         empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
@@ -262,30 +314,55 @@ class TestEmptyNode(unittest.TestCase):
 class TestNode(unittest.TestCase):
 
     def test_init_successfully(self):
-        node = HTMLNode(parent=None, identifier="id01", tag="p")
+        HTMLNode(parent=None, identifier="id01", tag="p")
 
     def test_init_error(self):
         with self.assertRaises(NodeTagError):
             HTMLNode(parent=None, identifier="id01", tag="tag")
 
+    # -----------------------------------------------------------------------
+
+    def test_has_child(self):
+        node1 = BaseNode()
+        node2 = HTMLNode(parent=None, identifier="parent_id", tag="p")
+        node3 = BaseNode(parent="parent_id", identifier="test_id")
+        node2.append_child(node3)
+        # Check that has_child returns True for node3 (as it has a parent)
+        self.assertFalse(node3.has_child(node1.identifier))
+        self.assertFalse(node1.has_child(node2.identifier))
+        self.assertTrue(node2.has_child(node3.identifier))
+
+    # -----------------------------------------------------------------------
+
+    def test_append_child(self):
+        pnode = HTMLNode(parent=None, identifier="parent", tag="div")
+        cnode = HTMLNode(parent=pnode.identifier, identifier="child", tag="p")
+        pnode.append_child(cnode)
+        # test raised exceptions
+        # ... asap
+
+    # -----------------------------------------------------------------------
+
     def test_child(self):
-        # Append a child
-        # Insert a child
-        # Pop a child
-        # Remove a child
+        # test Insert a child
+        # test Pop a child
+        # test Remove a child
+        # ... asap
         pass
+
+    # -----------------------------------------------------------------------
 
     def test_attribute(self):
         node = HTMLNode(parent=None, identifier="id01", tag="p")
-        self.assertFalse(node.is_attribute("class"))
+        self.assertFalse(node.has_attribute("class"))
         self.assertIsNone(node.get_attribute_value("class"))
 
         node.add_attribute("class", None)
-        self.assertTrue(node.is_attribute("class"))
+        self.assertTrue(node.has_attribute("class"))
         self.assertIsNone(node.get_attribute_value("class"))
 
         node.set_attribute("class", "toto")
-        self.assertTrue(node.is_attribute("class"))
+        self.assertTrue(node.has_attribute("class"))
         self.assertEqual(node.get_attribute_value("class"), "toto")
 
         node.add_attribute("class", "titi")
@@ -304,7 +381,6 @@ class TestNode(unittest.TestCase):
         node.set_value(3)
         self.assertEqual("3", node.get_value())
 
-
 # ---------------------------------------------------------------------------
 
 
@@ -312,7 +388,7 @@ class TestHeadNode(unittest.TestCase):
 
     def test_init(self):
         node = HTMLHeadNode(parent=None)
-        self.assertTrue("head", node.identifier)
+        self.assertEqual("head", node.identifier)
 
     def test_error(self):
         node = HTMLHeadNode(parent=None)

@@ -104,13 +104,14 @@ class TestTree(unittest.TestCase):
         value = """<!DOCTYPE html>
 
 <html>
-    <head>  </head>
-    <body>
-        <main>  </main>
-    </body>
+    <head></head>
+<body>
+    <main></main>
+
+</body>
 </html>
 """
         tree = HTMLTree("home")
+        self.assertEqual("HTMLTree (home)", str(tree))
         self.assertEqual(tree.serialize(), value)
-        self.assertEqual(value, str(tree))
-
+        self.assertEqual(value, repr(tree))

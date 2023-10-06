@@ -65,6 +65,7 @@ import logging
 import traceback
 
 from .hexc import NodeInvalidIdentifierError
+from .hexc import NodeParentIdentifierError
 from .hexc import NodeTagError
 from .hexc import NodeChildTagError
 from .hexc import NodeAttributeError
@@ -74,7 +75,7 @@ from .hexc import NodeKeyError
 
 
 class BaseNode(object):
-    """A base class for any leaf node in a tree.
+    """A base class for any node in an HTML tree.
 
     """
 
@@ -186,11 +187,22 @@ class BaseNode(object):
     def has_child(self, node_id: str) -> bool:
         """Return True if the given node is a direct child.
 
-        :param node_id: (str)
-        :return: (bool)
+        :param node_id: (str) Identifier of the node
+        :return: (bool) True if given identifier is a direct child.
 
         """
         return not self.is_leaf()
+
+    # -----------------------------------------------------------------------
+
+    def serialize(self, nbs: int = 4) -> str:
+        """To be overriden. Serialize the node into HTML.
+
+        :param nbs: (int) Number of spaces for the indentation
+        :return: (str)
+
+        """
+        return ""
 
 # ---------------------------------------------------------------------------
 
@@ -563,7 +575,7 @@ class EmptyNode(BaseNode):
         """
         try:
             key = str(key)
-        except:
+        except Exception:
             raise NodeAttributeError(key)
 
         if key not in EmptyNode.HTML_GLOBAL_ATTR and \
@@ -626,13 +638,6 @@ class EmptyNode(BaseNode):
 
     # -----------------------------------------------------------------------
 
-    # TODO: deprecated
-    def is_attribute(self, key) -> bool:
-        """Return true if the node has the attribute."""
-        return key in self._attributes
-
-    # -----------------------------------------------------------------------
-
     def has_attribute(self, key) -> bool:
         """Return true if the node has the attribute."""
         return key in self._attributes
@@ -667,7 +672,7 @@ class EmptyNode(BaseNode):
     # HTML management: HTML generator
     # -----------------------------------------------------------------------
 
-    def serialize(self, nbs=4) -> str:
+    def serialize(self, nbs: int = 4) -> str:
         """Serialize the node into HTML.
 
         :param nbs: (int) Number of spaces for the indentation
@@ -771,11 +776,11 @@ class HTMLNode(EmptyNode):
 
     # -----------------------------------------------------------------------
 
-    def has_child(self, node_id) -> bool:
+    def has_child(self, node_id: str) -> bool:
         """Return True if the given node is a direct child.
 
-        :param node_id: (str)
-        :return: (bool)
+        :param node_id: (str) Identifier of the node
+        :return: (bool) True if given identifier is a direct child.
 
         """
         return node_id in [child.identifier for child in self._children]
@@ -798,8 +803,7 @@ class HTMLNode(EmptyNode):
             raise TypeError("Node expected.")
 
         if node.get_parent() != self.identifier:
-            raise Exception("Append child: Parent error. I'm {} and node has "
-                            "parent={}".format(self.identifier, node.get_parent()))
+            raise NodeParentIdentifierError(self.identifier, node.get_parent())
 
         if node not in self._children:
             self._children.append(node)
@@ -823,7 +827,7 @@ class HTMLNode(EmptyNode):
             raise TypeError("Node expected.")
 
         if node.get_parent() != self.identifier:
-            raise Exception("Parent error")
+            raise NodeParentIdentifierError(self.identifier, node.get_parent())
 
         if node not in self._children:
             self._children.insert(pos, node)
@@ -884,7 +888,7 @@ class HTMLNode(EmptyNode):
     # HTML management: HTML generator
     # -----------------------------------------------------------------------
 
-    def serialize(self, nbs=4) -> str:
+    def serialize(self, nbs: int = 4) -> str:
         """Serialize the node into HTML.
 
         :param nbs: (int) Number of spaces for the indentation
@@ -906,23 +910,30 @@ class HTMLNode(EmptyNode):
         if self._value is not None or len(self._children) > 0:
             html += "\n"
             if self._value is not None:
-                try:
-                    # For some tags, the space char is meaningful. textarea is one of them. others???
-                    if self.tag != "textarea":
-                        html += indent + " " * nbs
-                    html += self._value
-                    html += "\n"
-                except TypeError as e:
-                    logging.error(str(e))
-                    if logging.getLogger().getEffectiveLevel() == 0:
-                        traceback.print_exc()
-                    html += indent + "    'Unexpected data type'"
-                    html += "\n"
+                html += self.__serialize_value(indent, nbs)
             for node_id in self._children:
                 html += node_id.serialize(nbs+4)
             html += indent
         # Element end tag
         html += "</" + self.tag + ">\n"
+        return html
+
+    # -----------------------------------------------------------------------
+
+    def __serialize_value(self, indent, nbs):
+        html = ""
+        try:
+            # For some tags, the space char is meaningful. textarea is one of them. others???
+            if self.tag != "textarea":
+                html += indent + " " * nbs
+            html += self._value
+            html += "\n"
+        except TypeError as e:
+            logging.error(str(e))
+            if logging.getLogger().getEffectiveLevel() == 0:
+                traceback.print_exc()
+            html += indent + "    'Unexpected data type'"
+            html += "\n"
         return html
 
     # -----------------------------------------------------------------------

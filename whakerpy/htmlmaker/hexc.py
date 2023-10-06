@@ -112,6 +112,29 @@ class NodeIdentifierError(KeyError):
 # -----------------------------------------------------------------------
 
 
+class NodeParentIdentifierError(ValueError):
+    """:ERROR 9312:.
+
+    "Expected HTML Parent node identifier {:s}. Got '{!s:s}' instead."
+
+    """
+
+    def __init__(self, expected, value):
+        self._status = 9312
+        self.parameter = error(self._status) + \
+                         (error(self._status, "globals")).format(expected, value)
+
+    def __str__(self):
+        return repr(self.parameter)
+
+    def get_status(self):
+        return self._status
+
+    status = property(get_status, None)
+
+# -----------------------------------------------------------------------
+
+
 class NodeTagError(ValueError):
     """:ERROR 9320:.
 

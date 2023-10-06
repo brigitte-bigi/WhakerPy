@@ -222,7 +222,6 @@ class sppasHTTPDHandler(http.server.BaseHTTPRequestHandler):
             except AttributeError:
                 # Server is not the custom one for dynamic app.
                 self.path += "index.html"
-        _, fe = os.path.splitext(self.path)
 
         if "?" in self.path:
             self.path = self.path[:self.path.index("?")]

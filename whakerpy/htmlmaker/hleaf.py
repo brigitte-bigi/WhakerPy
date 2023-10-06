@@ -74,8 +74,13 @@ class Doctype(BaseNode):
     # HTML management: HTML generator
     # -----------------------------------------------------------------------
 
-    def serialize(self) -> str:
-        """Serialize the doctype."""
+    def serialize(self, nbs: int = 4) -> str:
+        """Override. Serialize the doctype.
+
+        :param nbs: (int) Number of spaces for the indentation. Un-used.
+        :return: (str)
+
+        """
         return self._value + "\n\n"
 
 # ---------------------------------------------------------------------------
@@ -97,7 +102,7 @@ class HTMLComment(BaseNode):
     # HTML management: HTML generator
     # -----------------------------------------------------------------------
 
-    def serialize(self, nbs=4):
+    def serialize(self, nbs: int = 4) -> str:
         """Serialize the comment into HTML.
 
         :param nbs: (int) Number of spaces for the indentation
@@ -162,7 +167,7 @@ class HTMLHr(EmptyNode):
         """
         try:
             key = str(key)
-        except:
+        except Exception:
             raise NodeAttributeError(key)
 
         if key not in EmptyNode.HTML_GLOBAL_ATTR:

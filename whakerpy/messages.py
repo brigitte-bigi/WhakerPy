@@ -43,10 +43,12 @@ MESSAGES = dict()
 MESSAGES[377] = "Invalid HTTPD status code value '{!s:s}'."
 MESSAGES[9110] = "{!s:s} is not of the expected type 'HTMLNode'."
 MESSAGES[9310] = "Invalid HTML node identifier '{!s:s}'."
+MESSAGES[9312] = "Expected HTML Parent node identifier {:s}. Got '{!s:s}' instead."
 MESSAGES[9320] = "Invalid HTML node tag '{!s:s}'."
 MESSAGES[9325] = "Invalid HTML child node tag '{!s:s}'."
 MESSAGES[9330] = "Invalid HTML node attribute '{!s:s}'."
 MESSAGES[9400] = "Invalid node '{!s:s}' for data '{!s:s}'."
+MESSAGES[9410] = "Expected HTML node identifier {:s}. Got '{!s:s}' instead."
 
 # ---------------------------------------------------------------------------
 

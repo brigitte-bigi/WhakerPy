@@ -85,7 +85,6 @@ class HTMLRadioBox(HTMLNode):
         attributes['method'] = "POST"
         attributes['name'] = identifier
         attributes['id'] = identifier
-        # attributes['novalidate'] = None
         super(HTMLRadioBox, self).__init__(parent, identifier, "form", attributes=attributes)
 
     def append_input(self, class_name, value, text=None, checked=False):

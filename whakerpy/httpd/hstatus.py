@@ -206,7 +206,7 @@ class sppasHTTPDStatus(object):
     # -----------------------------------------------------------------------
 
     def __str__(self):
-        return str(self.__scode)
+        return "{:d}: {:s}".format(self.__scode, sppasHTTPDStatus.HTTPD_STATUS[self.__scode])
 
     # -----------------------------------------------------------------------
 

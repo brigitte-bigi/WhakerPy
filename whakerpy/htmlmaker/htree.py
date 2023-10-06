@@ -411,27 +411,29 @@ class HTMLTree(BaseNode):
     # -----------------------------------------------------------------------
 
     @staticmethod
-    def serialize_element(node: HTMLNode) -> str:
+    def serialize_element(node: HTMLNode, nbs: int = 4) -> str:
         """Serialize an element node only if not empty.
 
         :param node: (HTMLNode) Any element node
-        :raises: NodeTypeError
-        :Returns: (str) Serialized node only if it has children or a value.
+        :param nbs: (int) Number of space for indentation
+        :raises: NodeTypeError: If the given parameter is not an HTMLNode
+        :return: (str) Serialized node only if it has children or a value.
 
         """
         if isinstance(node, HTMLNode) is False:
             raise NodeTypeError(type(node))
 
         if node.children_size() > 0 or node.get_value() is not None:
-            return node.serialize(nbs=1)
+            return node.serialize(nbs)
         return ""
 
     # -----------------------------------------------------------------------
 
-    def serialize(self) -> str:
-        """Serialize the tree into an HTML string.
+    def serialize(self, nbs: int = 4) -> str:
+        """Override. Serialize the tree into HTML.
 
-        :returns: (str) the HTML string
+        :param nbs: (int) Number of spaces for the indentation
+        :return: (str)
 
         """
         s = self.__doctype.serialize()
@@ -442,7 +444,7 @@ class HTMLTree(BaseNode):
             if avalue is not None:
                 s += '="' + avalue + '"'
         s += ">\n"
-        s += self.__html.get_child("head").serialize()
+        s += self.__html.get_child("head").serialize(nbs)
 
         s += "<body"
         for akey in self._get_body().get_attribute_keys():
@@ -452,28 +454,29 @@ class HTMLTree(BaseNode):
                 s += '="' + avalue + '"'
         s += ">\n"
 
-        s += self.serialize_element(self.get_body_header())
-        s += self.serialize_element(self.get_body_nav())
-        s += self.get_body_main().serialize(nbs=1)
-        s += self.serialize_element(self.get_body_footer())
-        s += self.serialize_element(self.get_body_script())
+        s += self.serialize_element(self.get_body_header(), nbs)
+        s += self.serialize_element(self.get_body_nav(), nbs)
+        s += self.get_body_main().serialize(nbs)
+        s += self.serialize_element(self.get_body_footer(), nbs)
+        s += self.serialize_element(self.get_body_script(), nbs)
         s += "\n</body>\n</html>\n"
 
         return s
 
     # -----------------------------------------------------------------------
 
-    def serialize_to_file(self, filename: str) -> str:
+    def serialize_to_file(self, filename: str, nbs: int = 4) -> str:
         """Serialize the tree into an HTML file.
 
         The HTML content is saved into the file and its URL is returned.
 
         :param filename: (str) A filename to save the serialized HTML string.
-        :Returns: (str) file URL
+        :param nbs: (int) Number of spaces for the indentation
+        :returns: (str) file URL
 
         """
         with open(filename, "w") as fp:
-            fp.write(self.serialize())
+            fp.write(self.serialize(nbs))
         return "file://" + os.path.abspath(filename)
 
     # -----------------------------------------------------------------------

@@ -54,7 +54,7 @@ class TestHTTPDExceptions(unittest.TestCase):
         except ValueError as e:
             self.assertTrue(isinstance(e, sppasHTTPDValueError))
             self.assertTrue("0377" in str(e))
-            self.assertTrue(377, e.status)
+            self.assertEqual(377, e.status)
 
 # ---------------------------------------------------------------------------
 
@@ -88,3 +88,8 @@ class TestHTTPDStatus(unittest.TestCase):
             s.code = "azerty"
         with self.assertRaises(sppasHTTPDValueError):
             s.code = 1974
+
+    def test_str(self):
+        s = sppasHTTPDStatus()
+        self.assertEqual(repr(s), "200")
+        self.assertEqual(str(s), "200: OK")

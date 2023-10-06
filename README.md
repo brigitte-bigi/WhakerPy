@@ -32,22 +32,22 @@ the GNU General Public License version 3.
 
 ### From its repo:
 
-Download the repository and unpack it or clone with `git`.
+Download the repository and unpack it, or clone with `git`.
 WhakerPy package includes the following folders and files:
 
 1. "whakerpy": the source code package
 2. "docs": the documentation of whakerpy in HTML
-3. "tests": unittest of whakerpy source code
-4. "sample": 
-5. "etc": etcetera!
+3. "sample": 
+4. "etc": etcetera!
 
 
-### From its package:
+### From its wheel package:
 
-Download the wheel file and install it in your python environment with:
+Download the wheel file (WhakerPy-xxx.whl) and install it in your 
+python environment with:
 
 ```bash
-> python -m pip install dist/<whakerpy.whl>
+> python -m pip install dist/<WhakerPy-xxx.whl>
 ````
 
 ### From pypi.org:
@@ -55,7 +55,6 @@ Download the wheel file and install it in your python environment with:
 ```bash
 > python -m pip install WhakerPy
 ````
-
 
 
 ## Quick Start
@@ -141,3 +140,33 @@ Other projects:
 - *contact the author if your project is using whakerpy*
 
 
+## Analyze WhakerPy code and contribute
+
+Unittests coverage can be analyzed with pytest and coverage. Install them
+with the command: `python -m pip install -r tests/requirements`
+
+Then, perform the following steps:
+
+1. `coverage run -m pytest`
+2. `coverage report`
+
+or use this command to get the result in XML format:
+`coverage xml; mv coverage.xml tests`
+
+The whakerpy package can be analyzed with SonarQube by following these steps:
+
+1. Download and install Docker
+2. Download and install SonarQube: 
+   `docker pull sonarqube:latest`
+3. Start the SonarQube server by running: 
+   `docker run --stop-timeout 3600 -d --name sonarqube -p 9000:9000 sonarqube:latest`
+   Log in to http://localhost:9000. Both login and password are "admin".  
+   Add the python plugin and restart server.
+4. Click "Add project" with name "WhakerPy", and provide it a token
+5. Copy/Paste the token into the file whakerpy/sonar-project.properties
+6. Download sonar-scanner client: 
+   `brew install sonar-scanner` (or something else, it obviously depends on your OS)
+7. Launch: `sonar-scanner`
+8. See results in the opened URL, and don't forget it's an *automatic* code analyzer, not an *intelligent* one.
+
+If you plan to contribute to the code, please send an e-mail to the author.
