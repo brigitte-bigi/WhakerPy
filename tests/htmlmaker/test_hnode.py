@@ -41,6 +41,7 @@
 import unittest
 
 from whakerpy.htmlmaker.hexc import NodeInvalidIdentifierError
+from whakerpy.htmlmaker.hexc import NodeParentIdentifierError
 from whakerpy.htmlmaker.hexc import NodeTagError
 from whakerpy.htmlmaker.hexc import NodeChildTagError
 from whakerpy.htmlmaker.hexc import NodeKeyError
@@ -334,21 +335,102 @@ class TestNode(unittest.TestCase):
 
     # -----------------------------------------------------------------------
 
-    def test_append_child(self):
-        pnode = HTMLNode(parent=None, identifier="parent", tag="div")
+    def test_get_child(self):
+        pnode = HTMLNode(parent=None, identifier="parent_id", tag="p")
         cnode = HTMLNode(parent=pnode.identifier, identifier="child", tag="p")
+
+        # get child from its identifier
+        self.assertIsNone(pnode.get_child(cnode))
+        self.assertIsNone(pnode.get_child(cnode.identifier))
         pnode.append_child(cnode)
-        # test raised exceptions
-        # ... asap
+        self.assertIs(cnode, pnode.get_child("child"))
+
+        # get child from its index
+        self.assertIs(cnode, pnode.get_nidx_child(0))
+        with self.assertRaises(IndexError):
+            pnode.get_nidx_child(1)
 
     # -----------------------------------------------------------------------
 
-    def test_child(self):
-        # test Insert a child
-        # test Pop a child
-        # test Remove a child
-        # ... asap
-        pass
+    def test_append_child(self):
+        pnode = HTMLNode(parent=None, identifier="parent", tag="div")
+        cnode = HTMLNode(parent=pnode.identifier, identifier="child", tag="p")
+
+        # Append a child into the node
+        self.assertEqual(0, pnode.children_size())
+        pnode.append_child(cnode)
+        self.assertEqual(1, pnode.children_size())
+        # Append the same child twice... nothing is done, silently.
+        pnode.append_child(cnode)
+        self.assertEqual(1, pnode.children_size())
+
+        # test raised exceptions
+        with self.assertRaises(NodeKeyError):
+            pnode.append_child(pnode)
+        with self.assertRaises(NodeKeyError):
+            cnode.append_child(pnode)
+        with self.assertRaises(TypeError):
+            cnode.append_child(pnode.identifier)
+
+    # -----------------------------------------------------------------------
+
+    def test_insert_child(self):
+        pnode = HTMLNode(parent=None, identifier="parent", tag="div")
+        cnode = HTMLNode(parent=pnode.identifier, identifier="child", tag="p")
+        anode = HTMLNode(parent="another_parent", identifier="child", tag="p")
+
+        # Insert a child into the node
+        self.assertEqual(0, pnode.children_size())
+        pnode.insert_child(0, cnode)
+        self.assertEqual(1, pnode.children_size())
+
+        # test raised exceptions
+        with self.assertRaises(NodeKeyError):
+            pnode.insert_child(0, pnode)
+        with self.assertRaises(NodeKeyError):
+            cnode.insert_child(0, pnode)
+        with self.assertRaises(TypeError):
+            cnode.insert_child(0, pnode.identifier)
+
+    # -----------------------------------------------------------------------
+
+    def test_remove_child(self):
+        pnode = HTMLNode(parent=None, identifier="parent", tag="div")
+        cnode = HTMLNode(parent=pnode.identifier, identifier="childc", tag="p")
+        anode = HTMLNode(parent=pnode.identifier, identifier="childa", tag="p")
+        pnode.append_child(cnode)
+        pnode.insert_child(0, anode)
+        self.assertEqual(2, pnode.children_size())
+
+        # Remove non existing child. do nothing silently.
+        self.assertIsNone(pnode.remove_child("children"))
+        # Remove child
+        self.assertIsNone(pnode.remove_child("childa"))
+        self.assertEqual(1, pnode.children_size())
+        self.assertTrue(pnode.has_child("childc"))
+        self.assertFalse(pnode.has_child("childa"))
+        # Pop child
+        with self.assertRaises(IndexError):
+            pnode.pop_child(12)
+        self.assertEqual(1, pnode.children_size())
+        self.assertIsNone(pnode.pop_child(0))
+
+    # -----------------------------------------------------------------------
+
+    def test_various(self):
+        pnode = HTMLNode(parent=None, identifier="parent", tag="div")
+        self.assertTrue(pnode.is_root())
+        self.assertTrue(pnode.is_leaf())
+        cnode = HTMLNode(parent=pnode.identifier, identifier="childc", tag="p")
+        self.assertFalse(cnode.is_root())
+        anode = HTMLNode(parent=pnode.identifier, identifier="childa", tag="p")
+        pnode.append_child(cnode)
+        pnode.insert_child(0, anode)
+        self.assertEqual(2, pnode.children_size())
+        self.assertFalse(pnode.is_leaf())
+        pnode.clear_children()
+        self.assertEqual(0, pnode.children_size())
+        self.assertTrue(pnode.is_leaf())
 
     # -----------------------------------------------------------------------
 
@@ -394,6 +476,20 @@ class TestHeadNode(unittest.TestCase):
         node = HTMLHeadNode(parent=None)
         with self.assertRaises(NodeChildTagError):
             node.append_child(HTMLNode(parent=node.identifier, identifier=None, tag="p"))
+
+    def test_append(self):
+        node = HTMLHeadNode(parent=None)
+        child_node = EmptyNode(node.identifier, None, "meta")
+        node.append_child(child_node)
+        with self.assertRaises(NodeChildTagError):
+            node.append_child(EmptyNode(node.identifier, None, "img"))
+
+    def test_insert(self):
+        node = HTMLHeadNode(parent=None)
+        child_node = EmptyNode(node.identifier, None, "meta")
+        node.insert_child(1, child_node)
+        with self.assertRaises(NodeChildTagError):
+            node.insert_child(0, EmptyNode(node.identifier, None, "img"))
 
     def test_title(self):
         pass

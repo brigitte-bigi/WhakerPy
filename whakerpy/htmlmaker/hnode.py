@@ -796,11 +796,11 @@ class HTMLNode(EmptyNode):
         :raises: Exception:
 
         """
-        if node.identifier == self._parent or node.identifier == self.identifier:
-            raise NodeKeyError(self.identifier, node.identifier)
-
         if isinstance(node, BaseNode) is False:
             raise TypeError("Node expected.")
+
+        if node.identifier == self._parent or node.identifier == self.identifier:
+            raise NodeKeyError(self.identifier, node.identifier)
 
         if node.get_parent() != self.identifier:
             raise NodeParentIdentifierError(self.identifier, node.get_parent())
@@ -820,11 +820,11 @@ class HTMLNode(EmptyNode):
         :raises: Exception:
 
         """
+        if isinstance(node, BaseNode) is False:
+            raise TypeError("Node expected.")
+
         if node.identifier == self._parent or node.identifier == self.identifier:
             raise NodeKeyError(self.identifier, node.identifier)
-
-        if isinstance(node, EmptyNode) is False:
-            raise TypeError("Node expected.")
 
         if node.get_parent() != self.identifier:
             raise NodeParentIdentifierError(self.identifier, node.get_parent())
@@ -834,7 +834,7 @@ class HTMLNode(EmptyNode):
 
     # -----------------------------------------------------------------------
 
-    def remove_child(self, node_id):
+    def remove_child(self, node_id) -> None:
         """Remove a child node.
 
         :param node_id: (str)
@@ -850,17 +850,18 @@ class HTMLNode(EmptyNode):
 
     # -----------------------------------------------------------------------
 
-    def pop_child(self, pos):
+    def pop_child(self, pos) -> None:
         """Remove a child node from its index.
 
-        :param pos: (int)
+        :param pos: (int) Index position of the child
+        :raises: IndexError: incorrect position
 
         """
         self._children.pop(pos)
 
     # -----------------------------------------------------------------------
 
-    def clear_children(self):
+    def clear_children(self) -> None:
         """Remove all children of the node."""
         self._children.clear()
 
@@ -989,7 +990,7 @@ class HTMLHeadNode(HTMLNode):
         :param node: (Node)
 
         """
-        if node.get_tag() not in HTMLHeadNode.HEADER_TAGS:
+        if node.tag not in HTMLHeadNode.HEADER_TAGS:
             raise NodeChildTagError(node.tag)
         HTMLNode.insert_child(self, pos, node)
 
