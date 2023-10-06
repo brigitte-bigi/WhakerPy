@@ -91,5 +91,5 @@ class TestHTTPDStatus(unittest.TestCase):
 
     def test_str(self):
         s = sppasHTTPDStatus()
-        self.assertEqual(repr(s), "200")
-        self.assertEqual(str(s), "200: OK")
+        self.assertEqual(str(s), "200")
+        self.assertEqual(repr(s), "200: OK")

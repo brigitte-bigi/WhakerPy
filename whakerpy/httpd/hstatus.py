@@ -206,12 +206,12 @@ class sppasHTTPDStatus(object):
     # -----------------------------------------------------------------------
 
     def __str__(self):
-        return "{:d}: {:s}".format(self.__scode, sppasHTTPDStatus.HTTPD_STATUS[self.__scode])
+        return str(self.__scode)
 
     # -----------------------------------------------------------------------
 
     def __repr__(self):
-        return str(self.__scode)
+        return "{:d}: {:s}".format(self.__scode, sppasHTTPDStatus.HTTPD_STATUS[self.__scode])
 
     # -----------------------------------------------------------------------
 

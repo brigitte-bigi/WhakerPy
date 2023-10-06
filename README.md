@@ -148,10 +148,8 @@ with the command: `python -m pip install -r tests/requirements`
 Then, perform the following steps:
 
 1. `coverage run -m pytest`
-2. `coverage report`
-
-or use this command to get the result in XML format:
-`coverage xml; mv coverage.xml tests`
+2. `coverage report` to see a summary report into the terminal,
+or use this command to get the result in XML format: `coverage xml; mv coverage.xml tests`
 
 The whakerpy package can be analyzed with SonarQube by following these steps:
 
