@@ -115,7 +115,6 @@ Let's view the result in your favorite web browser
 >>> webbrowser.open_new_tab(file_whakerpy)
 ```
 
-
 ## Create a web application frontend with dynamic HTML content
 
 For a quick start, see the file `sample.py`. It shows a very simple
@@ -140,7 +139,25 @@ Other projects:
 - *contact the author if your project is using whakerpy*
 
 
-## Analyze WhakerPy code and contribute
+# The developer's corner
+
+## Create a wheel
+
+WhakerPy is no system dependent. Information to build its wheel are stored 
+into the file `pyproject.toml`. 
+
+The universal wheel is created with: `python -m build`
+
+## Make the doc
+
+The API documentation is available in the `doc` folder. Click the file `index.html`
+to browse throw the documented classes of WhakerPy.
+
+To re-generate the doc, install the required external program: 
+`python -m pip install -r doc/requirements.txt`
+Then, launch the doc generator: `cd doc; python makedoc.py`
+
+## Analyze WhakerPy code
 
 Unittests coverage can be analyzed with pytest and coverage. Install them
 with the command: `python -m pip install -r tests/requirements.txt`
@@ -167,14 +184,6 @@ The whakerpy package can be analyzed with SonarQube by following these steps:
 7. Launch: `sonar-scanner`
 8. See results in the opened URL, and don't forget it's an *automatic* code analyzer, not an *intelligent* one.
 
+## Contribute
+
 If you plan to contribute to the code, please send an e-mail to the author.
-
-## Make the doc
-
-The API documentation is available in the `doc` folder. Click the file `index.html`
-to browse throw the documented classes of WhakerPy.
-
-To re-generate the doc, install the required external program: 
-`python -m pip install -r doc/requirements.txt`
-Then, launch the doc generator: `cd doc; python makedoc.py`
-
