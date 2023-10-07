@@ -6,7 +6,7 @@
 
 [project]
 name = "WhakerPy"
-version = "0.1"
+version = "0.2"
 authors = [
   { name="Brigitte Bigi", email="develop@sppas.org" },
 ]

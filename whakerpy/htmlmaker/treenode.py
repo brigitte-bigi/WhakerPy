@@ -169,7 +169,7 @@ class HTMLTree(BaseNode):
         """Get the attribute value of the body element node.
 
         :param key: (str) Key property of an HTML attribute
-        :Returns: (str) The attribute value of the <body> element
+        :return: (str) The attribute value of the <body> element
 
         """
         return self._get_body().get_attribute_value(key)
@@ -190,22 +190,22 @@ class HTMLTree(BaseNode):
 
     # -----------------------------------------------------------------------
 
-    def set_body_attribute(self, key: str, value: str) -> bool:
+    def set_body_attribute(self, key: str, value: str) -> None:
         """Set an attribute of the body.
 
         :param key: (str) Key property of an HTML attribute
         :param value: (str) Value of the attribute
-        :Returns: (bool) The attribute is set
+        :return: (bool) The attribute is set
 
         """
-        return self._get_body().set_attribute(key, value)
+        self._get_body().set_attribute(key, value)
 
     # -----------------------------------------------------------------------
 
     def get_head(self) -> HTMLNode:
         """Get the head node element.
 
-        :Returns: (HTMLNode) Head node element
+        :return: (HTMLNode) Head node element
 
         """
         return self.__html.get_child("head")
@@ -237,7 +237,7 @@ class HTMLTree(BaseNode):
     def get_body_header(self) -> HTMLNode:
         """Get the body->header element node.
 
-        :Returns: (HTMLNode) Body header node element
+        :return: (HTMLNode) Body header node element
 
         """
         return self._get_body().get_child("body_header")
@@ -268,7 +268,7 @@ class HTMLTree(BaseNode):
     def get_body_nav(self):
         """Get the body->nav element node.
 
-        :Returns: (HTMLNode) Body nav node element
+        :return: (HTMLNode) Body nav node element
 
         """
         return self._get_body().get_child("body_nav")
@@ -299,7 +299,7 @@ class HTMLTree(BaseNode):
     def get_body_main(self):
         """Get the body->main element node.
 
-        :Returns: (HTMLNode) Body main node element
+        :return: (HTMLNode) Body main node element
 
         """
         return self._get_body().get_child("body_main")
@@ -311,7 +311,7 @@ class HTMLTree(BaseNode):
     def get_body_footer(self):
         """Get the body->footer element node.
 
-        :Returns: (HTMLNode) Body footer node element
+        :return: (HTMLNode) Body footer node element
 
         """
         return self._get_body().get_child("body_footer")
@@ -372,7 +372,7 @@ class HTMLTree(BaseNode):
     def _get_body(self) -> HTMLNode:
         """Get the body element node.
 
-        :Returns: (HTMLNode) The body element node
+        :return: (HTMLNode) The body element node
 
         """
         return self.__html.get_child("body")
@@ -386,6 +386,8 @@ class HTMLTree(BaseNode):
         node = HTMLComment(self.body_main.identifier, content)
         self.body_main.append_child(node)
         return node
+
+    # -----------------------------------------------------------------------
 
     def element(self, tag: str = "div", ident=None, class_name=None) -> HTMLNode:
         """Add a node to the body->main.

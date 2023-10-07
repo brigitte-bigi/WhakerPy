@@ -28,6 +28,7 @@
 from __future__ import annotations
 import os
 import sys
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from whakerpy.htmlmaker import *
 from whakerpy.httpd import *
@@ -138,7 +139,7 @@ def html_index_page(pages: dict) -> None:
     """Write the index.html file from the given pages.
 
     """
-    with open(os.path.join("docs", "index.html"), "w") as fp:
+    with open(os.path.join("", "index.html"), "w") as fp:
         fp.write(html_top(prev_link=None, next_link=None))
 
         for package in pages:
@@ -184,7 +185,7 @@ def obj_to_html(obj, out_html, prev_page=None, next_page=None) -> None:
     # Export the collected clams to html
     clams = ClamsClass(clamming)
     html_content = clams.html()
-    with open(os.path.join("docs", out_html), "w") as fp:
+    with open(out_html, "w") as fp:
         fp.write(html_top(prev_page, next_page))
         fp.write(html_content)
         fp.write(HTML_BOTTOM)

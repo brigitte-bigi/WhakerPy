@@ -36,7 +36,7 @@ Download the repository and unpack it, or clone with `git`.
 WhakerPy package includes the following folders and files:
 
 1. "whakerpy": the source code package
-2. "docs": the documentation of whakerpy in HTML
+2. "doc": the documentation of whakerpy in HTML
 3. "sample": 
 4. "etc": etcetera!
 
@@ -143,7 +143,7 @@ Other projects:
 ## Analyze WhakerPy code and contribute
 
 Unittests coverage can be analyzed with pytest and coverage. Install them
-with the command: `python -m pip install -r tests/requirements`
+with the command: `python -m pip install -r tests/requirements.txt`
 
 Then, perform the following steps:
 
@@ -168,3 +168,13 @@ The whakerpy package can be analyzed with SonarQube by following these steps:
 8. See results in the opened URL, and don't forget it's an *automatic* code analyzer, not an *intelligent* one.
 
 If you plan to contribute to the code, please send an e-mail to the author.
+
+## Make the doc
+
+The API documentation is available in the `doc` folder. Click the file `index.html`
+to browse throw the documented classes of WhakerPy.
+
+To re-generate the doc, install the required external program: 
+`python -m pip install -r doc/requirements.txt`
+Then, launch the doc generator: `cd doc; python makedoc.py`
+

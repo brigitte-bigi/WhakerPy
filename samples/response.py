@@ -187,8 +187,7 @@ class TestsResponseRecipe(BaseResponseRecipe):
 
         # The powered way to do the same!
         p = HTMLNode(self._htree.body_main.identifier, None, "p",
-                     value="Click the button to re-create the dynamic content of the page."
-                           "However, reloading won't re-create the content but re-sent the same one.")
+                     value="Click the button to re-create the dynamic content of the page.")
         self._htree.body_main.append_child(p)
 
         attr = dict()

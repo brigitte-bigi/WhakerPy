@@ -45,7 +45,7 @@
 
 <h3 id="#description_HTMLNode">Description</h3>
     <article class="docstring">
-<p><em>A node for HTML elements.</em></p>
+<p><em>A node for any HTML element.</em></p>
 
 <p>This node can't check the integrity of the tree: it knows only both its
 direct parent and children but not all its predecessors nor all its
@@ -76,16 +76,13 @@ and the tag has no <b> child.</p>
     </article>
 <h3 id="#constructor_HTMLNode">Constructor</h3>
     <article class="docstring">
-<p><em>Create a node.</em></p>
+<p><em>Create a tag node to represent any HTML element.</em></p>
 
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>parent</strong></li>
-<li><strong>identifier</strong></li>
-<li><strong>tag</strong></li>
-<li><strong>attributes</strong></li>
-<li><strong>value</strong></li>
+<li><strong>parent</strong>: (<em>str</em>) Parent identifier</li>
+<li><strong>identifier</strong>: (<em>str</em>) This node identifier</li>
 </ul>
 
     </article>
@@ -93,13 +90,18 @@ and the tag has no <b> child.</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="87064_collapse_id" aria-expanded="false" aria-controls="87064_expand_id">
+             <button class="rise-trigger" id="63020_collapse_id" aria-expanded="false" aria-controls="63020_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="87064_expand_id" aria-labelledby="87064_collapse_id">
+         <main class="rise-main" id="63020_expand_id" aria-labelledby="63020_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="nb">dict</span><span class="p">(),</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a node.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a tag node to represent any HTML element.</span>
+
+<span class="sd">    :param parent: (str) Parent identifier</span>
+<span class="sd">    :param identifier: (str) This node identifier</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_children</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="nb">super</span><span class="p">(</span><span class="n">HTMLNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">attributes</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span>
@@ -137,12 +139,12 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="33431_collapse_id" aria-expanded="false" aria-controls="33431_expand_id">
+             <button class="rise-trigger" id="97870_collapse_id" aria-expanded="false" aria-controls="97870_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="33431_expand_id" aria-labelledby="33431_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_nidx_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">):</span>
+         <main class="rise-main" id="97870_expand_id" aria-labelledby="97870_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_nidx_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a direct child of the node or None.</span>
 
 <span class="sd">        :param child_idx: (int) Child index</span>
@@ -153,7 +155,7 @@ View Source
     <span class="n">child_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">child_idx</span><span class="p">)</span>
     <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">child_idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">[</span><span class="n">child_idx</span><span class="p">]</span>
-    <span class="k">raise</span> <span class="ne">IndexError</span>
+    <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;Invalid index </span><span class="si">{:d}</span><span class="s1"> to get access to a child.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">child_idx</span><span class="p">))</span>
 </code></pre></div>
 
         </main>
@@ -184,12 +186,12 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="13027_collapse_id" aria-expanded="false" aria-controls="13027_expand_id">
+             <button class="rise-trigger" id="22636_collapse_id" aria-expanded="false" aria-controls="22636_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="13027_expand_id" aria-labelledby="13027_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_id</span><span class="p">):</span>
+         <main class="rise-main" id="22636_expand_id" aria-labelledby="22636_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a direct child of the node or None.</span>
 
 <span class="sd">        :param child_id: (str) Child identifier</span>
@@ -224,11 +226,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="82271_collapse_id" aria-expanded="false" aria-controls="82271_expand_id">
+             <button class="rise-trigger" id="17342_collapse_id" aria-expanded="false" aria-controls="17342_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="82271_expand_id" aria-labelledby="82271_collapse_id">
+         <main class="rise-main" id="17342_expand_id" aria-labelledby="17342_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">children_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the number of direct children.</span>
 
@@ -252,13 +254,13 @@ View Source
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>node_id</strong>: (<em>str</em>)</li>
+<li><strong>node_id</strong>: (<em>str</em>) Identifier of the node</li>
 </ul>
 
 <h5>Returns</h5>
 
 <ul>
-<li>(<em>bool</em>)</li>
+<li>(<em>bool</em>) True if given identifier is a direct child.</li>
 </ul>
 
     </article>
@@ -266,16 +268,16 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="50436_collapse_id" aria-expanded="false" aria-controls="50436_expand_id">
+             <button class="rise-trigger" id="82094_collapse_id" aria-expanded="false" aria-controls="82094_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="50436_expand_id" aria-labelledby="50436_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">has_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+         <main class="rise-main" id="82094_expand_id" aria-labelledby="82094_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">has_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the given node is a direct child.</span>
 
-<span class="sd">        :param node_id: (str)</span>
-<span class="sd">        :return: (bool)</span>
+<span class="sd">        :param node_id: (str) Identifier of the node</span>
+<span class="sd">        :return: (bool) True if given identifier is a direct child.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">node_id</span> <span class="ow">in</span> <span class="p">[</span><span class="n">child</span><span class="o">.</span><span class="n">identifier</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">]</span>
@@ -295,15 +297,15 @@ View Source
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>node</strong>: (Node)</li>
+<li><strong>node</strong>: (BaseNode, EmptyNode, HTMLNode)</li>
 </ul>
 
 <h5>Raises</h5>
 
 <ul>
-<li><em>NodeKeyError</em></li>
 <li><em>TypeError</em></li>
-<li><em>Exception</em></li>
+<li><em>NodeKeyError</em></li>
+<li><em>NodeParentIdentifierError</em></li>
 </ul>
 
     </article>
@@ -311,26 +313,26 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="73393_collapse_id" aria-expanded="false" aria-controls="73393_expand_id">
+             <button class="rise-trigger" id="11838_collapse_id" aria-expanded="false" aria-controls="11838_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="73393_expand_id" aria-labelledby="73393_collapse_id">
+         <main class="rise-main" id="11838_expand_id" aria-labelledby="11838_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">append_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Append a child node.</span>
 
-<span class="sd">        :param node: (Node)</span>
-<span class="sd">        :raises: NodeKeyError:</span>
+<span class="sd">        :param node: (BaseNode, EmptyNode, HTMLNode)</span>
 <span class="sd">        :raises: TypeError:</span>
-<span class="sd">        :raises: Exception:</span>
+<span class="sd">        :raises: NodeKeyError:</span>
+<span class="sd">        :raises: NodeParentIdentifierError:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">NodeKeyError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">BaseNode</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Node expected.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">NodeKeyError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Append child: Parent error. I&#39;m </span><span class="si">{}</span><span class="s2"> and node has parent=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()))</span>
+        <span class="k">raise</span> <span class="n">NodeParentIdentifierError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">get_parent</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
 </code></pre></div>
@@ -350,7 +352,7 @@ View Source
 
 <ul>
 <li><strong>pos</strong>: (<em>int</em>) Index position</li>
-<li><strong>node</strong>: (Node)</li>
+<li><strong>node</strong>: (BaseNode, EmptyNode, HTMLNode)</li>
 </ul>
 
 <h5>Raises</h5>
@@ -366,27 +368,27 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="89455_collapse_id" aria-expanded="false" aria-controls="89455_expand_id">
+             <button class="rise-trigger" id="96203_collapse_id" aria-expanded="false" aria-controls="96203_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="89455_expand_id" aria-labelledby="89455_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">insert_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+         <main class="rise-main" id="96203_expand_id" aria-labelledby="96203_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">insert_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Insert a child node at the given index.</span>
 
 <span class="sd">        :param pos: (int) Index position</span>
-<span class="sd">        :param node: (Node)</span>
+<span class="sd">        :param node: (BaseNode, EmptyNode, HTMLNode)</span>
 <span class="sd">        :raises: NodeKeyError:</span>
 <span class="sd">        :raises: TypeError:</span>
 <span class="sd">        :raises: Exception:</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">BaseNode</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Node expected.&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeKeyError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">EmptyNode</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Node expected.&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Parent error&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">NodeParentIdentifierError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">get_parent</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
 </code></pre></div>
@@ -413,12 +415,12 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="67126_collapse_id" aria-expanded="false" aria-controls="67126_expand_id">
+             <button class="rise-trigger" id="74417_collapse_id" aria-expanded="false" aria-controls="74417_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="67126_expand_id" aria-labelledby="67126_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">remove_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">):</span>
+         <main class="rise-main" id="74417_expand_id" aria-labelledby="74417_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">remove_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove a child node.</span>
 
 <span class="sd">        :param node_id: (str)</span>
@@ -447,7 +449,13 @@ View Source
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>pos</strong>: (<em>int</em>)</li>
+<li><strong>pos</strong>: (<em>int</em>) Index position of the child</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>IndexError</em>: incorrect given position</li>
 </ul>
 
     </article>
@@ -455,15 +463,16 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="12054_collapse_id" aria-expanded="false" aria-controls="12054_expand_id">
+             <button class="rise-trigger" id="18427_collapse_id" aria-expanded="false" aria-controls="18427_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="12054_expand_id" aria-labelledby="12054_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">pop_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+         <main class="rise-main" id="18427_expand_id" aria-labelledby="18427_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">pop_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove a child node from its index.</span>
 
-<span class="sd">        :param pos: (int)</span>
+<span class="sd">        :param pos: (int) Index position of the child</span>
+<span class="sd">        :raises: IndexError: incorrect given position</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
@@ -485,12 +494,12 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="85007_collapse_id" aria-expanded="false" aria-controls="85007_expand_id">
+             <button class="rise-trigger" id="40012_collapse_id" aria-expanded="false" aria-controls="40012_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="85007_expand_id" aria-labelledby="85007_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">clear_children</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+         <main class="rise-main" id="40012_expand_id" aria-labelledby="40012_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">clear_children</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove all children of the node.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 </code></pre></div>
@@ -511,12 +520,12 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="30720_collapse_id" aria-expanded="false" aria-controls="30720_expand_id">
+             <button class="rise-trigger" id="69979_collapse_id" aria-expanded="false" aria-controls="69979_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="30720_expand_id" aria-labelledby="30720_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">is_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+         <main class="rise-main" id="69979_expand_id" aria-labelledby="69979_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">is_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return true if node has no children.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 </code></pre></div>
@@ -537,12 +546,12 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="97432_collapse_id" aria-expanded="false" aria-controls="97432_expand_id">
+             <button class="rise-trigger" id="86074_collapse_id" aria-expanded="false" aria-controls="86074_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="97432_expand_id" aria-labelledby="97432_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+         <main class="rise-main" id="86074_expand_id" aria-labelledby="86074_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the tag content value.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
 </code></pre></div>
@@ -569,12 +578,12 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="99621_collapse_id" aria-expanded="false" aria-controls="99621_expand_id">
+             <button class="rise-trigger" id="35451_collapse_id" aria-expanded="false" aria-controls="35451_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="99621_expand_id" aria-labelledby="99621_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+         <main class="rise-main" id="35451_expand_id" aria-labelledby="35451_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set or re-set the tag content value.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </code></pre></div>
@@ -607,12 +616,12 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="10170_collapse_id" aria-expanded="false" aria-controls="10170_expand_id">
+             <button class="rise-trigger" id="94860_collapse_id" aria-expanded="false" aria-controls="94860_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="10170_expand_id" aria-labelledby="10170_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+         <main class="rise-main" id="94860_expand_id" aria-labelledby="94860_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbs</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize the node into HTML.</span>
 
 <span class="sd">        :param nbs: (int) Number of spaces for the indentation</span>
@@ -631,19 +640,44 @@ View Source
     <span class="n">html</span> <span class="o">+=</span> <span class="s1">&#39;&gt;&#39;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">html</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">html</span> <span class="o">+=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">&#39;    &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
-            <span class="n">html</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
-            <span class="k">if</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">getEffectiveLevel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
-            <span class="n">html</span> <span class="o">+=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s2">&quot;    &#39;Unexpected data type&#39;&quot;</span>
-            <span class="n">html</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-    <span class="k">for</span> <span class="n">node_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
-        <span class="n">html</span> <span class="o">+=</span> <span class="n">node_id</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">nbs</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="n">html</span> <span class="o">+=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">&#39;&lt;/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">+</span> <span class="s1">&#39;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">html</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__serialize_value</span><span class="p">(</span><span class="n">indent</span><span class="p">,</span> <span class="n">nbs</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">node_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
+            <span class="n">html</span> <span class="o">+=</span> <span class="n">node_id</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">nbs</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">html</span> <span class="o">+=</span> <span class="n">indent</span>
+    <span class="n">html</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">+</span> <span class="s1">&#39;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">return</span> <span class="n">html</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<h3 id="#protected_fct_HTMLNode">Protected functions</h3>
+<section>
+<h4>__serialize_value</h4>
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="26882_collapse_id" aria-expanded="false" aria-controls="26882_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="26882_expand_id" aria-labelledby="26882_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__serialize_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indent</span><span class="p">,</span> <span class="n">nbs</span><span class="p">):</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">!=</span> <span class="s1">&#39;textarea&#39;</span><span class="p">:</span>
+            <span class="n">html</span> <span class="o">+=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">nbs</span>
+        <span class="n">html</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+        <span class="n">html</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">getEffectiveLevel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+        <span class="n">html</span> <span class="o">+=</span> <span class="n">indent</span> <span class="o">+</span> <span class="s2">&quot;    &#39;Unexpected data type&#39;&quot;</span>
+        <span class="n">html</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="k">return</span> <span class="n">html</span>
 </code></pre></div>
 
@@ -654,16 +688,16 @@ View Source
 </section>
 <h3 id="#overloads_{:s}">Overloads</h3>
 <section>
-<h4>__repr__</h4>
+<h4>__str__</h4>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="71263_collapse_id" aria-expanded="false" aria-controls="71263_expand_id">
+             <button class="rise-trigger" id="91618_collapse_id" aria-expanded="false" aria-controls="91618_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="71263_expand_id" aria-labelledby="71263_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+         <main class="rise-main" id="91618_expand_id" aria-labelledby="91618_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
     <span class="n">kwargs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tag=</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">),</span> <span class="s1">&#39;identifier=</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">),</span> <span class="s1">&#39;attributes=</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">)]</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>

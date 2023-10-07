@@ -45,12 +45,11 @@
 
 <h3 id="#description_EmptyNode">Description</h3>
     <article class="docstring">
-<p><em>A class for HTML empty nodes in a tree.</em></p>
+<p><em>A node to represents an HTML empty element.</em></p>
 
 <p>An HTML element without content is called an empty node. It has a
-start tag but neither a content nor an end tag.</p>
-
-<p>Compared to the parent class BaseNode, this class adds 2 members:</p>
+start tag but neither a content nor an end tag.
+Compared to the parent class BaseNode, this class adds 2 members:</p>
 
 <ol>
 <li>the required element tag;</li>
@@ -68,7 +67,7 @@ start tag but neither a content nor an end tag.</p>
     </article>
 <h3 id="#constructor_EmptyNode">Constructor</h3>
     <article class="docstring">
-<p><em>Create a new leaf node.</em></p>
+<p><em>Create a new empty node.</em></p>
 
 <h5>Parameters</h5>
 
@@ -92,13 +91,13 @@ start tag but neither a content nor an end tag.</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="63572_collapse_id" aria-expanded="false" aria-controls="63572_expand_id">
+             <button class="rise-trigger" id="37311_collapse_id" aria-expanded="false" aria-controls="37311_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="63572_expand_id" aria-labelledby="63572_collapse_id">
+         <main class="rise-main" id="37311_expand_id" aria-labelledby="37311_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attributes</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="nb">dict</span><span class="p">()):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new leaf node.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new empty node.</span>
 
 <span class="sd">    :param parent: (str) Parent identifier</span>
 <span class="sd">    :param identifier: (str) This node identifier</span>
@@ -111,7 +110,7 @@ View Source
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">(</span><span class="n">EmptyNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">identifier</span><span class="p">)</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">HTMLNode</span><span class="o">.</span><span class="n">HTML_TAGS</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">HTML_TAGS</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="k">raise</span> <span class="n">NodeTagError</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span> <span class="o">=</span> <span class="n">tag</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -138,13 +137,13 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="89025_collapse_id" aria-expanded="false" aria-controls="89025_expand_id">
+             <button class="rise-trigger" id="73002_collapse_id" aria-expanded="false" aria-controls="73002_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="89025_expand_id" aria-labelledby="89025_collapse_id">
+         <main class="rise-main" id="73002_expand_id" aria-labelledby="73002_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
-<span class="k">def</span> <span class="nf">tag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">tag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML tag. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span>
 </code></pre></div>
@@ -184,11 +183,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="99405_collapse_id" aria-expanded="false" aria-controls="99405_expand_id">
+             <button class="rise-trigger" id="78386_collapse_id" aria-expanded="false" aria-controls="78386_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="99405_expand_id" aria-labelledby="99405_collapse_id">
+         <main class="rise-main" id="78386_expand_id" aria-labelledby="78386_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">check_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raises NodeAttributeError if key is not a valid attribute.</span>
 
@@ -199,9 +198,9 @@ View Source
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeAttributeError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">EmptyNode</span><span class="o">.</span><span class="n">HTML_GLOBAL_ATTR</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">EmptyNode</span><span class="o">.</span><span class="n">HTML_VISIBLE_ATTR</span> <span class="ow">and</span> <span class="p">(</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">EmptyNode</span><span class="o">.</span><span class="n">HTML_TAG_ATTR</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">and</span> <span class="p">(</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">EmptyNode</span><span class="o">.</span><span class="n">ARIA_TAG_ATTR</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">HTML_GLOBAL_ATTR</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">HTML_VISIBLE_ATTR</span> <span class="ow">and</span> <span class="p">(</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">HTML_TAG_ATTR</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">and</span> <span class="p">(</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ARIA_TAG_ATTR</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
         <span class="k">raise</span> <span class="n">NodeAttributeError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">key</span>
 </code></pre></div>
@@ -222,12 +221,12 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="92823_collapse_id" aria-expanded="false" aria-controls="92823_expand_id">
+             <button class="rise-trigger" id="74204_collapse_id" aria-expanded="false" aria-controls="74204_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="92823_expand_id" aria-labelledby="92823_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_attribute_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+         <main class="rise-main" id="74204_expand_id" aria-labelledby="74204_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_attribute_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the list of attribute keys. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
 </code></pre></div>
@@ -247,7 +246,7 @@ View Source
 
 <ul>
 <li><strong>key</strong>: Key property</li>
-<li><strong>value</strong></li>
+<li><strong>value</strong>: (<em>str</em> or <em>list</em>)</li>
 </ul>
 
     </article>
@@ -255,16 +254,16 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="20323_collapse_id" aria-expanded="false" aria-controls="20323_expand_id">
+             <button class="rise-trigger" id="99122_collapse_id" aria-expanded="false" aria-controls="99122_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="20323_expand_id" aria-labelledby="20323_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+         <main class="rise-main" id="99122_expand_id" aria-labelledby="99122_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a property to the node. Delete the existing one, if any.</span>
 
 <span class="sd">        :param key: Key property</span>
-<span class="sd">        :param value:</span>
+<span class="sd">        :param value: (str or list)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_attribute</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -296,12 +295,12 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="54559_collapse_id" aria-expanded="false" aria-controls="54559_expand_id">
+             <button class="rise-trigger" id="62543_collapse_id" aria-expanded="false" aria-controls="62543_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="54559_expand_id" aria-labelledby="54559_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+         <main class="rise-main" id="62543_expand_id" aria-labelledby="62543_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a property to the node. Append the value if existing.</span>
 
 <span class="sd">        :param key: (str) Key property</span>
@@ -330,13 +329,13 @@ View Source
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>key</strong>: (<em>str</em>)</li>
+<li><strong>key</strong>: (<em>str</em>) Attribute key</li>
 </ul>
 
 <h5>Returns</h5>
 
 <ul>
-<li>None if the attribute does not exist or has no value</li>
+<li>(<em>str</em> | None) Value or None if the attribute does not exist or has no value</li>
 </ul>
 
     </article>
@@ -344,53 +343,21 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="94904_collapse_id" aria-expanded="false" aria-controls="94904_expand_id">
+             <button class="rise-trigger" id="62263_collapse_id" aria-expanded="false" aria-controls="62263_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="94904_expand_id" aria-labelledby="94904_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_attribute_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+         <main class="rise-main" id="62263_expand_id" aria-labelledby="62263_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_attribute_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the attribute value if the node has this attribute.</span>
 
-<span class="sd">        :param key: (str)</span>
-<span class="sd">        :return: None if the attribute does not exist or has no value</span>
+<span class="sd">        :param key: (str) Attribute key</span>
+<span class="sd">        :return: (str | None) Value or None if the attribute does not exist or has no value</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
     <span class="k">return</span> <span class="kc">None</span>
-</code></pre></div>
-
-        </main>
-    </article>
-
-
-</section>
-<section>
-<h4>is_attribute</h4>
-
-    <article class="docstring">
-<p><em>Return true if the node has the attribute.</em></p>
-
-<h5>Parameters</h5>
-
-<ul>
-<li><strong>key</strong></li>
-</ul>
-
-    </article>
-
-
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="25872_collapse_id" aria-expanded="false" aria-controls="25872_expand_id">
-View Source
-             </button>
-         </header>
-         <main class="rise-main" id="25872_expand_id" aria-labelledby="25872_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">is_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return true if the node has the attribute.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span>
 </code></pre></div>
 
         </main>
@@ -407,7 +374,13 @@ View Source
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>key</strong></li>
+<li><strong>key</strong>: (<em>str</em>) Attribute key</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>bool</em>)</li>
 </ul>
 
     </article>
@@ -415,13 +388,18 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="28674_collapse_id" aria-expanded="false" aria-controls="28674_expand_id">
+             <button class="rise-trigger" id="71418_collapse_id" aria-expanded="false" aria-controls="71418_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="28674_expand_id" aria-labelledby="28674_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">has_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return true if the node has the attribute.&quot;&quot;&quot;</span>
+         <main class="rise-main" id="71418_expand_id" aria-labelledby="71418_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">has_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return true if the node has the attribute.</span>
+
+<span class="sd">        :param key: (str) Attribute key</span>
+<span class="sd">        :return: (bool)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span>
 </code></pre></div>
 
@@ -439,7 +417,7 @@ View Source
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>key</strong></li>
+<li><strong>key</strong>: (<em>str</em>) Attribute key</li>
 </ul>
 
     </article>
@@ -447,13 +425,17 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="40872_collapse_id" aria-expanded="false" aria-controls="40872_expand_id">
+             <button class="rise-trigger" id="46875_collapse_id" aria-expanded="false" aria-controls="46875_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="40872_expand_id" aria-labelledby="40872_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">remove_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove the attribute to the node. &quot;&quot;&quot;</span>
+         <main class="rise-main" id="46875_expand_id" aria-labelledby="46875_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">remove_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove the attribute to the node.</span>
+
+<span class="sd">        :param key: (str) Attribute key</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">:</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 </code></pre></div>
@@ -472,8 +454,8 @@ View Source
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>key</strong></li>
-<li><strong>value</strong></li>
+<li><strong>key</strong>: (<em>str</em>) Attribute key</li>
+<li><strong>value</strong>: (<em>str</em>) Attribute value</li>
 </ul>
 
     </article>
@@ -481,13 +463,18 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="50830_collapse_id" aria-expanded="false" aria-controls="50830_expand_id">
+             <button class="rise-trigger" id="56041_collapse_id" aria-expanded="false" aria-controls="56041_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="50830_expand_id" aria-labelledby="50830_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">remove_attribute_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove the value of an attribute of the node. &quot;&quot;&quot;</span>
+         <main class="rise-main" id="56041_expand_id" aria-labelledby="56041_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">remove_attribute_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove the value of an attribute of the node.</span>
+
+<span class="sd">        :param key: (str) Attribute key</span>
+<span class="sd">        :param value: (str) Attribute value</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">:</span>
         <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
@@ -514,11 +501,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="65608_collapse_id" aria-expanded="false" aria-controls="65608_expand_id">
+             <button class="rise-trigger" id="38853_collapse_id" aria-expanded="false" aria-controls="38853_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="65608_expand_id" aria-labelledby="65608_collapse_id">
+         <main class="rise-main" id="38853_expand_id" aria-labelledby="38853_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">nb_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the number of attributes. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">)</span>
@@ -533,7 +520,7 @@ View Source
 <h4>serialize</h4>
 
     <article class="docstring">
-<p><em>Serialize the node into HTML.</em></p>
+<p><em>Override. Serialize the node into HTML.</em></p>
 
 <h5>Parameters</h5>
 
@@ -552,13 +539,13 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="89699_collapse_id" aria-expanded="false" aria-controls="89699_expand_id">
+             <button class="rise-trigger" id="45668_collapse_id" aria-expanded="false" aria-controls="45668_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="89699_expand_id" aria-labelledby="89699_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize the node into HTML.</span>
+         <main class="rise-main" id="45668_expand_id" aria-labelledby="45668_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbs</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. Serialize the node into HTML.</span>
 
 <span class="sd">        :param nbs: (int) Number of spaces for the indentation</span>
 <span class="sd">        :return: (str)</span>

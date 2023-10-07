@@ -77,11 +77,11 @@ with any other http.server.ThreadingHTTPServer.</p>
 <h3 id="#constructor_sppasHTTPDHandler">Constructor</h3>
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="80725_collapse_id" aria-expanded="false" aria-controls="80725_expand_id">
+             <button class="rise-trigger" id="16787_collapse_id" aria-expanded="false" aria-controls="16787_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="80725_expand_id" aria-labelledby="80725_collapse_id">
+         <main class="rise-main" id="16787_expand_id" aria-labelledby="16787_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">client_address</span><span class="p">,</span> <span class="n">server</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">client_address</span> <span class="o">=</span> <span class="n">client_address</span>
@@ -109,11 +109,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="26254_collapse_id" aria-expanded="false" aria-controls="26254_expand_id">
+             <button class="rise-trigger" id="79390_collapse_id" aria-expanded="false" aria-controls="79390_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="26254_expand_id" aria-labelledby="26254_collapse_id">
+         <main class="rise-main" id="79390_expand_id" aria-labelledby="79390_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_HEAD</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a HEAD request.&quot;&quot;&quot;</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;HEAD -- requested: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
@@ -136,11 +136,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="93164_collapse_id" aria-expanded="false" aria-controls="93164_expand_id">
+             <button class="rise-trigger" id="93443_collapse_id" aria-expanded="false" aria-controls="93443_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="93164_expand_id" aria-labelledby="93164_collapse_id">
+         <main class="rise-main" id="93443_expand_id" aria-labelledby="93443_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a GET request.</span>
 
@@ -151,7 +151,6 @@ View Source
             <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">default</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+=</span> <span class="s1">&#39;index.html&#39;</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">fe</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="s1">&#39;?&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">)]</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
@@ -177,11 +176,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="69993_collapse_id" aria-expanded="false" aria-controls="69993_expand_id">
+             <button class="rise-trigger" id="19632_collapse_id" aria-expanded="false" aria-controls="19632_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="69993_expand_id" aria-labelledby="69993_collapse_id">
+         <main class="rise-main" id="19632_expand_id" aria-labelledby="19632_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_POST</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a POST request.</span>
 
@@ -238,11 +237,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="63986_collapse_id" aria-expanded="false" aria-controls="63986_expand_id">
+             <button class="rise-trigger" id="79202_collapse_id" aria-expanded="false" aria-controls="79202_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="63986_expand_id" aria-labelledby="63986_collapse_id">
+         <main class="rise-main" id="79202_expand_id" aria-labelledby="79202_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">log_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. For a quiet handler pls!!!.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
@@ -275,11 +274,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="60579_collapse_id" aria-expanded="false" aria-controls="60579_expand_id">
+             <button class="rise-trigger" id="95377_collapse_id" aria-expanded="false" aria-controls="95377_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="60579_expand_id" aria-labelledby="60579_collapse_id">
+         <main class="rise-main" id="95377_expand_id" aria-labelledby="95377_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_set_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the HTTPD response headers.</span>
 
@@ -320,11 +319,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="18395_collapse_id" aria-expanded="false" aria-controls="18395_expand_id">
+             <button class="rise-trigger" id="39166_collapse_id" aria-expanded="false" aria-controls="39166_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="18395_expand_id" aria-labelledby="18395_collapse_id">
+         <main class="rise-main" id="39166_expand_id" aria-labelledby="39166_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the file content and the corresponding status.</span>
 
@@ -375,11 +374,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="68608_collapse_id" aria-expanded="false" aria-controls="68608_expand_id">
+             <button class="rise-trigger" id="15240_collapse_id" aria-expanded="false" aria-controls="15240_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="68608_expand_id" aria-labelledby="68608_collapse_id">
+         <main class="rise-main" id="15240_expand_id" aria-labelledby="15240_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_json_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the events and return the data and the status.</span>
 
@@ -427,11 +426,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="79123_collapse_id" aria-expanded="false" aria-controls="79123_expand_id">
+             <button class="rise-trigger" id="65428_collapse_id" aria-expanded="false" aria-controls="65428_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="79123_expand_id" aria-labelledby="79123_collapse_id">
+         <main class="rise-main" id="65428_expand_id" aria-labelledby="65428_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the events and return the html page content and status.</span>
 
@@ -471,11 +470,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="49448_collapse_id" aria-expanded="false" aria-controls="49448_expand_id">
+             <button class="rise-trigger" id="39176_collapse_id" aria-expanded="false" aria-controls="39176_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="49448_expand_id" aria-labelledby="49448_collapse_id">
+         <main class="rise-main" id="39176_expand_id" aria-labelledby="39176_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make the appropriate HTTPD response.</span>
 
