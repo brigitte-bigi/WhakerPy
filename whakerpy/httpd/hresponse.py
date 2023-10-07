@@ -41,9 +41,9 @@
 import os
 import json
 
-from whakerpy.htmlmaker.hleaf import HTMLComment
-from whakerpy.htmlmaker.hnode import HTMLNode
-from whakerpy.htmlmaker.htree import HTMLTree
+from whakerpy.htmlmaker import HTMLComment
+from whakerpy.htmlmaker import HTMLNode
+from whakerpy.htmlmaker import HTMLTree
 
 from .hstatus import sppasHTTPDStatus
 

@@ -1,5 +1,5 @@
 """
-:filename: sppas.ui.htmlmaker.hnode.py
+:filename: sppas.ui.htmlmaker.tagnodes.tagelts.py
 :author:   Brigitte Bigi
 :contact:  develop@sppas.org
 :summary: Node classes to generate various HTML elements.
@@ -38,9 +38,9 @@
 
 """
 
-from .hnode import HTMLNode
-from .hnode import EmptyNode
-from .hleaf import HTMLImage
+from whakerpy.htmlmaker.emptynodes import EmptyNode
+from whakerpy.htmlmaker.emptynodes import HTMLImage
+from whakerpy.htmlmaker.tagnodes import HTMLNode
 
 # ---------------------------------------------------------------------------
 

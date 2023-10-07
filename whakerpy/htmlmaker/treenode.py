@@ -1,5 +1,5 @@
 """
-:filename: sppas.ui.htmlmaker.hleaf.py
+:filename: sppas.ui.htmlmaker.treenode.py
 :author:   Brigitte Bigi
 :contact:  develop@sppas.org
 :summary: Root of the tree to store HTML elements and serialize into a string.
@@ -42,11 +42,11 @@ import os
 
 from .hexc import NodeTypeError
 from .hexc import NodeIdentifierError
-from .hleaf import Doctype
-from .hleaf import HTMLComment
-from .hnode import BaseNode
-from .hnode import HTMLHeadNode
-from .hnode import HTMLNode
+from .basenodes import BaseNode
+from .basenodes import Doctype
+from .basenodes import HTMLComment
+from .tagnodes import HTMLNode
+from .treeelts import HTMLHeadNode
 
 # ---------------------------------------------------------------------------
 
@@ -485,11 +485,6 @@ class HTMLTree(BaseNode):
 
     def __contains__(self, identifier):
         raise NotImplementedError
-
-    # -----------------------------------------------------------------------
-
-    def __repr__(self):
-        return self.serialize()
 
     # -----------------------------------------------------------------------
 

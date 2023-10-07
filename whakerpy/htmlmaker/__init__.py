@@ -1,34 +1,41 @@
-# This file is part of SPPAS: https://sppas.org/
-#
-# -------------------------------------------------------------------------
-#
-#  ___   __    __    __    ___
-# /     |  \  |  \  |  \  /              the automatic
-# \__   |__/  |__/  |___| \__             annotation and
-#    \  |     |     |   |    \             analysis
-# ___/  |     |     |   | ___/              of speech
-#
-# Use of this software is governed by the GNU Public License, version 3.
-#
-# SPPAS is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# SPPAS is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with SPPAS. If not, see <http://www.gnu.org/licenses/>.
-#
-# This banner notice must not be removed.
-#
-# -------------------------------------------------------------------------
-#
-
 """
+:filename: sppas.ui.htmlmaker.__init__.py
+:author:   Brigitte Bigi
+:contact:  develop@sppas.org
+:summary: A tree representation of HTML.
+
+.. _This file is part of SPPAS: https://sppas.org/
+..
+    -------------------------------------------------------------------------
+
+     ___   __    __    __    ___
+    /     |  \  |  \  |  \  /              the automatic
+    \__   |__/  |__/  |___| \__             annotation and
+       \  |     |     |   |    \             analysis
+    ___/  |     |     |   | ___/              of speech
+
+    Copyright (C) 2011-2023 Brigitte Bigi
+    Laboratoire Parole et Langage, Aix-en-Provence, France
+
+    Use of this software is governed by the GNU Public License, version 3.
+
+    SPPAS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    SPPAS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with SPPAS. If not, see <http://www.gnu.org/licenses/>.
+
+    This banner notice must not be removed.
+
+    -------------------------------------------------------------------------
+
 # HTMLMaker Package
 
 Create an HTML tree and to serialize into a page.
@@ -66,30 +73,13 @@ standard are verified.
 >>> # Serialize the HTML tree into a file
 >>> tree.serialize("/path/to/my/file.html")
 
-
-## List of classes
-
-<section class="cards">
-    <article class="card-pyclass">
-        <header></header>
-        <main>
-            <h2>HTMLTree</h2>
-            <p>Root of the tree to store HTML elements.</p>
-        </main>
-        <footer><pre>tree = HTMLTree("Home Page")</pre></footer>
-    </article>
-
-    <article class="card">
-        <header></header>
-        <main>
-            <h2>Doctype</h2>
-            <p></p>
-        </main>
-        <footer></footer>
-    </article>
-</section>
-
 """
+
+from .hconsts import HTML_TAGS
+from .hconsts import HTML_GLOBAL_ATTR
+from .hconsts import HTML_VISIBLE_ATTR
+from .hconsts import HTML_TAG_ATTR
+from .hconsts import ARIA_TAG_ATTR
 
 from .hexc import NodeTypeError
 from .hexc import NodeTagError
@@ -98,25 +88,36 @@ from .hexc import NodeAttributeError
 from .hexc import NodeChildTagError
 from .hexc import NodeInvalidIdentifierError
 from .hexc import NodeIdentifierError
-from .hleaf import Doctype
-from .hleaf import HTMLComment
-from .hleaf import HTMLImage
-from .hleaf import HTMLHr
-from .hnodetags import HTMLInputText
-from .hnodetags import HTMLRadioBox
-from .hnodetags import HTMLButtonNode
-from .hnode import BaseNode
-from .hnode import EmptyNode
-from .hnode import HTMLNode
-from .hnode import HTMLHeadNode
-from .hnode import HTMLHeaderNode
-from .hnode import HTMLNavNode
-from .hnode import HTMLMainNode
-from .hnode import HTMLFooterNode
-from .hnode import HTMLScriptNode
-from .htree import HTMLTree
+from .hexc import NodeParentIdentifierError
+
+from .basenodes import BaseNode
+from .basenodes import Doctype
+from .basenodes import HTMLComment
+
+from .emptynodes import EmptyNode
+from .emptynodes import HTMLImage
+from .emptynodes import HTMLHr
+
+from .tagnodes import HTMLNode
+from .tagnodes import HTMLInputText
+from .tagnodes import HTMLRadioBox
+from .tagnodes import HTMLButtonNode
+
+from .treeelts import HTMLHeadNode
+from .treeelts import HTMLHeaderNode
+from .treeelts import HTMLNavNode
+from .treeelts import HTMLMainNode
+from .treeelts import HTMLFooterNode
+from .treeelts import HTMLScriptNode
+
+from .treenode import HTMLTree
 
 __all__ = (
+    "HTML_TAGS",
+    "HTML_VISIBLE_ATTR",
+    "HTML_GLOBAL_ATTR",
+    "HTML_TAG_ATTR",
+    "ARIA_TAG_ATTR",
     "NodeTypeError",
     "NodeTagError",
     "NodeKeyError",
@@ -124,6 +125,7 @@ __all__ = (
     "NodeChildTagError",
     "NodeInvalidIdentifierError",
     "NodeIdentifierError",
+    "NodeParentIdentifierError",
     "Doctype",
     "HTMLComment",
     "HTMLImage",

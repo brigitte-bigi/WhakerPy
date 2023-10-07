@@ -40,8 +40,55 @@
 
 import unittest
 
-from whakerpy.htmlmaker.hnode import HTMLNode
-from whakerpy.htmlmaker.htree import HTMLTree
+from whakerpy.htmlmaker.hexc import NodeChildTagError
+from whakerpy.htmlmaker.emptynodes import EmptyNode
+from whakerpy.htmlmaker.tagnodes import HTMLNode
+
+from whakerpy.htmlmaker.treeelts import HTMLHeadNode
+from whakerpy.htmlmaker.treenode import HTMLTree
+
+# ---------------------------------------------------------------------------
+
+
+class TestHeadNode(unittest.TestCase):
+
+    def test_init(self):
+        node = HTMLHeadNode(parent=None)
+        self.assertEqual("head", node.identifier)
+
+    def test_error(self):
+        node = HTMLHeadNode(parent=None)
+        with self.assertRaises(NodeChildTagError):
+            node.append_child(HTMLNode(parent=node.identifier, identifier=None, tag="p"))
+
+    def test_append(self):
+        node = HTMLHeadNode(parent=None)
+        child_node = EmptyNode(node.identifier, None, "meta")
+        node.append_child(child_node)
+        with self.assertRaises(NodeChildTagError):
+            node.append_child(EmptyNode(node.identifier, None, "img"))
+
+    def test_insert(self):
+        node = HTMLHeadNode(parent=None)
+        child_node = EmptyNode(node.identifier, None, "meta")
+        node.insert_child(1, child_node)
+        with self.assertRaises(NodeChildTagError):
+            node.insert_child(0, EmptyNode(node.identifier, None, "img"))
+
+    def test_title(self):
+        pass
+
+    def test_meta(self):
+        pass
+
+    def test_link(self):
+        pass
+
+    def test_script(self):
+        pass
+
+    def test_css(self):
+        pass
 
 # ---------------------------------------------------------------------------
 
