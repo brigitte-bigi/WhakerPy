@@ -47,6 +47,11 @@ from .basenodes import Doctype
 from .basenodes import HTMLComment
 from .tagnodes import HTMLNode
 from .treeelts import HTMLHeadNode
+from .treeelts import HTMLHeaderNode
+from .treeelts import HTMLNavNode
+from .treeelts import HTMLMainNode
+from .treeelts import HTMLFooterNode
+from .treeelts import HTMLScriptNode
 
 # ---------------------------------------------------------------------------
 
@@ -54,12 +59,9 @@ from .treeelts import HTMLHeadNode
 class HTMLTree(BaseNode):
     """Root of an HTML tree.
 
-    The element node of this class is "html". The "html" tag represents
-    the root of an HTML document. It's the container for all HTML elements,
-    except for the "!DOCTYPE" tag.
-
-    An HTMLTree() is creating children nodes. The following properties allow
-    to access to them:
+    An HTML Tree has two children: a doctype node, and a "html" node.
+    The "html" tag is the container for all HTML elements of the page.
+    The following properties allow to access to "html" children nodes:
 
     - head
     - body_header
@@ -67,10 +69,6 @@ class HTMLTree(BaseNode):
     - body_main
     - body_footer
     - body_script
-
-    This class does not support yet the global attributes -- i.e. attributes
-    that can be used with all HTML elements.
-    See <https://www.w3schools.com/TAgs/ref_standardattributes.asp>
 
     :example:
     >>> # Create the tree
@@ -93,12 +91,22 @@ class HTMLTree(BaseNode):
     >>> # Save into a file
     >>> htree.serialize_to_file("/path/to/file.html")
 
+    This class does not support yet the global attributes -- i.e. attributes
+    that can be used with all HTML elements.
+    See <https://www.w3schools.com/TAgs/ref_standardattributes.asp>
+
     """
 
     def __init__(self, identifier: str):
-        """Create the tree root and some children nodes.
+        """Create the tree root and children nodes.
 
-        :param identifier: (str) An identifier for this specific node.
+        The created tree matches the HTML5 recommendations for the document
+        structure. The HTML tree has 2 children: a doctype and an HTML element.
+        The HTML node has 2 children: the "head" and the "body". The body
+        has 5 children: "header", "nav", "main", "footer", "script".
+        The empty nodes are not serialized.
+
+        :param identifier: (str) An identifier for the tree node.
 
         """
         super(HTMLTree, self).__init__(parent=None, identifier=identifier)
@@ -109,29 +117,15 @@ class HTMLTree(BaseNode):
 
         # The HTML node has 2 children: the <head> and the <body> (public)
         self.__html.append_child(HTMLHeadNode(self.__html.identifier))
-
         body = HTMLNode(self.__html.identifier, "body", "body")
         self.__html.append_child(body)
 
-        # HTML body "header"
-        body_header = HTMLNode(body.identifier, "body_header", "header")
-        body.append_child(body_header)
-
-        # HTML body "nav"
-        body_nav = HTMLNode(body.identifier, "body_nav", "nav")
-        body.append_child(body_nav)
-
-        # HTML body "main"
-        body_main = HTMLNode(body.identifier, "body_main", "main")
-        body.append_child(body_main)
-
-        # HTML body "footer"
-        body_footer = HTMLNode(body.identifier, "body_footer", "footer")
-        body.append_child(body_footer)
-
-        # HTML body "script"
-        body_script = HTMLNode(body.identifier, "body_script", "script")
-        body.append_child(body_script)
+        # The 5 default HTML body children. 
+        body.append_child(HTMLHeaderNode(body.identifier))
+        body.append_child(HTMLNavNode(body.identifier))
+        body.append_child(HTMLMainNode(body.identifier))
+        body.append_child(HTMLFooterNode(body.identifier))
+        body.append_child(HTMLScriptNode(body.identifier))
 
     # -----------------------------------------------------------------------
     # Override base class.

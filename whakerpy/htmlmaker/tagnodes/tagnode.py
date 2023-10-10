@@ -76,7 +76,7 @@ class HTMLNode(EmptyNode):
 
     """
 
-    def __init__(self, parent, identifier, tag, attributes=dict(), value=None):
+    def __init__(self, parent: str, identifier: str, tag: str, attributes=dict(), value=None):
         """Create a tag node to represent any HTML element.
 
         :param parent: (str) Parent identifier

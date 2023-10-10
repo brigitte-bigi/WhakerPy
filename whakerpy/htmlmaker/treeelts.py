@@ -73,7 +73,7 @@ class HTMLHeadNode(HTMLNode):
     """
 
     # List of accepted child tags in an HTML header.
-    HEADER_TAGS = ("title", "meta", "link", "style", "script")
+    HEAD_TAGS = ("title", "meta", "link", "style", "script")
 
     # -----------------------------------------------------------------------
 
@@ -91,7 +91,7 @@ class HTMLHeadNode(HTMLNode):
         :param node: (Node)
 
         """
-        if node.tag not in HTMLHeadNode.HEADER_TAGS:
+        if node.tag not in HTMLHeadNode.HEAD_TAGS:
             raise NodeChildTagError(node.tag)
         HTMLNode.append_child(self, node)
 
@@ -104,7 +104,7 @@ class HTMLHeadNode(HTMLNode):
         :param node: (Node)
 
         """
-        if node.tag not in HTMLHeadNode.HEADER_TAGS:
+        if node.tag not in HTMLHeadNode.HEAD_TAGS:
             raise NodeChildTagError(node.tag)
         HTMLNode.insert_child(self, pos, node)
 
@@ -182,6 +182,8 @@ class HTMLHeadNode(HTMLNode):
         child_node = HTMLNode(self.identifier, None, "style", value=str(script_content))
         self._children.append(child_node)
 
+# ---------------------------------------------------------------------------
+
 
 class HTMLHeaderNode(HTMLNode):
     """Convenient class to represent the header node of an HTML tree.
@@ -193,6 +195,8 @@ class HTMLHeaderNode(HTMLNode):
         """
         super(HTMLHeaderNode, self).__init__(parent, "body_header", "header")
 
+# ---------------------------------------------------------------------------
+
 
 class HTMLNavNode(HTMLNode):
     """Convenient class to represent the nav node of an HTML tree.
@@ -201,6 +205,8 @@ class HTMLNavNode(HTMLNode):
     def __init__(self, parent):
         """Create the nav node."""
         super(HTMLNavNode, self).__init__(parent, "body_nav", "nav")
+
+# ---------------------------------------------------------------------------
 
 
 class HTMLMainNode(HTMLNode):
@@ -211,6 +217,8 @@ class HTMLMainNode(HTMLNode):
         """Create the main node."""
         super(HTMLMainNode, self).__init__(parent, "body_main", "main")
 
+# ---------------------------------------------------------------------------
+
 
 class HTMLFooterNode(HTMLNode):
     """Convenient class to represent the footer node of an HTML tree.
@@ -220,6 +228,8 @@ class HTMLFooterNode(HTMLNode):
     def __init__(self, parent):
         """Create the footer node."""
         super(HTMLFooterNode, self).__init__(parent, "body_footer", "footer")
+
+# ---------------------------------------------------------------------------
 
 
 class HTMLScriptNode(HTMLNode):
