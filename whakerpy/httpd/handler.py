@@ -45,12 +45,12 @@ import json
 import logging
 import http.server
 
-from .hstatus import sppasHTTPDStatus
+from .hstatus import HTTPDStatus
 
 # ---------------------------------------------------------------------------
 
 
-class sppasHTTPDHandler(http.server.BaseHTTPRequestHandler):
+class HTTPDHandler(http.server.BaseHTTPRequestHandler):
     """Web-based application HTTPD handler.
 
     This class is instantiated by the server each time a request is received
@@ -86,7 +86,7 @@ class sppasHTTPDHandler(http.server.BaseHTTPRequestHandler):
         :raises: sppasHTTPDValueError
 
         """
-        status = sppasHTTPDStatus.check(status)
+        status = HTTPDStatus.check(status)
         self.send_response(status)
         self.end_headers()
 
@@ -96,18 +96,18 @@ class sppasHTTPDHandler(http.server.BaseHTTPRequestHandler):
         """Return the file content and the corresponding status.
 
         :param filename: (str)
-        :return: tuple(bytes, sppasHTTPDStatus)
+        :return: tuple(bytes, HTTPDStatus)
 
         """
         if os.path.exists(filename) is True:
             if os.path.isfile(filename) is True:
                 content = open(filename, "rb").read()
-                return content, sppasHTTPDStatus()
+                return content, HTTPDStatus()
             else:
                 content = bytes("<html><body>Error 403: Forbidden."
                                 "The client can't have access to the requested {:s}."
                                 "</body></html>".format(filename), "utf-8")
-                status = sppasHTTPDStatus()
+                status = HTTPDStatus()
                 status.code = 403
                 return content, status
 
@@ -115,7 +115,7 @@ class sppasHTTPDHandler(http.server.BaseHTTPRequestHandler):
         content = bytes("<html><body>Error 404: Not found."
                         "The server does not have the requested {:s}."
                         "</body></html>".format(filename), "utf-8")
-        status = sppasHTTPDStatus()
+        status = HTTPDStatus()
         status.code = 404
         return content, status
 
@@ -153,7 +153,7 @@ class sppasHTTPDHandler(http.server.BaseHTTPRequestHandler):
         """Process the events and return the html page content and status.
 
         :param events: (dict) key=event name, value=event value
-        :return: tuple(bytes, sppasHTTPDStatus)
+        :return: tuple(bytes, HTTPDStatus)
 
         """
         # Test if the server is our

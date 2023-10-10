@@ -1,61 +1,66 @@
 # -*- coding: UTF-8 -*-
 """
-:filename: response.py
+:filename: sample.py
 :author: Brigitte Bigi
-:contributor: Florian Lopitaux
 :contact: develop@sppas.org
-:summary: An example of custom response with HTML, JS and JSON.
+:summary: Example of custom application based on a web-frontend for Py backend.
 
 """
 
+import os
 import webbrowser
 import logging
 
-from whakerpy.httpd.handler import sppasHTTPDHandler
-from whakerpy.httpd.hserver import sppasBaseHTTPDServer
-from samples.response import TestsResponseRecipe
+from whakerpy.htmlmaker import HTMLTree
+from whakerpy.httpd.hserver import BaseHTTPDServer
+from whakerpy.website import WebSiteData
+from whakerpy.website import WebSiteApplication
+from samples.response import SampleAppResponse
+from samples.response import SampleWebResponse
 
 logging.getLogger().setLevel(0)
 
 # ---------------------------------------------------------------------------
 
 
-class TestServer(sppasBaseHTTPDServer):
-    """A custom HTTPD server for a custom python application!
+class AppServer(BaseHTTPDServer):
+    """A custom HTTPD server for `sample` web front-end.
 
     """
 
-    def create_pages(self, app_type="app"):
-        """Override."""
-        logging.debug("HTTPD server initialization..")
+    def create_pages(self, app: str = "app"):
+        """Override. Add bakeries for dynamic HTML pages of this app.
+
+        :param app: (str) Un-used parameter.
+
+        """
+        logging.debug("HTTPD server initialization...")
+
         # The "ResponseRecipe" is the interface between the HTTPD server (frontend)
         # and your API - Application Programming Interface (backend).
-        # In the sample, the response is generating random colors/text.
-        bakery = TestsResponseRecipe()
-        self._pages[bakery.page()] = bakery
-        self._default = bakery.page()
-        # other responses to create other html contents can be added here.
+        # In this sample, the response is generating random colors/text; it's
+        # a fully dynamic content.
+        app_bakery = SampleAppResponse()
+        self._pages[app_bakery.page()] = app_bakery
+        self._default = app_bakery.page()
+
+        # Other pages have a static body main, stored into a file. So, they are
+        # based on a different response system.
+        data = WebSiteData(os.path.join("samples", "website.json"))
+
+        # Create the dynamic page for each page of data
+        tree = HTMLTree("sample")
+        for page_name in data:
+            page_path = os.path.join("samples", data.filename(page_name))
+            bakery = SampleWebResponse(page_path, tree)
+            self._pages[page_name] = bakery
 
 # ---------------------------------------------------------------------------
 
 
-location = "localhost"
-port = 8080
-server_address = (location, port)
-server = TestServer(server_address, sppasHTTPDHandler)
-server.create_pages()
-
-url = "http://{:s}:{:d}/".format(location, port)
+app = WebSiteApplication(AppServer)
+url = app.client_url()
 webbrowser.open_new_tab(url)
 logging.info(url)
-
-try:
-    # Start the main loop of the HTTP server
-    server.serve_forever()
-    # Notice that the sppasHTTPDHandler can shut down the server --
-    # it is allowed because it's a local application, not a web-service.
-except KeyboardInterrupt:
-    # Stop the server
-    server.shutdown()
-
-
+app.run()
+# Stop the server app with CTRL+C

@@ -40,7 +40,7 @@
 
 import unittest
 
-from whakerpy.httpd.hstatus import sppasHTTPDValueError
+from whakerpy.httpd.hstatus import HTTPDValueError
 from whakerpy.httpd.hstatus import sppasHTTPDStatus
 
 # ---------------------------------------------------------------------------
@@ -50,9 +50,9 @@ class TestHTTPDExceptions(unittest.TestCase):
 
     def test_status_value_errors(self):
         try:
-            raise sppasHTTPDValueError("value")
+            raise HTTPDValueError("value")
         except ValueError as e:
-            self.assertTrue(isinstance(e, sppasHTTPDValueError))
+            self.assertTrue(isinstance(e, HTTPDValueError))
             self.assertTrue("0377" in str(e))
             self.assertEqual(377, e.status)
 
@@ -67,9 +67,9 @@ class TestHTTPDStatus(unittest.TestCase):
         self.assertEqual(200, sppasHTTPDStatus.check("200"))
 
         # Check fail
-        with self.assertRaises(sppasHTTPDValueError):
+        with self.assertRaises(HTTPDValueError):
             sppasHTTPDStatus.check("AZERTY")
-        with self.assertRaises(sppasHTTPDValueError):
+        with self.assertRaises(HTTPDValueError):
             sppasHTTPDStatus.check(84)
 
     def test_init(self):
@@ -84,9 +84,9 @@ class TestHTTPDStatus(unittest.TestCase):
         self.assertEqual(404, s)
         self.assertEqual(404, s.code)
 
-        with self.assertRaises(sppasHTTPDValueError):
+        with self.assertRaises(HTTPDValueError):
             s.code = "azerty"
-        with self.assertRaises(sppasHTTPDValueError):
+        with self.assertRaises(HTTPDValueError):
             s.code = 1974
 
     def test_str(self):

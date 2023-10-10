@@ -46,8 +46,10 @@ import time
 
 from whakerpy.htmlmaker import HTMLNode
 from whakerpy.htmlmaker import HTMLButtonNode
-from whakerpy.httpd import sppasHTTPDStatus
-from whakerpy.httpd.hresponse import BaseResponseRecipe
+from whakerpy.htmlmaker import HTMLNavNode
+from whakerpy.httpd import HTTPDStatus
+from whakerpy.httpd import BaseResponseRecipe   # useful for an application
+from whakerpy.website import WebSiteResponse    # useful for a website
 
 # ---------------------------------------------------------------------------
 
@@ -82,16 +84,52 @@ window.onload = setTimeout(() => {
 # ---------------------------------------------------------------------------
 
 
-class TestsResponseRecipe(BaseResponseRecipe):
+class SampleNavNode(HTMLNavNode):
+
+    def __init__(self, parent):
+        """Create the nav node.
+
+        """
+        super(SampleNavNode, self).__init__(parent)
+        ul = HTMLNode(self.identifier, "nav_ul", "ul")
+        self.append_child(ul)
+
+        for href in ("whakerpy.html", "other.html", "any.html"):
+            li = HTMLNode(ul.identifier, None, "li")
+            a = HTMLNode(li.identifier, None, "a", attributes={"href": href, "role": "button"})
+            a.set_value(href)
+            li.append_child(a)
+            ul.append_child(li)
+
+# ---------------------------------------------------------------------------
+
+
+class SampleWebResponse(WebSiteResponse):
+
+    def __init__(self, name="index.html", tree=None):
+        super(SampleWebResponse, self).__init__(name, tree)
+
+    # -----------------------------------------------------------------------
+
+    def create(self) -> None:
+        """Override. Create the fixed page content in HTML.
+
+        """
+        self._htree.set_body_nav(SampleNavNode(self._htree.body_main.identifier))
+
+# ---------------------------------------------------------------------------
+
+
+class SampleAppResponse(BaseResponseRecipe):
 
     def __init__(self):
-        super(TestsResponseRecipe, self).__init__(name="WhakerPy Test")
+        super(SampleAppResponse, self).__init__(name="WhakerPy Test1")
 
         # Define this HTMLTree identifier
         self._htree.add_html_attribute("id", "whakerpy")
 
         # Create the dynamic response content. That's why we are here!
-        self._status = sppasHTTPDStatus()
+        self._status = HTTPDStatus()
         self._bake()
 
     # -----------------------------------------------------------------------
@@ -123,6 +161,9 @@ class TestsResponseRecipe(BaseResponseRecipe):
                       value="The text is changing color without refreshing the page!")
         self._htree.body_header.append_child(_p)
 
+        # Replace the nav
+        self._htree.set_body_nav(SampleNavNode(self._htree.body_main.identifier))
+
         # Add an element in the footer
         _p = HTMLNode(self._htree.body_footer.identifier, None, "p",
                        value="Copyleft 2023 WhakerPy")
@@ -140,7 +181,7 @@ class TestsResponseRecipe(BaseResponseRecipe):
         :return: (bool) True if the whole page must be re-created.
 
         """
-        logging.debug(" >>>>> Page WhakerPy -- Process events: {} <<<<<< ".format(events))
+        logging.debug(" >>>>> Page whakerpy.html -- Process events: {} <<<<<< ".format(events))
         self._status.code = 200
         dirty = False
 
@@ -178,7 +219,7 @@ class TestsResponseRecipe(BaseResponseRecipe):
 
         """
         self.comment("Body content")
-        text = TestsResponseRecipe.__generate_random_text()
+        text = SampleAppResponse.__generate_random_text()
         logging.debug(" -> new dynamic content: {:s}".format(text))
 
         # The easiest way to create an element and add it into the body->main

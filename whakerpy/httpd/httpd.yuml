@@ -21,7 +21,7 @@
 // Class to bake an HTML response page.
 // Intent to be used as base class for any html page.
 [BaseResponseRecipe|+name:str;+page:str;+status:int;+tree:HTMLTree|+bake(events);-process_events(events);]
-[sppasHTTPDStatus|+code:int;]
+[HTTPDStatus|+code:int;]
 [sppasBaseHTTPDServer|-pages:dict;-default:str;]
 [sppasHTTPDHandler]
 
@@ -30,5 +30,5 @@
 // -------------------
 
 [BaseResponseRecipe]-1>[HTMLTree]
-[BaseResponseRecipe]-1>[sppasHTTPDStatus]
+[BaseResponseRecipe]-1>[HTTPDStatus]
 

@@ -45,7 +45,7 @@ from whakerpy.htmlmaker import HTMLComment
 from whakerpy.htmlmaker import HTMLNode
 from whakerpy.htmlmaker import HTMLTree
 
-from .hstatus import sppasHTTPDStatus
+from .hstatus import HTTPDStatus
 
 # ---------------------------------------------------------------------------
 
@@ -74,7 +74,7 @@ function notify_event(action_btn) {
 
 
 class BaseResponseRecipe(object):
-    """Base class to create an HTML response file.
+    """Base class to create an HTML response content.
 
     """
 
@@ -91,7 +91,7 @@ class BaseResponseRecipe(object):
         """
         # Define members with default values
         self._name = name
-        self._status = sppasHTTPDStatus()
+        self._status = HTTPDStatus()
         # Data to communicate with client (javascript side)
         self._data = dict()
 
@@ -131,7 +131,7 @@ class BaseResponseRecipe(object):
         return self._name
 
     @property
-    def status(self) -> sppasHTTPDStatus:
+    def status(self) -> HTTPDStatus:
         return self._status
 
     # -----------------------------------------------------------------------
@@ -186,9 +186,7 @@ class BaseResponseRecipe(object):
 
         """
         # Process the given events with the application
-        dirty = False
-        if len(events) > 0:
-            dirty = self._process_events(events)
+        dirty = self._process_events(events)
 
         # Re-create the page content only if something changed during
         # processing the events.

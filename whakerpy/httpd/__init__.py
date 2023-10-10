@@ -39,15 +39,15 @@
 
 """
 
-from .hstatus import sppasHTTPDValueError
-from .hstatus import sppasHTTPDStatus
-from .handler import sppasHTTPDHandler
-from .hserver import sppasBaseHTTPDServer
+from .hstatus import HTTPDValueError
+from .hstatus import HTTPDStatus
+from .handler import HTTPDHandler
+from .hserver import BaseHTTPDServer
 from .hresponse import BaseResponseRecipe
 
 __all__ = (
     "BaseResponseRecipe",
-    "sppasHTTPDStatus",
-    "sppasHTTPDValueError",
-    "sppasHTTPDHandler",
-    "sppasBaseHTTPDServer")
+    "HTTPDStatus",
+    "HTTPDValueError",
+    "HTTPDHandler",
+    "BaseHTTPDServer")

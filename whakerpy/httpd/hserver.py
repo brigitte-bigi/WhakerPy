@@ -40,20 +40,20 @@
 
 import http.server
 
-from .hstatus import sppasHTTPDStatus
+from .hstatus import HTTPDStatus
 from .hresponse import BaseResponseRecipe
 
 # ---------------------------------------------------------------------------
 
 
-class sppasBaseHTTPDServer(http.server.ThreadingHTTPServer):
+class BaseHTTPDServer(http.server.ThreadingHTTPServer):
     """A base class for any custom HTTPD server.
 
      It adds a dictionary of the HTML page's bakery this server can handle
      and the name of the default page.
 
      :Example:
-     >>> s = sppasBaseHTTPDServer(server_address, app_handler)
+     >>> s = BaseHTTPDServer(server_address, app_handler)
      >>> s.create_pages()
 
     """
@@ -62,7 +62,7 @@ class sppasBaseHTTPDServer(http.server.ThreadingHTTPServer):
         """Create the server instance and add custom members.
 
         """
-        super(sppasBaseHTTPDServer, self).__init__(*args, **kwargs)
+        super(BaseHTTPDServer, self).__init__(*args, **kwargs)
         self._pages = dict()
         self._default = "index.html"
 
@@ -73,20 +73,22 @@ class sppasBaseHTTPDServer(http.server.ThreadingHTTPServer):
 
     # -----------------------------------------------------------------------
 
-    def create_pages(self, app_type="app"):
+    def create_pages(self, app: str = "app"):
         """To be overridden. Add bakeries for dynamic HTML pages.
 
         The created pages are instances of the BaseResponseRecipe class.
+        Below is an example on how to override this method:
 
-        :param app_type: (str)
+        :example:
+        if app == "main":
+            self._pages["index.html"] = BaseResponseRecipe("index.html", HTMLTree("Index"))
+            self._pages["foo.html"] = WebResponseRecipe("foo.html", HTMLTree("Foo"))
+        elif app == "test":
+            self._pages["test.html"] = BaseResponseRecipe("test.html", HTMLTree("test"))
+
+        :param app: (str) Any string definition for custom use
 
         """
-        # Example:
-        # if app_type == "app":
-        #   self._pages["index.html"] = BaseResponseRecipe("index.html", HTMLTree("Index"))
-        #   self._pages["foo.html"] = BaseResponseRecipe("foo.html", HTMLTree("Foo"))
-        # elif app_type == "test":
-        #       self._pages["test.html"] = BaseResponseRecipe("test.html", HTMLTree("test"))
         raise NotImplementedError
 
     # -----------------------------------------------------------------------
@@ -102,7 +104,7 @@ class sppasBaseHTTPDServer(http.server.ThreadingHTTPServer):
         :param is_json_data_to_return: (bool) False by default - Boolean
         value to know if the server return json data or html page
 
-        :return: tuple(bytes, sppasHTTPDStatus)
+        :return: tuple(bytes, HTTPDStatus)
 
         """
         # Get the response from the appropriate bakery.
@@ -118,7 +120,7 @@ class sppasBaseHTTPDServer(http.server.ThreadingHTTPServer):
                 return content, bakery.status
 
         # or not!
-        status = sppasHTTPDStatus()
+        status = HTTPDStatus()
         status.code = 404
         return bytes(" ", "utf-8"), status
 

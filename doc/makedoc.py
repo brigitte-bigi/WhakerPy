@@ -204,8 +204,8 @@ if __name__ == "__main__":
         (HTMLTree, "tree.html")
         ]
     pack2 = [
-        (sppasHTTPDHandler, "handler.html"),
-        (sppasBaseHTTPDServer, "server.html"),
+        (HTTPDHandler, "handler.html"),
+        (BaseHTTPDServer, "server.html"),
         (BaseResponseRecipe, "response.html")
     ]
     pages = {

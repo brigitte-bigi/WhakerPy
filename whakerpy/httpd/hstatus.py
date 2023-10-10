@@ -44,7 +44,7 @@ from whakerpy.messages import error
 # -----------------------------------------------------------------------
 
 
-class sppasHTTPDValueError(ValueError):
+class HTTPDValueError(ValueError):
     """:ERROR 0377:.
 
     Invalid HTTPD status code value '{!s:s}'.
@@ -66,7 +66,7 @@ class sppasHTTPDValueError(ValueError):
 # ---------------------------------------------------------------------------
 
 
-class sppasHTTPDStatus(object):
+class HTTPDStatus(object):
     """A status code value of an HTTPD server.
 
     HTTPD status codes are issued by a server in response to a client's
@@ -166,10 +166,10 @@ class sppasHTTPDStatus(object):
         try:
             value = int(value)
         except ValueError:
-            raise sppasHTTPDValueError(value)
+            raise HTTPDValueError(value)
 
-        if value not in sppasHTTPDStatus.HTTPD_STATUS.keys():
-            raise sppasHTTPDValueError(value)
+        if value not in HTTPDStatus.HTTPD_STATUS.keys():
+            raise HTTPDValueError(value)
 
         return value
 
@@ -211,7 +211,7 @@ class sppasHTTPDStatus(object):
     # -----------------------------------------------------------------------
 
     def __repr__(self):
-        return "{:d}: {:s}".format(self.__scode, sppasHTTPDStatus.HTTPD_STATUS[self.__scode])
+        return "{:d}: {:s}".format(self.__scode, HTTPDStatus.HTTPD_STATUS[self.__scode])
 
     # -----------------------------------------------------------------------
 
