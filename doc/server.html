@@ -40,10 +40,10 @@
             <p class="center">WhakerPy tool documentation</p>
         </h1>
 
-<section id="#sppasBaseHTTPDServer">
-<h2>Class sppasBaseHTTPDServer</h2>
+<section id="#BaseHTTPDServer">
+<h2>Class BaseHTTPDServer</h2>
 
-<h3 id="#description_sppasBaseHTTPDServer">Description</h3>
+<h3 id="#description_BaseHTTPDServer">Description</h3>
     <article class="docstring">
 <p><em>A base class for any custom HTTPD server.</em></p>
 
@@ -52,12 +52,12 @@ and the name of the default page.</p>
 
 <h6>Example</h6>
 
-<pre><code>&gt;&gt;&gt; s = sppasBaseHTTPDServer(server_address, app_handler)
+<pre><code>&gt;&gt;&gt; s = BaseHTTPDServer(server_address, app_handler)
 &gt;&gt;&gt; s.create_pages()
 </code></pre>
 
     </article>
-<h3 id="#constructor_sppasBaseHTTPDServer">Constructor</h3>
+<h3 id="#constructor_BaseHTTPDServer">Constructor</h3>
     <article class="docstring">
 <p><em>Create the server instance and add custom members.</em></p>
 
@@ -66,16 +66,16 @@ and the name of the default page.</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="10723_collapse_id" aria-expanded="false" aria-controls="10723_expand_id">
+             <button class="rise-trigger" id="81437_collapse_id" aria-expanded="false" aria-controls="81437_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="10723_expand_id" aria-labelledby="10723_collapse_id">
+         <main class="rise-main" id="81437_expand_id" aria-labelledby="81437_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the server instance and add custom members.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">super</span><span class="p">(</span><span class="n">sppasBaseHTTPDServer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">BaseHTTPDServer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_default</span> <span class="o">=</span> <span class="s1">&#39;index.html&#39;</span>
 </code></pre></div>
@@ -84,17 +84,17 @@ View Source
     </article>
 
 
-<h3 id="#public_fct_sppasBaseHTTPDServer">Public functions</h3>
+<h3 id="#public_fct_BaseHTTPDServer">Public functions</h3>
 <section>
 <h4>default</h4>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="36336_collapse_id" aria-expanded="false" aria-controls="36336_expand_id">
+             <button class="rise-trigger" id="14178_collapse_id" aria-expanded="false" aria-controls="14178_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="36336_expand_id" aria-labelledby="36336_collapse_id">
+         <main class="rise-main" id="14178_expand_id" aria-labelledby="14178_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span>
 </code></pre></div>
@@ -110,12 +110,22 @@ View Source
     <article class="docstring">
 <p><em>To be overridden. Add bakeries for dynamic HTML pages.</em></p>
 
-<p>The created pages are instances of the BaseResponseRecipe class.</p>
+<p>The created pages are instances of the BaseResponseRecipe class.
+Below is an example on how to override this method:</p>
+
+<h5>Example</h5>
+
+<pre><code>&gt;&gt;&gt; if app == "main":
+&gt;&gt;&gt; self._pages["index.html"] = BaseResponseRecipe("index.html", HTMLTree("Index"))
+&gt;&gt;&gt; self._pages["foo.html"] = WebResponseRecipe("foo.html", HTMLTree("Foo"))
+&gt;&gt;&gt; elif app == "test":
+&gt;&gt;&gt; self._pages["test.html"] = BaseResponseRecipe("test.html", HTMLTree("test"))
+</code></pre>
 
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>app_type</strong>: (<em>str</em>)</li>
+<li><strong>app</strong>: (<em>str</em>) Any string definition for custom use</li>
 </ul>
 
     </article>
@@ -123,17 +133,25 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="92253_collapse_id" aria-expanded="false" aria-controls="92253_expand_id">
+             <button class="rise-trigger" id="91896_collapse_id" aria-expanded="false" aria-controls="91896_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="92253_expand_id" aria-labelledby="92253_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_type</span><span class="o">=</span><span class="s1">&#39;app&#39;</span><span class="p">):</span>
+         <main class="rise-main" id="91896_expand_id" aria-labelledby="91896_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;app&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;To be overridden. Add bakeries for dynamic HTML pages.</span>
 
 <span class="sd">        The created pages are instances of the BaseResponseRecipe class.</span>
+<span class="sd">        Below is an example on how to override this method:</span>
 
-<span class="sd">        :param app_type: (str)</span>
+<span class="sd">        :example:</span>
+<span class="sd">        if app == &quot;main&quot;:</span>
+<span class="sd">            self._pages[&quot;index.html&quot;] = BaseResponseRecipe(&quot;index.html&quot;, HTMLTree(&quot;Index&quot;))</span>
+<span class="sd">            self._pages[&quot;foo.html&quot;] = WebResponseRecipe(&quot;foo.html&quot;, HTMLTree(&quot;Foo&quot;))</span>
+<span class="sd">        elif app == &quot;test&quot;:</span>
+<span class="sd">            self._pages[&quot;test.html&quot;] = BaseResponseRecipe(&quot;test.html&quot;, HTMLTree(&quot;test&quot;))</span>
+
+<span class="sd">        :param app: (str) Any string definition for custom use</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
@@ -164,7 +182,7 @@ take the events into account when baking the HTML page content.</p>
 <h5>Returns</h5>
 
 <ul>
-<li>tuple(<em>bytes</em>, sppasHTTPDStatus)</li>
+<li>tuple(<em>bytes</em>, HTTPDStatus)</li>
 </ul>
 
     </article>
@@ -172,11 +190,11 @@ take the events into account when baking the HTML page content.</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="50778_collapse_id" aria-expanded="false" aria-controls="50778_expand_id">
+             <button class="rise-trigger" id="81258_collapse_id" aria-expanded="false" aria-controls="81258_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="50778_expand_id" aria-labelledby="50778_collapse_id">
+         <main class="rise-main" id="81258_expand_id" aria-labelledby="81258_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">page_bakery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">is_json_data_to_return</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the page content and response status.</span>
 
@@ -188,7 +206,7 @@ View Source
 <span class="sd">        :param is_json_data_to_return: (bool) False by default - Boolean</span>
 <span class="sd">        value to know if the server return json data or html page</span>
 
-<span class="sd">        :return: tuple(bytes, sppasHTTPDStatus)</span>
+<span class="sd">        :return: tuple(bytes, HTTPDStatus)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
@@ -198,7 +216,7 @@ View Source
             <span class="k">if</span> <span class="n">is_json_data_to_return</span><span class="p">:</span>
                 <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">bakery</span><span class="o">.</span><span class="n">get_json_data</span><span class="p">(),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">bakery</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="n">sppasHTTPDStatus</span><span class="p">()</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">()</span>
     <span class="n">status</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="mi">404</span>
     <span class="k">return</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">status</span><span class="p">)</span>
 </code></pre></div>

@@ -75,6 +75,7 @@ standard are verified.
 
 """
 
+from .hconsts import HTML_EMPTY_TAGS
 from .hconsts import HTML_TAGS
 from .hconsts import HTML_GLOBAL_ATTR
 from .hconsts import HTML_VISIBLE_ATTR
@@ -94,9 +95,11 @@ from .basenodes import BaseNode
 from .basenodes import Doctype
 from .basenodes import HTMLComment
 
+from .emptynodes import BaseTagNode
 from .emptynodes import EmptyNode
 from .emptynodes import HTMLImage
 from .emptynodes import HTMLHr
+from .emptynodes import HTMLBr
 
 from .htmnodes import HTMLNode
 from .htmnodes import HTMLInputText
@@ -113,6 +116,7 @@ from .treeelts import HTMLScriptNode
 from .treenode import HTMLTree
 
 __all__ = (
+    "HTML_EMPTY_TAGS",
     "HTML_TAGS",
     "HTML_VISIBLE_ATTR",
     "HTML_GLOBAL_ATTR",
@@ -130,10 +134,12 @@ __all__ = (
     "HTMLComment",
     "HTMLImage",
     "HTMLHr",
+    "HTMLBr",
     "HTMLInputText",
     "HTMLRadioBox",
     "HTMLButtonNode",
     "BaseNode",
+    "BaseTagNode",
     "EmptyNode",
     "HTMLNode",
     "HTMLHeadNode",

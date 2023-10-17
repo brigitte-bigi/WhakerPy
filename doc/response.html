@@ -45,7 +45,7 @@
 
 <h3 id="#description_BaseResponseRecipe">Description</h3>
     <article class="docstring">
-<p><em>Base class to create an HTML response file.</em></p>
+<p><em>Base class to create an HTML response content.</em></p>
 
     </article>
 <h3 id="#constructor_BaseResponseRecipe">Constructor</h3>
@@ -64,17 +64,17 @@
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="50011_collapse_id" aria-expanded="false" aria-controls="50011_expand_id">
+             <button class="rise-trigger" id="53940_collapse_id" aria-expanded="false" aria-controls="53940_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="50011_expand_id" aria-labelledby="50011_collapse_id">
+         <main class="rise-main" id="53940_expand_id" aria-labelledby="53940_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Undefined&#39;</span><span class="p">,</span> <span class="n">tree</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new ResponseRecipe instance with a default response.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">sppasHTTPDStatus</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">tree</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">HTMLTree</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span> <span class="o">=</span> <span class="n">tree</span>
@@ -105,11 +105,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="34364_collapse_id" aria-expanded="false" aria-controls="34364_expand_id">
+             <button class="rise-trigger" id="22266_collapse_id" aria-expanded="false" aria-controls="22266_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="34364_expand_id" aria-labelledby="34364_collapse_id">
+         <main class="rise-main" id="22266_expand_id" aria-labelledby="22266_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">page</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML page name. To be overridden.&quot;&quot;&quot;</span>
@@ -138,11 +138,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="23062_collapse_id" aria-expanded="false" aria-controls="23062_expand_id">
+             <button class="rise-trigger" id="76907_collapse_id" aria-expanded="false" aria-controls="76907_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="23062_expand_id" aria-labelledby="23062_collapse_id">
+         <main class="rise-main" id="76907_expand_id" aria-labelledby="76907_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_json_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets the current data to send to the client following this request.</span>
 
@@ -162,11 +162,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="80021_collapse_id" aria-expanded="false" aria-controls="80021_expand_id">
+             <button class="rise-trigger" id="72296_collapse_id" aria-expanded="false" aria-controls="72296_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="80021_expand_id" aria-labelledby="80021_collapse_id">
+         <main class="rise-main" id="72296_expand_id" aria-labelledby="72296_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
@@ -182,13 +182,13 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="56730_collapse_id" aria-expanded="false" aria-controls="56730_expand_id">
+             <button class="rise-trigger" id="27037_collapse_id" aria-expanded="false" aria-controls="27037_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="56730_expand_id" aria-labelledby="56730_collapse_id">
+         <main class="rise-main" id="27037_expand_id" aria-labelledby="27037_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
-<span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sppasHTTPDStatus</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTTPDStatus</span><span class="p">:</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span>
 </code></pre></div>
 
@@ -220,11 +220,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="72491_collapse_id" aria-expanded="false" aria-controls="72491_expand_id">
+             <button class="rise-trigger" id="58700_collapse_id" aria-expanded="false" aria-controls="58700_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="72491_expand_id" aria-labelledby="72491_collapse_id">
+         <main class="rise-main" id="58700_expand_id" aria-labelledby="58700_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLComment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a comment to the body-&gt;main.</span>
 
@@ -265,11 +265,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="85363_collapse_id" aria-expanded="false" aria-controls="85363_expand_id">
+             <button class="rise-trigger" id="70207_collapse_id" aria-expanded="false" aria-controls="70207_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="85363_expand_id" aria-labelledby="85363_collapse_id">
+         <main class="rise-main" id="70207_expand_id" aria-labelledby="70207_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">ident</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">class_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLNode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add an element node to the body-&gt;main.</span>
 
@@ -301,11 +301,11 @@ that won't be invalidated when baking.</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="49245_collapse_id" aria-expanded="false" aria-controls="49245_expand_id">
+             <button class="rise-trigger" id="77833_collapse_id" aria-expanded="false" aria-controls="77833_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="49245_expand_id" aria-labelledby="49245_collapse_id">
+         <main class="rise-main" id="77833_expand_id" aria-labelledby="77833_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the fixed page content in HTML. Intended to be overridden.</span>
 
@@ -342,11 +342,11 @@ are the information the handler received (commonly with POST).</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="76073_collapse_id" aria-expanded="false" aria-controls="76073_expand_id">
+             <button class="rise-trigger" id="93686_collapse_id" aria-expanded="false" aria-controls="93686_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="76073_expand_id" aria-labelledby="76073_collapse_id">
+         <main class="rise-main" id="93686_expand_id" aria-labelledby="93686_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">bake</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML response after processing the events.</span>
 
@@ -357,9 +357,7 @@ View Source
 <span class="sd">        :param events: (dict) The requested events to be processed</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="n">dirty</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">dirty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_events</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+    <span class="n">dirty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_events</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">dirty</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_invalidate</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bake</span><span class="p">()</span>
@@ -400,11 +398,11 @@ deprecated content (<em>invalidate) and re-generate a new one (</em>bake).</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="26716_collapse_id" aria-expanded="false" aria-controls="26716_expand_id">
+             <button class="rise-trigger" id="42195_collapse_id" aria-expanded="false" aria-controls="42195_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="26716_expand_id" aria-labelledby="26716_collapse_id">
+         <main class="rise-main" id="42195_expand_id" aria-labelledby="42195_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_process_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the given events.</span>
 
@@ -442,11 +440,11 @@ when baking.</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="80936_collapse_id" aria-expanded="false" aria-controls="80936_expand_id">
+             <button class="rise-trigger" id="37015_collapse_id" aria-expanded="false" aria-controls="37015_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="80936_expand_id" aria-labelledby="80936_collapse_id">
+         <main class="rise-main" id="37015_expand_id" aria-labelledby="37015_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_invalidate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove children nodes of the tree. Intended to be overridden.</span>
 
@@ -480,11 +478,11 @@ should not change the content created by the method create().</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="25555_collapse_id" aria-expanded="false" aria-controls="25555_expand_id">
+             <button class="rise-trigger" id="93937_collapse_id" aria-expanded="false" aria-controls="93937_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="25555_expand_id" aria-labelledby="25555_collapse_id">
+         <main class="rise-main" id="93937_expand_id" aria-labelledby="93937_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_bake</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fill in the HTML page generator. Intended to be overridden.</span>
 

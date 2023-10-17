@@ -40,10 +40,10 @@
             <p class="center">WhakerPy tool documentation</p>
         </h1>
 
-<section id="#sppasHTTPDHandler">
-<h2>Class sppasHTTPDHandler</h2>
+<section id="#HTTPDHandler">
+<h2>Class HTTPDHandler</h2>
 
-<h3 id="#description_sppasHTTPDHandler">Description</h3>
+<h3 id="#description_HTTPDHandler">Description</h3>
     <article class="docstring">
 <p><em>Web-based application HTTPD handler.</em></p>
 
@@ -74,14 +74,14 @@ with any other http.server.ThreadingHTTPServer.</p>
 </ul>
 
     </article>
-<h3 id="#constructor_sppasHTTPDHandler">Constructor</h3>
+<h3 id="#constructor_HTTPDHandler">Constructor</h3>
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="16787_collapse_id" aria-expanded="false" aria-controls="16787_expand_id">
+             <button class="rise-trigger" id="58237_collapse_id" aria-expanded="false" aria-controls="58237_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="16787_expand_id" aria-labelledby="16787_collapse_id">
+         <main class="rise-main" id="58237_expand_id" aria-labelledby="58237_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">client_address</span><span class="p">,</span> <span class="n">server</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">client_address</span> <span class="o">=</span> <span class="n">client_address</span>
@@ -97,7 +97,7 @@ View Source
     </article>
 
 
-<h3 id="#public_fct_sppasHTTPDHandler">Public functions</h3>
+<h3 id="#public_fct_HTTPDHandler">Public functions</h3>
 <section>
 <h4>do_HEAD</h4>
 
@@ -109,11 +109,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="79390_collapse_id" aria-expanded="false" aria-controls="79390_expand_id">
+             <button class="rise-trigger" id="18557_collapse_id" aria-expanded="false" aria-controls="18557_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="79390_expand_id" aria-labelledby="79390_collapse_id">
+         <main class="rise-main" id="18557_expand_id" aria-labelledby="18557_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_HEAD</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a HEAD request.&quot;&quot;&quot;</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;HEAD -- requested: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
@@ -136,11 +136,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="93443_collapse_id" aria-expanded="false" aria-controls="93443_expand_id">
+             <button class="rise-trigger" id="72945_collapse_id" aria-expanded="false" aria-controls="72945_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="93443_expand_id" aria-labelledby="93443_collapse_id">
+         <main class="rise-main" id="72945_expand_id" aria-labelledby="72945_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a GET request.</span>
 
@@ -176,11 +176,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="19632_collapse_id" aria-expanded="false" aria-controls="19632_expand_id">
+             <button class="rise-trigger" id="33318_collapse_id" aria-expanded="false" aria-controls="33318_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="19632_expand_id" aria-labelledby="19632_collapse_id">
+         <main class="rise-main" id="33318_expand_id" aria-labelledby="33318_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_POST</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a POST request.</span>
 
@@ -237,11 +237,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="79202_collapse_id" aria-expanded="false" aria-controls="79202_expand_id">
+             <button class="rise-trigger" id="28591_collapse_id" aria-expanded="false" aria-controls="28591_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="79202_expand_id" aria-labelledby="79202_collapse_id">
+         <main class="rise-main" id="28591_expand_id" aria-labelledby="28591_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">log_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. For a quiet handler pls!!!.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
@@ -252,7 +252,7 @@ View Source
 
 
 </section>
-<h3 id="#private_fct_sppasHTTPDHandler">Private functions</h3>
+<h3 id="#private_fct_HTTPDHandler">Private functions</h3>
 <section>
 <h4>_set_headers</h4>
 
@@ -274,11 +274,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="95377_collapse_id" aria-expanded="false" aria-controls="95377_expand_id">
+             <button class="rise-trigger" id="79626_collapse_id" aria-expanded="false" aria-controls="79626_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="95377_expand_id" aria-labelledby="95377_collapse_id">
+         <main class="rise-main" id="79626_expand_id" aria-labelledby="79626_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_set_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the HTTPD response headers.</span>
 
@@ -286,7 +286,7 @@ View Source
 <span class="sd">        :raises: sppasHTTPDValueError</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="n">sppasHTTPDStatus</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
 </code></pre></div>
@@ -311,7 +311,7 @@ View Source
 <h5>Returns</h5>
 
 <ul>
-<li>tuple(<em>bytes</em>, sppasHTTPDStatus)</li>
+<li>tuple(<em>bytes</em>, HTTPDStatus)</li>
 </ul>
 
     </article>
@@ -319,29 +319,29 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="39166_collapse_id" aria-expanded="false" aria-controls="39166_expand_id">
+             <button class="rise-trigger" id="75059_collapse_id" aria-expanded="false" aria-controls="75059_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="39166_expand_id" aria-labelledby="39166_collapse_id">
+         <main class="rise-main" id="75059_expand_id" aria-labelledby="75059_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the file content and the corresponding status.</span>
 
 <span class="sd">        :param filename: (str)</span>
-<span class="sd">        :return: tuple(bytes, sppasHTTPDStatus)</span>
+<span class="sd">        :return: tuple(bytes, HTTPDStatus)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">content</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">sppasHTTPDStatus</span><span class="p">())</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">HTTPDStatus</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="s2">&quot;&lt;html&gt;&lt;body&gt;Error 403: Forbidden.The client can&#39;t have access to the requested </span><span class="si">{:s}</span><span class="s2">.&lt;/body&gt;&lt;/html&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-            <span class="n">status</span> <span class="o">=</span> <span class="n">sppasHTTPDStatus</span><span class="p">()</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">()</span>
             <span class="n">status</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="mi">403</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
     <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&lt;body&gt;Error 404: Not found.The server does not have the requested </span><span class="si">{:s}</span><span class="s1">.&lt;/body&gt;&lt;/html&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="n">sppasHTTPDStatus</span><span class="p">()</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">()</span>
     <span class="n">status</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="mi">404</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
 </code></pre></div>
@@ -374,11 +374,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="15240_collapse_id" aria-expanded="false" aria-controls="15240_expand_id">
+             <button class="rise-trigger" id="11535_collapse_id" aria-expanded="false" aria-controls="11535_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="15240_expand_id" aria-labelledby="15240_collapse_id">
+         <main class="rise-main" id="11535_expand_id" aria-labelledby="11535_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_json_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the events and return the data and the status.</span>
 
@@ -418,7 +418,7 @@ View Source
 <h5>Returns</h5>
 
 <ul>
-<li>tuple(<em>bytes</em>, sppasHTTPDStatus)</li>
+<li>tuple(<em>bytes</em>, HTTPDStatus)</li>
 </ul>
 
     </article>
@@ -426,16 +426,16 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="65428_collapse_id" aria-expanded="false" aria-controls="65428_expand_id">
+             <button class="rise-trigger" id="65203_collapse_id" aria-expanded="false" aria-controls="65203_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="65428_expand_id" aria-labelledby="65428_collapse_id">
+         <main class="rise-main" id="65203_expand_id" aria-labelledby="65203_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the events and return the html page content and status.</span>
 
 <span class="sd">        :param events: (dict) key=event name, value=event value</span>
-<span class="sd">        :return: tuple(bytes, sppasHTTPDStatus)</span>
+<span class="sd">        :return: tuple(bytes, HTTPDStatus)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="s1">&#39;page_bakery&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
@@ -470,11 +470,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="39176_collapse_id" aria-expanded="false" aria-controls="39176_expand_id">
+             <button class="rise-trigger" id="96167_collapse_id" aria-expanded="false" aria-controls="96167_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="39176_expand_id" aria-labelledby="39176_collapse_id">
+         <main class="rise-main" id="96167_expand_id" aria-labelledby="96167_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make the appropriate HTTPD response.</span>
 

@@ -199,6 +199,7 @@ if __name__ == "__main__":
     # List of HTML pages dynamically created by Clamming
     pack1 = [
         (BaseNode, "basenode.html"),
+        (BaseTagNode, "tagnode.html"),
         (EmptyNode, "emptynode.html"),
         (HTMLNode, "node.html"),
         (HTMLTree, "tree.html")
