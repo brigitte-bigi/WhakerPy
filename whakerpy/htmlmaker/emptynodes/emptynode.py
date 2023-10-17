@@ -41,7 +41,7 @@
 from ..hexc import NodeAttributeError
 from ..hexc import NodeTagError
 from ..basenodes import BaseNode
-from ..hconsts import HTML_TAGS
+from ..hconsts import HTML_EMPTY_TAGS
 from ..hconsts import HTML_TAG_ATTR
 from ..hconsts import HTML_GLOBAL_ATTR
 from ..hconsts import HTML_VISIBLE_ATTR
@@ -50,8 +50,8 @@ from ..hconsts import ARIA_TAG_ATTR
 # ---------------------------------------------------------------------------
 
 
-class EmptyNode(BaseNode):
-    """A node to represents an HTML empty element.
+class BaseTagNode(BaseNode):
+    """A node to represents an HTML element with attributes.
 
     An HTML element without content is called an empty node. It has a
     start tag but neither a content nor an end tag.
@@ -80,12 +80,10 @@ class EmptyNode(BaseNode):
         :raises: TypeError:
 
         """
-        super(EmptyNode, self).__init__(parent, identifier)
+        super(BaseTagNode, self).__init__(parent, identifier)
 
         # The node data: a tag and its attributes
         tag = str(tag)
-        if tag not in HTML_TAGS.keys():
-            raise NodeTagError(tag)
         self.__tag = tag
         self._attributes = dict()
 
@@ -248,3 +246,31 @@ class EmptyNode(BaseNode):
         html += " />\n"
 
         return html
+
+# ---------------------------------------------------------------------------
+
+
+class EmptyNode(BaseTagNode):
+    """A node to represents an HTML empty element.
+
+    An HTML element without content is called an empty node. It has a
+    start tag but neither a content nor an end tag.
+
+    """
+
+    def __init__(self, parent: str, identifier: str, tag: str, attributes: dict = dict()):
+        """Create a new empty node.
+
+        :param parent: (str) Parent identifier
+        :param identifier: (str) This node identifier
+        :param tag: (str) The element tag
+        :param attributes: (dict) key=(str) value=(str or None)
+        :raises: NodeInvalidIdentifierError:
+        :raises: NodeTagError:
+        :raises: TypeError:
+
+        """
+        super(EmptyNode, self).__init__(parent, identifier, tag, attributes)
+        if self.tag not in HTML_EMPTY_TAGS.keys():
+            raise NodeTagError(tag)
+

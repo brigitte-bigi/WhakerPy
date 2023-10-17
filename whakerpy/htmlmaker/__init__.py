@@ -98,10 +98,10 @@ from .emptynodes import EmptyNode
 from .emptynodes import HTMLImage
 from .emptynodes import HTMLHr
 
-from .tagnodes import HTMLNode
-from .tagnodes import HTMLInputText
-from .tagnodes import HTMLRadioBox
-from .tagnodes import HTMLButtonNode
+from .htmnodes import HTMLNode
+from .htmnodes import HTMLInputText
+from .htmnodes import HTMLRadioBox
+from .htmnodes import HTMLButtonNode
 
 from .treeelts import HTMLHeadNode
 from .treeelts import HTMLHeaderNode

@@ -53,8 +53,12 @@ class HTMLImage(EmptyNode):
     is in the list of accepted attributes.
 
     """
-    def __init__(self, parent, identifier, src):
+    def __init__(self, parent: str, identifier: str, src: str):
         """Create an image leaf node.
+
+        :param parent: (str) Identifier of the parent node
+        :param identifier: (str | None) Identifier to assign to the image
+        :param src: (str) Image source relative path
 
         """
         super(HTMLImage, self).__init__(parent, identifier, "img")
@@ -65,21 +69,21 @@ class HTMLImage(EmptyNode):
 
 
 class HTMLHr(EmptyNode):
-    """Represent an horizontal line with <hr> tag.
+    """Represent a horizontal line with &lt;hr&gt; tag.
 
     The &lt;hr&gt; tag only supports the Global Attributes in HTML.
 
     """
 
-    def __init__(self, parent):
-        """Create a node for <hr> tag.
+    def __init__(self, parent: str):
+        """Create a node for &lt;hr&gt; tag.
 
         """
         super(HTMLHr, self).__init__(parent, None, "hr")
 
     # -----------------------------------------------------------------------
 
-    def check_attribute(self, key):
+    def check_attribute(self, key: str) -> str:
         """Override.
 
         :return: key (str)
@@ -96,3 +100,30 @@ class HTMLHr(EmptyNode):
             raise NodeAttributeError(key)
 
         return key
+
+# ---------------------------------------------------------------------------
+
+
+class HTMLBr(EmptyNode):
+    """Represent a new line with &lt;br&gt; tag.
+
+    The &lt;br&gt; tag does not support any attribute.
+
+    """
+
+    def __init__(self, parent: str):
+        """Create a node for &lt;br&gt; tag.
+
+        """
+        super(HTMLBr, self).__init__(parent, None, "br")
+
+    # -----------------------------------------------------------------------
+
+    def check_attribute(self, key: str) -> str:
+        """Override. Raise an exception because no attribute is supported.
+
+        :raises: NodeAttributeError: The attribute can't be assigned to this element.
+
+        """
+        raise NodeAttributeError(key)
+

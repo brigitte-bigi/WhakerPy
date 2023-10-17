@@ -1,3 +1,12 @@
+# This is a list of tags which can only be empty (to be completed)
+HTML_EMPTY_TAGS = {
+    "br": "inserts a single line break",
+    "img": "image",
+    "hr": "horizontal rule",
+    "meta": "",
+    "link": ""
+}
+
 # This is the whole list of HTML tags. It should be split into 2:
 # the ones that can be empty and the ones that can't (in HTMLNode).
 # Moreover, each tag should be linked to its possible attributes.

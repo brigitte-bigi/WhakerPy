@@ -38,14 +38,14 @@
 
 """
 
-from whakerpy.htmlmaker.emptynodes import EmptyNode
+from whakerpy.htmlmaker.emptynodes import BaseTagNode
 from whakerpy.htmlmaker.emptynodes import HTMLImage
-from whakerpy.htmlmaker.tagnodes import HTMLNode
+from whakerpy.htmlmaker.htmnodes import HTMLNode
 
 # ---------------------------------------------------------------------------
 
 
-class HTMLInputText(EmptyNode):
+class HTMLInputText(BaseTagNode):
     """Represent an input text element of a form.
 
     The set_attribute method should be overridden to check if the given key
@@ -113,7 +113,7 @@ class HTMLRadioBox(HTMLNode):
         if checked is True:
             input_attributes['checked'] = None
 
-        input_node = EmptyNode(label_node.identifier, None, "input", attributes=input_attributes)
+        input_node = BaseTagNode(label_node.identifier, None, "input", attributes=input_attributes)
         label_node.append_child(input_node)
 
         if text is not None:

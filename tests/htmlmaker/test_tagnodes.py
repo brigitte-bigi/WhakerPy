@@ -44,10 +44,10 @@ from whakerpy.htmlmaker import NodeTagError
 from whakerpy.htmlmaker import NodeKeyError
 
 from whakerpy.htmlmaker.basenodes import BaseNode
-from whakerpy.htmlmaker.tagnodes import HTMLNode
-from whakerpy.htmlmaker.tagnodes import HTMLInputText
-from whakerpy.htmlmaker.tagnodes import HTMLRadioBox
-from whakerpy.htmlmaker.tagnodes import HTMLButtonNode
+from whakerpy.htmlmaker.htmnodes import HTMLNode
+from whakerpy.htmlmaker.htmnodes import HTMLInputText
+from whakerpy.htmlmaker.htmnodes import HTMLRadioBox
+from whakerpy.htmlmaker.htmnodes import HTMLButtonNode
 
 # ---------------------------------------------------------------------------
 

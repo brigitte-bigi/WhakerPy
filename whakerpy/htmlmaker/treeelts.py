@@ -62,7 +62,7 @@ or <img/>, and a few elements don't have tag at all, like comments.
 from .hexc import NodeChildTagError
 
 from .emptynodes import EmptyNode
-from .tagnodes import HTMLNode
+from .htmnodes import HTMLNode
 
 # ---------------------------------------------------------------------------
 

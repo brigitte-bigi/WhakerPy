@@ -41,7 +41,7 @@
 import unittest
 
 from whakerpy.httpd.hstatus import HTTPDValueError
-from whakerpy.httpd.hstatus import sppasHTTPDStatus
+from whakerpy.httpd.hstatus import HTTPDStatus
 
 # ---------------------------------------------------------------------------
 
@@ -63,23 +63,23 @@ class TestHTTPDStatus(unittest.TestCase):
 
     def test_check(self):
         # Check success
-        self.assertEqual(100, sppasHTTPDStatus.check(100))
-        self.assertEqual(200, sppasHTTPDStatus.check("200"))
+        self.assertEqual(100, HTTPDStatus.check(100))
+        self.assertEqual(200, HTTPDStatus.check("200"))
 
         # Check fail
         with self.assertRaises(HTTPDValueError):
-            sppasHTTPDStatus.check("AZERTY")
+            HTTPDStatus.check("AZERTY")
         with self.assertRaises(HTTPDValueError):
-            sppasHTTPDStatus.check(84)
+            HTTPDStatus.check(84)
 
     def test_init(self):
-        s = sppasHTTPDStatus()
+        s = HTTPDStatus()
         self.assertEqual(str(s), "200")
         self.assertTrue(s == 200)
         self.assertEqual(200, s)
 
     def test_get_set(self):
-        s = sppasHTTPDStatus()
+        s = HTTPDStatus()
         s.code = 404
         self.assertEqual(404, s)
         self.assertEqual(404, s.code)
@@ -90,6 +90,6 @@ class TestHTTPDStatus(unittest.TestCase):
             s.code = 1974
 
     def test_str(self):
-        s = sppasHTTPDStatus()
+        s = HTTPDStatus()
         self.assertEqual(str(s), "200")
         self.assertEqual(repr(s), "200: OK")

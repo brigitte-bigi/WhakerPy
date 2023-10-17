@@ -42,7 +42,7 @@ import unittest
 
 from whakerpy.htmlmaker.hexc import NodeChildTagError
 from whakerpy.htmlmaker.emptynodes import EmptyNode
-from whakerpy.htmlmaker.tagnodes import HTMLNode
+from whakerpy.htmlmaker.htmnodes import HTMLNode
 
 from whakerpy.htmlmaker.treeelts import HTMLHeadNode
 from whakerpy.htmlmaker.treenode import HTMLTree

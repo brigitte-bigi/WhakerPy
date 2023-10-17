@@ -45,7 +45,7 @@ from .hexc import NodeIdentifierError
 from .basenodes import BaseNode
 from .basenodes import Doctype
 from .basenodes import HTMLComment
-from .tagnodes import HTMLNode
+from .htmnodes import HTMLNode
 from .treeelts import HTMLHeadNode
 from .treeelts import HTMLHeaderNode
 from .treeelts import HTMLNavNode

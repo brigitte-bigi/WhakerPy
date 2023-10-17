@@ -1,43 +1,4 @@
 """
-:filename: sppas.ui.htmlmaker.basenode.py
-:author:   Brigitte Bigi
-:contact:  develop@sppas.org
-:summary: A base class for any HTML element.
-
-.. _This file is part of SPPAS: https://sppas.org/
-..
-    -------------------------------------------------------------------------
-
-     ___   __    __    __    ___
-    /     |  \  |  \  |  \  /              the automatic
-    \__   |__/  |__/  |___| \__             annotation and
-       \  |     |     |   |    \             analysis
-    ___/  |     |     |   | ___/              of speech
-
-    Copyright (C) 2011-2023 Brigitte Bigi
-    Laboratoire Parole et Langage, Aix-en-Provence, France
-
-    Use of this software is governed by the GNU Public License, version 3.
-
-    SPPAS is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    SPPAS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <http://www.gnu.org/licenses/>.
-
-    This banner notice must not be removed.
-
-    -------------------------------------------------------------------------
-
-"""
-"""
 :filename: sppas.ui.htmlmaker.basenodes.baseelts.py
 :author:   Brigitte Bigi
 :contact:  develop@sppas.org
@@ -97,7 +58,7 @@ class Doctype(BaseNode):
     browser about what document type to expect.
 
     Contrariwise to previous versions, HTML5 does not require any other
-    information. So this class does not accept any attribute or value.
+    information. Then this class does not accept any attribute or value.
 
     """
 
@@ -115,7 +76,7 @@ class Doctype(BaseNode):
         """Override. Serialize the doctype.
 
         :param nbs: (int) Number of spaces for the indentation. Un-used.
-        :return: (str)
+        :return: (str) Doctype in HTML5.
 
         """
         return self._value + "\n\n"
@@ -130,12 +91,15 @@ class HTMLComment(BaseNode):
 
     """
 
-    def __init__(self, parent, content=" --- "):
-        """Create a comment.
+    def __init__(self, parent: str, content: str = " --- "):
+        """Create a comment node.
+
+        :param parent: (str) Identifier of the parent node
+        :param content: (str) The comment message
 
         """
         super(HTMLComment, self).__init__(parent, str(uuid.uuid1()))
-        self._value = content
+        self._value = str(content)
 
     # -----------------------------------------------------------------------
 

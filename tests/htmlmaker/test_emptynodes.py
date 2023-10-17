@@ -45,6 +45,7 @@ from whakerpy.htmlmaker import NodeTagError
 from whakerpy.htmlmaker import NodeKeyError
 
 from whakerpy.htmlmaker.basenodes import BaseNode
+from whakerpy.htmlmaker.emptynodes import BaseTagNode
 from whakerpy.htmlmaker.emptynodes import EmptyNode
 from whakerpy.htmlmaker.emptynodes import HTMLHr
 from whakerpy.htmlmaker.emptynodes import HTMLImage
@@ -55,6 +56,8 @@ from whakerpy.htmlmaker.emptynodes import HTMLImage
 class TestEmptyNode(unittest.TestCase):
 
     def test_init_successfully(self):
+        node = BaseTagNode(None, None, "br")
+        node = BaseTagNode(None, None, "div")
         node = EmptyNode(None, None, "br")
         self.assertEqual(36, len(node.identifier))
         self.assertTrue(node.is_leaf())
@@ -71,15 +74,15 @@ class TestEmptyNode(unittest.TestCase):
     def test_check_attribute(self):
         # Wrong type
         with self.assertRaises(NodeAttributeError):
-            e = EmptyNode(None, None, "img")
+            e = BaseTagNode(None, None, "img")
             e.check_attribute(BaseNode())
 
         # Unknown attribute
         with self.assertRaises(NodeAttributeError):
-            e = EmptyNode(None, None, "img")
+            e = BaseTagNode(None, None, "img")
             e.check_attribute("toto")
 
-        e = EmptyNode(None, None, "img")
+        e = BaseTagNode(None, None, "img")
         self.assertTrue(e.check_attribute("src"))
         self.assertTrue(e.check_attribute("alt"))
         self.assertTrue(e.check_attribute("loop"))  # but should be False
@@ -100,13 +103,13 @@ class TestEmptyNode(unittest.TestCase):
 
     def test_tag(self):
         # Check if tag property returns the correct tag
-        empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
+        empty_node = BaseTagNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
         self.assertEqual(empty_node.tag, "a")
 
     # -----------------------------------------------------------------------
 
     def test_add_attribute(self):
-        empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
+        empty_node = BaseTagNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
         # Check if add_attribute method adds the attribute correctly
         empty_node.add_attribute("rel", "nofollow")
         self.assertTrue(empty_node.has_attribute("rel"))
@@ -140,7 +143,7 @@ class TestEmptyNode(unittest.TestCase):
         self.assertFalse(empty_node.has_attribute("class"))
 
     def test_get_set_attribute(self):
-        empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
+        empty_node = BaseTagNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
         # Check if set_attribute method sets the attribute correctly and replaces existing one
         empty_node.set_attribute("href", "https://example.org")
         self.assertEqual(empty_node.get_attribute_value("href"), "https://example.org")
@@ -152,19 +155,19 @@ class TestEmptyNode(unittest.TestCase):
         self.assertEqual(empty_node.get_attribute_value("class"), "nice pretty")
 
     def test_has_attribute(self):
-        empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
+        empty_node = BaseTagNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
         # Check if has_attribute method returns True for existing attribute, False otherwise
         self.assertTrue(empty_node.has_attribute("href"))
         self.assertFalse(empty_node.has_attribute("class"))
 
     def test_remove_attribute(self):
-        empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
+        empty_node = BaseTagNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
         # Check if remove_attribute method removes the attribute correctly
         empty_node.remove_attribute("href")
         self.assertFalse(empty_node.has_attribute("href"))
 
     def test_remove_attribute_value(self):
-        empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
+        empty_node = BaseTagNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
         # Check if remove_attribute_value method removes the value from the attribute correctly
         empty_node.add_attribute("class", "active selected")
         empty_node.remove_attribute_value("class", "active")
@@ -172,7 +175,7 @@ class TestEmptyNode(unittest.TestCase):
         self.assertEqual(empty_node.get_attribute_value("class"), "selected")
 
     def test_nb_attributes(self):
-        empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
+        empty_node = BaseTagNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
         # Check if nb_attributes method returns the correct number of attributes
         self.assertEqual(empty_node.nb_attributes(), 2)
 
@@ -185,7 +188,7 @@ class TestEmptyNode(unittest.TestCase):
     # -----------------------------------------------------------------------
 
     def test_serialize(self):
-        empty_node = EmptyNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
+        empty_node = BaseTagNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
         # Check if serialize method generates the correct HTML string
         expected_html = '    <a href="https://example.com" target="_blank" />\n'
         self.assertEqual(empty_node.serialize(), expected_html)

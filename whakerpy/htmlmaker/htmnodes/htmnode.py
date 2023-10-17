@@ -41,15 +41,17 @@
 import logging
 import traceback
 
+from ..hconsts import HTML_TAGS
 from ..hexc import NodeParentIdentifierError
 from ..hexc import NodeKeyError
+from ..hexc import NodeTagError
 from ..basenodes import BaseNode
-from ..emptynodes import EmptyNode
+from ..emptynodes import BaseTagNode
 
 # ---------------------------------------------------------------------------
 
 
-class HTMLNode(EmptyNode):
+class HTMLNode(BaseTagNode):
     """A node for any HTML element.
 
     This node can't check the integrity of the tree: it knows only both its
@@ -87,6 +89,8 @@ class HTMLNode(EmptyNode):
         self._children = list()
 
         super(HTMLNode, self).__init__(parent, identifier, tag, attributes)
+        if self.tag not in HTML_TAGS.keys():
+            raise NodeTagError(tag)
 
         # The node data
         self._value = value
@@ -149,7 +153,7 @@ class HTMLNode(EmptyNode):
     def append_child(self, node) -> None:
         """Append a child node.
 
-        :param node: (BaseNode, EmptyNode, HTMLNode)
+        :param node: (BaseNode, BaseTagNode, EmptyNode, HTMLNode)
         :raises: TypeError:
         :raises: NodeKeyError:
         :raises: NodeParentIdentifierError:
@@ -173,7 +177,7 @@ class HTMLNode(EmptyNode):
         """Insert a child node at the given index.
 
         :param pos: (int) Index position
-        :param node: (BaseNode, EmptyNode, HTMLNode)
+        :param node: (BaseNode, BaseTagNode, EmptyNode, HTMLNode)
         :raises: NodeKeyError:
         :raises: TypeError:
         :raises: Exception:
