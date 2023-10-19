@@ -30,7 +30,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <http://www.gnu.org/licenses/>.
+    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -73,7 +73,7 @@ function notify_event(action_btn) {
 # ---------------------------------------------------------------------------
 
 
-class BaseResponseRecipe(object):
+class BaseResponseRecipe:
     """Base class to create an HTML response content.
 
     """

@@ -30,7 +30,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <http://www.gnu.org/licenses/>.
+    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -45,7 +45,7 @@ import json
 # ---------------------------------------------------------------------------
 
 
-class WebSiteData(object):
+class WebSiteData:
     """Storage class of a website configuration.
 
     For each dynamic page of a website, this class contains the filename of
@@ -148,7 +148,7 @@ class WebSiteData(object):
 
         """
         if page in self._pages:
-            if "footer" in self._pages[page].keys():
+            if "footer" in self._pages[page]:
                 return self._pages[page]["footer"]
 
         return False
@@ -161,7 +161,7 @@ class WebSiteData(object):
         return str(self).__format__(fmt)
 
     def __iter__(self):
-        for a in self._pages.keys():
+        for a in self._pages:
             yield a
 
     def __len__(self):
@@ -169,4 +169,4 @@ class WebSiteData(object):
 
     def __contains__(self, value):
         """Value is a page name."""
-        return value in self._pages.keys()
+        return value in self._pages
