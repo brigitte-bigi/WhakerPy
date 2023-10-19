@@ -121,4 +121,3 @@ class HTMLComment(BaseNode):
             html += "-"*r
         html += " -->\n\n"
         return html
-

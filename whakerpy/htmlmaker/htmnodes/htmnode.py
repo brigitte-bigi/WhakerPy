@@ -1,5 +1,5 @@
 """
-:filename: sppas.ui.htmlmaker.tagnodes.tagnode.py
+:filename: sppas.ui.htmlmaker.htmnodes.htmnode.py
 :author:   Brigitte Bigi
 :contact:  develop@sppas.org
 :summary: Node classes to generate HTML elements.

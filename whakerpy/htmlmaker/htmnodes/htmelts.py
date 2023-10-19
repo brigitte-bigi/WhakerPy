@@ -1,5 +1,5 @@
 """
-:filename: sppas.ui.htmlmaker.tagnodes.tagelts.py
+:filename: sppas.ui.htmlmaker.htmnodes.htmelts.py
 :author:   Brigitte Bigi
 :contact:  develop@sppas.org
 :summary: Node classes to generate various HTML elements.
@@ -38,9 +38,9 @@
 
 """
 
-from whakerpy.htmlmaker.emptynodes import BaseTagNode
-from whakerpy.htmlmaker.emptynodes import HTMLImage
-from whakerpy.htmlmaker.htmnodes import HTMLNode
+from ..emptynodes import BaseTagNode
+from ..emptynodes import HTMLImage
+from ..htmnodes import HTMLNode
 
 # ---------------------------------------------------------------------------
 
@@ -169,6 +169,7 @@ class HTMLButtonNode(HTMLNode):
 
         :param ident: (str) Identifier for the span text.
         :param text: (str) Button text.
+        :param attributes: (dict)
 
         """
         node = HTMLNode(self.identifier, ident, "span", value=text, attributes=attributes)
@@ -180,5 +181,3 @@ class HTMLButtonNode(HTMLNode):
         if ident is not None:
             self.set_attribute("aria-labelledby", node.identifier)
         return node
-
-
