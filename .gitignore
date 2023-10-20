@@ -1,8 +1,14 @@
 .DS_Store
 */.DS_Store
+*.pyc
 .idea
-__pycache__
+*/__pycache__*
+*/*/__pycache__*
+*/*/*/__pycache__*
 build
 venv
 dist/*.gz
 *.egg-info
+.coverage
+.scannerwork
+
