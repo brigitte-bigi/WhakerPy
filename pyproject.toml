@@ -24,7 +24,8 @@
         "Development Status :: 5 - Production/Stable"]
 
 [project.urls]
-    "Homepage" = "https://src.koda.cnrs.fr/brigitte.bigi/whakerpy"
+    "Homepage" = "https://whakerpy.sf.net"
+    "Pypi" = "https://pypi.org/project/whakerpy/"
 
 # -------------------
 # Distrib builder

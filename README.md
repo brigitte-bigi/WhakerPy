@@ -3,8 +3,7 @@
 
 ## Overview
 
-Whakerpy is a simple library useful to create dynamic HTML content; 
-it's a light web application framework.
+Whakerpy is a simple library useful to create dynamic HTML content; it's a light web application framework.
 
 Create and manipulate HTML from the power of Python:
 
@@ -24,16 +23,14 @@ Laboratoire Parole et Langage, Aix-en-Provence, France
 
 ## License
 
-This is the implementation of the `WhakerPy` library, under the terms of
-the GNU General Public License version 3.
+This is the implementation of the `WhakerPy` library, under the terms of the GNU General Public License version 3.
 
 
 ## Install WhakerPy
 
 ### From its repo:
 
-Download the repository and unpack it, or clone with `git`.
-WhakerPy package includes the following folders and files:
+Download the repository and unpack it, or clone with `git`. WhakerPy package includes the following folders and files:
 
 1. "whakerpy": the source code package
 2. "doc": the documentation of whakerpy in HTML
@@ -43,8 +40,7 @@ WhakerPy package includes the following folders and files:
 
 ### From its wheel package:
 
-Download the wheel file (WhakerPy-xxx.whl) and install it in your 
-python environment with:
+Download the wheel file (WhakerPy-xxx.whl) and install it in your python environment with:
 
 ```bash
 > python -m pip install dist/<WhakerPy-xxx.whl>
@@ -117,25 +113,18 @@ Let's view the result in your favorite web browser
 
 ## Create a web application frontend with dynamic HTML content
 
-For a quick start, see the file `sample.py`. It shows a very simple
-solution to create a server that can handle dynamic content. This content
-is created from a custom `BaseResponseRecipe()` object, available in the 
-file `samples/response.py`. The response is the interface between a 
-local back-end python application and the web front-end.
+For a quick start, see the file `sample.py`. It shows a very simple solution to create a server that can handle dynamic content. This content is created from a custom `BaseResponseRecipe()` object, available in the file `samples/response.py`. The response is the interface between a local back-end python application and the web front-end.
 
-For a more complex example of an already in-used web frontend, see: 
-<https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py>.
+For a more complex example of an already in-used web frontend, see: <https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py>.
 
 
 ## Projects using `WhakerPy `
 
-`WhakerPy` was initially developed within SPPAS <https://sppas.org>; it was 
-extracted from its original software by its author to lead its own life as 
-standalone package. The "setup" of SPPAS is entirely based on whakerpy API,
-and it's website too.
+`WhakerPy` was initially developed within SPPAS <https://sppas.org>; it was extracted from its original software by its author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on whakerpy API, and it's website too.
 
 Other projects: 
-- pages of the website <https://auto-cuedspeech.org> are created by whakerpy.
+
+- the website <https://auto-cuedspeech.org> is entirely based on WhakerPy.
 - *contact the author if your project is using whakerpy*
 
 
@@ -143,24 +132,21 @@ Other projects:
 
 ## Create a wheel
 
-WhakerPy is no system dependent. Information to build its wheel are stored 
-into the file `pyproject.toml`. 
+WhakerPy is no system dependent. Information to build its wheel are stored into the file `pyproject.toml`. 
 
 The universal wheel is created with: `python -m build`
 
 ## Make the doc
 
-The API documentation is available in the `doc` folder. Click the file `index.html`
-to browse throw the documented classes of WhakerPy.
+The API documentation is available in the `doc` folder. Click the file `index.html` to browse throw the documented classes of WhakerPy.
 
-To re-generate the doc, install the required external program: 
-`python -m pip install -r doc/requirements.txt`
+To re-generate the doc, install the required external program: `python -m pip install -r doc/requirements.txt`
+
 Then, launch the doc generator: `cd doc; python makedoc.py`
 
 ## Analyze WhakerPy code
 
-Unittests coverage can be analyzed with pytest and coverage. Install them
-with the command: `python -m pip install -r tests/requirements.txt`
+Unittests coverage can be analyzed with pytest and coverage. Install them with the command: `python -m pip install -r tests/requirements.txt`
 
 Then, perform the following steps:
 
@@ -178,11 +164,11 @@ The whakerpy package can be analyzed with SonarQube by following these steps:
    Log in to http://localhost:9000. Both login and password are "admin".  
    Add the python plugin and restart server.
 4. Click "Add project" with name "WhakerPy", and provide it a token
-5. Copy/Paste the token into the file whakerpy/sonar-project.properties
-6. Download sonar-scanner client: 
+5. Download sonar-scanner client: 
    `brew install sonar-scanner` (or something else, it obviously depends on your OS)
-7. Launch: `sonar-scanner`
-8. See results in the opened URL, and don't forget it's an *automatic* code analyzer, not an *intelligent* one.
+6. Launch: `sonar-scanner -Dsonar.tokan="paste the token here"`
+7. See results in the opened URL, however you may not forget that 
+   it's an *automatic* code analyzer, not an *intelligent* one.
 
 ## Contribute
 
