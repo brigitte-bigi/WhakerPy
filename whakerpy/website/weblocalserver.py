@@ -1,11 +1,11 @@
 """
-:filename: whakerpy.website.weblocalservere.py
+:filename:  whakerpy.website.weblocalservere.py
 :author:   Mathias Cazals, Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary:  Create a generic HTTPD localhost server.
 
-.. _This file is part of SPPAS: https://sppas.org/
-..
+.. _This file was part of SPPAS: https://sppas.org/ and migrated in WhakerPy,
+.. on 2023-12-08.
     -------------------------------------------------------------------------
 
      ___   __    __    __    ___
@@ -41,14 +41,9 @@
 import random
 
 from whakerpy.httpd import HTTPDHandler
-from whakerpy.httpd import BaseHTTPDServer
-from whakerpy.htmlmaker import HTMLTree
-
-from .webconfig import WebSiteData
-from .webresponse import WebSiteResponse
 
 # ---------------------------------------------------------------------------
-# A website server, for local use only.
+# A website server, for a local use only.
 # ---------------------------------------------------------------------------
 
 
@@ -56,14 +51,16 @@ class WebSiteApplication(object):
     """Create and run a website applications.
 
     Allows to create a server and a response system in order to use HTTPD
-    like a communication system between a web-browser and a python API.
+    like a communication system between a web-browser and a Python API.
+
+    The localhost port is randomly assigned.
 
     """
 
     def __init__(self, server_cls):
         """HTTPD Server initialization.
 
-        Create the application for a Web Front-End based on httpd protocol.
+        Create the application for a Web Front-End based on HTTPD protocol.
 
         """
         self.__location = "localhost"

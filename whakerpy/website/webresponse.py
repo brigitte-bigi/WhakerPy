@@ -1,11 +1,11 @@
 """
-:filename: whakerpy.website.webresponse.py
+:filename:  whakerpy.website.webresponse.py
 :author:   Mathias Cazals, Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary:  Create a generic HTTPD response for a web server.
 
-.. _This file is part of SPPAS: https://sppas.org/
-..
+.. _This file was part of SPPAS: https://sppas.org/ and migrated in WhakerPy,
+.. on 2023-12-08.
     -------------------------------------------------------------------------
 
      ___   __    __    __    ___
@@ -60,7 +60,7 @@ class WebSiteResponse(BaseResponseRecipe):
         """Create a HTTPD Response instance with a default response.
 
         Useful when creating dynamically the HTML Tree for a website.
-        The "main" part of the body is re-created each time bake() is invoked.
+        The "main" part of the body is re-created every time bake() is invoked.
         Here, it's loaded from a static file.
 
         :param name: (str) Filename of the body main content.
@@ -80,7 +80,7 @@ class WebSiteResponse(BaseResponseRecipe):
     def page(self) -> str:
         """Override. Return the current HTML page name.
 
-        Here, it's the name of the file containing the body->main.
+        :return: (str) Name of the file containing the body->main.
 
         """
         return self._name
@@ -96,7 +96,7 @@ class WebSiteResponse(BaseResponseRecipe):
         deprecated content (_invalidate) and re-generate a new one (_bake).
 
         :param events (dict): key=event_name, value=event_value
-        :return: None
+        :return: (bool)
 
         """
         self._status.code = 200
@@ -104,7 +104,7 @@ class WebSiteResponse(BaseResponseRecipe):
 
     # -----------------------------------------------------------------------
 
-    def _invalidate(self):
+    def _invalidate(self) -> None:
         """Remove all children nodes of the body "main".
 
         Delete the body main content and nothing else.
@@ -116,7 +116,7 @@ class WebSiteResponse(BaseResponseRecipe):
 
     # -----------------------------------------------------------------------
 
-    def _bake(self):
+    def _bake(self) -> None:
         """Create the dynamic page content in HTML.
 
         Load the body->main content from a file and add it to the tree.

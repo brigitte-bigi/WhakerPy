@@ -1,11 +1,11 @@
 """
-:filename: whakerpy.website.webconfig.py
+:filename:  whakerpy.website.webconfig.py
 :author:   Mathias Cazals, Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary:  Store config data of a website from a JSON file.
 
-.. _This file is part of SPPAS: https://sppas.org/
-..
+.. _This file was part of SPPAS: https://sppas.org/ and migrated in WhakerPy,
+.. on 2023-12-08.
     -------------------------------------------------------------------------
 
      ___   __    __    __    ___
@@ -46,7 +46,7 @@ import json
 
 
 class WebSiteData:
-    """Storage class of a website configuration.
+    """Storage class of a website configuration, extracted from a JSON file.
 
     For each dynamic page of a website, this class contains the filename of
     the page - the one of the URL, its title and the local filename of its
