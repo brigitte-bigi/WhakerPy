@@ -49,6 +49,8 @@ from .htmnodes import HTMLNode
 class HTMLHeadNode(HTMLNode):
     """Convenient class to represent the head node of an HTML tree.
 
+    Children of a "head" node are limited to the ones of HEAD_TAGS list.
+
     """
 
     def __init__(self, parent):
@@ -63,6 +65,7 @@ class HTMLHeadNode(HTMLNode):
         """Append a child node.
 
         :param node: (Node)
+        :raise: NodeChildTagError: if invalid child tag (not in HEAD_TAGS list)
 
         """
         if node.tag not in HEAD_TAGS:

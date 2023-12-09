@@ -3,6 +3,7 @@ HTML_EMPTY_TAGS = {
     "br": "inserts a single line break",
     "img": "image",
     "hr": "horizontal rule",
+    "input": "input field",
     "meta": "",
     "link": ""
 }

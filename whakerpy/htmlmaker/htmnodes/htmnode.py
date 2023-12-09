@@ -1,8 +1,8 @@
 """
-:filename: sppas.ui.htmlmaker.htmnodes.htmnode.py
+:filename: whakerpy.htmlmaker.htmnodes.htmnode.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
-:summary: Node classes to generate HTML elements.
+:contact:  contact@sppas.org
+:summary:  Node classes to generate HTML elements.
 
 .. _This file is part of SPPAS: https://sppas.org/
 ..
@@ -51,7 +51,7 @@ from ..emptynodes import BaseTagNode
 # ---------------------------------------------------------------------------
 
 
-class HTMLNode(BaseTagNode):
+class TagNode(BaseTagNode):
     """A node for any HTML element.
 
     This node can't check the integrity of the tree: it knows only both its
@@ -88,9 +88,7 @@ class HTMLNode(BaseTagNode):
         # Identifier(s) of the children' node(s) :
         self._children = list()
 
-        super(HTMLNode, self).__init__(parent, identifier, tag, attributes)
-        if self.tag not in HTML_TAGS.keys():
-            raise NodeTagError(tag)
+        super(TagNode, self).__init__(parent, identifier, tag, attributes)
 
         # The node data
         self._value = value
@@ -312,3 +310,26 @@ class HTMLNode(BaseTagNode):
             "attributes={0}".format(self._attributes),
         ]
         return "%s(%s)" % (name, ", ".join(kwargs))
+
+# ---------------------------------------------------------------------------
+
+
+class HTMLNode(TagNode):
+
+    def __init__(self, parent: str, identifier: str, tag: str, attributes=dict(), value=None):
+        """Create a tag node to represent any HTML element.
+
+        :param parent: (str) Parent identifier
+        :param identifier: (str) This node identifier
+        :raises: NodeTagError: Invalid tag. Not in the HTML_TAGS list.
+
+        """
+        # Identifier(s) of the children' node(s) :
+        self._children = list()
+
+        super(HTMLNode, self).__init__(parent, identifier, tag, attributes)
+        if self.tag not in HTML_TAGS.keys():
+            raise NodeTagError(tag)
+
+        # The node data
+        self._value = value

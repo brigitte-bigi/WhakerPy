@@ -1,8 +1,8 @@
 """
-:filename: sppas.ui.htmlmaker.basenodes.baseelts.py
+:filename: whakerpy.htmlmaker.basenodes.baseelts.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
-:summary: HTML elements inheriting BaseNode.
+:contact:  contact@sppas.org
+:summary:  Some HTML elements inheriting BaseNode.
 
 .. _This file is part of SPPAS: https://sppas.org/
 ..
@@ -46,7 +46,7 @@ from .basenode import BaseNode
 
 
 class Doctype(BaseNode):
-    """Represent the HTML doctype of an HTML page.
+    """Represent the HTML doctype of an HTML-5 page.
 
     :Example:
         >>> d = Doctype()
@@ -64,7 +64,7 @@ class Doctype(BaseNode):
 
     def __init__(self):
         """Create a doctype node with no defined parent."""
-        # no parent means no invalidated
+        # no parent means no invalidated, and is considered root node.
         super(Doctype, self).__init__(None, str(uuid.uuid1()))
 
         # In HTML 5, the doctype declaration does not need to refer to a DTD.

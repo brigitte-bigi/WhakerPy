@@ -1,8 +1,8 @@
 """
-:filename: sppas.ui.htmlmaker.basenode.py
+:filename: whakerpy.htmlmaker.basenodes.basenode.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
-:summary: A base class for any HTML element.
+:contact:  contact@sppas.org
+:summary:  A base class for any HTML element.
 
 .. _This file is part of SPPAS: https://sppas.org/
 ..
@@ -50,27 +50,6 @@ from whakerpy.htmlmaker.hexc import NodeKeyError
 class BaseNode(object):
     """A base class for any node in an HTML tree.
 
-    Since the early days of the World Wide Web, there have been many versions:
-    [source: <https://www.w3schools.com/html/html_intro.asp>]
-
-    -    1989: 	Tim Berners-Lee invented www
-    -    1991: 	Tim Berners-Lee invented HTML
-    -    1993: 	Dave Raggett drafted HTML+
-    -    1995: 	HTML Working Group defined HTML 2.0
-    -    1997: 	W3C Recommendation: HTML 3.2
-    -    1999: 	W3C Recommendation: HTML 4.01
-    -    2000: 	W3C Recommendation: XHTML 1.0
-    -    2008: 	WHATWG HTML5 First Public Draft
-    -    2012: 	WHATWG HTML5 Living Standard
-    -    2014: 	W3C Recommendation: HTML5
-    -    2016: 	W3C Candidate Recommendation: HTML 5.1
-    -    2017: 	W3C Recommendation: HTML5.1 2nd Edition
-    -    2017: 	W3C Recommendation: HTML5.2
-
-    HTML elements are generally made of a start tag, an optional element content,
-    and an end tag. However, several elements have only a start tag, like <br/>
-    or <img/>, and a few elements don't have tag at all, like comments.
-
     An HTML element without content is called an empty node. It has a
     start tag but neither a content nor an end tag. It has only attributes.
 
@@ -109,7 +88,7 @@ class BaseNode(object):
         :param identifier: (str) Key to be validated
         :raises: NodeInvalidIdentifierError: if it contains invalid characters
         :raises: NodeInvalidIdentifierError: if invalid length
-        :return: (str)
+        :return: (str) Validated identifier
 
         """
         entry = BaseNode.full_strip(identifier)
@@ -127,8 +106,6 @@ class BaseNode(object):
     def full_strip(entry):
         """Fully strip the string: multiple whitespace, tab and CR/LF.
 
-        Remove all whitespace, tab and CR/LF inside the string.
-
         :return: (str) Cleaned string
 
         """
@@ -144,7 +121,7 @@ class BaseNode(object):
 
     @property
     def identifier(self) -> str:
-        """Return the unique ID of the node within the scope of a tree. """
+        """Return the (supposed-) unique ID of the node within the scope of a tree. """
         return self.__identifier
 
     # -----------------------------------------------------------------------
@@ -156,7 +133,7 @@ class BaseNode(object):
     # -----------------------------------------------------------------------
 
     def is_root(self) -> bool:
-        """Return true if node has no parent, i.e. as root."""
+        """Return true if node has no parent, i.e. like root."""
         return self._parent is None
 
     # -----------------------------------------------------------------------
@@ -185,7 +162,7 @@ class BaseNode(object):
     # -----------------------------------------------------------------------
 
     def has_child(self, node_id: str) -> bool:
-        """Return True if the given node is a direct child.
+        """To be overriden. Return True if the given node ID is a direct child.
 
         :param node_id: (str) Identifier of the node
         :return: (bool) True if given identifier is a direct child.

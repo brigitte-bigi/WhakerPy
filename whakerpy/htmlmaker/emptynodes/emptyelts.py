@@ -1,8 +1,8 @@
 """
-:filename: sppas.ui.htmlmaker.emptynodes.emptyelts.py
+:filename: whakerpy.htmlmaker.emptynodes.emptyelts.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
-:summary: A set of specific nodes of the tree.
+:contact:  contact@sppas.org
+:summary:  A set of specific nodes of the tree.
 
 .. _This file is part of SPPAS: https://sppas.org/
 ..
@@ -42,6 +42,35 @@ from ..hconsts import HTML_GLOBAL_ATTR
 from ..hexc import NodeAttributeError
 
 from .emptynode import EmptyNode
+
+# ---------------------------------------------------------------------------
+
+
+class HTMLInputText(EmptyNode):
+    """Represent an input text element of a form.
+
+    The set_attribute method should be overridden to check if the given key
+    is in the list of accepted attributes.
+
+    """
+
+    def __init__(self, parent, identifier):
+        """Create an input node. Default type is 'text'. """
+        super(HTMLInputText, self).__init__(parent, identifier, "input")
+        self.set_attribute("type", "text")
+        self.set_attribute("id", identifier)
+        self.set_attribute("name", identifier)
+
+    # -----------------------------------------------------------------------
+
+    def set_name(self, name):
+        """Set input name attribute, and 'id' too.
+
+        :param name: (str)
+
+        """
+        self.set_attribute("id", name)
+        self.set_attribute("name", name)
 
 # ---------------------------------------------------------------------------
 

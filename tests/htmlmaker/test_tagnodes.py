@@ -45,7 +45,6 @@ from whakerpy.htmlmaker import NodeKeyError
 
 from whakerpy.htmlmaker.basenodes import BaseNode
 from whakerpy.htmlmaker.htmnodes import HTMLNode
-from whakerpy.htmlmaker.htmnodes import HTMLInputText
 from whakerpy.htmlmaker.htmnodes import HTMLRadioBox
 from whakerpy.htmlmaker.htmnodes import HTMLButtonNode
 
@@ -209,11 +208,6 @@ class TestTagNode(unittest.TestCase):
 class TestElements(unittest.TestCase):
 
     def test_init_tags(self):
-        node = HTMLInputText(parent="parent_id", identifier="input0")
-        self.assertTrue(node.has_attribute("type"))
-        self.assertEqual("text", node.get_attribute_value("type"))
-        self.assertEqual("input0", node.get_attribute_value("id"))
-        self.assertEqual("input0", node.get_attribute_value("name"))
 
         node = HTMLRadioBox(parent="parent_id", identifier="radiobox")
         self.assertEqual("POST", node.get_attribute_value("method"))
@@ -241,11 +235,6 @@ class TestElements(unittest.TestCase):
         self.assertEqual("but4", node4.get_attribute_value("name"))
 
     # -----------------------------------------------------------------------
-
-    def test_input(self):
-        node = HTMLInputText(parent="parent_id", identifier="input0")
-        node.set_name("newname")
-        self.assertEqual("newname", node.get_attribute_value("name"))
 
     def test_radiobox(self):
         node = HTMLRadioBox(parent="parent_id", identifier="radiobox")

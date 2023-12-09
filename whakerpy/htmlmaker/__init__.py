@@ -1,8 +1,8 @@
 """
-:filename: sppas.ui.htmlmaker.__init__.py
+:filename: whakerpy.htmlmaker.__init__.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
-:summary: A tree representation of HTML.
+:contact:  contact@sppas.org
+:summary:  A tree representation of HTML.
 
 .. _This file is part of SPPAS: https://sppas.org/
 ..
@@ -39,12 +39,6 @@
 # HTMLMaker Package
 
 Create an HTML tree and to serialize into a page.
-
-* Filename: sppas.ui.htmlmaker.__init__.py
-* Author:   Brigitte Bigi
-* Contact:  develop@sppas.org
-* Copyright (C) 2011-2023 Brigitte Bigi,
-Laboratoire Parole et Langage, Aix-en-Provence, France
 
 ## Description
 
@@ -98,11 +92,11 @@ from .basenodes import HTMLComment
 from .emptynodes import BaseTagNode
 from .emptynodes import EmptyNode
 from .emptynodes import HTMLImage
+from .emptynodes import HTMLInputText
 from .emptynodes import HTMLHr
 from .emptynodes import HTMLBr
 
 from .htmnodes import HTMLNode
-from .htmnodes import HTMLInputText
 from .htmnodes import HTMLRadioBox
 from .htmnodes import HTMLButtonNode
 

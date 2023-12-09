@@ -1,8 +1,8 @@
 """
-:filename: sppas.ui.htmlmaker.emptynodes.emptynode.py
+:filename: whakerpy.htmlmaker.emptynodes.emptynode.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
-:summary: A node with an HTML empty element.
+:contact:  contact@sppas.org
+:summary:  A node with an HTML empty element.
 
 .. _This file is part of SPPAS: https://sppas.org/
 ..
@@ -62,9 +62,9 @@ class BaseTagNode(BaseNode):
 
     For example, it can deal with elements like:
 
-        - &lt;tag /&gt;
-        - &lt;tag k=v /&gt;
-        - &lt;tag k1=v2 k2=v2 k3 /&gt;
+    - &lt;tag /&gt;
+    - &lt;tag k=v /&gt;
+    - &lt;tag k1=v2 k2=v2 k3 /&gt;
 
     """
 
@@ -73,7 +73,7 @@ class BaseTagNode(BaseNode):
 
         :param parent: (str) Parent identifier
         :param identifier: (str) This node identifier
-        :param tag: (str) The element tag
+        :param tag: (str) The element tag. Converted in lower case.
         :param attributes: (dict) key=(str) value=(str or None)
         :raises: NodeInvalidIdentifierError:
         :raises: NodeTagError:
@@ -84,12 +84,12 @@ class BaseTagNode(BaseNode):
 
         # The node data: a tag and its attributes
         tag = str(tag)
-        self.__tag = tag
+        self.__tag = tag.lower()
         self._attributes = dict()
 
         # Fill in the attributes' dictionary
         if isinstance(attributes, dict) is False:
-            raise TypeError("Expected a dict for the attributes.")
+            raise TypeError("Expected a dict for the attributes argument of BaseTagNode().")
         for key in attributes:
             value = attributes[key]
             self.add_attribute(key, value)
@@ -108,13 +108,15 @@ class BaseTagNode(BaseNode):
     def check_attribute(self, key) -> str:
         """Raises NodeAttributeError if key is not a valid attribute.
 
-        :return: key (Any) A unique identifier, anything that we can cast to string
+        :param key: (any) An attribute
         :raises: NodeAttributeError: The attribute can't be assigned to this element.
         :raises: NodeAttributeError: if given key can't be converted to string
+        :return: key (str) valid key
 
         """
         try:
             key = str(key)
+            key = key.lower()
         except Exception:
             raise NodeAttributeError(key)
 
@@ -134,25 +136,32 @@ class BaseTagNode(BaseNode):
 
     # -----------------------------------------------------------------------
 
-    def set_attribute(self, key: str, value) -> None:
+    def set_attribute(self, key: str, value) -> str:
         """Set a property to the node. Delete the existing one, if any.
 
         :param key: Key property
         :param value: (str or list)
+        :raises: NodeAttributeError: The attribute can't be assigned to this element.
+        :raises: NodeAttributeError: if given key can't be converted to string
+        :return: key (str) valid assigned key
 
         """
         key = self.check_attribute(key)
         if isinstance(value, (list, tuple)) is True:
             value = " ".join(value)
         self._attributes[key] = value
+        return key
 
     # -----------------------------------------------------------------------
 
-    def add_attribute(self, key: str, value) -> None:
+    def add_attribute(self, key: str, value) -> str:
         """Add a property to the node. Append the value if existing.
 
         :param key: (str) Key property
         :param value:
+        :raises: NodeAttributeError: The attribute can't be assigned to this element.
+        :raises: NodeAttributeError: if given key can't be converted to string
+        :return: key (str) valid assigned key
 
         """
         if key not in self._attributes:
@@ -162,6 +171,7 @@ class BaseTagNode(BaseNode):
                 self._attributes[key] += " " + value
             else:
                 self._attributes[key] = value
+        return key
 
     # -----------------------------------------------------------------------
 
@@ -273,4 +283,3 @@ class EmptyNode(BaseTagNode):
         super(EmptyNode, self).__init__(parent, identifier, tag, attributes)
         if self.tag not in HTML_EMPTY_TAGS.keys():
             raise NodeTagError(tag)
-

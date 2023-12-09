@@ -49,6 +49,7 @@ from whakerpy.htmlmaker.emptynodes import BaseTagNode
 from whakerpy.htmlmaker.emptynodes import EmptyNode
 from whakerpy.htmlmaker.emptynodes import HTMLHr
 from whakerpy.htmlmaker.emptynodes import HTMLImage
+from whakerpy.htmlmaker.emptynodes import HTMLInputText
 
 # ---------------------------------------------------------------------------
 
@@ -105,6 +106,10 @@ class TestEmptyNode(unittest.TestCase):
         # Check if tag property returns the correct tag
         empty_node = BaseTagNode("parent_id", "test_id", "a", {"href": "https://example.com", "target": "_blank"})
         self.assertEqual(empty_node.tag, "a")
+
+        # Upper/Lower
+        empty_node = BaseTagNode(None, None, "BR")
+        self.assertEqual(empty_node.tag, "br")
 
     # -----------------------------------------------------------------------
 
@@ -198,6 +203,18 @@ class TestEmptyNode(unittest.TestCase):
 
 
 class TestElements(unittest.TestCase):
+
+    def test_input_text(self):
+        # test init
+        node = HTMLInputText(parent="parent_id", identifier="input0")
+        self.assertTrue(node.has_attribute("type"))
+        self.assertEqual("text", node.get_attribute_value("type"))
+        self.assertEqual("input0", node.get_attribute_value("id"))
+        self.assertEqual("input0", node.get_attribute_value("name"))
+        # test name
+        node = HTMLInputText(parent="parent_id", identifier="input0")
+        node.set_name("newname")
+        self.assertEqual("newname", node.get_attribute_value("name"))
 
     def test_image(self):
         i = HTMLImage("parent_id", "img_id", src="/path/to/image.png")

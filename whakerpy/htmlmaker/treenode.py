@@ -1,5 +1,5 @@
 """
-:filename:  whakerpy.htmlmaker.treenode.py
+:filename: whakerpy.htmlmaker.treenode.py
 :author:   Brigitte Bigi
 :contact:  contact@sppas.org
 :summary:  Root of the tree to store HTML elements and serialize into a string.
@@ -192,14 +192,14 @@ class HTMLTree(BaseNode):
 
     # -----------------------------------------------------------------------
 
-    def add_body_attribute(self, key: str, value:str) -> None:
+    def add_body_attribute(self, key: str, value: str) -> str:
         """Add an attribute to the body element node.
 
         :param key: (str) Key property of an HTML attribute
         :param value: (str) Value of the attribute
-
         :Raises: NodeTypeError: if key or value is not a string
         :raises: NodeAttributeError: if unknown key
+        :return: normalized key
 
         """
         return self._get_body().add_attribute(key, value)
