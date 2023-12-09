@@ -1,8 +1,8 @@
 """
-:filename: sppas.ui.htmlmaker.treenode.py
+:filename:  whakerpy.htmlmaker.treenode.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
-:summary: Root of the tree to store HTML elements and serialize into a string.
+:contact:  contact@sppas.org
+:summary:  Root of the tree to store HTML elements and serialize into a string.
 
 .. _This file is part of SPPAS: https://sppas.org/
 ..
@@ -59,7 +59,29 @@ from .treeelts import HTMLScriptNode
 class HTMLTree(BaseNode):
     """Root of an HTML tree.
 
-    An HTML Tree has two children: a doctype node, and a "html" node.
+    Since the early days of the World Wide Web, there have been many versions:
+    [source: <https://www.w3schools.com/html/html_intro.asp>]
+
+    -    1989: 	Tim Berners-Lee invented www
+    -    1991: 	Tim Berners-Lee invented HTML
+    -    1993: 	Dave Raggett drafted HTML+
+    -    1995: 	HTML Working Group defined HTML 2.0
+    -    1997: 	W3C Recommendation: HTML 3.2
+    -    1999: 	W3C Recommendation: HTML 4.01
+    -    2000: 	W3C Recommendation: XHTML 1.0
+    -    2008: 	WHATWG HTML5 First Public Draft
+    -    2012: 	WHATWG HTML5 Living Standard
+    -    2014: 	W3C Recommendation: HTML5
+    -    2016: 	W3C Candidate Recommendation: HTML 5.1
+    -    2017: 	W3C Recommendation: HTML5.1 2nd Edition
+    -    2017: 	W3C Recommendation: HTML5.2
+
+    HTML elements are generally made of a start tag, an optional element
+    content, and an end tag. However, several elements have only a start
+    tag, like "br" or "img", and a few elements don't have tag at all,
+    like comments.
+
+    An HTMLTree has two children: a doctype node, and a "html" node.
     The "html" tag is the container for all HTML elements of the page.
     The following properties allow to access to "html" children nodes:
 

@@ -306,3 +306,7 @@ ARIA_TAG_ATTR = {
     "aria-label": None,
     "aria-pressed": ("true", "false")
 }
+
+# List of accepted child tags in an HTML header.
+HEAD_TAGS = ("title", "meta", "link", "style", "script")
+

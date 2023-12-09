@@ -1,8 +1,8 @@
 """
-:filename: sppas.ui.htmlmaker.treeelts.py
+:filename: whakerpy.htmlmaker.treeelts.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
-:summary: Node classes to generate HTML elements.
+:contact:  contact@sppas.org
+:summary:  Node classes to generate HTML elements.
 
 .. _This file is part of SPPAS: https://sppas.org/
 ..
@@ -36,31 +36,10 @@
 
     -------------------------------------------------------------------------
 
-Since the early days of the World Wide Web, there have been many versions:
-[source: <https://www.w3schools.com/html/html_intro.asp>]
-
--    1989: 	Tim Berners-Lee invented www
--    1991: 	Tim Berners-Lee invented HTML
--    1993: 	Dave Raggett drafted HTML+
--    1995: 	HTML Working Group defined HTML 2.0
--    1997: 	W3C Recommendation: HTML 3.2
--    1999: 	W3C Recommendation: HTML 4.01
--    2000: 	W3C Recommendation: XHTML 1.0
--    2008: 	WHATWG HTML5 First Public Draft
--    2012: 	WHATWG HTML5 Living Standard
--    2014: 	W3C Recommendation: HTML5
--    2016: 	W3C Candidate Recommendation: HTML 5.1
--    2017: 	W3C Recommendation: HTML5.1 2nd Edition
--    2017: 	W3C Recommendation: HTML5.2
-
-HTML elements are generally made of a start tag, an optional element content,
-and an end tag. However, several elements have only a start tag, like <br/>
-or <img/>, and a few elements don't have tag at all, like comments.
-
 """
 
 from .hexc import NodeChildTagError
-
+from .hconsts import HEAD_TAGS
 from .emptynodes import EmptyNode
 from .htmnodes import HTMLNode
 
@@ -71,11 +50,6 @@ class HTMLHeadNode(HTMLNode):
     """Convenient class to represent the head node of an HTML tree.
 
     """
-
-    # List of accepted child tags in an HTML header.
-    HEAD_TAGS = ("title", "meta", "link", "style", "script")
-
-    # -----------------------------------------------------------------------
 
     def __init__(self, parent):
         """Create the head node."""
@@ -91,7 +65,7 @@ class HTMLHeadNode(HTMLNode):
         :param node: (Node)
 
         """
-        if node.tag not in HTMLHeadNode.HEAD_TAGS:
+        if node.tag not in HEAD_TAGS:
             raise NodeChildTagError(node.tag)
         HTMLNode.append_child(self, node)
 
@@ -104,7 +78,7 @@ class HTMLHeadNode(HTMLNode):
         :param node: (Node)
 
         """
-        if node.tag not in HTMLHeadNode.HEAD_TAGS:
+        if node.tag not in HEAD_TAGS:
             raise NodeChildTagError(node.tag)
         HTMLNode.insert_child(self, pos, node)
 
