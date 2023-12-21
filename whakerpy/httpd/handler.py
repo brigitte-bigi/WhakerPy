@@ -3,7 +3,7 @@
 :filename: sppas.ui.whakerpy.httpd.handler.py
 :author:   Brigitte Bigi
 :contributor: Florian Lopitaux
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary:  Manage an HTTPD handler for any web-based application.
 
 .. _This file is part of SPPAS: https://sppas.org/

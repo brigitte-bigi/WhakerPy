@@ -2,7 +2,7 @@
 """
 :filename: sppas.ui.whakerpy.httpd.hstatus.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary:  The HTTPD status codes.
 
 .. _This file is part of SPPAS: https://sppas.org/

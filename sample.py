@@ -2,7 +2,7 @@
 """
 :filename: sample.py
 :author: Brigitte Bigi
-:contact: develop@sppas.org
+:contact: contact@sppas.org
 :summary: Example of custom application based on a web-frontend for Py backend.
 
 """
@@ -13,11 +13,12 @@ import logging
 
 from whakerpy.htmlmaker import HTMLTree
 from whakerpy.httpd.hserver import BaseHTTPDServer
-from whakerpy.website import WebSiteData
-from whakerpy.website import WebSiteApplication
+from whakerpy.webapp import WebSiteData
+from whakerpy.webapp import WebSiteApplication
 from samples.response import SampleAppResponse
 from samples.response import SampleWebResponse
 
+# Enable debug level
 logging.getLogger().setLevel(0)
 
 # ---------------------------------------------------------------------------
@@ -36,19 +37,18 @@ class AppServer(BaseHTTPDServer):
         """
         logging.debug("HTTPD server initialization...")
 
-        # The "ResponseRecipe" is the interface between the HTTPD server (frontend)
-        # and your API - Application Programming Interface (backend).
-        # In this sample, the response is generating random colors/text; it's
-        # a fully dynamic content.
+        # The "ResponseRecipe" is the interface between the HTTPD server
+        # (frontend) and your API - Application Programming Interface
+        # (backend). In this sample, the response is generating random
+        # colors/text; it's a fully dynamic content with one page only.
         app_bakery = SampleAppResponse()
         self._pages[app_bakery.page()] = app_bakery
         self._default = app_bakery.page()
 
-        # Other pages have a static body main, stored into a file. So, they are
-        # based on a different response system.
-        data = WebSiteData(os.path.join("samples", "website.json"))
+        # Extract the config data of the sample webapp from a JSON file
+        data = WebSiteData(os.path.join("samples", "webapp.json"))
 
-        # Create the dynamic page for each page of data
+        # Create the dynamic tree for each page described in data
         tree = HTMLTree("sample")
         for page_name in data:
             page_path = os.path.join("samples", data.filename(page_name))

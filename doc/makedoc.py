@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 # makedoc.py
 # Summary: Create the documentation of WhakerPy, using Clamming library.
 # Usage: python makedoc.py
@@ -32,6 +33,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from whakerpy.htmlmaker import *
 from whakerpy.httpd import *
+from whakerpy.webapp import *
 try:
     from clamming import ClamsClass
     from clamming import ClammingClassParser
@@ -65,12 +67,16 @@ HTML_TOP = """<!DOCTYPE html>
          <p><strong>WhakerPy doc</strong></p>
          <ul>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" {prev}> &uarr; Prev. Class</a>
+                 <a class="width-three-quarters" role="button" tabindex="0" {prev}> 
+                 &uarr; Prev. Class</a>
              </li>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" href="index.html">&#8962; Doc Home</a></li>
+                 <a class="width-three-quarters" role="button" tabindex="0" href="index.html">
+                 &#8962; Doc Home</a>
+             </li>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" {next}> &darr; Next Class</a>
+                 <a class="width-three-quarters" role="button" tabindex="0" {next}>
+                  &darr; Next Class</a>
              </li>
          </ul>
      
@@ -119,43 +125,45 @@ HTML_BOTTOM = """
 
 
 def html_top(prev_link: str | None, next_link: str | None) -> str:
-    """Return the custom top part of the html output file.
+    """Return the custom top part of the HTML output file.
 
     """
     if prev_link is None:
-        aprev = 'aria-disabled="true"'
+        a_prev = 'aria-disabled="true"'
     else:
-        aprev = 'href="{:s}"'.format(prev_link)
+        a_prev = 'href="{:s}"'.format(prev_link)
     if next_link is None:
-        anext = 'aria-disabled="true"'
+        a_next = 'aria-disabled="true"'
     else:
-        anext = 'href="{:s}"'.format(next_link)
-    return HTML_TOP.format(prev=aprev, next=anext)
+        a_next = 'href="{:s}"'.format(next_link)
+    return HTML_TOP.format(prev=a_prev, next=a_next)
 
 # ---------------------------------------------------------------------------
 
 
-def html_index_page(pages: dict) -> None:
+def html_index_page(all_pages: dict) -> None:
     """Write the index.html file from the given pages.
 
+    :param all_pages: A dictionary with all HTML pages.
+
     """
-    with open(os.path.join("", "index.html"), "w") as fp:
+    with open(os.path.join("", "index.html"), "w", encoding="utf-8") as fp:
         fp.write(html_top(prev_link=None, next_link=None))
 
-        for package in pages:
+        for package in all_pages:
             fp.write('<section id="{:s}">\n'.format(package))
             fp.write("<h2>WhakerPy.{:s} classes</h2>\n".format(package))
 
             fp.write('<section class="cards-panel">\n')
-            for i in range(len(pages[package])):
-                obj, page = pages[package][i]
+            for ip in range(len(all_pages[package])):
+                py_obj, page_name = all_pages[package][ip]
                 fp.write('    <article class="card">\n')
-                fp.write('        <header><span>{:d}</span></header>'.format(i+1))
+                fp.write('        <header><span>{:d}</span></header>'.format(ip+1))
                 fp.write('        <main>')
-                fp.write('            <h3>{:s}</h3>'.format(obj.__name__))
+                fp.write('            <h3>{:s}</h3>'.format(py_obj.__name__))
                 fp.write('        </main>')
                 fp.write('        <footer>')
-                fp.write(_add_link("Read me →", page))
+                fp.write(_add_link("Read me →", page_name))
                 fp.write('        </footer>')
                 fp.write('    </article>')
 
@@ -164,28 +172,28 @@ def html_index_page(pages: dict) -> None:
         fp.write(HTML_BOTTOM)
 
 
-def _add_link(name: str, page: str) -> str:
-    return '            <a role="button" href="{:s}">{:s}</a>'.format(page, name)
+def _add_link(name: str, href: str) -> str:
+    return '            <a role="button" href="{:s}">{:s}</a>'.format(href, name)
 
 # ---------------------------------------------------------------------------
 
 
-def obj_to_html(obj, out_html, prev_page=None, next_page=None) -> None:
-    """Return the custom documentation html output file of the given object.
+def obj_to_html(pyobj, out_html, prev_page=None, next_page=None) -> None:
+    """Return the custom documentation HTML output file of the given object.
 
-    :param obj: (Any) A python class object
+    :param pyobj: (Any) A python class object
     :param out_html: (str) Output filename
     :param prev_page: (str|None) Previous page name
     :param next_page: (str|None) Previous page name
 
     """
     # Parse the object and store collected information = clamming
-    clamming = ClammingClassParser(obj)
+    clamming = ClammingClassParser(pyobj)
 
-    # Export the collected clams to html
+    # Export the collected clams to HTML
     clams = ClamsClass(clamming)
     html_content = clams.html()
-    with open(out_html, "w") as fp:
+    with open(out_html, "w", encoding="utf-8") as fp:
         fp.write(html_top(prev_page, next_page))
         fp.write(html_content)
         fp.write(HTML_BOTTOM)
@@ -196,7 +204,8 @@ def obj_to_html(obj, out_html, prev_page=None, next_page=None) -> None:
 
 
 if __name__ == "__main__":
-    # List of HTML pages dynamically created by Clamming
+    # List of HTML pages dynamically created by Clamming,
+    # split by package for clarity reasons...
     pack1 = [
         (BaseNode, "basenode.html"),
         (BaseTagNode, "tagnode.html"),
@@ -209,9 +218,15 @@ if __name__ == "__main__":
         (BaseHTTPDServer, "server.html"),
         (BaseResponseRecipe, "response.html")
     ]
+    pack3 = [
+        (WebSiteData, "websitedata.html"),
+        (WebSiteResponse, "websiteresponse.html"),
+        (WebSiteApplication, "websiteapp.html")
+    ]
     pages = {
         "htmlmaker": pack1,
-        "httpd": pack2
+        "httpd": pack2,
+        "webapp": pack3
     }
 
     # Create the index.html page. It's a table of content.
@@ -225,4 +240,3 @@ if __name__ == "__main__":
             n = None if i+1 == len(pages[pack]) else pages[pack][i+1][1]
             print("{:s}".format(page))
             obj_to_html(obj, page, prev_page=p, next_page=n)
-

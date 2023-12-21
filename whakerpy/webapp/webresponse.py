@@ -1,5 +1,5 @@
 """
-:filename:  whakerpy.website.webresponse.py
+:filename:  whakerpy.webapp.webresponse.py
 :author:   Mathias Cazals, Brigitte Bigi
 :contact:  contact@sppas.org
 :summary:  Create a generic HTTPD response for a web server.
@@ -50,7 +50,7 @@ from whakerpy.httpd import HTTPDStatus
 class WebSiteResponse(BaseResponseRecipe):
     """Create an HTML response content.
 
-    Can be used when all pages of a website are sharing the same header, nav
+    Can be used when all pages of a webapp are sharing the same header, nav
     and footer. Then, **only one tree** is created for all pages, and its
     body->main is changed depending on the requested page.
 
@@ -59,7 +59,7 @@ class WebSiteResponse(BaseResponseRecipe):
     def __init__(self, name="index.html", tree=None):
         """Create a HTTPD Response instance with a default response.
 
-        Useful when creating dynamically the HTML Tree for a website.
+        Useful when creating dynamically the HTML Tree for a webapp.
         The "main" part of the body is re-created every time bake() is invoked.
         Here, it's loaded from a static file.
 

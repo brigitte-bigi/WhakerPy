@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+        <title>WhakerPy Doc</title>
+        <link rel="logo icon" href="../etc/whakerpy32x32.ico" />
+        <link rel="stylesheet" href="../etc/colors_light.css" type="text/css" />
+        <link rel="stylesheet" href="../etc/main.css" type="text/css" />
+        <link rel="stylesheet" href="../etc/main_sppas.css" type="text/css" />
+        <link rel="stylesheet" href="../etc/code.css" type="text/css" />
+        <link rel="stylesheet" href="../etc/cards.css" type="text/css" />
+        <script src="../etc/toc.js" type="text/javascript"></script>
+   </head>
+<body class="light">
+     <header></header>
+     <nav id="nav-book" class="side-nav">
+         <p><strong>WhakerPy doc</strong></p>
+         <ul>
+             <li class="center">
+                 <a class="width-three-quarters" role="button" tabindex="0" href="websiteresponse.html"> 
+                 &uarr; Prev. Class</a>
+             </li>
+             <li class="center">
+                 <a class="width-three-quarters" role="button" tabindex="0" href="index.html">
+                 &#8962; Doc Home</a>
+             </li>
+             <li class="center">
+                 <a class="width-three-quarters" role="button" tabindex="0" aria-disabled="true">
+                  &darr; Next Class</a>
+             </li>
+         </ul>
+     
+         <p><strong>Table of Contents</strong></p>
+         <ul id="toc"></ul>
+     
+     </nav>
+     <main id="toc-content">
+
+        <h1>
+            <img class="center small-logo" src="../etc/whakerpy.png" alt="WhakerPy logo">
+            <img class="center small-logo" src="../etc/whakerpy.png" alt="WhakerPy logo">
+            <img class="center small-logo" src="../etc/whakerpy.png" alt="WhakerPy logo">
+            <p class="center">WhakerPy tool documentation</p>
+        </h1>
+
+<section id="#WebSiteApplication">
+<h2>Class WebSiteApplication</h2>
+
+<h3 id="#description_WebSiteApplication">Description</h3>
+    <article class="docstring">
+<p><em>Create and run a webapp applications.</em></p>
+
+<p>Allows to create a server and a response system in order to use HTTPD
+like a communication system between a web-browser and a Python API.</p>
+
+<p>The localhost port is randomly assigned.</p>
+
+    </article>
+<h3 id="#constructor_WebSiteApplication">Constructor</h3>
+    <article class="docstring">
+<p><em>HTTPD Server initialization.</em></p>
+
+<p>Create the application for a Web Front-End based on HTTPD protocol.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>server_cls</strong></li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="15510_collapse_id" aria-expanded="false" aria-controls="15510_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="15510_expand_id" aria-labelledby="15510_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_cls</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;HTTPD Server initialization.</span>
+
+<span class="sd">    Create the application for a Web Front-End based on HTTPD protocol.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__location</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+    <span class="n">httpd_port</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">99</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__port</span> <span class="o">=</span> <span class="n">httpd_port</span> <span class="o">+</span> <span class="n">httpd_port</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__server</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">server_address</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__location</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__port</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__server</span> <span class="o">=</span> <span class="n">server_cls</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">HTTPDHandler</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__server</span><span class="o">.</span><span class="n">create_pages</span><span class="p">()</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+<h3 id="#public_fct_WebSiteApplication">Public functions</h3>
+<section>
+<h4>client_url</h4>
+
+    <article class="docstring">
+<p><em>Return the client URL of this server.</em></p>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="56747_collapse_id" aria-expanded="false" aria-controls="56747_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="56747_expand_id" aria-labelledby="56747_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">client_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the client URL of this server.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;http://</span><span class="si">{:s}</span><span class="s1">:</span><span class="si">{:d}</span><span class="s1">/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__location</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__port</span><span class="p">)</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h4>run</h4>
+
+    <article class="docstring">
+<p><em>Run the application with a main loop.</em></p>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>int</em>) Exit status (0=normal)</li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="92487_collapse_id" aria-expanded="false" aria-controls="92487_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="92487_expand_id" aria-labelledby="92487_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the application with a main loop.</span>
+
+<span class="sd">        :return: (int) Exit status (0=normal)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__server</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+    <span class="k">return</span> <span class="mi">0</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+</section>
+    </main>
+    <footer>
+        <p class="copyright"> Copyright (C) Brigitte Bigi - LPL 2023 </p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+                 htmlTableOfContents();
+             }
+         );
+    
+         try {
+             module.exports = htmlTableOfContents;
+         } catch (e) {
+             // module.exports is not defined
+         }
+    </script>
+    <script src="../etc/accordion.js" type="text/javascript"></script>
+ </body>
+</html>
+

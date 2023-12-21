@@ -9,34 +9,29 @@ Create and manipulate HTML from the power of Python:
 
 * Easy to learn. Consistent, simple syntax.
 * Flexible and easy usage.
-* Create HTML pages dynamically
+* Create HTML pages dynamically.
 * Can save as static files, and/or
 * Run locally with its httpd server and response "bakery" system.
 
 
-
 ## Author
 
-Copyright (C) 2023 - Brigitte Bigi - <develop@sppas.org>
+Copyright (C) 2023 - Brigitte Bigi - <contact@sppas.org>
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 
 ## License
 
-This is the implementation of the `WhakerPy` library, under the terms of the GNU General Public License version 3.
+The `WhakerPy` library is under the terms of the GNU General Public License version 3.
 
 
 ## Install WhakerPy
 
-### From its repo:
+### From pypi.org:
 
-Download the repository and unpack it, or clone with `git`. WhakerPy package includes the following folders and files:
-
-1. "whakerpy": the source code package
-2. "doc": the documentation of whakerpy in HTML
-3. "sample": 
-4. "etc": etcetera!
-
+```bash
+> python -m pip install WhakerPy
+````
 
 ### From its wheel package:
 
@@ -46,11 +41,14 @@ Download the wheel file (WhakerPy-xxx.whl) and install it in your python environ
 > python -m pip install dist/<WhakerPy-xxx.whl>
 ````
 
-### From pypi.org:
+### From its repo:
 
-```bash
-> python -m pip install WhakerPy
-````
+Download the repository and unpack it, or clone with `git`. WhakerPy package includes the following folders and files:
+
+1. "whakerpy": the source code package
+2. "doc": the documentation of whakerpy in HTML
+3. "sample": a webapp sample
+4. "etc": etcetera!
 
 
 ## Quick Start
@@ -85,7 +83,7 @@ Render and print the HTML
 </html>
 ```
 
-Add some styling and others
+Add some styling and others:
 
 ```python
 >>> htree.head.title("WhakerPy")
@@ -94,7 +92,7 @@ Add some styling and others
 >>> htree.head.link(rel="stylesheet", href="nice.css", link_type="text/css")
 ```
 
-Add page copyright in the footer
+Add page copyright in the footer:
 
 ```python
 >>> copyreg = HTMLNode(htree.body_footer.identifier, "copyright", "p",
@@ -103,7 +101,7 @@ Add page copyright in the footer
 >>> htree.body_footer.append_child(copyreg)
 ```
 
-Let's view the result in your favorite web browser
+Let's view the result in your favorite web browser:
 
 ```python
 >>> import webbrowser
@@ -113,7 +111,7 @@ Let's view the result in your favorite web browser
 
 ## Create a web application frontend with dynamic HTML content
 
-For a quick start, see the file `sample.py`. It shows a very simple solution to create a server that can handle dynamic content. This content is created from a custom `BaseResponseRecipe()` object, available in the file `samples/response.py`. The response is the interface between a local back-end python application and the web front-end.
+For a quick start, see the file `sample.py` in the repo. It shows a very simple solution to create a server that can handle dynamic content. This content is created from a custom `BaseResponseRecipe()` object, available in the file `samples/response.py`. The response is the interface between a local back-end python application and the web front-end.
 
 For a more complex example of an already in-used web frontend, see: <https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py>.
 

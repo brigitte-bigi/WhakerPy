@@ -1,5 +1,5 @@
 """
-:filename:  whakerpy.website.weblocalservere.py
+:filename:  whakerpy.webapp.weblocalservere.py
 :author:   Mathias Cazals, Brigitte Bigi
 :contact:  contact@sppas.org
 :summary:  Create a generic HTTPD localhost server.
@@ -43,12 +43,12 @@ import random
 from whakerpy.httpd import HTTPDHandler
 
 # ---------------------------------------------------------------------------
-# A website server, for a local use only.
+# A webapp server, for a local use only.
 # ---------------------------------------------------------------------------
 
 
 class WebSiteApplication(object):
-    """Create and run a website applications.
+    """Create and run a webapp applications.
 
     Allows to create a server and a response system in order to use HTTPD
     like a communication system between a web-browser and a Python API.

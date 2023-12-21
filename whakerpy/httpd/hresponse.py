@@ -1,7 +1,7 @@
 """
 :filename: sppas.ui.whakerpy.httpd.hresponse.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary:  Base class to create an HTML response.
 
 .. _This file is part of SPPAS: https://sppas.org/

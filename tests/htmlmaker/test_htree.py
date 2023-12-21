@@ -1,7 +1,7 @@
 """
 :filename: test_htree.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary: Tests for HTMLTree in package htmlmaker.
 
 .. _This file is part of SPPAS: https://sppas.org/

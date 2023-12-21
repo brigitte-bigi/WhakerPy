@@ -1,7 +1,7 @@
 """
 :filename: test_tagnodes.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary: Tests for HTML tag nodes in package htmlmaker.
 
 .. _This file is part of SPPAS: https://sppas.org/
@@ -247,4 +247,3 @@ class TestElements(unittest.TestCase):
         self.assertEqual(1, node.children_size())
         node.set_icon("/path/to/icon.png")
         self.assertEqual(2, node.children_size())
-

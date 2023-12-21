@@ -18,12 +18,16 @@
          <p><strong>WhakerPy doc</strong></p>
          <ul>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" aria-disabled="true"> &uarr; Prev. Class</a>
+                 <a class="width-three-quarters" role="button" tabindex="0" aria-disabled="true"> 
+                 &uarr; Prev. Class</a>
              </li>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" href="index.html">&#8962; Doc Home</a></li>
+                 <a class="width-three-quarters" role="button" tabindex="0" href="index.html">
+                 &#8962; Doc Home</a>
+             </li>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" href="server.html"> &darr; Next Class</a>
+                 <a class="width-three-quarters" role="button" tabindex="0" href="server.html">
+                  &darr; Next Class</a>
              </li>
          </ul>
      
@@ -77,11 +81,11 @@ with any other http.server.ThreadingHTTPServer.</p>
 <h3 id="#constructor_HTTPDHandler">Constructor</h3>
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="97070_collapse_id" aria-expanded="false" aria-controls="97070_expand_id">
+             <button class="rise-trigger" id="25132_collapse_id" aria-expanded="false" aria-controls="25132_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="97070_expand_id" aria-labelledby="97070_collapse_id">
+         <main class="rise-main" id="25132_expand_id" aria-labelledby="25132_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">client_address</span><span class="p">,</span> <span class="n">server</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">client_address</span> <span class="o">=</span> <span class="n">client_address</span>
@@ -109,11 +113,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="24396_collapse_id" aria-expanded="false" aria-controls="24396_expand_id">
+             <button class="rise-trigger" id="32489_collapse_id" aria-expanded="false" aria-controls="32489_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="24396_expand_id" aria-labelledby="24396_collapse_id">
+         <main class="rise-main" id="32489_expand_id" aria-labelledby="32489_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_HEAD</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a HEAD request.&quot;&quot;&quot;</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;HEAD -- requested: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
@@ -136,11 +140,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="52809_collapse_id" aria-expanded="false" aria-controls="52809_expand_id">
+             <button class="rise-trigger" id="22611_collapse_id" aria-expanded="false" aria-controls="22611_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="52809_expand_id" aria-labelledby="52809_collapse_id">
+         <main class="rise-main" id="22611_expand_id" aria-labelledby="22611_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a GET request.</span>
 
@@ -154,9 +158,9 @@ View Source
     <span class="k">if</span> <span class="s1">&#39;?&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">)]</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_html</span><span class="p">(</span><span class="nb">dict</span><span class="p">())</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_html</span><span class="p">(</span><span class="nb">dict</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
 </code></pre></div>
 
@@ -176,11 +180,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="51421_collapse_id" aria-expanded="false" aria-controls="51421_expand_id">
+             <button class="rise-trigger" id="12857_collapse_id" aria-expanded="false" aria-controls="12857_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="51421_expand_id" aria-labelledby="51421_collapse_id">
+         <main class="rise-main" id="12857_expand_id" aria-labelledby="12857_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_POST</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a POST request.</span>
 
@@ -208,9 +212,9 @@ View Source
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Can&#39;t understand POSTED data: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dinput</span><span class="p">))</span>
     <span class="k">if</span> <span class="s1">&#39;application/json&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Accept&#39;</span><span class="p">):</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json_data</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json_data</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_html</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_html</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="p">)</span>
 </code></pre></div>
 
@@ -237,11 +241,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="62996_collapse_id" aria-expanded="false" aria-controls="62996_expand_id">
+             <button class="rise-trigger" id="14690_collapse_id" aria-expanded="false" aria-controls="14690_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="62996_expand_id" aria-labelledby="62996_collapse_id">
+         <main class="rise-main" id="14690_expand_id" aria-labelledby="14690_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">log_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. For a quiet handler pls!!!.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
@@ -274,11 +278,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="74985_collapse_id" aria-expanded="false" aria-controls="74985_expand_id">
+             <button class="rise-trigger" id="61807_collapse_id" aria-expanded="false" aria-controls="61807_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="74985_expand_id" aria-labelledby="74985_collapse_id">
+         <main class="rise-main" id="61807_expand_id" aria-labelledby="61807_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_set_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the HTTPD response headers.</span>
 
@@ -319,11 +323,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="66899_collapse_id" aria-expanded="false" aria-controls="66899_expand_id">
+             <button class="rise-trigger" id="19301_collapse_id" aria-expanded="false" aria-controls="19301_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="66899_expand_id" aria-labelledby="66899_collapse_id">
+         <main class="rise-main" id="19301_expand_id" aria-labelledby="19301_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the file content and the corresponding status.</span>
 
@@ -374,11 +378,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="69635_collapse_id" aria-expanded="false" aria-controls="69635_expand_id">
+             <button class="rise-trigger" id="56676_collapse_id" aria-expanded="false" aria-controls="56676_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="69635_expand_id" aria-labelledby="69635_collapse_id">
+         <main class="rise-main" id="56676_expand_id" aria-labelledby="56676_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_json_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the events and return the data and the status.</span>
 
@@ -392,9 +396,9 @@ View Source
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="s1">&#39;page_bakery&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="n">page_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
 </code></pre></div>
 
@@ -426,11 +430,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="84814_collapse_id" aria-expanded="false" aria-controls="84814_expand_id">
+             <button class="rise-trigger" id="93832_collapse_id" aria-expanded="false" aria-controls="93832_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="84814_expand_id" aria-labelledby="84814_collapse_id">
+         <main class="rise-main" id="93832_expand_id" aria-labelledby="93832_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the events and return the html page content and status.</span>
 
@@ -441,9 +445,9 @@ View Source
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="s1">&#39;page_bakery&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="n">page_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
 </code></pre></div>
 
@@ -470,11 +474,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="94344_collapse_id" aria-expanded="false" aria-controls="94344_expand_id">
+             <button class="rise-trigger" id="24479_collapse_id" aria-expanded="false" aria-controls="24479_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="94344_expand_id" aria-labelledby="94344_collapse_id">
+         <main class="rise-main" id="24479_expand_id" aria-labelledby="24479_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make the appropriate HTTPD response.</span>
 

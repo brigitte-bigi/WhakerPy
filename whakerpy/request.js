@@ -1,7 +1,7 @@
 /**
 :filename: sppas.ui.swapp.static.js.request.js
 :author: Florian Lopitaux
-:contact: develop@sppas.org
+:contact: contact@sppas.org
 :summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost client and gets data in return.
 
 .. _This file is part of SPPAS: https://sppas.org/

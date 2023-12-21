@@ -1,7 +1,7 @@
 """
 :filename: test_emptynodes.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary: Tests for HTML empty nodes in package htmlmaker.
 
 .. _This file is part of SPPAS: https://sppas.org/

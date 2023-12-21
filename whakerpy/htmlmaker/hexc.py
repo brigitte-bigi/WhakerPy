@@ -1,7 +1,7 @@
 """
 :filename: sppas.ui.htmlmaker.hexc.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary: Exception classes to be used in htmlmaker package.
 
 .. _This file is part of SPPAS: https://sppas.org/

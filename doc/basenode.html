@@ -18,12 +18,16 @@
          <p><strong>WhakerPy doc</strong></p>
          <ul>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" aria-disabled="true"> &uarr; Prev. Class</a>
+                 <a class="width-three-quarters" role="button" tabindex="0" aria-disabled="true"> 
+                 &uarr; Prev. Class</a>
              </li>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" href="index.html">&#8962; Doc Home</a></li>
+                 <a class="width-three-quarters" role="button" tabindex="0" href="index.html">
+                 &#8962; Doc Home</a>
+             </li>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" href="tagnode.html"> &darr; Next Class</a>
+                 <a class="width-three-quarters" role="button" tabindex="0" href="tagnode.html">
+                  &darr; Next Class</a>
              </li>
          </ul>
      
@@ -46,29 +50,6 @@
 <h3 id="#description_BaseNode">Description</h3>
     <article class="docstring">
 <p><em>A base class for any node in an HTML tree.</em></p>
-
-<p>Since the early days of the World Wide Web, there have been many versions:
-[source: <a href="https://www.w3schools.com/html/html_intro.asp">https://www.w3schools.com/html/html_intro.asp</a>]</p>
-
-<ul>
-<li>1989:  Tim Berners-Lee invented www</li>
-<li>1991:  Tim Berners-Lee invented HTML</li>
-<li>1993:  Dave Raggett drafted HTML+</li>
-<li>1995:  HTML Working Group defined HTML 2.0</li>
-<li>1997:  W3C Recommendation: HTML 3.2</li>
-<li>1999:  W3C Recommendation: HTML 4.01</li>
-<li>2000:  W3C Recommendation: XHTML 1.0</li>
-<li>2008:  WHATWG HTML5 First Public Draft</li>
-<li>2012:  WHATWG HTML5 Living Standard</li>
-<li>2014:  W3C Recommendation: HTML5</li>
-<li>2016:  W3C Candidate Recommendation: HTML 5.1</li>
-<li>2017:  W3C Recommendation: HTML5.1 2nd Edition</li>
-<li>2017:  W3C Recommendation: HTML5.2</li>
-</ul>
-
-<p>HTML elements are generally made of a start tag, an optional element content,
-and an end tag. However, several elements have only a start tag, like <br/>
-or <img/>, and a few elements don't have tag at all, like comments.</p>
 
 <p>An HTML element without content is called an empty node. It has a
 start tag but neither a content nor an end tag. It has only attributes.</p>
@@ -99,11 +80,11 @@ It is intended to be overridden.</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="56091_collapse_id" aria-expanded="false" aria-controls="56091_expand_id">
+             <button class="rise-trigger" id="87639_collapse_id" aria-expanded="false" aria-controls="87639_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="56091_expand_id" aria-labelledby="56091_collapse_id">
+         <main class="rise-main" id="87639_expand_id" aria-labelledby="87639_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new base node.</span>
 
@@ -150,7 +131,7 @@ View Source
 <h5>Returns</h5>
 
 <ul>
-<li>(<em>str</em>)</li>
+<li>(<em>str</em>) Validated identifier</li>
 </ul>
 
     </article>
@@ -158,11 +139,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="67381_collapse_id" aria-expanded="false" aria-controls="67381_expand_id">
+             <button class="rise-trigger" id="83582_collapse_id" aria-expanded="false" aria-controls="83582_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="67381_expand_id" aria-labelledby="67381_collapse_id">
+         <main class="rise-main" id="83582_expand_id" aria-labelledby="83582_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">validate_identifier</span><span class="p">(</span><span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the given identifier if it matches the requirements.</span>
@@ -172,7 +153,7 @@ View Source
 <span class="sd">        :param identifier: (str) Key to be validated</span>
 <span class="sd">        :raises: NodeInvalidIdentifierError: if it contains invalid characters</span>
 <span class="sd">        :raises: NodeInvalidIdentifierError: if invalid length</span>
-<span class="sd">        :return: (str)</span>
+<span class="sd">        :return: (str) Validated identifier</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="n">entry</span> <span class="o">=</span> <span class="n">BaseNode</span><span class="o">.</span><span class="n">full_strip</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
@@ -194,8 +175,6 @@ View Source
     <article class="docstring">
 <p><em>Fully strip the string: multiple whitespace, tab and CR/LF.</em></p>
 
-<p>Remove all whitespace, tab and CR/LF inside the string.</p>
-
 <h5>Returns</h5>
 
 <ul>
@@ -213,16 +192,14 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="94689_collapse_id" aria-expanded="false" aria-controls="94689_expand_id">
+             <button class="rise-trigger" id="60779_collapse_id" aria-expanded="false" aria-controls="60779_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="94689_expand_id" aria-labelledby="94689_collapse_id">
+         <main class="rise-main" id="60779_expand_id" aria-labelledby="60779_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">full_strip</span><span class="p">(</span><span class="n">entry</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fully strip the string: multiple whitespace, tab and CR/LF.</span>
-
-<span class="sd">        Remove all whitespace, tab and CR/LF inside the string.</span>
 
 <span class="sd">        :return: (str) Cleaned string</span>
 
@@ -245,21 +222,21 @@ View Source
 <h4>identifier</h4>
 
     <article class="docstring">
-<p><em>Return the unique ID of the node within the scope of a tree.</em></p>
+<p><em>Return the (supposed-) unique ID of the node within the scope of a tree.</em></p>
 
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="12383_collapse_id" aria-expanded="false" aria-controls="12383_expand_id">
+             <button class="rise-trigger" id="65830_collapse_id" aria-expanded="false" aria-controls="65830_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="12383_expand_id" aria-labelledby="12383_collapse_id">
+         <main class="rise-main" id="65830_expand_id" aria-labelledby="65830_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the unique ID of the node within the scope of a tree. &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the (supposed-) unique ID of the node within the scope of a tree. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__identifier</span>
 </code></pre></div>
 
@@ -279,11 +256,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="65777_collapse_id" aria-expanded="false" aria-controls="65777_expand_id">
+             <button class="rise-trigger" id="60694_collapse_id" aria-expanded="false" aria-controls="60694_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="65777_expand_id" aria-labelledby="65777_collapse_id">
+         <main class="rise-main" id="60694_expand_id" aria-labelledby="60694_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">is_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return true if node has no children.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="kc">True</span>
@@ -298,20 +275,20 @@ View Source
 <h4>is_root</h4>
 
     <article class="docstring">
-<p><em>Return true if node has no parent, i.e. as root.</em></p>
+<p><em>Return true if node has no parent, i.e. like root.</em></p>
 
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="54431_collapse_id" aria-expanded="false" aria-controls="54431_expand_id">
+             <button class="rise-trigger" id="68928_collapse_id" aria-expanded="false" aria-controls="68928_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="54431_expand_id" aria-labelledby="54431_collapse_id">
+         <main class="rise-main" id="68928_expand_id" aria-labelledby="68928_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">is_root</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return true if node has no parent, i.e. as root.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return true if node has no parent, i.e. like root.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span> <span class="ow">is</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -337,11 +314,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="27771_collapse_id" aria-expanded="false" aria-controls="27771_expand_id">
+             <button class="rise-trigger" id="99719_collapse_id" aria-expanded="false" aria-controls="99719_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="27771_expand_id" aria-labelledby="27771_collapse_id">
+         <main class="rise-main" id="99719_expand_id" aria-labelledby="99719_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The parent identifier.</span>
 
@@ -373,11 +350,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="12661_collapse_id" aria-expanded="false" aria-controls="12661_expand_id">
+             <button class="rise-trigger" id="96982_collapse_id" aria-expanded="false" aria-controls="96982_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="12661_expand_id" aria-labelledby="12661_collapse_id">
+         <main class="rise-main" id="96982_expand_id" aria-labelledby="96982_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the parent identifier.</span>
 
@@ -398,7 +375,7 @@ View Source
 <h4>has_child</h4>
 
     <article class="docstring">
-<p><em>Return True if the given node is a direct child.</em></p>
+<p><em>To be overriden. Return True if the given node ID is a direct child.</em></p>
 
 <h5>Parameters</h5>
 
@@ -417,13 +394,13 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="30761_collapse_id" aria-expanded="false" aria-controls="30761_expand_id">
+             <button class="rise-trigger" id="14974_collapse_id" aria-expanded="false" aria-controls="14974_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="30761_expand_id" aria-labelledby="30761_collapse_id">
+         <main class="rise-main" id="14974_expand_id" aria-labelledby="14974_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">has_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the given node is a direct child.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;To be overriden. Return True if the given node ID is a direct child.</span>
 
 <span class="sd">        :param node_id: (str) Identifier of the node</span>
 <span class="sd">        :return: (bool) True if given identifier is a direct child.</span>
@@ -460,11 +437,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="65650_collapse_id" aria-expanded="false" aria-controls="65650_expand_id">
+             <button class="rise-trigger" id="96405_collapse_id" aria-expanded="false" aria-controls="96405_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="65650_expand_id" aria-labelledby="65650_collapse_id">
+         <main class="rise-main" id="96405_expand_id" aria-labelledby="96405_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbs</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;To be overriden. Serialize the node into HTML.</span>
 
@@ -486,11 +463,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="58212_collapse_id" aria-expanded="false" aria-controls="58212_expand_id">
+             <button class="rise-trigger" id="27242_collapse_id" aria-expanded="false" aria-controls="27242_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="58212_expand_id" aria-labelledby="58212_collapse_id">
+         <main class="rise-main" id="27242_expand_id" aria-labelledby="27242_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
 </code></pre></div>
@@ -505,11 +482,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="23566_collapse_id" aria-expanded="false" aria-controls="23566_expand_id">
+             <button class="rise-trigger" id="74627_collapse_id" aria-expanded="false" aria-controls="74627_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="23566_expand_id" aria-labelledby="23566_collapse_id">
+         <main class="rise-main" id="74627_expand_id" aria-labelledby="74627_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;Node (</span><span class="si">{:s}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
 </code></pre></div>

@@ -3,7 +3,7 @@
 :filename: response.py
 :author: Brigitte Bigi
 :contributor: Florian Lopitaux
-:contact: develop@sppas.org
+:contact: contact@sppas.org
 :summary: An example of custom response with HTML, JS and JSON.
 
 .. _This file is part of SPPAS: https://sppas.org/
@@ -49,7 +49,7 @@ from whakerpy.htmlmaker import HTMLButtonNode
 from whakerpy.htmlmaker import HTMLNavNode
 from whakerpy.httpd import HTTPDStatus
 from whakerpy.httpd import BaseResponseRecipe   # useful for an application
-from whakerpy.website import WebSiteResponse    # useful for a website
+from whakerpy.webapp import WebSiteResponse    # useful for a webapp
 
 # ---------------------------------------------------------------------------
 
@@ -161,12 +161,11 @@ class SampleAppResponse(BaseResponseRecipe):
                       value="The text is changing color without refreshing the page!")
         self._htree.body_header.append_child(_p)
 
-        # Replace the nav
+        # Replace the existing empty nav
         self._htree.set_body_nav(SampleNavNode(self._htree.body_main.identifier))
 
         # Add an element in the footer
-        _p = HTMLNode(self._htree.body_footer.identifier, None, "p",
-                       value="Copyleft 2023 WhakerPy")
+        _p = HTMLNode(self._htree.body_footer.identifier, None, "p", value="Copyleft 2023 WhakerPy")
         self._htree.body_footer.append_child(_p)
 
         # The javascript

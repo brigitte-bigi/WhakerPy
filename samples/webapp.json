@@ -1,6 +1,5 @@
 {
-  "website": "body_main",
-
+  "pagespath": "body_main",
   "other.html": {
     "title": "Other",
     "main": "other.htm",

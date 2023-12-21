@@ -1,7 +1,7 @@
 """
 :filename: test_hexc.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary:  Tests for exceptions in package whakerpy.htmlmaker.
 
 .. _This file is part of SPPAS: https://sppas.org/

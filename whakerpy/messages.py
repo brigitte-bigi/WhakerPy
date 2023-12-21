@@ -2,7 +2,7 @@
 """
 :filename: whakerpy.message.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary:  Manage the messages of the application in SPPAS style.
 
 .. _This file is part of SPPAS: https://sppas.org/
@@ -54,9 +54,9 @@ MESSAGES[9410] = "Expected HTML node identifier {:s}. Got '{!s:s}' instead."
 
 
 def error(msg_id, domain=None):
-    """Return the error message of given id.
+    """Return the error message of given ID.
 
-    :param msg_id: (str | int) Error id
+    :param msg_id: (str | int) Error ID
     :param domain: Unused.
 
     """

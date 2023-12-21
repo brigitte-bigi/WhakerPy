@@ -1,8 +1,8 @@
 """
-:filename:  whakerpy.website.webconfig.py
+:filename: whakerpy.webapp.webconfig.py
 :author:   Mathias Cazals, Brigitte Bigi
 :contact:  contact@sppas.org
-:summary:  Store config data of a website from a JSON file.
+:summary:  Store config data of a webapp from a JSON file.
 
 .. _This file was part of SPPAS: https://sppas.org/ and migrated in WhakerPy,
 .. on 2023-12-08.
@@ -46,9 +46,9 @@ import json
 
 
 class WebSiteData:
-    """Storage class of a website configuration, extracted from a JSON file.
+    """Storage class of a webapp configuration, extracted from a JSON file.
 
-    For each dynamic page of a website, this class contains the filename of
+    For each dynamic page of a webapp, this class contains the filename of
     the page - the one of the URL, its title and the local filename of its
     body->main content.
 
@@ -63,7 +63,7 @@ class WebSiteData:
     """
 
     # Default JSON file describing location of all body "main" sections
-    DEFAULT_CONFIG_FILE = "website.json"
+    DEFAULT_CONFIG_FILE = "webapp.json"
 
     def __init__(self, json_filename=DEFAULT_CONFIG_FILE):
         """Create a WebSiteData instance.
@@ -80,9 +80,9 @@ class WebSiteData:
         self._pages = dict()
         with codecs.open(json_filename, "r", "utf-8") as json_file:
             data = json.load(json_file)
-            self._main_path = data["website"]
+            self._main_path = data["pagespath"]
             for key in data:
-                if key != "website":
+                if key != "pagespath":
                     self._pages[key] = data[key]
                     if len(self._default) == 0:
                         self._default = key

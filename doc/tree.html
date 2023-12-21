@@ -18,12 +18,16 @@
          <p><strong>WhakerPy doc</strong></p>
          <ul>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" href="node.html"> &uarr; Prev. Class</a>
+                 <a class="width-three-quarters" role="button" tabindex="0" href="node.html"> 
+                 &uarr; Prev. Class</a>
              </li>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" href="index.html">&#8962; Doc Home</a></li>
+                 <a class="width-three-quarters" role="button" tabindex="0" href="index.html">
+                 &#8962; Doc Home</a>
+             </li>
              <li class="center">
-                 <a class="width-three-quarters" role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a>
+                 <a class="width-three-quarters" role="button" tabindex="0" aria-disabled="true">
+                  &darr; Next Class</a>
              </li>
          </ul>
      
@@ -47,7 +51,31 @@
     <article class="docstring">
 <p><em>Root of an HTML tree.</em></p>
 
-<p>An HTML Tree has two children: a doctype node, and a "html" node.
+<p>Since the early days of the World Wide Web, there have been many versions:
+[source: <a href="https://www.w3schools.com/html/html_intro.asp">https://www.w3schools.com/html/html_intro.asp</a>]</p>
+
+<ul>
+<li>1989:  Tim Berners-Lee invented www</li>
+<li>1991:  Tim Berners-Lee invented HTML</li>
+<li>1993:  Dave Raggett drafted HTML+</li>
+<li>1995:  HTML Working Group defined HTML 2.0</li>
+<li>1997:  W3C Recommendation: HTML 3.2</li>
+<li>1999:  W3C Recommendation: HTML 4.01</li>
+<li>2000:  W3C Recommendation: XHTML 1.0</li>
+<li>2008:  WHATWG HTML5 First Public Draft</li>
+<li>2012:  WHATWG HTML5 Living Standard</li>
+<li>2014:  W3C Recommendation: HTML5</li>
+<li>2016:  W3C Candidate Recommendation: HTML 5.1</li>
+<li>2017:  W3C Recommendation: HTML5.1 2nd Edition</li>
+<li>2017:  W3C Recommendation: HTML5.2</li>
+</ul>
+
+<p>HTML elements are generally made of a start tag, an optional element
+content, and an end tag. However, several elements have only a start
+tag, like "br" or "img", and a few elements don't have tag at all,
+like comments.</p>
+
+<p>An HTMLTree has two children: a doctype node, and a "html" node.
 The "html" tag is the container for all HTML elements of the page.
 The following properties allow to access to "html" children nodes:</p>
 
@@ -109,11 +137,11 @@ The empty nodes are not serialized.</p>
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="25555_collapse_id" aria-expanded="false" aria-controls="25555_expand_id">
+             <button class="rise-trigger" id="46077_collapse_id" aria-expanded="false" aria-controls="46077_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="25555_expand_id" aria-labelledby="25555_collapse_id">
+         <main class="rise-main" id="46077_expand_id" aria-labelledby="46077_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the tree root and children nodes.</span>
 
@@ -161,11 +189,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="78043_collapse_id" aria-expanded="false" aria-controls="78043_expand_id">
+             <button class="rise-trigger" id="11296_collapse_id" aria-expanded="false" aria-controls="11296_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="78043_expand_id" aria-labelledby="78043_collapse_id">
+         <main class="rise-main" id="11296_expand_id" aria-labelledby="11296_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. Do not set the parent identifier. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="kc">None</span>
@@ -187,11 +215,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="11190_collapse_id" aria-expanded="false" aria-controls="11190_expand_id">
+             <button class="rise-trigger" id="20364_collapse_id" aria-expanded="false" aria-controls="20364_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="11190_expand_id" aria-labelledby="11190_collapse_id">
+         <main class="rise-main" id="20364_expand_id" aria-labelledby="20364_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">is_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. Return False. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="kc">False</span>
@@ -227,11 +255,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="88252_collapse_id" aria-expanded="false" aria-controls="88252_expand_id">
+             <button class="rise-trigger" id="61711_collapse_id" aria-expanded="false" aria-controls="61711_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="88252_expand_id" aria-labelledby="88252_collapse_id">
+         <main class="rise-main" id="61711_expand_id" aria-labelledby="61711_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_html_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add or append a property to the HTML node.</span>
 
@@ -273,11 +301,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="49155_collapse_id" aria-expanded="false" aria-controls="49155_expand_id">
+             <button class="rise-trigger" id="37370_collapse_id" aria-expanded="false" aria-controls="37370_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="49155_expand_id" aria-labelledby="49155_collapse_id">
+         <main class="rise-main" id="37370_expand_id" aria-labelledby="37370_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_body_attribute_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the attribute value of the body element node.</span>
 
@@ -313,24 +341,30 @@ View Source
 <li><em>NodeAttributeError</em>: if unknown key</li>
 </ul>
 
+<h5>Returns</h5>
+
+<ul>
+<li>normalized key</li>
+</ul>
+
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="98884_collapse_id" aria-expanded="false" aria-controls="98884_expand_id">
+             <button class="rise-trigger" id="55857_collapse_id" aria-expanded="false" aria-controls="55857_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="98884_expand_id" aria-labelledby="98884_collapse_id">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_body_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+         <main class="rise-main" id="55857_expand_id" aria-labelledby="55857_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_body_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add an attribute to the body element node.</span>
 
 <span class="sd">        :param key: (str) Key property of an HTML attribute</span>
 <span class="sd">        :param value: (str) Value of the attribute</span>
-
 <span class="sd">        :Raises: NodeTypeError: if key or value is not a string</span>
 <span class="sd">        :raises: NodeAttributeError: if unknown key</span>
+<span class="sd">        :return: normalized key</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_body</span><span class="p">()</span><span class="o">.</span><span class="n">add_attribute</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -365,11 +399,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="47141_collapse_id" aria-expanded="false" aria-controls="47141_expand_id">
+             <button class="rise-trigger" id="58156_collapse_id" aria-expanded="false" aria-controls="58156_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="47141_expand_id" aria-labelledby="47141_collapse_id">
+         <main class="rise-main" id="58156_expand_id" aria-labelledby="58156_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_body_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set an attribute of the body.</span>
 
@@ -403,11 +437,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="13204_collapse_id" aria-expanded="false" aria-controls="13204_expand_id">
+             <button class="rise-trigger" id="52191_collapse_id" aria-expanded="false" aria-controls="52191_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="13204_expand_id" aria-labelledby="13204_collapse_id">
+         <main class="rise-main" id="52191_expand_id" aria-labelledby="52191_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_head</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLNode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the head node element.</span>
 
@@ -446,11 +480,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="82028_collapse_id" aria-expanded="false" aria-controls="82028_expand_id">
+             <button class="rise-trigger" id="64241_collapse_id" aria-expanded="false" aria-controls="64241_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="82028_expand_id" aria-labelledby="82028_collapse_id">
+         <main class="rise-main" id="64241_expand_id" aria-labelledby="64241_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_head</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head_node</span><span class="p">:</span> <span class="n">HTMLNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace the current head node by the given one.</span>
 
@@ -491,11 +525,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="72234_collapse_id" aria-expanded="false" aria-controls="72234_expand_id">
+             <button class="rise-trigger" id="19341_collapse_id" aria-expanded="false" aria-controls="19341_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="72234_expand_id" aria-labelledby="72234_collapse_id">
+         <main class="rise-main" id="19341_expand_id" aria-labelledby="19341_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_body_header</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLNode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the body-&gt;header element node.</span>
 
@@ -534,11 +568,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="29863_collapse_id" aria-expanded="false" aria-controls="29863_expand_id">
+             <button class="rise-trigger" id="60443_collapse_id" aria-expanded="false" aria-controls="60443_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="29863_expand_id" aria-labelledby="29863_collapse_id">
+         <main class="rise-main" id="60443_expand_id" aria-labelledby="60443_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_body_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_node</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace the current body-&gt;header element node by the given one.</span>
 
@@ -579,11 +613,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="80982_collapse_id" aria-expanded="false" aria-controls="80982_expand_id">
+             <button class="rise-trigger" id="28672_collapse_id" aria-expanded="false" aria-controls="28672_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="80982_expand_id" aria-labelledby="80982_collapse_id">
+         <main class="rise-main" id="28672_expand_id" aria-labelledby="28672_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_body_nav</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the body-&gt;nav element node.</span>
 
@@ -622,11 +656,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="75947_collapse_id" aria-expanded="false" aria-controls="75947_expand_id">
+             <button class="rise-trigger" id="53974_collapse_id" aria-expanded="false" aria-controls="53974_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="75947_expand_id" aria-labelledby="75947_collapse_id">
+         <main class="rise-main" id="53974_expand_id" aria-labelledby="53974_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_body_nav</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_node</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace the current body-&gt;nav node by the given one.</span>
 
@@ -667,11 +701,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="37495_collapse_id" aria-expanded="false" aria-controls="37495_expand_id">
+             <button class="rise-trigger" id="71248_collapse_id" aria-expanded="false" aria-controls="71248_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="37495_expand_id" aria-labelledby="37495_collapse_id">
+         <main class="rise-main" id="71248_expand_id" aria-labelledby="71248_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_body_main</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the body-&gt;main element node.</span>
 
@@ -703,11 +737,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="33799_collapse_id" aria-expanded="false" aria-controls="33799_expand_id">
+             <button class="rise-trigger" id="24107_collapse_id" aria-expanded="false" aria-controls="24107_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="33799_expand_id" aria-labelledby="33799_collapse_id">
+         <main class="rise-main" id="24107_expand_id" aria-labelledby="24107_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_body_footer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the body-&gt;footer element node.</span>
 
@@ -746,11 +780,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="21941_collapse_id" aria-expanded="false" aria-controls="21941_expand_id">
+             <button class="rise-trigger" id="64340_collapse_id" aria-expanded="false" aria-controls="64340_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="21941_expand_id" aria-labelledby="21941_collapse_id">
+         <main class="rise-main" id="64340_expand_id" aria-labelledby="64340_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_body_footer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_node</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace the current body-&gt;footer node by the given one.</span>
 
@@ -790,11 +824,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="39982_collapse_id" aria-expanded="false" aria-controls="39982_expand_id">
+             <button class="rise-trigger" id="79307_collapse_id" aria-expanded="false" aria-controls="79307_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="39982_expand_id" aria-labelledby="39982_collapse_id">
+         <main class="rise-main" id="79307_expand_id" aria-labelledby="79307_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_body_script</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the body-&gt;script element node.</span>
 
@@ -833,11 +867,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="96559_collapse_id" aria-expanded="false" aria-controls="96559_expand_id">
+             <button class="rise-trigger" id="33800_collapse_id" aria-expanded="false" aria-controls="33800_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="96559_expand_id" aria-labelledby="96559_collapse_id">
+         <main class="rise-main" id="33800_expand_id" aria-labelledby="33800_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_body_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body_node</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace the current body-&gt;script node by the given one.</span>
 
@@ -878,11 +912,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="65459_collapse_id" aria-expanded="false" aria-controls="65459_expand_id">
+             <button class="rise-trigger" id="31067_collapse_id" aria-expanded="false" aria-controls="31067_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="65459_expand_id" aria-labelledby="65459_collapse_id">
+         <main class="rise-main" id="31067_expand_id" aria-labelledby="31067_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a comment to the body-&gt;main.&quot;&quot;&quot;</span>
     <span class="n">node</span> <span class="o">=</span> <span class="n">HTMLComment</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body_main</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
@@ -920,11 +954,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="20016_collapse_id" aria-expanded="false" aria-controls="20016_expand_id">
+             <button class="rise-trigger" id="26313_collapse_id" aria-expanded="false" aria-controls="26313_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="20016_expand_id" aria-labelledby="20016_collapse_id">
+         <main class="rise-main" id="26313_expand_id" aria-labelledby="26313_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">ident</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">class_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLNode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a node to the body-&gt;main.</span>
 
@@ -979,11 +1013,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="32582_collapse_id" aria-expanded="false" aria-controls="32582_expand_id">
+             <button class="rise-trigger" id="86260_collapse_id" aria-expanded="false" aria-controls="86260_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="32582_expand_id" aria-labelledby="32582_collapse_id">
+         <main class="rise-main" id="86260_expand_id" aria-labelledby="86260_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">serialize_element</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">HTMLNode</span><span class="p">,</span> <span class="n">nbs</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize an element node only if not empty.</span>
@@ -1029,11 +1063,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="67615_collapse_id" aria-expanded="false" aria-controls="67615_expand_id">
+             <button class="rise-trigger" id="81787_collapse_id" aria-expanded="false" aria-controls="81787_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="67615_expand_id" aria-labelledby="67615_collapse_id">
+         <main class="rise-main" id="81787_expand_id" aria-labelledby="81787_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbs</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. Serialize the tree into HTML.</span>
 
@@ -1097,11 +1131,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="63017_collapse_id" aria-expanded="false" aria-controls="63017_expand_id">
+             <button class="rise-trigger" id="40695_collapse_id" aria-expanded="false" aria-controls="40695_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="63017_expand_id" aria-labelledby="63017_collapse_id">
+         <main class="rise-main" id="40695_expand_id" aria-labelledby="40695_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">serialize_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">nbs</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize the tree into an HTML file.</span>
 
@@ -1140,11 +1174,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="24010_collapse_id" aria-expanded="false" aria-controls="24010_expand_id">
+             <button class="rise-trigger" id="50390_collapse_id" aria-expanded="false" aria-controls="50390_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="24010_expand_id" aria-labelledby="24010_collapse_id">
+         <main class="rise-main" id="50390_expand_id" aria-labelledby="50390_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_get_body</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLNode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the body element node.</span>
 
@@ -1165,11 +1199,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="35683_collapse_id" aria-expanded="false" aria-controls="35683_expand_id">
+             <button class="rise-trigger" id="12105_collapse_id" aria-expanded="false" aria-controls="12105_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="35683_expand_id" aria-labelledby="35683_collapse_id">
+         <main class="rise-main" id="12105_expand_id" aria-labelledby="12105_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div>
@@ -1184,11 +1218,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="32135_collapse_id" aria-expanded="false" aria-controls="32135_expand_id">
+             <button class="rise-trigger" id="95840_collapse_id" aria-expanded="false" aria-controls="95840_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="32135_expand_id" aria-labelledby="32135_collapse_id">
+         <main class="rise-main" id="95840_expand_id" aria-labelledby="95840_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;HTMLTree (</span><span class="si">{:s}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
 </code></pre></div>

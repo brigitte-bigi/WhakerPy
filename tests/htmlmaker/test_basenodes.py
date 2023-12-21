@@ -1,7 +1,7 @@
 """
 :filename: test_basenodes.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary: Tests for HTML base nodes in package htmlmaker.
 
 .. _This file is part of SPPAS: https://sppas.org/

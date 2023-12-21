@@ -1,7 +1,7 @@
 """
 :filename: sppas.ui.whakerpy.httpd.server.py
 :author:   Brigitte Bigi
-:contact:  develop@sppas.org
+:contact:  contact@sppas.org
 :summary: This is the Web-based application HTTPD server.
 
 .. _This file is part of SPPAS: https://sppas.org/
@@ -123,4 +123,3 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
         status = HTTPDStatus()
         status.code = 404
         return bytes(" ", "utf-8"), status
-

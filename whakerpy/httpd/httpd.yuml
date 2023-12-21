@@ -1,6 +1,6 @@
 // filename: whakerpy.httpd.yuml
 // author:   Brigitte Bigi
-// contact:  develop@sppas.org
+// contact:  contact@sppas.org
 // summary:  UML class diagram for HTTPD package.
 //
 // This file is part of SPPAS: https://sppas.org/
@@ -31,4 +31,3 @@
 
 [BaseResponseRecipe]-1>[HTMLTree]
 [BaseResponseRecipe]-1>[HTTPDStatus]
-
