@@ -6,7 +6,7 @@
 
 [project]
     name = "WhakerPy"
-    version = "0.3"
+    version = "0.3.1"
     authors = [{ name="Brigitte Bigi", email="contact@sppas.org" }]
     description = "Web HTML maker in Python - a light web application framework"
     readme = "README.md"
@@ -42,12 +42,17 @@
         "pytest ~=7.4.2"]
 
 [build-system]
-    requires = [
-        "setuptools ~=67.0.0",
-        "wheel ~=0.40.0"]
+    requires = ["setuptools", "wheel"]
+    build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-    packages = ["whakerpy"]
+#[tool.setuptools]
+#    packages = ["whakerpy"]
+[tool.setuptools.packages.find]
+where = ["whakerpy"]  # list of folders that contain the packages (["."] by default)
+include = ["*"]  # package names should match these glob patterns (["*"] by default)
+#exclude = ["whakerpy.tests*"]  # exclude packages matching these glob patterns (empty by default)
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+
 
 # -------------------
 # Code tests
