@@ -45,14 +45,14 @@
     requires = ["setuptools", "wheel"]
     build-backend = "setuptools.build_meta"
 
-#[tool.setuptools]
-#    packages = ["whakerpy"]
-[tool.setuptools.packages.find]
-where = ["whakerpy"]  # list of folders that contain the packages (["."] by default)
-include = ["*"]  # package names should match these glob patterns (["*"] by default)
-#exclude = ["whakerpy.tests*"]  # exclude packages matching these glob patterns (empty by default)
-namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+[tool.setuptools]
+    packages = ["whakerpy"]
 
+#[tool.setuptools.packages.find]
+#where = ["."]  # list of folders that contain the packages (["."] by default)
+#include = ["whakerpy.*"]  # package names should match these glob patterns (["*"] by default)
+#exclude = ["whakerpy.tests*"]  # exclude packages matching these glob patterns (empty by default)
+#namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 # -------------------
 # Code tests
