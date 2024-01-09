@@ -25,7 +25,7 @@ WhakerPy is under the terms of the GNU General Public License version 3.
 
 ```bash
 > python -m pip install WhakerPy
-````
+```
 
 ### From its wheel package:
 
@@ -33,7 +33,7 @@ Download the wheel file (WhakerPy-xxx.whl) and install it in your python environ
 
 ```bash
 > python -m pip install dist/<WhakerPy-xxx.whl>
-````
+```
 
 ### From its repo:
 
