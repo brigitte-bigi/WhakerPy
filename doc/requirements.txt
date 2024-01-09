@@ -1,3 +1,0 @@
-Clamming
-pygments
-markdown2

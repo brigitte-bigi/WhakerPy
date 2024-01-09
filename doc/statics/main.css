@@ -1094,7 +1094,7 @@ section.slide ol
 a.external-link:after {
     position: relative;
     display: inline-flex;
-    content: url("../etc/icons/external-link.png");
+    content: url("etc/icons/external-link.png");
     width: var(--font-size);
     height: var(--font-size);
     margin-left: 0.2rem;
