@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <title>WhakerPy doc</title>
+            <link rel="logo icon" href="statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="statics/light.css" type="text/css" />
+            <link rel="stylesheet" href="statics/main.css" type="text/css" />
+            <link rel="stylesheet" href="statics/main_sppas.css" type="text/css" />
+            <link rel="stylesheet" href="statics/code.css" type="text/css" />
+            <link rel="stylesheet" href="statics/cards.css" type="text/css" />
+            
+            <script type="text/javascript">
+                function htmlTableOfContents(documentRef) {
+
+                    var documentRef = documentRef || document;
+                    var toc = documentRef.getElementById('toc');
+                    var tocContent = documentRef.getElementById('main-content');
+                    var headings = [].slice.call(tocContent.querySelectorAll('h2, h3, h4, h5'));
+                    headings.forEach(function (heading, index) {
+                        /* Add the anchor right before the heading */
+                        var anchor = documentRef.createElement('a');
+                        anchor.setAttribute('name', 'toc' + index);
+                        anchor.setAttribute('id', 'toc' + index);
+
+                        /* Add an entry into the table of content */
+                        var link = documentRef.createElement('a');
+                        link.setAttribute('href', '#toc' + index);
+                        link.textContent = heading.textContent;
+
+                        var div = documentRef.createElement('li');
+                        div.setAttribute('class', heading.tagName.toLowerCase());
+
+                        div.appendChild(link);
+                        toc.appendChild(div);
+                        heading.parentNode.insertBefore(anchor, heading);
+                    });
+                }
+            </script>
+    
+       </head>
+       
+       <body class="light">
+        <header class="toc-shift">
+
+                <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+                </a>
+        
+        <p><img class="small-logo" src="statics/whakerpy.png" alt="Software logo"/></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <p><strong>WhakerPy 0.4</strong></p>
+    <ul>
+
+                <li class="center">
+                     <a class="width-three-quarters" role="button" tabindex="0" aria-disabled="true">
+                        &crarr; Prev. Module
+                     </a>
+                </li>
+
+                <li class="center">
+                     <a class="width-three-quarters" role="button" tabindex="0" href="NodeParentIdentifierError.html">
+                        &uarr; Prev. Class
+                     </a>
+                </li>
+
+                <li class="center">
+                     <a class="width-three-quarters" role="button" tabindex="0" href="index.html">
+                        &#8962; Index
+                     </a>
+                </li>
+
+                <li class="center">
+                     <a class="width-three-quarters" role="button" tabindex="0" href="HTMLComment.html">
+                        &darr; Next Class
+                     </a>
+                </li>
+
+                <li class="center">
+                     <a class="width-three-quarters" role="button" tabindex="0" href="whakerpy.httpd.html">
+                        &rdsh; Next Module
+                     </a>
+                </li>
+    </ul>
+    <p><strong>Table of Contents</strong></p>
+    <ul id="toc"></ul>
+    <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
+    <hr>
+    <p><small>Automatically created by <a href="https://clamming.sf.net">Clamming</a></small></p>
+</nav>
+    <main id="main-content" class="toc-shift">
+    <div id="toc-content">
+    <h1>WhakerPy 0.4</h1>
+    <section id="#whakerpy.htmlmaker">    <h2>Module whakerpy.htmlmaker</h2>
+<section id="#Doctype">
+<h3>Class Doctype</h3>
+
+<h4 id="#description_Doctype">Description</h4>
+    <article class="docstring">
+<p><em>Represent the HTML doctype of an HTML-5 page.</em></p>
+
+<p></p>
+
+<h6>Example</h6>
+
+<p></p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Doctype</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39;&lt;!DOCTYPE html&gt;&#39;</span>
+</code></pre></div>
+
+<p></p>
+
+<p>All HTML documents must start with a &lt;!DOCTYPE&gt; declaration.</p>
+
+<p>The declaration is <strong>not</strong> an HTML tag. It is an "information" to the</p>
+
+<p>browser about what document type to expect.</p>
+
+<p></p>
+
+<p>Contrariwise to previous versions, HTML5 does not require any other</p>
+
+<p>information. Then this class does not accept any attribute or value.</p>
+
+    </article>
+<h4 id="#constructor_Doctype">Constructor</h4>
+    <article class="docstring">
+<p><em>Create a doctype node with no defined parent.</em></p>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="74328_collapse_id" aria-expanded="false" aria-controls="74328_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="74328_expand_id" aria-labelledby="74328_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a doctype node with no defined parent.&quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">Doctype</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">()))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="s1">&#39;&lt;!DOCTYPE html&gt;&#39;</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+<h4 id="#public_fct_Doctype">Public functions</h4>
+<section>
+<h5>serialize</h5>
+
+    <article class="docstring">
+<p><em>Override. Serialize the doctype.</em></p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>nbs</strong>: (<em>int</em>) Number of spaces for the indentation. Un-used.</li>
+</ul>
+
+<p></p>
+
+<p></p>
+
+<h6>Returns</h6>
+
+<p></p>
+
+<ul>
+<li>(<em>str</em>) Doctype in HTML5.</li>
+</ul>
+
+<h6>Parameters</h6>
+
+<ul>
+<li><strong>nbs</strong></li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="91697_collapse_id" aria-expanded="false" aria-controls="91697_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="91697_expand_id" aria-labelledby="91697_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbs</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. Serialize the doctype.</span>
+
+<span class="sd">        :param nbs: (int) Number of spaces for the indentation. Un-used.</span>
+<span class="sd">        :return: (str) Doctype in HTML5.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+</section>    </section>    </div>
+    </main>
+    
+            <footer class="toc-shift">
+                <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+            
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                         htmlTableOfContents();
+                     }
+                 );
+
+                 try {
+                     module.exports = htmlTableOfContents;
+                 } catch (e) {
+                     // module.exports is not defined
+                 }
+            </script>
+    
+            <script src="statics/accordion.js" type="text/javascript"></script>
+        
+</body>
+</html>

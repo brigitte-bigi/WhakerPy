@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <title>WhakerPy doc</title>
+            <link rel="logo icon" href="statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="statics/light.css" type="text/css" />
+            <link rel="stylesheet" href="statics/main.css" type="text/css" />
+            <link rel="stylesheet" href="statics/main_sppas.css" type="text/css" />
+            <link rel="stylesheet" href="statics/code.css" type="text/css" />
+            <link rel="stylesheet" href="statics/cards.css" type="text/css" />
+            
+            <script type="text/javascript">
+                function htmlTableOfContents(documentRef) {
+
+                    var documentRef = documentRef || document;
+                    var toc = documentRef.getElementById('toc');
+                    var tocContent = documentRef.getElementById('main-content');
+                    var headings = [].slice.call(tocContent.querySelectorAll('h2, h3, h4, h5'));
+                    headings.forEach(function (heading, index) {
+                        /* Add the anchor right before the heading */
+                        var anchor = documentRef.createElement('a');
+                        anchor.setAttribute('name', 'toc' + index);
+                        anchor.setAttribute('id', 'toc' + index);
+
+                        /* Add an entry into the table of content */
+                        var link = documentRef.createElement('a');
+                        link.setAttribute('href', '#toc' + index);
+                        link.textContent = heading.textContent;
+
+                        var div = documentRef.createElement('li');
+                        div.setAttribute('class', heading.tagName.toLowerCase());
+
+                        div.appendChild(link);
+                        toc.appendChild(div);
+                        heading.parentNode.insertBefore(anchor, heading);
+                    });
+                }
+            </script>
+    
+       </head>
+       
+       <body class="light">
+        <header class="toc-shift">
+
+                <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+                </a>
+        
+        <p><img class="small-logo" src="statics/whakerpy.png" alt="Software logo"/></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <p><strong>WhakerPy 0.4</strong></p>
+    <ul>
+
+                <li class="center">
+                     <a class="width-three-quarters" role="button" tabindex="0" href="whakerpy.htmlmaker.html">
+                        &crarr; Prev. Module
+                     </a>
+                </li>
+
+                <li class="center">
+                     <a class="width-three-quarters" role="button" tabindex="0" aria-disabled="true">
+                        &uarr; Prev. Class
+                     </a>
+                </li>
+
+                <li class="center">
+                     <a class="width-three-quarters" role="button" tabindex="0" href="index.html">
+                        &#8962; Index
+                     </a>
+                </li>
+
+                <li class="center">
+                     <a class="width-three-quarters" role="button" tabindex="0" href="HTTPDStatus.html">
+                        &darr; Next Class
+                     </a>
+                </li>
+
+                <li class="center">
+                     <a class="width-three-quarters" role="button" tabindex="0" href="whakerpy.webapp.html">
+                        &rdsh; Next Module
+                     </a>
+                </li>
+    </ul>
+    <p><strong>Table of Contents</strong></p>
+    <ul id="toc"></ul>
+    <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
+    <hr>
+    <p><small>Automatically created by <a href="https://clamming.sf.net">Clamming</a></small></p>
+</nav>
+    <main id="main-content" class="toc-shift">
+    <div id="toc-content">
+    <h1>WhakerPy 0.4</h1>
+    <section id="#whakerpy.httpd">    <h2>Module whakerpy.httpd</h2>
+<section id="#BaseResponseRecipe">
+<h3>Class BaseResponseRecipe</h3>
+
+<h4 id="#description_BaseResponseRecipe">Description</h4>
+    <article class="docstring">
+<p><em>Base class to create an HTML response content.</em></p>
+
+<p></p>
+
+<p></p>
+
+    </article>
+<h4 id="#constructor_BaseResponseRecipe">Constructor</h4>
+    <article class="docstring">
+<p><em>Create a new ResponseRecipe instance with a default response.</em></p>
+
+<p></p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<ul>
+<li><strong>name</strong></li>
+<li><strong>tree</strong></li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="20609_collapse_id" aria-expanded="false" aria-controls="20609_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="20609_expand_id" aria-labelledby="20609_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Undefined&#39;</span><span class="p">,</span> <span class="n">tree</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new ResponseRecipe instance with a default response.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">tree</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">HTMLTree</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span> <span class="o">=</span> <span class="n">tree</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span> <span class="o">=</span> <span class="n">HTMLTree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">))</span>
+    <span class="n">shead</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s1">&#39;notify_event&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">shead</span><span class="p">:</span>
+        <span class="n">js</span> <span class="o">=</span> <span class="n">HTMLNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_htree</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">JS_NOTIFY_EVENT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;request.js&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">shead</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;whakerpy&#39;</span><span class="p">,</span> <span class="s1">&#39;request.js&#39;</span><span class="p">),</span> <span class="n">script_type</span><span class="o">=</span><span class="s1">&#39;text/javascript&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+<h4 id="#public_fct_BaseResponseRecipe">Public functions</h4>
+<section>
+<h5>page</h5>
+
+    <article class="docstring">
+<p><em>Return the HTML page name. To be overridden.</em></p>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="66222_collapse_id" aria-expanded="false" aria-controls="66222_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="66222_expand_id" aria-labelledby="66222_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">page</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML page name. To be overridden.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;undefined.html&#39;</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>get_json_data</h5>
+
+    <article class="docstring">
+<p><em>Gets the current data to send to the client following this request.</em></p>
+
+<p></p>
+
+<h6>Returns</h6>
+
+<p></p>
+
+<ul>
+<li>(<em>str</em>) The json data in the string format</li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="91425_collapse_id" aria-expanded="false" aria-controls="91425_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="91425_expand_id" aria-labelledby="91425_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_json_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gets the current data to send to the client following this request.</span>
+
+<span class="sd">        :return: (str) The json data in the string format</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>name</h5>
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="29717_collapse_id" aria-expanded="false" aria-controls="29717_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="29717_expand_id" aria-labelledby="29717_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>status</h5>
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="12645_collapse_id" aria-expanded="false" aria-controls="12645_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="12645_expand_id" aria-labelledby="12645_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTTPDStatus</span><span class="p">:</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_status</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>comment</h5>
+
+    <article class="docstring">
+<p><em>Add a comment to the body->main.</em></p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>content</strong>: (<em>str</em>) The comment content</li>
+</ul>
+
+<p></p>
+
+<p></p>
+
+<h6>Returns</h6>
+
+<p></p>
+
+<ul>
+<li>(HTMLComment) the created node</li>
+</ul>
+
+<h6>Parameters</h6>
+
+<ul>
+<li><strong>content</strong></li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="54811_collapse_id" aria-expanded="false" aria-controls="54811_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="54811_expand_id" aria-labelledby="54811_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLComment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a comment to the body-&gt;main.</span>
+
+<span class="sd">        :param content: (str) The comment content</span>
+<span class="sd">        :return: (HTMLComment) the created node</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span><span class="o">.</span><span class="n">comment</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>element</h5>
+
+    <article class="docstring">
+<p><em>Add an element node to the body->main.</em></p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>tag</strong>: (<em>str</em>) HTML element name</li>
+</ul>
+
+<ul>
+<li><strong>ident</strong>: (<em>str</em>) Identifier of the element</li>
+</ul>
+
+<ul>
+<li><strong>class_name</strong>: (<em>str</em>) Value of the class attribute</li>
+</ul>
+
+<p></p>
+
+<p></p>
+
+<h6>Returns</h6>
+
+<p></p>
+
+<ul>
+<li>(HTMLNode) The created node</li>
+</ul>
+
+<h6>Parameters</h6>
+
+<ul>
+<li><strong>tag</strong></li>
+<li><strong>ident</strong></li>
+<li><strong>class_name</strong></li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="74863_collapse_id" aria-expanded="false" aria-controls="74863_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="74863_expand_id" aria-labelledby="74863_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">ident</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">class_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLNode</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add an element node to the body-&gt;main.</span>
+
+<span class="sd">        :param tag: (str) HTML element name</span>
+<span class="sd">        :param ident: (str) Identifier of the element</span>
+<span class="sd">        :param class_name: (str) Value of the class attribute</span>
+<span class="sd">        :return: (HTMLNode) The created node</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">ident</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>create</h5>
+
+    <article class="docstring">
+<p><em>Create the fixed page content in HTML. Intended to be overridden.</em></p>
+
+<p></p>
+
+<p>This method is intended to be used to create the parts of the tree</p>
+
+<p>that won't be invalidated when baking.</p>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="26959_collapse_id" aria-expanded="false" aria-controls="26959_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="26959_expand_id" aria-labelledby="26959_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the fixed page content in HTML. Intended to be overridden.</span>
+
+<span class="sd">        This method is intended to be used to create the parts of the tree</span>
+<span class="sd">        that won&#39;t be invalidated when baking.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>bake</h5>
+
+    <article class="docstring">
+<p><em>Return the HTML response after processing the events.</em></p>
+
+<p></p>
+
+<p>Processing the events may change the response status. This method is</p>
+
+<p>invoked by the HTTPD server to construct the response. Given events</p>
+
+<p>are the information the handler received (commonly with POST).</p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>events</strong>: (<em>dict</em>) The requested events to be processed</li>
+</ul>
+
+<h6>Parameters</h6>
+
+<ul>
+<li><strong>events</strong></li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="14815_collapse_id" aria-expanded="false" aria-controls="14815_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="14815_expand_id" aria-labelledby="14815_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">bake</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML response after processing the events.</span>
+
+<span class="sd">        Processing the events may change the response status. This method is</span>
+<span class="sd">        invoked by the HTTPD server to construct the response. Given events</span>
+<span class="sd">        are the information the handler received (commonly with POST).</span>
+
+<span class="sd">        :param events: (dict) The requested events to be processed</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">dirty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_events</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dirty</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_invalidate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bake</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<h4 id="#private_fct_BaseResponseRecipe">Private functions</h4>
+<section>
+<h5>_process_events</h5>
+
+    <article class="docstring">
+<p><em>Process the given events.</em></p>
+
+<p></p>
+
+<p>The given event name must match a function of the event's manager.</p>
+
+<p>Processing an event may change the content of the tree. In that case,</p>
+
+<p>the <code>dirty</code> method must be turned into True: it will invalidate the</p>
+
+<p>deprecated content (<em>invalidate) and re-generate a new one (</em>bake).</p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>events (dict)</strong>: key=event<em>name, value=event</em>value</li>
+</ul>
+
+<p></p>
+
+<p></p>
+
+<h6>Returns</h6>
+
+<p></p>
+
+<ul>
+<li>None</li>
+</ul>
+
+<h6>Parameters</h6>
+
+<ul>
+<li><strong>events</strong></li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="19206_collapse_id" aria-expanded="false" aria-controls="19206_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="19206_expand_id" aria-labelledby="19206_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_process_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the given events.</span>
+
+<span class="sd">        The given event name must match a function of the event&#39;s manager.</span>
+<span class="sd">        Processing an event may change the content of the tree. In that case,</span>
+<span class="sd">        the `dirty` method must be turned into True: it will invalidate the</span>
+<span class="sd">        deprecated content (_invalidate) and re-generate a new one (_bake).</span>
+
+<span class="sd">        :param events (dict): key=event_name, value=event_value</span>
+<span class="sd">        :return: None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>_invalidate</h5>
+
+    <article class="docstring">
+<p><em>Remove children nodes of the tree. Intended to be overridden.</em></p>
+
+<p></p>
+
+<p>Remove the dynamic content of the tree, which will be re-introduced</p>
+
+<p>when baking.</p>
+
+<p></p>
+
+<p>If the tree has no dynamic content, this method is un-used.</p>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="78873_collapse_id" aria-expanded="false" aria-controls="78873_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="78873_expand_id" aria-labelledby="78873_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_invalidate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove children nodes of the tree. Intended to be overridden.</span>
+
+<span class="sd">        Remove the dynamic content of the tree, which will be re-introduced</span>
+<span class="sd">        when baking.</span>
+
+<span class="sd">        If the tree has no dynamic content, this method is un-used.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>_bake</h5>
+
+    <article class="docstring">
+<p><em>Fill in the HTML page generator. Intended to be overridden.</em></p>
+
+<p></p>
+
+<p>If the tree has no dynamic content, this method is un-used.</p>
+
+<p></p>
+
+<p>This method is baking the "dynamic" content of the page, i.e. it</p>
+
+<p>should not change the content created by the method create().</p>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="21462_collapse_id" aria-expanded="false" aria-controls="21462_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="21462_expand_id" aria-labelledby="21462_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_bake</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fill in the HTML page generator. Intended to be overridden.</span>
+
+<span class="sd">        If the tree has no dynamic content, this method is un-used.</span>
+
+<span class="sd">        This method is baking the &quot;dynamic&quot; content of the page, i.e. it</span>
+<span class="sd">        should not change the content created by the method create().</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+</section>    </section>    </div>
+    </main>
+    
+            <footer class="toc-shift">
+                <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+            
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                         htmlTableOfContents();
+                     }
+                 );
+
+                 try {
+                     module.exports = htmlTableOfContents;
+                 } catch (e) {
+                     // module.exports is not defined
+                 }
+            </script>
+    
+            <script src="statics/accordion.js" type="text/javascript"></script>
+        
+</body>
+</html>
