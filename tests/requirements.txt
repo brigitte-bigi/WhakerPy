@@ -1,4 +1,3 @@
 coverage
 selenium
 python-dotenv
-pytest
