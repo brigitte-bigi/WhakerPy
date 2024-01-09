@@ -3,7 +3,7 @@
 
 ## Overview
 
-Whakerpy is an open source library useful to create dynamic HTML content; it's a light web application framework.
+WhakerPy is an open source library to create dynamic HTML content; it's a light web application framework.
 
 Create and manipulate HTML from the power of Python:
 
@@ -52,7 +52,7 @@ Install all the optional dependencies with:
 WhakerPy package includes the following folders and files:
 
 1. "whakerpy": the source code package
-2. "doc": the documentation of whakerpy in HTML
+2. "doc": the documentation of whakerpy library in HTML and Markdown
 3. "sample": a webapp sample
 4. "tests": the tests of the source code
 
@@ -123,9 +123,9 @@ For a quick start, see the file `sample.py` in the repo. It shows a very simple 
 For a more complex example of an already in-used web frontend, see: <https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py>.
 
 
-## Projects using `WhakerPy `
+## Projects using WhakerPy
 
-`WhakerPy` was initially developed within SPPAS <https://sppas.org>; it was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on whakerpy API, and it's website too.
+WhakerPy was initially developed within SPPAS <https://sppas.org>; it was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on whakerpy API, and it's website too.
 
 Other projects: 
 
@@ -146,14 +146,16 @@ The universal wheel is created with: `python -m build`
 
 The API documentation is available in the `doc` folder. Click the file `index.html` to browse throw the documented classes.
 
-To re-generate the doc, install the required external program: `python -m pip install ".[doc]"`
-
-Then, launch the doc generator: `cd doc; python makedoc.py`
+To re-generate the doc, install the required external program, then launch the doc generator:
+```bash
+>python -m pip install ".[doc]"
+>python makedoc.py
+```
 
 
 ## Test/Analyze source code
 
-Unittests coverage can be analyzed with unittest and coverage. 
+Code coverage can be analyzed with unittest and coverage. 
 Install them with the command: `python -m pip install ".[test]"`.
 Then, perform the following steps:
 

@@ -30,7 +30,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
+    along with SPPAS. If not, see <http://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -66,36 +66,47 @@ body > footer > *  > .flex-item {
     left: 0;
     padding-left: 0.5rem;
     padding-top: 1rem;
+    padding-bottom: 3rem;
     /*margin: 0 auto;*/
+    margin-top: -1rem;
     margin-left: 1rem;
-    padding-bottom: 6rem;
     font-size: 90%;
     overflow: unset;
     overflow-x: hidden;
 }
 
-#toc-content {
+.toc-shift {
     margin-left: 18rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 
 /* Book table of content */
 li.h1 {
     font-size: 110%;
-    padding-left: 0rem;
+    padding-left: 0;
     margin-bottom: 1rem;
 }
 li.h2 {
     font-size: 100%;
-    padding-left: 0rem;
+    padding-left: 0;
 }
 li.h3 {
-    font-size: 90%;
+    font-size: 95%;
     padding-left: 1rem;
 }
 li.h4 {
-    font-size: 80%;
+    font-size: 90%;
     padding-left: 2rem;
+}
+li.h5 {
+    font-size: 85%;
+    padding-left: 3rem;
+}
+li.h6 {
+    font-size: 80%;
+    padding-left: 4rem;
 }
 
 li.h1 a {
@@ -106,17 +117,31 @@ li.h1 a {
 li.h2 a {
     color: var(--h2-color);
     text-decoration: none;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-bold);
     text-overflow: ellipsis;
 }
 li.h3 a {
     color: var(--h3-color);
     text-decoration: none;
-    font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-semibold);
     text-overflow: ellipsis;
 }
 li.h4 a {
     color: var(--h4-color);
+    text-decoration: none;
+    font-weight: var(--font-weight-normal);
+    text-wrap: none;
+    text-overflow: ellipsis;
+}
+li.h5 a {
+    color: var(--h5-color);
+    text-decoration: none;
+    font-weight: var(--font-weight-thin);
+    text-wrap: none;
+    text-overflow: ellipsis;
+}
+li.h6 a {
+    color: var(--h6-color);
     text-decoration: none;
     font-weight: var(--font-weight-thin);
     text-wrap: none;
@@ -154,3 +179,22 @@ li.h4 a {
         display: none;
     }
 }
+
+/* --------------------- Skip button ------------- */
+
+.skip {
+    opacity: 0;
+    background-color: var(--buttons-bg-color);
+    position: fixed;
+    top: var(--focus-border-width);
+    left: var(--focus-border-width);
+    padding: 0.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.skip:focus {
+    opacity: 1;
+    z-index: 10;  /* Highest priority. Must be over any other element. */
+}
+
+
