@@ -6,11 +6,11 @@
 
 [project]
     name = "WhakerPy"
-    version = "0.4"
+    version = "0.4.1"
     authors = [{ name="Brigitte Bigi", email="contact@sppas.org" }]
     description = "Web HTML maker in Python - a light web application framework"
     readme = "README.md"
-    requires-python = ">=3.6"
+    requires-python = ">=3.9"
     license = {file = "LICENSE"}
     keywords = ["python", "html", "httpd", "dynamic", "web", "app", "ui"]
     classifiers = [
@@ -48,8 +48,9 @@
     requires = ["setuptools", "wheel"]
     build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-    packages = ["whakerpy"]
+[tool.setuptools.packages.find]
+    where = ["."]
+    exclude = ["tests*", "samples"]
 
 #[tool.setuptools.packages.find]
 #where = ["."]  # list of folders that contain the packages (["."] by default)
