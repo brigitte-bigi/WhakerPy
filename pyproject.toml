@@ -35,7 +35,7 @@
     doc = [
         "pygments",
         "markdown2",
-        "Clamming >=1.4"]
+        "Clamming >=1.5"]
     dev = [
         "pylint ~=2.14.0",
         "toml ~=0.10.2"]

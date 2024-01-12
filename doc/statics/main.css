@@ -1,5 +1,5 @@
 /*
-:filename: css/main.css
+:filename: statics/main.css
 :author:   Brigitte Bigi
 :contact:  contact@sppas.org
 :summary:  Style to be used for any SPPAS Web-based UI application.
@@ -30,7 +30,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
+    along with SPPAS. If not, see <http://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -46,44 +46,6 @@ When using "font-size: 1.7rem;" instead, the size of the font is not changed
 when switching to the contrast view.
 
 */
-
-/* =======================================================================
-                              FONTS DEFINITIONS
-  See here: https://v-fonts.com/licenses/open-source for a list of open
-  source variable fonts.
-  No cursive font is available.
-
-  ======================================================================== */
-
-@font-face {
-    font-family: SansFont;
-    src: url('../fonts/Commissioner.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: SerifFont;
-    src: url('../fonts/SourceSerifPro.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: MonoFont;
-    src: url('../fonts/FiraCode.ttf');
-}
-
-@font-face {
-    font-family: PreFont;
-    src: url('../fonts/ScienceGothic.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: SmallCapsFont;
-    src: url('../fonts/ZinzinVF-nogvar.ttf') format('truetype');
-}
-
-@font-face {
-    font-family: PixelFont;
-    src: url('../fonts/BPdotsSquare.ttf') format('truetype');
-}
 
 /* =======================================================================
                             VARIABLE DEFINITIONS
@@ -395,18 +357,13 @@ main > * section {
     padding-right: var(--typography-spacing-horizontal);
 }
 
-main > * article {
-    margin-left: var(--typography-spacing-horizontal);
-}
-
-
 /* ---------------------------- Head titles ------------------------------ */
 
 h1 {
     color: var(--h1-color);
     font: var(--font-family-sans);
     font-weight: var(--font-weight-bold);
-    padding-top: calc(2 * var(--typography-spacing-vertical));
+    padding-top: var(--typography-spacing-vertical);
     letter-spacing: 2px;
 }
 
@@ -424,7 +381,7 @@ body > main > * h1
     font-size: calc(3 * var(--font-size));
     margin-top: calc(2 * var(--typography-spacing-vertical));
     margin-bottom: var(--typography-spacing-vertical);
-    padding-bottom: var(--typography-spacing-vertical);
+    padding-bottom: calc(2 * var(--typography-spacing-vertical));
     border-top: 1px solid var(--logo-color);
     border-bottom: 1px solid var(--logo-color);
     line-height: calc(4 * var(--font-size));
@@ -732,11 +689,11 @@ table caption {
 
 /* ----------------- Button, Label and Input tags ----------------------- */
 
-button, input, a[role=button] {
+button, input, a[role=button], select, textarea {
     overflow: visible;
 }
 
-button, select, a[role=button]  {
+button, select, a[role=button], select, textarea {
     text-transform: none;
     text-decoration: none;
 }
@@ -780,16 +737,17 @@ button, *[role=button], *[role=menuitem] {
 
 
 
-button:enabled:hover, a[role=button]:hover {
+button:enabled:hover, a[role=button]:hover, select:hover, textarea:hover {
     border: var(--focus-border-width) dashed var(--focus-border-color);
     opacity: 80%;
 }
 
 button:enabled img:hover {
-    transform: scale(1.2);
+    /*transform: scale(1.2);*/
+    opacity: 80%;
 }
 
-.sp-contrast button {
+.sp-contrast button:not(nav *) {
     font-weight: bolder;
     padding-top: var(--typography-spacing-vertical);
     padding-right: calc(var(--typography-spacing-horizontal) * 2);
@@ -1072,6 +1030,7 @@ main > .panel-item:nth-child(even) {
     border: none
 }
 
+/* ------------------ Slides ------------- */
 
 section.slide {
 	margin-top: 5rem;
@@ -1094,9 +1053,119 @@ section.slide ol
 a.external-link:after {
     position: relative;
     display: inline-flex;
-    content: url("etc/icons/external-link.png");
+    content: url("icons/external-link.png");
     width: var(--font-size);
     height: var(--font-size);
     margin-left: 0.2rem;
     margin-right: 0.2rem;
 }
+
+/* -------------------- FORMS -------------------- */
+
+form {
+    margin: auto;
+}
+
+form textarea {
+    border-radius: calc(var(--border-width) * 2);
+    border: var(--border-width) solid var(--border-color);
+    display: block;
+    background-color: var(--buttons-bg-color);
+    color: var(--fg-color-alt);
+    width: 80%;
+    font-family: var(--font-family-serif);
+    font-weight: var(--font-weight-thin);
+    font-size: 1.25rem;
+}
+
+form label {
+    margin-bottom: calc(var(--typography-spacing-vertical));
+    margin-top: calc(var(--typography-spacing-vertical));
+    display: block;
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-semibold);
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    color: var(--fg-color-alt);
+    border: none;
+    padding: calc(var(--typography-spacing-horizontal) / 2);
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    z-index: 1;
+    outline: none;
+    border: var(--border-width) solid transparent;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+.select {
+    display: grid;
+    grid-template-areas: "select";
+    align-items: center;
+    position: relative;
+    min-width: 10ch;
+    max-width: 20ch;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    font-size: 1.1rem;
+    cursor: pointer;
+    background-color: var(--buttons-bg-color);
+    color: var(--fg-color-alt);
+}
+
+.select select, .select::after {
+    grid-area: select;
+}
+
+.select:not(.select--multiple)::after {
+    content: "";
+    justify-self: end;
+    width: 0.8em;
+    height: 0.5em;
+    background-color: var(--fg-color-alt);
+    -webkit-clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+}
+
+.select--disabled {
+    cursor: not-allowed;
+    background-color: #eee;
+    background-image: linear-gradient(to top, #ddd, #eee 33%);
+}
+
+.select + label {
+    margin-top: var(--typography-spacing-vertical);
+}
+
+form input[role="button"] {
+    margin-top: var(--typography-spacing-vertical);
+    margin-bottom: var(--typography-spacing-vertical);
+}
+
+
+/* For accessibility buttons in order to act like a toggle: */
+
+.dark #img-theme
+{
+    transform: rotate(-180deg) scale(1);
+    vertical-align: middle;
+}
+
+.sp-contrast #img-contrast {
+    transform: rotate(180deg) scale(1);
+    vertical-align: middle;
+}
+
+

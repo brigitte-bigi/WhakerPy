@@ -50,6 +50,7 @@ packages.append(clamming.ClamsPack(whakerpy.webapp))
 # Options for HTML exportation
 html_export = clamming.HTMLDocExport()
 html_export.software = 'WhakerPy ' + whakerpy.__version__
+html_export.url = 'https://whakerpy.sf.net'
 html_export.copyright = whakerpy.__copyright__
 html_export.title = 'WhakerPy doc'
 html_export.statics = 'statics'

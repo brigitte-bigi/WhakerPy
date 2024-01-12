@@ -50,6 +50,7 @@
                 </a>
         
         <p><img class="small-logo" src="statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
     <p><strong>WhakerPy 0.4</strong></p>
@@ -88,8 +89,9 @@
     <p><strong>Table of Contents</strong></p>
     <ul id="toc"></ul>
     <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     <hr>
-    <p><small>Automatically created by <a href="https://clamming.sf.net">Clamming</a></small></p>
+    <p><small>Automatically created by <a class="external-link" href="https://clamming.sf.net">Clamming</a></small></p>
 </nav>
     <main id="main-content" class="toc-shift">
     <div id="toc-content">
@@ -120,7 +122,6 @@
 <p></p>
 
 <p>Create the application for a Web Front-End based on HTTPD protocol.</p>
-
 <h6>Parameters</h6>
 
 <ul>
@@ -132,11 +133,11 @@
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="44108_collapse_id" aria-expanded="false" aria-controls="44108_expand_id">
+             <button class="rise-trigger" id="27040_collapse_id" aria-expanded="false" aria-controls="27040_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="44108_expand_id" aria-labelledby="44108_collapse_id">
+         <main class="rise-main" id="27040_expand_id" aria-labelledby="27040_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_cls</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;HTTPD Server initialization.</span>
 
@@ -168,11 +169,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="18085_collapse_id" aria-expanded="false" aria-controls="18085_expand_id">
+             <button class="rise-trigger" id="71467_collapse_id" aria-expanded="false" aria-controls="71467_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="18085_expand_id" aria-labelledby="18085_collapse_id">
+         <main class="rise-main" id="71467_expand_id" aria-labelledby="71467_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">client_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the client URL of this server.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s1">&#39;http://</span><span class="si">{:s}</span><span class="s1">:</span><span class="si">{:d}</span><span class="s1">/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__location</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__port</span><span class="p">)</span>
@@ -204,11 +205,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="86623_collapse_id" aria-expanded="false" aria-controls="86623_expand_id">
+             <button class="rise-trigger" id="51242_collapse_id" aria-expanded="false" aria-controls="51242_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="86623_expand_id" aria-labelledby="86623_collapse_id">
+         <main class="rise-main" id="51242_expand_id" aria-labelledby="51242_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the application with a main loop.</span>
 

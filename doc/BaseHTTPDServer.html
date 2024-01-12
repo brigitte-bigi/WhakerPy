@@ -50,6 +50,7 @@
                 </a>
         
         <p><img class="small-logo" src="statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
     <p><strong>WhakerPy 0.4</strong></p>
@@ -88,8 +89,9 @@
     <p><strong>Table of Contents</strong></p>
     <ul id="toc"></ul>
     <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     <hr>
-    <p><small>Automatically created by <a href="https://clamming.sf.net">Clamming</a></small></p>
+    <p><small>Automatically created by <a class="external-link" href="https://clamming.sf.net">Clamming</a></small></p>
 </nav>
     <main id="main-content" class="toc-shift">
     <div id="toc-content">
@@ -132,11 +134,11 @@
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="61013_collapse_id" aria-expanded="false" aria-controls="61013_expand_id">
+             <button class="rise-trigger" id="73343_collapse_id" aria-expanded="false" aria-controls="73343_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="61013_expand_id" aria-labelledby="61013_collapse_id">
+         <main class="rise-main" id="73343_expand_id" aria-labelledby="73343_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the server instance and add custom members.</span>
 
@@ -156,11 +158,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="73455_collapse_id" aria-expanded="false" aria-controls="73455_expand_id">
+             <button class="rise-trigger" id="98780_collapse_id" aria-expanded="false" aria-controls="98780_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="73455_expand_id" aria-labelledby="73455_collapse_id">
+         <main class="rise-main" id="98780_expand_id" aria-labelledby="98780_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span>
 </code></pre></div>
@@ -205,22 +207,16 @@ View Source
 <li><strong>app</strong>: (<em>str</em>) Any string definition for custom use</li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>app</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="44453_collapse_id" aria-expanded="false" aria-controls="44453_expand_id">
+             <button class="rise-trigger" id="99384_collapse_id" aria-expanded="false" aria-controls="99384_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="44453_expand_id" aria-labelledby="44453_collapse_id">
+         <main class="rise-main" id="99384_expand_id" aria-labelledby="99384_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;app&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;To be overridden. Add bakeries for dynamic HTML pages.</span>
 
@@ -285,24 +281,16 @@ View Source
 <li>tuple(<em>bytes</em>, HTTPDStatus)</li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>page_name</strong></li>
-<li><strong>events</strong></li>
-<li><strong>is<em>json</em>data<em>to</em>return</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="36844_collapse_id" aria-expanded="false" aria-controls="36844_expand_id">
+             <button class="rise-trigger" id="42994_collapse_id" aria-expanded="false" aria-controls="42994_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="36844_expand_id" aria-labelledby="36844_collapse_id">
+         <main class="rise-main" id="42994_expand_id" aria-labelledby="42994_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">page_bakery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">is_json_data_to_return</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the page content and response status.</span>
 

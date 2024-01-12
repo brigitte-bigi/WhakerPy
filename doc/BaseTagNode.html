@@ -50,6 +50,7 @@
                 </a>
         
         <p><img class="small-logo" src="statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
     <p><strong>WhakerPy 0.4</strong></p>
@@ -88,8 +89,9 @@
     <p><strong>Table of Contents</strong></p>
     <ul id="toc"></ul>
     <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     <hr>
-    <p><small>Automatically created by <a href="https://clamming.sf.net">Clamming</a></small></p>
+    <p><small>Automatically created by <a class="external-link" href="https://clamming.sf.net">Clamming</a></small></p>
 </nav>
     <main id="main-content" class="toc-shift">
     <div id="toc-content">
@@ -185,25 +187,16 @@
 <li><em>TypeError</em></li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>parent</strong></li>
-<li><strong>identifier</strong></li>
-<li><strong>tag</strong></li>
-<li><strong>attributes</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="47499_collapse_id" aria-expanded="false" aria-controls="47499_expand_id">
+             <button class="rise-trigger" id="50975_collapse_id" aria-expanded="false" aria-controls="50975_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="47499_expand_id" aria-labelledby="47499_collapse_id">
+         <main class="rise-main" id="50975_expand_id" aria-labelledby="50975_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attributes</span><span class="p">:</span> <span class="nb">dict</span><span class="o">=</span><span class="nb">dict</span><span class="p">()):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new empty node.</span>
 
@@ -243,11 +236,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="69862_collapse_id" aria-expanded="false" aria-controls="69862_expand_id">
+             <button class="rise-trigger" id="56020_collapse_id" aria-expanded="false" aria-controls="56020_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="69862_expand_id" aria-labelledby="69862_collapse_id">
+         <main class="rise-main" id="56020_expand_id" aria-labelledby="56020_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@property</span>
 <span class="k">def</span> <span class="nf">tag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the HTML tag. &quot;&quot;&quot;</span>
@@ -303,22 +296,16 @@ View Source
 <li>key(<em>str</em>) valid key</li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>key</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="35521_collapse_id" aria-expanded="false" aria-controls="35521_expand_id">
+             <button class="rise-trigger" id="93354_collapse_id" aria-expanded="false" aria-controls="93354_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="35521_expand_id" aria-labelledby="35521_collapse_id">
+         <main class="rise-main" id="93354_expand_id" aria-labelledby="93354_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">check_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raises NodeAttributeError if key is not a valid attribute.</span>
 
@@ -354,11 +341,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="24619_collapse_id" aria-expanded="false" aria-controls="24619_expand_id">
+             <button class="rise-trigger" id="68494_collapse_id" aria-expanded="false" aria-controls="68494_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="24619_expand_id" aria-labelledby="24619_collapse_id">
+         <main class="rise-main" id="68494_expand_id" aria-labelledby="68494_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_attribute_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the list of attribute keys. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
@@ -417,23 +404,16 @@ View Source
 <li>key(<em>str</em>) valid assigned key</li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>key</strong></li>
-<li><strong>value</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="79532_collapse_id" aria-expanded="false" aria-controls="79532_expand_id">
+             <button class="rise-trigger" id="57037_collapse_id" aria-expanded="false" aria-controls="57037_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="79532_expand_id" aria-labelledby="79532_collapse_id">
+         <main class="rise-main" id="57037_expand_id" aria-labelledby="57037_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a property to the node. Delete the existing one, if any.</span>
 
@@ -504,23 +484,16 @@ View Source
 <li>key(<em>str</em>) valid assigned key</li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>key</strong></li>
-<li><strong>value</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="79450_collapse_id" aria-expanded="false" aria-controls="79450_expand_id">
+             <button class="rise-trigger" id="43211_collapse_id" aria-expanded="false" aria-controls="43211_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="79450_expand_id" aria-labelledby="79450_collapse_id">
+         <main class="rise-main" id="43211_expand_id" aria-labelledby="43211_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a property to the node. Append the value if existing.</span>
 
@@ -573,22 +546,16 @@ View Source
 <li>(<em>str</em> | None) Value or None if the attribute does not exist or has no value</li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>key</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="85375_collapse_id" aria-expanded="false" aria-controls="85375_expand_id">
+             <button class="rise-trigger" id="13112_collapse_id" aria-expanded="false" aria-controls="13112_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="85375_expand_id" aria-labelledby="85375_collapse_id">
+         <main class="rise-main" id="13112_expand_id" aria-labelledby="13112_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_attribute_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the attribute value if the node has this attribute.</span>
 
@@ -634,22 +601,16 @@ View Source
 <li>(<em>bool</em>)</li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>key</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="81086_collapse_id" aria-expanded="false" aria-controls="81086_expand_id">
+             <button class="rise-trigger" id="76044_collapse_id" aria-expanded="false" aria-controls="76044_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="81086_expand_id" aria-labelledby="81086_collapse_id">
+         <main class="rise-main" id="76044_expand_id" aria-labelledby="76044_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">has_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return true if the node has the attribute.</span>
 
@@ -681,22 +642,16 @@ View Source
 <li><strong>key</strong>: (<em>str</em>) Attribute key</li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>key</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="38824_collapse_id" aria-expanded="false" aria-controls="38824_expand_id">
+             <button class="rise-trigger" id="71811_collapse_id" aria-expanded="false" aria-controls="71811_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="38824_expand_id" aria-labelledby="38824_collapse_id">
+         <main class="rise-main" id="71811_expand_id" aria-labelledby="71811_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">remove_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove the attribute to the node.</span>
 
@@ -732,23 +687,16 @@ View Source
 <li><strong>value</strong>: (<em>str</em>) Attribute value</li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>key</strong></li>
-<li><strong>value</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="30415_collapse_id" aria-expanded="false" aria-controls="30415_expand_id">
+             <button class="rise-trigger" id="70767_collapse_id" aria-expanded="false" aria-controls="70767_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="30415_expand_id" aria-labelledby="30415_collapse_id">
+         <main class="rise-main" id="70767_expand_id" aria-labelledby="70767_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">remove_attribute_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove the value of an attribute of the node.</span>
 
@@ -782,11 +730,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="87432_collapse_id" aria-expanded="false" aria-controls="87432_expand_id">
+             <button class="rise-trigger" id="85955_collapse_id" aria-expanded="false" aria-controls="85955_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="87432_expand_id" aria-labelledby="87432_collapse_id">
+         <main class="rise-main" id="85955_expand_id" aria-labelledby="85955_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">nb_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the number of attributes. &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">)</span>
@@ -825,22 +773,16 @@ View Source
 <li>(<em>str</em>)</li>
 </ul>
 
-<h6>Parameters</h6>
-
-<ul>
-<li><strong>nbs</strong></li>
-</ul>
-
     </article>
 
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="89353_collapse_id" aria-expanded="false" aria-controls="89353_expand_id">
+             <button class="rise-trigger" id="79745_collapse_id" aria-expanded="false" aria-controls="79745_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="89353_expand_id" aria-labelledby="89353_collapse_id">
+         <main class="rise-main" id="79745_expand_id" aria-labelledby="79745_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbs</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. Serialize the node into HTML.</span>
 

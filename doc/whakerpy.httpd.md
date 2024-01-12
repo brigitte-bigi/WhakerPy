@@ -905,4 +905,4 @@ take the events into account when baking the HTML page content.
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.3 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.5 ~
