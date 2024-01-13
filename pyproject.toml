@@ -26,6 +26,7 @@
 [project.urls]
     "Homepage" = "https://whakerpy.sf.net"
     "Pypi" = "https://pypi.org/project/whakerpy/"
+    "SWHID" = "swh:1:dir:9d02751b7f45b444bea9d833210d098ddd1262ab;origin=https://git.code.sf.net/p/whakerpy/code;visit=swh:1:snp:831b76c8db29a10f75169132d8499d81b6c2c7cf;anchor=swh:1:rev:f0ad174c432e48445ac1fc3e10470adfb1f75c7c"
 
 # -------------------
 # Distrib builder
