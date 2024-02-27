@@ -37,15 +37,25 @@ class UnitTest {
 
     // CONSTRUCTOR
     constructor() {
+        // array which stocks all test function to called
         this.#tests = [];
     }
 
 
     // PUBLIC METHODS
+    /**
+     * Added a new unit test function to launch.
+     *
+     * @param func_test The test function to add
+     */
     add_test(func_test) {
         this.#tests.push(func_test);
     }
 
+    /**
+     * Launch all unit tests put in the list.
+     * This function serves like a run function.
+     */
     launch_unit_test() {
         this.#tests.forEach(async (func) => {
             await func();
@@ -54,6 +64,14 @@ class UnitTest {
 
 
     // PUBLIC STATIC METHODS
+    /**
+     * Assertion between two values.
+     * Print in the console if the assertion is succeeded (green message) or failed (red message).
+     *
+     * @param value_to_compare the value to test
+     * @param value_expected the value expected by the test
+     * @param assertion_name The name of the test, used in the log to know which tests succeed and failed
+     */
     static assert_values(value_to_compare, value_expected, assertion_name) {
         if (value_to_compare !== value_expected) {
             this.print_assert_failed(value_to_compare, value_expected, assertion_name);
@@ -62,6 +80,14 @@ class UnitTest {
         }
     }
 
+    /**
+     * Assertion between two objects.
+     * Print in the console if the assertion is succeeded (green message) or failed (red message).
+     *
+     * @param object_to_compare the object to test
+     * @param object_expected the object expected by the test
+     * @param assertion_name The name of the test, used in the log to know which tests succeed and failed
+     */
     static assert_object(object_to_compare, object_expected, assertion_name) {
         const first_object = JSON.stringify(object_to_compare);
         const second_object = JSON.stringify(object_expected);
@@ -75,11 +101,23 @@ class UnitTest {
 
 
     // PRIVATE STATIC METHODS
-    static print_assert_failed(value_to_compare, value_expected, assertion_name) {
+    /**
+     * Print an assertion failed in the console.
+     *
+     * @param value_compared the value tested
+     * @param value_expected the value expected
+     * @param assertion_name the name of the test
+     */
+    static print_assert_failed(value_compared, value_expected, assertion_name) {
         console.error("Assertion : " + assertion_name + " failed !"
-                + " Value expected : " + value_expected + ", value obtain : " + value_to_compare);
+                + " Value expected : " + value_expected + ", value obtain : " + value_compared);
     }
 
+    /**
+     * Print an assertion succeed in the console.
+     *
+     * @param assertion_name the name of the test
+     */
     static print_assert_success(assertion_name) {
         console.info("%cAssertion : " + assertion_name + " success !", 'color: green');
     }
