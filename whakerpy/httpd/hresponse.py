@@ -123,6 +123,15 @@ class BaseResponseRecipe:
         return json.dumps(self._data)
 
     # -----------------------------------------------------------------------
+
+    def reset_json_data(self) -> None:
+        """Clear json data of the response.
+        This function has to be called after each response send to the client to avoid overflow problems.
+
+        """
+        self._data.clear()
+
+    # -----------------------------------------------------------------------
     # Getters
     # -----------------------------------------------------------------------
 
