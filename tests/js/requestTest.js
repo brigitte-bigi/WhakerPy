@@ -44,7 +44,7 @@ request_manager_tests.add_test(() => {
     UnitTest.assert_values_equals(request_manager.status, null, "status_getter_test");
     UnitTest.assert_values_equals(request_manager.port, url.port, "port_getter_test");
     UnitTest.assert_values_equals(request_manager.protocol, url.protocol, "protocol_getter_test");
-    UnitTest.assert_values_equals(request_manager.request_url, url.href, "url_getter_test");
+    UnitTest.assert_values_equals(request_manager.request_url, url.origin + '/', "url_getter_test");
 });
 
 // -----------------------------------------------------------------------
@@ -66,9 +66,10 @@ request_manager_tests.add_test(async () => {
 // Get request method test
 request_manager_tests.add_test(() => {
     const request_manager = new RequestManager();
+    const url = new URL(window.location.href);
 
     // test get request with this html page
-    request_manager.send_get_request("")
+    request_manager.send_get_request(url.pathname.substring(1) + '?' + url.searchParams)
         .then(response => {
             // check the status of the response is ok
             UnitTest.assert_values_equals(request_manager.status, 200, "correct_status_get_request_test");
@@ -77,7 +78,7 @@ request_manager_tests.add_test(() => {
             let parser = new DOMParser();
             const html_element = parser.parseFromString(response, "text/html").documentElement;
 
-            UnitTest.assert_values_equals(html_element.id, document.documentElement.id);
+            UnitTest.assert_values_equals(html_element.id, document.documentElement.id, "get_request_test");
         });
 });
 

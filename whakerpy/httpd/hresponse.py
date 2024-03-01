@@ -116,7 +116,7 @@ class BaseResponseRecipe:
             self._htree.head.script(src=os.path.join("tests", "js", "UnitTest.js"), script_type="text/javascript")
             # uncomment this lines to launch unit test of the js classes and functions of whakerpy
             # self._htree.head.script(src=os.path.join("tests", "js", "requestTest.js"), script_type="text/javascript")
-            self._htree.head.script(src=os.path.join("tests", "js", "accessibilityTest.js"), script_type="text/javascript")
+            # self._htree.head.script(src=os.path.join("tests", "js", "accessibilityTest.js"), script_type="text/javascript")
 
         self.create()
 
