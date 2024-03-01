@@ -216,15 +216,17 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
         """
         logging.debug("GET -- requested: {}".format(self.path))
+
+        # this block has to be before the '/' condition (example: http://localhost:8080/?color_theme=light)
+        if "?" in self.path:
+            self.path = self.path[:self.path.index("?")]
+
         if self.path == '/':
             try:
                 self.path += self.server.default()
             except AttributeError:
                 # Server is not the custom one for dynamic app.
                 self.path += "index.html"
-
-        if "?" in self.path:
-            self.path = self.path[:self.path.index("?")]
 
         # The client requested an HTML page. Response content is created
         # by the server.

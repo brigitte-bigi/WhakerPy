@@ -4,6 +4,8 @@
 :contact: contact@sppas.org
 :summary: Test file of the RequestManager class.
 
+.. _This file is part of WhakerPy: https://sourceforge.net/projects/whakerpy/ ,
+.. on 2024-02-28.
     -------------------------------------------------------------------------
 
     Copyright (C) 2024 Brigitte Bigi
@@ -45,6 +47,8 @@ request_manager_tests.add_test(() => {
     UnitTest.assert_values_equals(request_manager.request_url, url.href, "url_getter_test");
 });
 
+// -----------------------------------------------------------------------
+
 // Post request method test
 request_manager_tests.add_test(async () => {
     const request_manager = new RequestManager();
@@ -56,6 +60,8 @@ request_manager_tests.add_test(async () => {
             UnitTest.assert_object_equals(response, {}, "json_response_empty_test");
     });
 });
+
+// -----------------------------------------------------------------------
 
 // Get request method test
 request_manager_tests.add_test(() => {
@@ -77,6 +83,8 @@ request_manager_tests.add_test(() => {
             UnitTest.assert_values_equals(formatted_response, formatted_response_expected, "content_get_request_test");
         });
 });
+
+// -----------------------------------------------------------------------
 
 // Get request method test with wrong file path
 request_manager_tests.add_test(() => {

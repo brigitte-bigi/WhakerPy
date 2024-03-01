@@ -1,10 +1,10 @@
 /**
-:filename: tests.js.UnitTest.js
+:filename: src.UnitTest.js
 :author: Florian Lopitaux
 :contact: florian.lopitaux@gmail.com
 :summary: file that contains the UnitTest class.
 
-.. _This file is part of PureJS-UnitTest : https://sourceforge.net/projects/purejs-unittest/
+.. _This file is part of PureJS-Tools : https://sourceforge.net/projects/purejs-tools/
 ..
     -------------------------------------------------------------------------
 
@@ -13,18 +13,18 @@
 
     Use of this software is governed by the GNU Public License, version 3.
 
-    PureJS-UnitTest is free software: you can redistribute it and/or modify
+    PureJS-Tools is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    PureJS-UnitTest is distributed in the hope that it will be useful,
+    PureJS-Tools is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with PureJS-UnitTest. If not, see <https://www.gnu.org/licenses/>.
+    along with PureJS-Tools. If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -75,9 +75,9 @@ class UnitTest {
      */
     static assert_values_equals(value_to_compare, value_expected, assertion_name) {
         if (value_to_compare !== value_expected) {
-            this.print_assert_failed(value_to_compare, value_expected, assertion_name);
+            this.#print_assert_failed(value_to_compare, value_expected, assertion_name);
         } else {
-            this.print_assert_success(assertion_name);
+            this.#print_assert_success(assertion_name);
         }
     }
 
@@ -91,9 +91,9 @@ class UnitTest {
      */
     static assert_values_not_equals(first_value, second_value, assertion_name) {
         if (first_value === second_value) {
-            this.print_assert_failed(first_value, second_value, assertion_name);
+            this.#print_assert_failed(first_value, second_value, assertion_name);
         } else {
-            this.print_assert_success(assertion_name);
+            this.#print_assert_success(assertion_name);
         }
     }
 
@@ -110,9 +110,9 @@ class UnitTest {
         const second_object = JSON.stringify(object_expected);
 
         if (first_object !== second_object) {
-            this.print_assert_failed(object_to_compare, object_expected, assertion_name);
+            this.#print_assert_failed(object_to_compare, object_expected, assertion_name);
         } else {
-            this.print_assert_success(assertion_name);
+            this.#print_assert_success(assertion_name);
         }
     }
 
@@ -129,9 +129,73 @@ class UnitTest {
         const second_object_stringify = JSON.stringify(second_object);
 
         if (first_object === second_object) {
-            this.print_assert_failed(first_object_stringify, second_object_stringify, assertion_name);
+            this.#print_assert_failed(first_object_stringify, second_object_stringify, assertion_name);
         } else {
-            this.print_assert_success(assertion_name);
+            this.#print_assert_success(assertion_name);
+        }
+    }
+
+    /**
+     * Assertion to check if an array contains a given value.
+     * Print in the console if the assertion is succeeded (green message) or failed (red message).
+     *
+     * @param value_to_search the value to search in the array
+     * @param array the array that possibly contains the value
+     * @param assertion_name The name of the test, used in the log to know which tests succeed and failed
+     */
+    static assert_array_contains(value_to_search, array, assertion_name) {
+        if (array.includes(value_to_search)) {
+            this.#print_assert_success(assertion_name);
+        } else {
+            this.#print_assert_failed(value_to_search, array, assertion_name);
+        }
+    }
+
+    /**
+     * Assertion to check if an array doesn't contain a given value.
+     * Print in the console if the assertion is succeeded (green message) or failed (red message).
+     *
+     * @param value_to_search the value to search in the array
+     * @param array the array that possibly contains the value
+     * @param assertion_name The name of the test, used in the log to know which tests succeed and failed
+     */
+    static assert_array_not_contains(value_to_search, array, assertion_name) {
+        if (array.includes(value_to_search)) {
+            this.#print_assert_failed(value_to_search, array, assertion_name);
+        } else {
+            this.#print_assert_success(assertion_name);
+        }
+    }
+
+    /**
+     * Assertion to check if an object (dictionary) contains a given key.
+     * Print in the console if the assertion is succeeded (green message) or failed (red message).
+     *
+     * @param key_to_search the key to search in the object
+     * @param object the object (dictionary) that possibly contains the key
+     * @param assertion_name The name of the test, used in the log to know which tests succeed and failed
+     */
+    static assert_object_contains_key(key_to_search, object, assertion_name) {
+        if (key_to_search in object) {
+            this.#print_assert_success(assertion_name);
+        } else {
+            this.#print_assert_failed(key_to_search, object, assertion_name);
+        }
+    }
+
+    /**
+     * Assertion to check if an object (dictionary) doesn't contain a given key.
+     * Print in the console if the assertion is succeeded (green message) or failed (red message).
+     *
+     * @param key_to_search the key to search in the object
+     * @param object the object (dictionary) that possibly contains the key
+     * @param assertion_name The name of the test, used in the log to know which tests succeed and failed
+     */
+    static assert_object_not_contains_key(key_to_search, object, assertion_name) {
+        if (key_to_search in object) {
+            this.#print_assert_failed(key_to_search, object, assertion_name);
+        } else {
+            this.#print_assert_success(assertion_name);
         }
     }
 
@@ -144,7 +208,7 @@ class UnitTest {
      * @param value_expected the value expected
      * @param assertion_name the name of the test
      */
-    static print_assert_failed(value_compared, value_expected, assertion_name) {
+    static #print_assert_failed(value_compared, value_expected, assertion_name) {
         console.error("Assertion : " + assertion_name + " failed !"
                 + " Value expected : " + value_expected + ", value obtain : " + value_compared);
     }
@@ -154,7 +218,7 @@ class UnitTest {
      *
      * @param assertion_name the name of the test
      */
-    static print_assert_success(assertion_name) {
+    static #print_assert_success(assertion_name) {
         console.info("%cAssertion : " + assertion_name + " success !", 'color: green');
     }
 }

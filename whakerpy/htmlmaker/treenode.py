@@ -139,7 +139,9 @@ class HTMLTree(BaseNode):
 
         # The HTML node has 2 children: the <head> and the <body> (public)
         self.__html.append_child(HTMLHeadNode(self.__html.identifier))
+
         body = HTMLNode(self.__html.identifier, "body", "body")
+        body.set_attribute("onload", "loadBodyClasses()")
         self.__html.append_child(body)
 
         # The 5 default HTML body children. 

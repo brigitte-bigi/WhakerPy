@@ -49,7 +49,6 @@ from .hstatus import HTTPDStatus
 
 # ---------------------------------------------------------------------------
 
-
 JS_NOTIFY_EVENT = """
 function notify_event(action_btn) {
     const form = document.createElement("form");
@@ -103,16 +102,21 @@ class BaseResponseRecipe:
 
         # Test if this tree can manage events (from buttons, forms, etc)
         shead = self._htree.head.serialize()
+
         if "notify_event" not in shead:
             js = HTMLNode(self._htree.head.identifier, None, "script",
                           value=JS_NOTIFY_EVENT)
             self._htree.head.append_child(js)
-        if "request.js" not in shead:
-            self._htree.head.script(src=os.path.join("whakerpy", "request.js"), script_type="text/javascript")
-            self._htree.head.script(src=os.path.join("tests", "js", "UnitTest.js"), script_type="text/javascript")
 
-            # uncomment this line to launch unit test of the RequestManager class
+        if "request.js" not in shead:
+            self._htree.head.script(src=os.path.join("whakerpy", "js", "request.js"), script_type="text/javascript")
+            self._htree.head.script(src=os.path.join("whakerpy", "js", "OnLoadManager.js"), script_type="text/javascript")
+            self._htree.head.script(src=os.path.join("whakerpy", "js", "accessibility.js"), script_type="text/javascript")
+
+            self._htree.head.script(src=os.path.join("tests", "js", "UnitTest.js"), script_type="text/javascript")
+            # uncomment this lines to launch unit test of the js classes and functions of whakerpy
             # self._htree.head.script(src=os.path.join("tests", "js", "requestTest.js"), script_type="text/javascript")
+            self._htree.head.script(src=os.path.join("tests", "js", "accessibilityTest.js"), script_type="text/javascript")
 
         self.create()
 

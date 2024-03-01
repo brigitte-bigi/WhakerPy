@@ -71,13 +71,13 @@ async function setRandomColor() {
     h2Element.style.color = response["random_color"];
 }
 
-// we use a timeout to allow time for the page to load
-window.onload = setTimeout(() => {
+// we wait that the page finished to load to get the h2 element
+OnLoadManager.addLoadFunction(() => {
     // loop every 1.5s times
     setInterval(() => {
         setRandomColor();
     }, 1500);
-}, 2000);
+});
 
 """
 
