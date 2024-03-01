@@ -30,20 +30,17 @@
 
 """
 
+import sys
 import time
 import unittest
+import argparse
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 # ---------------------------------------------------------------------------
 
-# put the right local port of the webapp here
-LOCAL_PORT = "8989"
-
-# put the navigator name that you want the tests use
-# VALUES = ["FIREFOX", "CHROME", "EDGE", "SAFARI"]
-# Safari is only possible in a macOS system, possible that edge doesn't work on macOS
-NAVIGATOR_USED = "FIREFOX"
+LOCAL_PORT = 8080
+NAVIGATOR = "FIREFOX"
 
 # ---------------------------------------------------------------------------
 
@@ -55,13 +52,13 @@ class SampleTest(unittest.TestCase):
     """
 
     def setUp(self) -> None:
-        """Method called before each unit test to initialize the webdriver.
+        """Method called before each unit test to redirect the webdriver to the home page.
         The method needs to be called 'setUp' for the program recognized it.
 
         """
         self.app_url = f"http://localhost:{LOCAL_PORT}/"
 
-        match NAVIGATOR_USED:
+        match NAVIGATOR:
             case "FIREFOX":
                 self.driver = webdriver.Firefox()
             case "CHROME":
@@ -71,14 +68,14 @@ class SampleTest(unittest.TestCase):
             case "SAFARI":
                 self.driver = webdriver.Safari()
             case _:  # default case
-                print(f"Unknown navigator set : {NAVIGATOR_USED}, start Firefox by default.")
+                print(f"Unknown navigator set : {NAVIGATOR}, start Firefox by default.")
                 self.driver = webdriver.Firefox()
 
         self.driver.get(self.app_url)
 
     def tearDown(self) -> None:
-        """Method called after each unit test to close the webdriver.
-        The method needs to be called 'tearDown' for the program recognized it.
+        """Method called after all the unit test to close the webdriver.
+        The method needs to be called 'tearDownClass' for the program recognized it.
 
         """
         self.driver.close()
@@ -138,3 +135,30 @@ class SampleTest(unittest.TestCase):
 
         page_content = self.driver.find_element(By.TAG_NAME, "h2")
         self.assertEqual(page_content.text, "Any content here")
+
+
+# ---------------------------------------------------------------------------
+# use CLI to run this file, example : python ./sample_test.py 8080 [--browser FIREFOX]
+# you have to start the webapp aside and launch this program with the local port used by the webapp
+# requires "test" optional dependencies to run this file, following the README.md
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(prog="Sample unit test", description="Run the unit test of the sample webapp")
+
+    parser.add_argument("port", type=int, help="The local port where the webapp run.")
+    parser.add_argument("-b", "--browser", dest="browser", type=str, choices=["FIREFOX", "CHROME", "EDGE", "SAFARI"],
+                        help="The navigator used to do the unit test, by default is Firefox.")
+
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = parse_args()
+
+    LOCAL_PORT = args.port
+    if args.browser is not None:
+        NAVIGATOR = args.browser
+
+    # reset arguments for the unittest main, if we don't do that the unittest take arguments and try to process them
+    sys.argv[1:] = []
+    unittest.main()
