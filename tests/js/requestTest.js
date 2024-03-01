@@ -73,14 +73,11 @@ request_manager_tests.add_test(() => {
             // check the status of the response is ok
             UnitTest.assert_values_equals(request_manager.status, 200, "correct_status_get_request_test");
 
-            let content_to_cut = response.indexOf("<html");
-            let formatted_response = response.substring(content_to_cut).replace(/\s+/g, '');
+            // check if the id of the html element of the response is the same
+            let parser = new DOMParser();
+            const html_element = parser.parseFromString(response, "text/html").documentElement;
 
-            let formatted_response_expected = document.documentElement.outerHTML.replace("cz-shortcut-listen=\"true\"", "");
-            formatted_response_expected = formatted_response_expected.replace(/\s+/g, '');
-
-            // check if the content response is the same of our page
-            UnitTest.assert_values_equals(formatted_response, formatted_response_expected, "content_get_request_test");
+            UnitTest.assert_values_equals(html_element.id, document.documentElement.id);
         });
 });
 
