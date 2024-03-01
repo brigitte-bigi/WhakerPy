@@ -109,9 +109,9 @@ class BaseResponseRecipe:
             self._htree.head.append_child(js)
         if "request.js" not in shead:
             self._htree.head.script(src=os.path.join("whakerpy", "request.js"), script_type="text/javascript")
+            self._htree.head.script(src=os.path.join("tests", "js", "UnitTest.js"), script_type="text/javascript")
 
-            # uncomment this lines to launch unit test of the RequestManager class
-            # self._htree.head.script(src=os.path.join("tests", "js", "TestFramework.js"), script_type="text/javascript")
+            # uncomment this line to launch unit test of the RequestManager class
             # self._htree.head.script(src=os.path.join("tests", "js", "requestTest.js"), script_type="text/javascript")
 
         self.create()

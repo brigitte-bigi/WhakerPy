@@ -39,10 +39,10 @@ request_manager_tests.add_test(() => {
     const request_manager = new RequestManager();
     const url = new URL(window.location.href);
 
-    UnitTest.assert_values(request_manager.status, null, "status_getter_test");
-    UnitTest.assert_values(request_manager.port, url.port, "port_getter_test");
-    UnitTest.assert_values(request_manager.protocol, url.protocol, "protocol_getter_test");
-    UnitTest.assert_values(request_manager.request_url, url.href, "url_getter_test");
+    UnitTest.assert_values_equals(request_manager.status, null, "status_getter_test");
+    UnitTest.assert_values_equals(request_manager.port, url.port, "port_getter_test");
+    UnitTest.assert_values_equals(request_manager.protocol, url.protocol, "protocol_getter_test");
+    UnitTest.assert_values_equals(request_manager.request_url, url.href, "url_getter_test");
 });
 
 // Post request method test
@@ -53,7 +53,7 @@ request_manager_tests.add_test(async () => {
     request_manager.send_post_request({"event_unknown": 1}, true)
         .then(response => {
             // the server return an empty json because it doesn't understand the event send
-            UnitTest.assert_object(response, {}, "json_response_empty_test");
+            UnitTest.assert_object_equals(response, {}, "json_response_empty_test");
     });
 });
 
@@ -65,7 +65,7 @@ request_manager_tests.add_test(() => {
     request_manager.send_get_request("")
         .then(response => {
             // check the status of the response is ok
-            UnitTest.assert_values(request_manager.status, 200, "correct_status_get_request_test");
+            UnitTest.assert_values_equals(request_manager.status, 200, "correct_status_get_request_test");
 
             let content_to_cut = response.indexOf("<html");
             let formatted_response = response.substring(content_to_cut).replace(/\s+/g, '');
@@ -74,7 +74,7 @@ request_manager_tests.add_test(() => {
             formatted_response_expected = formatted_response_expected.replace(/\s+/g, '');
 
             // check if the content response is the same of our page
-            UnitTest.assert_values(formatted_response, formatted_response_expected, "content_get_request_test");
+            UnitTest.assert_values_equals(formatted_response, formatted_response_expected, "content_get_request_test");
         });
 });
 
@@ -85,7 +85,7 @@ request_manager_tests.add_test(() => {
     // test get request with wrong path
     request_manager.send_get_request("/unknown.txt")
         .then(response => {
-            UnitTest.assert_values(request_manager.status, 404, "wrong_status_get_request_test");
+            UnitTest.assert_values_equals(request_manager.status, 404, "wrong_status_get_request_test");
         });
 })
 
