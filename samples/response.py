@@ -40,6 +40,7 @@
 
 """
 
+import os
 import random
 import logging
 import time
@@ -72,12 +73,12 @@ async function setRandomColor() {
 }
 
 // we wait that the page finished to load to get the h2 element
-OnLoadManager.addLoadFunction(() => {
+window.onload = () => {
     // loop every 1.5s times
     setInterval(() => {
         setRandomColor();
     }, 1500);
-});
+};
 
 """
 
