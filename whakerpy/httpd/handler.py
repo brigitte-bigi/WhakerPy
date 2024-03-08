@@ -247,6 +247,11 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
         """
         logging.debug("POST -- requested: {}".format(self.path))
+
+        # this block has to be before the '/' condition (example: http://localhost:8080/?wexa_color=light)
+        if "?" in self.path:
+            self.path = self.path[:self.path.index("?")]
+
         if self.path == '/':  # should not happen.
             try:
                 self.path += self.server.default()

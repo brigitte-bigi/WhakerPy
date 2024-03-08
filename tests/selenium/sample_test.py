@@ -146,7 +146,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(prog="Sample unit test", description="Run the unit test of the sample webapp")
 
     parser.add_argument("port", type=int, help="The local port where the webapp run.")
-    parser.add_argument("-b", "--browser", dest="browser", type=str, choices=["FIREFOX", "CHROME", "EDGE", "SAFARI"],
+    parser.add_argument("-b", "--browser", type=str, dest="browser", choices=["FIREFOX", "CHROME", "EDGE", "SAFARI"],
                         help="The navigator used to do the unit test, by default is Firefox.")
 
     return parser.parse_args()
