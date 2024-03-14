@@ -43,6 +43,7 @@
 import os
 import json
 import logging
+import mimetypes
 import http.server
 
 from .hstatus import HTTPDStatus
@@ -79,15 +80,20 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
     """
 
-    def _set_headers(self, status: int) -> None:
+    def _set_headers(self, status: int, mime_type: str) -> None:
         """Set the HTTPD response headers.
 
         :param status: (int) A response status.
+        :param mime_type: (str) The mime type of the file response
+
         :raises: sppasHTTPDValueError
 
         """
         status = HTTPDStatus.check(status)
         self.send_response(status)
+
+        if mime_type is not None:
+            self.send_header('Content-Type', mime_type)
         self.end_headers()
 
     # -----------------------------------------------------------------------
@@ -174,25 +180,26 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
     # -----------------------------------------------------------------------
 
-    def _response(self, content: bytes, status: int) -> None:
+    def _response(self, content: bytes, status: int, mime_type: str = None) -> None:
         """Make the appropriate HTTPD response.
 
         :param content: (bytes) The HTML response content
         :param status: (int) The HTTPD status code of the response
+        :param mime_type: (str) The mime type of the file response
 
         """
         if status == 418:
             # 418: I'm not a teapot. Used as a response to a blocked request.
             # With no response content, the browser will display an empty page.
-            self._set_headers(418)
+            self._set_headers(418, mime_type)
         elif status == 205:
             # 205 Reset Content. The request has been received. Tells the
             # user agent to reset the document which sent this request.
             # With no response content, the browser will continue to display
             # the current page.
-            self._set_headers(205)
+            self._set_headers(205, mime_type)
         else:
-            self._set_headers(status)
+            self._set_headers(status, mime_type)
             self.wfile.write(content)
             if status == 410:
                 # 410 Gone. Only possible in the context of a local app.
@@ -228,9 +235,11 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
                 # Server is not the custom one for dynamic app.
                 self.path += "index.html"
 
+        mime_type = HTTPDHandler.get_mime_type(self.path)
+
         # The client requested an HTML page. Response content is created
         # by the server.
-        if self.path.endswith("html") is True:
+        if mime_type == "text/html":
             content, status = self._html(dict())
         else:
             # The client requested a css, a script, an image, a font, etc.
@@ -238,7 +247,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
             # and it makes the response itself.
             content, status = self._static_content(self.path[1:])
 
-        self._response(content, status.code)
+        self._response(content, status.code, mime_type)
 
     # -----------------------------------------------------------------------
 
@@ -287,13 +296,35 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         # Create the response
         if "application/json" in self.headers.get('Accept'):
             content, status = self._json_data(events)
+            mime_type = "application/json"
         else:
             content, status = self._html(events)
+            mime_type = "text/html"
 
-        self._response(content, status.code)
+        self._response(content, status.code, mime_type)
 
     # -----------------------------------------------------------------------
 
     def log_request(self, code='-', size='-') -> None:
         """Override. For a quiet handler pls!!!."""
         pass
+
+    # -----------------------------------------------------------------------
+    # PUBLIC STATIC METHODS
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def get_mime_type(filename: str) -> str:
+        """Returns the mime type of given file name or path.
+
+        :param filename: (str) The name or path of the file
+
+        :return: (str) The mime type of the file or 'unknown' if we can't find the type
+
+        """
+        mime_type, _ = mimetypes.guess_type(filename)
+
+        if mime_type is not None:
+            return mime_type
+        else:
+            return "unknown"
