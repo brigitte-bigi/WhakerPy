@@ -144,30 +144,22 @@ class RequestManager {
 
     /**
      * This method is used to send a POST HTTP request to the python server.
-     * The content of the posted data can be in JSON format or "text" format (see 'httpd/handler.py' documentation
-     * to the syntax of "text" format)
+     * The content of the posted data must be in JSON format.
      *
-     * @param post_parameters {Object|string} - The posted data to send to the server.
-     *                                          Object (dictionary) if it's JSON data or string to "text" data.
-     * @param is_json_post_data {boolean} - False by default
-     *                                      Boolean value to know if the data to send are in JSON format.
+     * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
      *
      * @returns {Promise<*>} - The server data response.
      */
-    async send_post_request(post_parameters, is_json_post_data = false) {
+    async send_post_request(post_parameters) {
         let request_response_data = null;
 
         // build request header and body depending on parameter passed to the method
+        post_parameters = JSON.stringify(post_parameters);
         let request_header = {
-            'Accept': "application/json"
+            'Accept': "application/json",
+            'Content-Type': "application/json; charset=utf-8",
+            'Content-Length': post_parameters.length.toString()
         }
-
-        if (is_json_post_data) {
-            request_header['Content-Type'] = "application/json; charset=utf-8";
-            post_parameters = JSON.stringify(post_parameters);
-        }
-
-        request_header['Content-Length'] = post_parameters.length.toString();
 
         // send request to the server
         await fetch(this.request_url, {

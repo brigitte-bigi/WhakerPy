@@ -59,9 +59,6 @@ JS_VALUE = """
 const requestManager = new RequestManager();
 
 async function setRandomColor() {
-    // test with text post request
-    // const response = await requestManager.send_post_request("update_text_color=true");
-
     // test with json post request
     const response = await requestManager.send_post_request({update_text_color: true}, true);
 
