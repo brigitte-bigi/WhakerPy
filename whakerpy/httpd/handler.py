@@ -39,12 +39,13 @@
     -------------------------------------------------------------------------
 
 """
-
+import codecs
 import os
 import json
 import logging
 import mimetypes
 import http.server
+from urllib.parse import parse_qsl
 
 from .hstatus import HTTPDStatus
 
@@ -80,7 +81,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
     """
 
-    def _set_headers(self, status: int, mime_type: str) -> None:
+    def _set_headers(self, status: int, mime_type: str = None) -> None:
         """Set the HTTPD response headers.
 
         :param status: (int) A response status.
@@ -98,21 +99,25 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
     # -----------------------------------------------------------------------
 
-    def _static_content(self, filename: str) -> tuple:
+    def _static_content(self, filename: str, mime_type: str) -> tuple:
         """Return the file content and the corresponding status.
 
-        :param filename: (str)
+        :param filename: (str) The path of the file to return
+        :param mime_type: (str) The mime type of the file response
+
         :return: tuple(bytes, HTTPDStatus)
 
         """
         if os.path.exists(filename) is True:
             if os.path.isfile(filename) is True:
-                content = open(filename, "rb").read()
+                content = HTTPDHandler.open_file_to_binary(filename, mime_type)
                 return content, HTTPDStatus()
+
             else:
                 content = bytes("<html><body>Error 403: Forbidden."
                                 "The client can't have access to the requested {:s}."
                                 "</body></html>".format(filename), "utf-8")
+
                 status = HTTPDStatus()
                 status.code = 403
                 return content, status
@@ -121,60 +126,39 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         content = bytes("<html><body>Error 404: Not found."
                         "The server does not have the requested {:s}."
                         "</body></html>".format(filename), "utf-8")
+
         status = HTTPDStatus()
         status.code = 404
         return content, status
 
     # -----------------------------------------------------------------------
 
-    def _json_data(self, events: dict) -> tuple:
-        """Process the events and return the data and the status.
-
-        :param events: (dict) The dictionary that contains all events posted
-        by the client request.
-
-        :return: (tuple) First element - The content of the response (json data).
-                         Second element - The status of the server.
-
-        """
-        # Test if the server is our
-        if hasattr(self.server, 'page_bakery') is False:
-            # Server is not the custom one for SPPAS wapp.
-            return self._static_content(self.path[1:])
-
-        # Requested page name and page bakery for all the pages created
-        # dynamically -- i.e. from an HTMLTree.
-        page_name = os.path.basename(self.path)
-        content, status = self.server.page_bakery(page_name, events, True)
-
-        # but the HTML page may be static
-        if status == 404:
-            content, status = self._static_content(self.path[1:])
-
-        return content, status
-
-    # -----------------------------------------------------------------------
-
-    def _html(self, events: dict) -> tuple:
-        """Process the events and return the html page content and status.
+    def _bakery(self, events: dict, mime_type: str) -> tuple:
+        """Process the events and return the html page content or json data and status.
 
         :param events: (dict) key=event name, value=event value
-        :return: tuple(bytes, HTTPDStatus)
+        :param mime_type: (str) The mime type of the file response
+
+        :return: tuple(bytes, HTTPDStatus) the content of the response the httpd status
 
         """
         # Test if the server is our
         if hasattr(self.server, 'page_bakery') is False:
             # Server is not the custom one for SPPAS wapp.
-            return self._static_content(self.path[1:])
+            return self._static_content(self.path[1:], mime_type)
 
         # Requested page name and page bakery for all the pages created
         # dynamically -- i.e. from an HTMLTree.
         page_name = os.path.basename(self.path)
-        content, status = self.server.page_bakery(page_name, events)
+
+        if mime_type == "application/javascript":
+            content, status = self.server.page_bakery(page_name, events, True)
+        else:
+            content, status = self.server.page_bakery(page_name, events)
 
         # but the HTML page may be static
         if status == 404:
-            content, status = self._static_content(self.path[1:])
+            content, status = self._static_content(self.path[1:], mime_type)
 
         return content, status
 
@@ -224,28 +208,25 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         """
         logging.debug("GET -- requested: {}".format(self.path))
 
-        # this block has to be before the '/' condition (example: http://localhost:8080/?color_theme=light)
-        if "?" in self.path:
-            self.path = self.path[:self.path.index("?")]
-
-        if self.path == '/':
-            try:
-                self.path += self.server.default()
-            except AttributeError:
-                # Server is not the custom one for dynamic app.
-                self.path += "index.html"
+        # parse the path
+        try:
+            default = self.server.default()
+            self.path = HTTPDHandler.filter_path(self.path, default_path=default)[0]
+        except AttributeError:
+            # Server is not the custom one for dynamic app.
+            self.path = HTTPDHandler.filter_path(self.path)[0]
 
         mime_type = HTTPDHandler.get_mime_type(self.path)
 
         # The client requested an HTML page. Response content is created
         # by the server.
         if mime_type == "text/html":
-            content, status = self._html(dict())
+            content, status = self._bakery(dict(), mime_type)
         else:
             # The client requested a css, a script, an image, a font, etc.
             # These are statics' content. The handler is reading it from disk,
             # and it makes the response itself.
-            content, status = self._static_content(self.path[1:])
+            content, status = self._static_content(self.path[1:], mime_type)
 
         self._response(content, status.code, mime_type)
 
@@ -257,49 +238,25 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         """
         logging.debug("POST -- requested: {}".format(self.path))
 
-        # this block has to be before the '/' condition (example: http://localhost:8080/?wexa_color=light)
-        if "?" in self.path:
-            self.path = self.path[:self.path.index("?")]
+        # parse the path
+        try:
+            default = self.server.default()
+            self.path = HTTPDHandler.filter_path(self.path, default_path=default)[0]
+        except AttributeError:
+            # Server is not the custom one for dynamic app.
+            self.path = HTTPDHandler.filter_path(self.path)[0]
 
-        if self.path == '/':  # should not happen.
-            try:
-                self.path += self.server.default()
-            except AttributeError:
-                # Server is not the custom one.
-                self.path += "index.html"
-
-        events = dict()
-
-        # Extract the posted data of the request.
-        content_len = int(self.headers.get('Content-Length'))
-        data = self.rfile.read(content_len).decode("utf-8")
-
-        # Convert data if it's in JSON format
-        if "application/json" in self.headers.get('Content-Type'):
-            try:
-                events = json.loads(data)
-            except json.JSONDecodeError:
-                logging.error("Can't decode JSON POSTED data : {}".format(data))
-
-        # Convert data if it's in text format
-        else:
-            # Parse the posted data of the request. It should be of the form:
-            # name_of_something=its_value&name2=value2&name3=value3
-            logging.debug("POST -- data: {}".format(data))
-            for dinput in data.split("&"):
-                new_event = dinput.split("=")
-                if len(new_event) == 2:
-                    events[new_event[0]] = new_event[1]
-                else:
-                    logging.error("Can't understand POSTED data: {}".format(dinput))
+        # Parse the posted data
+        events = HTTPDHandler.extract_body_content(self.rfile, self.headers.get('Content-Type'),
+                                                   self.headers.get('Content-Length'))
 
         # Create the response
         if "application/json" in self.headers.get('Accept'):
-            content, status = self._json_data(events)
             mime_type = "application/json"
+            content, status = self._bakery(events, mime_type)
         else:
-            content, status = self._html(events)
             mime_type = "text/html"
+            content, status = self._bakery(events, mime_type)
 
         self._response(content, status.code, mime_type)
 
@@ -328,3 +285,95 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
             return mime_type
         else:
             return "unknown"
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def open_file_to_binary(filename: str, mime_type: str):
+        """Open and read the given file and transform the content to bytes value.
+
+        :param filename: (str) The path of the file to read
+        :param mime_type: (str) The mime type of the file response
+
+        :return: (bytes) the file content in bytes format
+
+        """
+        if mime_type is not None and mime_type.startswith("text"):
+            with codecs.open(filename, "r", "utf-8") as fp:
+                return [bytes(line, "utf-8") for line in fp.readlines()]
+        else:
+            return open(filename, "rb").read()
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def filter_path(path: str, default_path: str = "index.html") -> tuple[str, str]:
+        """Parse the path to return the correct filename and page name (for webapp package : WebSiteData class).
+
+        :param path: (str) The path obtain from the http request
+        :param default_path: (str) The default path to add if the path is juste '/'
+
+        :return: (tuple[str, str]) first : the filename requested
+                                   second : the page name (for webapp package)
+
+        """
+        # this block has to be before the '/' condition (example: http://localhost:8080/?wexa_color=light)
+        if "?" in path:
+            path = path[:path.index("?")]
+
+        filename = path
+        if filename == "/":
+            filename += default_path
+
+        page_name = path
+        if page_name.startswith('/'):
+            page_name = page_name[1:]
+
+        return filename, page_name
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def extract_body_content(content, content_type: str, content_length: str) -> dict:
+        """Read and parse the body content of a POST request.
+        Return a dictionary with keys and values.
+
+        :param content: (Binary object) the body of the POST request
+        :param content_type: (str) the content type of the body, given (or not) in the request header
+        :param content_length: (str) the content length of the body, given (or not) in the request header
+
+        :return: (dict) the dictionary that contains the events to process,
+                        return an empty dictionary if there is an error.
+
+        """
+        try:
+            length = int(content_length)
+        # if the length is None or not a string which contains an integer if somebody set the header with bad values
+        except (TypeError, ValueError):
+            length = 0
+
+        # read file and print traceback
+        data = content.read(length).decode("utf-8")
+        logging.debug("POST -- data: {}".format(data))
+
+        # if content-type is not defined in the header request
+        if content_type is None or content_length == 0:
+            data = dict()
+
+        # parse text data from forms
+        elif content_type.startswith("application/x-www-form-urlencoded") or content_type.startswith("multipart/form-data"):
+            data = dict(parse_qsl(
+                data,
+                keep_blank_values=True,
+                strict_parsing=False  # errors are silently ignored
+            ))
+
+        # parse json data from request.js
+        else:
+            try:
+                data = json.loads(data)
+            except json.JSONDecodeError:
+                logging.error("Can't decode JSON POSTED data : {}".format(data))
+
+        # return data parsed in python dictionary
+        return data
