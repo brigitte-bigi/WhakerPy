@@ -40,6 +40,7 @@
 
 """
 
+import os
 import random
 import logging
 import time
@@ -58,9 +59,6 @@ JS_VALUE = """
 const requestManager = new RequestManager();
 
 async function setRandomColor() {
-    // test with text post request
-    // const response = await requestManager.send_post_request("update_text_color=true");
-
     // test with json post request
     const response = await requestManager.send_post_request({update_text_color: true}, true);
 
@@ -71,13 +69,13 @@ async function setRandomColor() {
     h2Element.style.color = response["random_color"];
 }
 
-// we use a timeout to allow time for the page to load
-window.onload = setTimeout(() => {
+// we wait that the page finished to load to get the h2 element
+window.onload = () => {
     // loop every 1.5s times
     setInterval(() => {
         setRandomColor();
     }, 1500);
-}, 2000);
+};
 
 """
 

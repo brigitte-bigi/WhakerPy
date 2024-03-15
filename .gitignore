@@ -11,4 +11,3 @@ dist/*.gz
 *.egg-info
 .coverage
 .scannerwork
-

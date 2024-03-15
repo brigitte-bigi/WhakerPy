@@ -1,36 +1,30 @@
 /**
-:filename: sppas.ui.swapp.static.js.request.js
+:filename: whakerpy.js.request.js
 :author: Florian Lopitaux
 :contact: contact@sppas.org
 :summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost client and gets data in return.
 
-.. _This file is part of SPPAS: https://sppas.org/
-..
+.. _This file is part of WhakerPy: https://sourceforge.net/projects/whakerpy/ ,
+.. on 2024-02-28.
     -------------------------------------------------------------------------
 
-     ___   __    __    __    ___
-    /     |  \  |  \  |  \  /              the automatic
-    \__   |__/  |__/  |___| \__             annotation and
-       \  |     |     |   |    \             analysis
-    ___/  |     |     |   | ___/              of speech
-
-    Copyright (C) 2011-2023  Brigitte Bigi
+    Copyright (C) 2011-2024  Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     Use of this software is governed by the GNU Public License, version 3.
 
-    SPPAS is free software: you can redistribute it and/or modify
+    Whakerpy is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    SPPAS is distributed in the hope that it will be useful,
+    Whakerpy is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
+    along with Whakerpy. If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -97,10 +91,6 @@ class RequestManager {
      *
      * @returns {string} The url of the localhost address.
      */
-    get requestUrl() {
-        return this.#url;
-    }
-
     get request_url() {
         return this.#url;
     }
@@ -120,24 +110,32 @@ class RequestManager {
      *
      * @param uri {string} - The parameters (after the url) of the GET request.
      * @param is_json_response {boolean} - False by default.
-     *                                     Boolean value to know if the response is a json object to parse.
+     *                                     Boolean value to know if the server response is a json object to parse.
      *
-     * @returns {Promise<*>} - The server data response in the json format.
+     * @returns {Promise<*>} - The server data response.
      */
     async send_get_request(uri, is_json_response = false) {
+        const complete_url = this.request_url + uri;
         let request_response_data = null;
 
         // send request to the server
-        await fetch(this.request_url + uri)
-            // then gets content of the gateway file to gets the server data
+        await fetch(complete_url)
+            // then gets content of the server response
             .then(async response =>  {
-                this.#status = response.status
+                // get the status response and check if there is an error
+                this.#status = response.status;
 
+                // get the content of the server response and parse them if it's a json format
                 if (is_json_response) {
                     request_response_data = await response.json();
                 } else {
                     request_response_data = await response.text();
                 }
+            })
+            // handle error
+            .catch(error => {
+                this.#status = error.status;
+                request_response_data = error;
             });
 
         return request_response_data;
@@ -146,42 +144,42 @@ class RequestManager {
 
     /**
      * This method is used to send a POST HTTP request to the python server.
-     * The content of the posted data can be in JSON format or "text" format (see 'httpd/handler.py' documentation
-     * to the syntax of "text" format)
+     * The content of the posted data must be in JSON format.
      *
-     * @param post_parameters {Object|string} - The posted data to send to the server.
-     *                                          Object (dictionary) if it's JSON data or string to "text" data.
-     * @param is_json_post_data {boolean} - False by default
-     *                                      Boolean value to know if the data to send are in JSON format.
+     * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
      *
-     * @returns {Promise<*>} - The server data response stocked in the gateway file.
-     *                         Or null if the 'returnKey' parameter doesn't give.
+     * @returns {Promise<*>} - The server data response.
      */
-    async send_post_request(post_parameters, is_json_post_data = false) {
+    async send_post_request(post_parameters) {
         let request_response_data = null;
 
         // build request header and body depending on parameter passed to the method
-        const request_body = (is_json_post_data) ? JSON.stringify(post_parameters) : post_parameters;
+        post_parameters = JSON.stringify(post_parameters);
         let request_header = {
-            'Content-Length': JSON.stringify(request_body).length.toString(),
-            'Accept': "application/json"
-        };
-
-        if (is_json_post_data) {
-            request_header['Content-Type'] = "application/json; charset=utf-8";
+            'Accept': "application/json",
+            'Content-Type': "application/json; charset=utf-8",
+            'Content-Length': post_parameters.length.toString()
         }
 
         // send request to the server
         await fetch(this.request_url, {
             method: "POST",
             headers: request_header,
-            body: request_body
+            body: post_parameters
         })
-            // then gets content of the gateway file to gets the server data
+            // then gets content of the server response
             .then(async response =>  {
+                // get the status response and check if there is an error
                 this.#status = response.status
+
                 request_response_data = await response.json();
-            });
+            })
+            // handle error
+            .catch(error => {
+                this.#status = error.status;
+                request_response_data = error;
+            })
+        ;
 
         return request_response_data;
     }

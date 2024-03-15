@@ -116,6 +116,7 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
                 if is_json_data_to_return:
                     # get data set by the current page
                     content = bytes(bakery.get_json_data(), "utf-8")
+                    bakery.reset_json_data()
 
                 return content, bakery.status
 

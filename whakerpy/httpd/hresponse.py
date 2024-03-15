@@ -49,7 +49,6 @@ from .hstatus import HTTPDStatus
 
 # ---------------------------------------------------------------------------
 
-
 JS_NOTIFY_EVENT = """
 function notify_event(action_btn) {
     const form = document.createElement("form");
@@ -103,10 +102,12 @@ class BaseResponseRecipe:
 
         # Test if this tree can manage events (from buttons, forms, etc)
         shead = self._htree.head.serialize()
+
         if "notify_event" not in shead:
             js = HTMLNode(self._htree.head.identifier, None, "script",
                           value=JS_NOTIFY_EVENT)
             self._htree.head.append_child(js)
+
         if "request.js" not in shead:
             self._htree.head.script(src=os.path.join("whakerpy", "request.js"), script_type="text/javascript")
 
@@ -121,6 +122,15 @@ class BaseResponseRecipe:
 
         """
         return json.dumps(self._data)
+
+    # -----------------------------------------------------------------------
+
+    def reset_json_data(self) -> None:
+        """Clear json data of the response.
+        This function has to be called after each response send to the client to avoid overflow problems.
+
+        """
+        self._data.clear()
 
     # -----------------------------------------------------------------------
     # Getters
