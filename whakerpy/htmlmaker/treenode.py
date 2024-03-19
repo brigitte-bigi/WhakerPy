@@ -425,6 +425,57 @@ class HTMLTree(BaseNode):
         return node
 
     # -----------------------------------------------------------------------
+
+    def button(self, value: str, on_clik: str, identifier: str = None, class_name: str = None) -> HTMLNode:
+        """Add a classic button with given text value and onclick event to the body->main.
+
+        :param value: (str) The text write in the button
+        :param on_clik: (str) the onclick event of the button (generally call a js function)
+        :param identifier: (str) Optional, the identifier of the node (and also the id of the tag in the html generated)
+        :param class_name: (str) Optional, the classes attribute for css of the button tag
+
+        :return: (HTMLNode) The button node created
+
+        """
+        attributes = {'onclik': on_clik}
+
+        if identifier is not None:
+            attributes['id'] = identifier
+        if class_name is not None:
+            attributes['class'] = class_name
+
+        button = HTMLNode(self.body_main.identifier, identifier, "button", value=value, attributes=attributes)
+        self.body_main.append_child(button)
+        return button
+
+    # -----------------------------------------------------------------------
+
+    def image(self, src: str, alt_text: str, identifier: str = None, class_name: str = None) -> HTMLNode:
+        """Add an image to the body->main.
+
+        :param src: (str) The path of the image file
+        :param alt_text: (str) the alternative text if for some reasons the image doesn't display or for narrator
+        :param identifier: (str) Optional, the identifier of the node (and also the id of the tag in the html generated)
+        :param class_name: (str) Optional, the classes attribute for css of the button tag
+
+        :return: (HTMLNode) The image node created
+
+        """
+        attributes = {
+            'src': src,
+            'alt': alt_text
+        }
+
+        if identifier is not None:
+            attributes['id'] = identifier
+        if class_name is not None:
+            attributes['class'] = class_name
+
+        img = HTMLNode(self.body_main.identifier, identifier, "img", attributes=attributes)
+        self.body_main.append_child(img)
+        return img
+
+    # -----------------------------------------------------------------------
     # Serialize HTML
     # -----------------------------------------------------------------------
 

@@ -109,7 +109,7 @@ class BaseResponseRecipe:
             self._htree.head.append_child(js)
 
         if "request.js" not in shead:
-            self._htree.head.script(src=os.path.join("whakerpy", "request.js"), script_type="text/javascript")
+            self._htree.head.script(src=os.path.join("whakerpy", "request.js"), script_type="application/javascript")
 
         self.create()
 
