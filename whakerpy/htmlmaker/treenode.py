@@ -218,6 +218,32 @@ class HTMLTree(BaseNode):
 
     # -----------------------------------------------------------------------
 
+    def get_body_identifier(self) -> str:
+        """Return the identifier of the body node.
+
+        :return: (str) the identifier of the body node.
+
+        """
+        return self._get_body().identifier
+
+    # -----------------------------------------------------------------------
+
+    def insert_body_child(self, child: HTMLNode, index: int = 0) -> None:
+        """Insert a html node in the body.
+
+        :param child: (HTMLNode) the node to append in the body
+        :param index: (int) Optional, the index where insert the child, by default the index is set to 0
+
+        :raises ValueError: If the index is negative
+
+        """
+        if index < 0:
+            raise ValueError("The index can't be negative !")
+
+        self._get_body().insert_child(index, child)
+
+    # -----------------------------------------------------------------------
+
     def get_head(self) -> HTMLNode:
         """Get the head node element.
 
