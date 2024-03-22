@@ -39,10 +39,11 @@
     -------------------------------------------------------------------------
 
 """
-import codecs
+
 import os
 import json
 import logging
+import codecs
 import mimetypes
 import http.server
 from urllib.parse import parse_qsl
@@ -298,9 +299,14 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         :return: (bytes) the file content in bytes format
 
         """
-        if mime_type is not None and mime_type.startswith("text"):
+        if mime_type is not None and (mime_type.startswith("text") or mime_type == "application/javascript"):
             with codecs.open(filename, "r", "utf-8") as fp:
-                return [bytes(line, "utf-8") for line in fp.readlines()]
+                content = bytes("", "utf-8")
+
+                for line in fp.readlines():
+                    content += bytes(line, "utf-8")
+
+                return content
         else:
             return open(filename, "rb").read()
 

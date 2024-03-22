@@ -13,6 +13,7 @@ Create and manipulate HTML from the power of Python:
 * Can save as static files, and/or
 * Run locally with its HTTPD server and response "bakery" system.
 
+Not enough? Install <https://whakerexa.sf.net> too, an extension for WhakerPy. It includes useful CSS frameworks, JavaScripts, and Python classes for a stylized static or dynamic content.
 
 ## License
 
