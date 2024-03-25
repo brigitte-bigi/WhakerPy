@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <title>WhakerPy doc</title>
+            <link rel="logo icon" href="statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./wexa_statics/css/cards.css" type="text/css" />
+            <link rel="stylesheet" href="./wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="statics/light.css" type="text/css" />
+            <link rel="stylesheet" href="statics/clamming.css" type="text/css" />
+            <link rel="stylesheet" href="statics/code.css" type="text/css" />
+            <script src="./wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
+            <script src="./wexa_statics/js/book.js" type="application/javascript"></script>
+            <script type="application/javascript">
+                OnLoadManager.addLoadFunction(() => {
+                    let book = new Book("main-content");
+                    book.delete_html_tags("h1")
+                    book.add_html_tags("h5")
+                    book.fill_table(false);
+                });
+            </script>
+       </head>
+       
+       <body class="light">
+        <header>
+
+                <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+                </a>
+        
+        <p><img class="small-logo" src="statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 0.5</h1>
+    <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
+    <ul>
+<li><a role="button" tabindex="0" href="whakerpy.htmlmaker.html"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="BaseResponseRecipe.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="HTTPDValueError.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="whakerpy.webapp.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">Clamming</a></small></p>
+</nav>
+    <main id="main-content" class="toc-shift">
+    <div id="toc-content">
+    <h1>WhakerPy 0.5</h1>
+    <section id="#whakerpy.httpd">    <h2>Module whakerpy.httpd</h2>
+<section id="#HTTPDStatus">
+<h3>Class HTTPDStatus</h3>
+
+<h4 id="#description_HTTPDStatus">Description</h4>
+    <article class="docstring">
+<p><em>A status code value of an HTTPD server.</em></p>
+
+<p></p>
+
+<p>HTTPD status codes are issued by a server in response to a client's</p>
+
+<p>request made to the server. All HTTP response status codes are</p>
+
+<p>separated into five classes or categories. The first digit of the</p>
+
+<p>status code defines the class of response, while the last two digits</p>
+
+<p>do not have any classifying or categorization role. There are five</p>
+
+<p>classes defined by the standard:</p>
+
+<p></p>
+
+<ul>
+<li>1xx informational response – the request was received, continuing process</li>
+</ul>
+
+<ul>
+<li>2xx successful – the request was successfully received, understood, and accepted</li>
+</ul>
+
+<ul>
+<li>3xx redirection – further action needs to be taken in order to complete the request</li>
+</ul>
+
+<ul>
+<li>4xx client error – the request contains bad syntax or cannot be fulfilled</li>
+</ul>
+
+<ul>
+<li>5xx server error – the server failed to fulfil an apparently valid request</li>
+</ul>
+
+    </article>
+<h4 id="#constructor_HTTPDStatus">Constructor</h4>
+    <article class="docstring">
+<p><em>Create the private member for the status code.</em></p>
+
+<p></p>
+
+<p>Default status code is 200 for an "OK" httpd response.</p>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="78002_collapse_id" aria-expanded="false" aria-controls="78002_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="78002_expand_id" aria-labelledby="78002_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the private member for the status code.</span>
+
+<span class="sd">    Default status code is 200 for an &quot;OK&quot; httpd response.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__scode</span> <span class="o">=</span> <span class="mi">200</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+<h4 id="#public_fct_HTTPDStatus">Public functions</h4>
+<section>
+<h5>check</h5>
+
+    <article class="docstring">
+<p><em>Raise an exception if given status value is invalid.</em></p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>value</strong>: (<em>int</em>) A response status.</li>
+</ul>
+
+<p></p>
+
+<p></p>
+
+<h6>Raises</h6>
+
+<p></p>
+
+<p>sppasHTTPDValueError</p>
+
+<p></p>
+
+<p></p>
+
+<h6>Returns</h6>
+
+<p></p>
+
+<ul>
+<li>(<em>int</em>) value</li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="55836_collapse_id" aria-expanded="false" aria-controls="55836_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="55836_expand_id" aria-labelledby="55836_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise an exception if given status value is invalid.</span>
+
+<span class="sd">        :param value: (int) A response status.</span>
+<span class="sd">        :raises: sppasHTTPDValueError</span>
+<span class="sd">        :return: (int) value</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPDValueError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">HTTPDStatus</span><span class="o">.</span><span class="n">HTTPD_STATUS</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="n">HTTPDValueError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>get</h5>
+
+    <article class="docstring">
+<p><em>Return the status code value (int).</em></p>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="20341_collapse_id" aria-expanded="false" aria-controls="20341_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="20341_expand_id" aria-labelledby="20341_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the status code value (int).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scode</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>set</h5>
+
+    <article class="docstring">
+<p><em>Set a new value to the status code.</em></p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>value</strong>: (<em>int</em>) HTTPD status code value.</li>
+</ul>
+
+<p></p>
+
+<p></p>
+
+<h6>Raises</h6>
+
+<p></p>
+
+<p>sppasHTTPDValueError</p>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="55917_collapse_id" aria-expanded="false" aria-controls="55917_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="55917_expand_id" aria-labelledby="55917_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a new value to the status code.</span>
+
+<span class="sd">        :param value: (int) HTTPD status code value.</span>
+<span class="sd">        :raises: sppasHTTPDValueError</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__scode</span> <span class="o">=</span> <span class="n">value</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<h4 id="#overloads_{:s}">Overloads</h4>
+<section>
+<h5>__str__</h5>
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="66853_collapse_id" aria-expanded="false" aria-controls="66853_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="66853_expand_id" aria-labelledby="66853_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scode</span><span class="p">)</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>__repr__</h5>
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="80821_collapse_id" aria-expanded="false" aria-controls="80821_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="80821_expand_id" aria-labelledby="80821_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1">: </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scode</span><span class="p">,</span> <span class="n">HTTPDStatus</span><span class="o">.</span><span class="n">HTTPD_STATUS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__scode</span><span class="p">])</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>__eq__</h5>
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="10328_collapse_id" aria-expanded="false" aria-controls="10328_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="10328_expand_id" aria-labelledby="10328_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__scode</span> <span class="o">==</span> <span class="n">other</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+</section>    </section>    </div>
+    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+            
+            <script src="statics/accordion.js" type="text/javascript"></script>
+        
+</body>
+</html>

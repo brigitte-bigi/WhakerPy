@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <title>WhakerPy doc</title>
+            <link rel="logo icon" href="statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./wexa_statics/css/cards.css" type="text/css" />
+            <link rel="stylesheet" href="./wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="statics/light.css" type="text/css" />
+            <link rel="stylesheet" href="statics/clamming.css" type="text/css" />
+            <link rel="stylesheet" href="statics/code.css" type="text/css" />
+            <script src="./wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
+            <script src="./wexa_statics/js/book.js" type="application/javascript"></script>
+            <script type="application/javascript">
+                OnLoadManager.addLoadFunction(() => {
+                    let book = new Book("main-content");
+                    book.delete_html_tags("h1")
+                    book.add_html_tags("h5")
+                    book.fill_table(false);
+                });
+            </script>
+       </head>
+       
+       <body class="light">
+        <header>
+
+                <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+                </a>
+        
+        <p><img class="small-logo" src="statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 0.5</h1>
+    <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
+    <ul>
+<li><a role="button" tabindex="0" href="whakerpy.htmlmaker.html"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="HTTPDHandler.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="whakerpy.webapp.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">Clamming</a></small></p>
+</nav>
+    <main id="main-content" class="toc-shift">
+    <div id="toc-content">
+    <h1>WhakerPy 0.5</h1>
+    <section id="#whakerpy.httpd">    <h2>Module whakerpy.httpd</h2>
+<section id="#BaseHTTPDServer">
+<h3>Class BaseHTTPDServer</h3>
+
+<h4 id="#description_BaseHTTPDServer">Description</h4>
+    <article class="docstring">
+<p><em>A base class for any custom HTTPD server.</em></p>
+
+<p></p>
+
+<p>It adds a dictionary of the HTML page's bakery this server can handle</p>
+
+<p>and the name of the default page.</p>
+
+<p></p>
+
+<h6>Example</h6>
+
+<p></p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">BaseHTTPDServer</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">app_handler</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">create_pages</span><span class="p">()</span>
+</code></pre></div>
+
+    </article>
+<h4 id="#constructor_BaseHTTPDServer">Constructor</h4>
+    <article class="docstring">
+<p><em>Create the server instance and add custom members.</em></p>
+
+<p></p>
+
+<p></p>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="33035_collapse_id" aria-expanded="false" aria-controls="33035_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="33035_expand_id" aria-labelledby="33035_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the server instance and add custom members.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">BaseHTTPDServer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_default</span> <span class="o">=</span> <span class="s1">&#39;index.html&#39;</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+<h4 id="#public_fct_BaseHTTPDServer">Public functions</h4>
+<section>
+<h5>default</h5>
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="76101_collapse_id" aria-expanded="false" aria-controls="76101_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="76101_expand_id" aria-labelledby="76101_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>create_pages</h5>
+
+    <article class="docstring">
+<p><em>To be overridden. Add bakeries for dynamic HTML pages.</em></p>
+
+<p></p>
+
+<p>The created pages are instances of the BaseResponseRecipe class.</p>
+
+<p>Below is an example on how to override this method:</p>
+
+<p></p>
+
+<h6>Example</h6>
+
+<p></p>
+
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">app</span> <span class="o">==</span> <span class="s2">&quot;main&quot;</span><span class="p">:</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="s2">&quot;index.html&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BaseResponseRecipe</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">,</span> <span class="n">HTMLTree</span><span class="p">(</span><span class="s2">&quot;Index&quot;</span><span class="p">))</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="s2">&quot;foo.html&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WebResponseRecipe</span><span class="p">(</span><span class="s2">&quot;foo.html&quot;</span><span class="p">,</span> <span class="n">HTMLTree</span><span class="p">(</span><span class="s2">&quot;Foo&quot;</span><span class="p">))</span>
+<span class="k">elif</span> <span class="n">app</span> <span class="o">==</span> <span class="s2">&quot;test&quot;</span><span class="p">:</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="s2">&quot;test.html&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BaseResponseRecipe</span><span class="p">(</span><span class="s2">&quot;test.html&quot;</span><span class="p">,</span> <span class="n">HTMLTree</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>app</strong>: (<em>str</em>) Any string definition for custom use</li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="15587_collapse_id" aria-expanded="false" aria-controls="15587_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="15587_expand_id" aria-labelledby="15587_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;app&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;To be overridden. Add bakeries for dynamic HTML pages.</span>
+
+<span class="sd">        The created pages are instances of the BaseResponseRecipe class.</span>
+<span class="sd">        Below is an example on how to override this method:</span>
+
+<span class="sd">        :example:</span>
+<span class="sd">        if app == &quot;main&quot;:</span>
+<span class="sd">            self._pages[&quot;index.html&quot;] = BaseResponseRecipe(&quot;index.html&quot;, HTMLTree(&quot;Index&quot;))</span>
+<span class="sd">            self._pages[&quot;foo.html&quot;] = WebResponseRecipe(&quot;foo.html&quot;, HTMLTree(&quot;Foo&quot;))</span>
+<span class="sd">        elif app == &quot;test&quot;:</span>
+<span class="sd">            self._pages[&quot;test.html&quot;] = BaseResponseRecipe(&quot;test.html&quot;, HTMLTree(&quot;test&quot;))</span>
+
+<span class="sd">        :param app: (str) Any string definition for custom use</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>page_bakery</h5>
+
+    <article class="docstring">
+<p><em>Return the page content and response status.</em></p>
+
+<p></p>
+
+<p>This method should be invoked after a POST request in order to</p>
+
+<p>take the events into account when baking the HTML page content.</p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>page_name</strong>: (<em>str</em>) Requested page name</li>
+</ul>
+
+<ul>
+<li><strong>events</strong>: (<em>dict</em>) key=event name, value=event value</li>
+</ul>
+
+<ul>
+<li><strong>is<em>json</em>data<em>to</em>return</strong>: (<em>bool</em>) False by default - Boolean value to know if the server return json data or html page</li>
+</ul>
+
+<p></p>
+
+<h6>Returns</h6>
+
+<p></p>
+
+<ul>
+<li>tuple(<em>bytes</em>, HTTPDStatus)</li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="55834_collapse_id" aria-expanded="false" aria-controls="55834_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="55834_expand_id" aria-labelledby="55834_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">page_bakery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">is_json_data_to_return</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the page content and response status.</span>
+
+<span class="sd">        This method should be invoked after a POST request in order to</span>
+<span class="sd">        take the events into account when baking the HTML page content.</span>
+
+<span class="sd">        :param page_name: (str) Requested page name</span>
+<span class="sd">        :param events: (dict) key=event name, value=event value</span>
+<span class="sd">        :param is_json_data_to_return: (bool) False by default - Boolean</span>
+<span class="sd">        value to know if the server return json data or html page</span>
+
+<span class="sd">        :return: tuple(bytes, HTTPDStatus)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page_name</span><span class="p">],</span> <span class="n">BaseResponseRecipe</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">bakery</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page_name</span><span class="p">]</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">bakery</span><span class="o">.</span><span class="n">bake</span><span class="p">(</span><span class="n">events</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">is_json_data_to_return</span><span class="p">:</span>
+                <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">bakery</span><span class="o">.</span><span class="n">get_json_data</span><span class="p">(),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                <span class="n">bakery</span><span class="o">.</span><span class="n">reset_json_data</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">bakery</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">()</span>
+    <span class="n">status</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="mi">404</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">status</span><span class="p">)</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+</section>    </section>    </div>
+    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+            
+            <script src="statics/accordion.js" type="text/javascript"></script>
+        
+</body>
+</html>

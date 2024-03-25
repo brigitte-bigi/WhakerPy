@@ -1,0 +1,248 @@
+/*
+:filename: statics/css/cards.css
+:author: Brigitte Bigi
+:contact: contact@sppas.org
+:summary: a CSS framework to create nice cards in an HTML document.
+
+.. _This file is part of Whakerexa: https://whakerexa.sf.net/
+..
+    -------------------------------------------------------------------------
+
+    Copyright (C) 2023-2024 Brigitte Bigi
+    Laboratoire Parole et Langage, Aix-en-Provence, France
+
+    Use of this software is governed by the GNU Public License, version 3.
+
+    Whakerexa is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Whakerexa is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Whakerexa. If not, see <http://www.gnu.org/licenses/>.
+
+    This banner notice must not be removed.
+
+    -------------------------------------------------------------------------
+
+This style is freely inspired of:
+https://heydon.github.io/Inclusive-Components/cards-redundant-click-read-more/#card-link
+
+This is a base class to create a cards panel with card items.
+The style of each element inside a card can be subclassed as needed.
+
+*/
+
+:root {
+    --card-max-width: 15rem;
+    --card-border-width: 2px;
+    --card-border-radius: 8px;
+    --card-box-shadow: -0.2rem 0.2rem 0.6rem 0.2rem var(--shadow-color);
+}
+
+.contrast {
+    --card-max-width: 20rem;
+    --card-border-width: 4px;
+    --card-border-radius: 12px;
+}
+
+/* Definition of panels to place cards into */
+/* ---------------------------------------- */
+
+.cards-panel {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-max-width), 1fr));
+    grid-column-gap: calc(0.1*var(--card-max-width));
+    grid-row-gap: calc(0.1*var(--card-max-width));
+}
+
+.full-cards-panel {
+    grid-template-columns: none;
+    /* if the cards are in a flexbox */
+    flex-direction: row;
+}
+
+
+/* Definition of a card */
+/* -------------------- */
+
+.card {
+    position: relative;
+    padding: 0;
+    margin: 0.4rem;
+    border: var(--card-border-width) solid var(--border-color-alt);
+    border-radius: var(--card-border-radius);
+    /* Display elements inside a card: */
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--card-box-shadow);
+    opacity: 90%;
+    cursor: none;
+}
+
+.card:hover {
+    opacity: 100%;
+}
+
+.card:has(a, button) {
+    cursor: pointer;
+}
+
+.card + .card {
+    margin-top: 0;
+}
+
+/* Change size and direction for mobile screens */
+
+@media only screen and (max-width: 768px) {
+    .card {
+        max-width: 75%;
+        max-height: 30rem;
+    }
+    .full-card {
+        max-width: 100%;
+        max-height: none;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .card {
+        max-width: 20rem;
+    }
+    .full-card {
+        max-width: 100%;
+    }
+}
+
+/* Content of a card */
+/* ----------------- */
+
+.card header {
+    text-align: center;
+    margin: auto;
+    min-height: 3rem;
+    width: 100%;
+    padding: 0.4rem;
+    /*clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 1rem));*/
+    border-top-right-radius: var(--card-border-radius);
+    border-top-left-radius: var(--card-border-radius);
+    color: var(--header-fg-color);
+    background: var(--header-bg-color);
+    /* Organize content: a box with centered elements */
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card header img {
+    border-top-right-radius: var(--card-border-radius);
+    border-top-left-radius: var(--card-border-radius);
+}
+
+.card header * {
+    color: var(--header-fg-color);
+    background-color: transparent;
+}
+
+.card main {
+    padding: 0.4rem;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--card-border-radius);
+}
+
+.card > main > *
+{
+    border: none;
+}
+
+.card footer {
+    text-align: center;
+    margin: auto;
+    min-height: 3rem;
+    width: 100%;
+    border-bottom-right-radius: var(--card-border-radius);
+    border-bottom-left-radius: var(--card-border-radius);
+    /* Organize content: a box with centered elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.card footer *:not(img) {
+    font-size: 80%;
+    margin: 0.4rem;
+}
+
+.card footer *:not(button, [role=button]) {
+    color: var(--footer-fg-color);
+    background-color: transparent;
+}
+
+.card > * > a[role=button], .card > * > button {
+    border: calc(var(--border-width)/2) solid var(--a-color);
+}
+.card > * > a[role=button]:hover, .card > * > button:enabled:hover {
+    border: calc(var(--border-width)/2) dashed var(--a-color);
+}
+
+
+/* ----------------------------------------------------------------- */
+/* Enumerate cards */
+/* ----------------------------------------------------------------- */
+
+ol.enumerate-cards {
+    list-style: none;
+    padding: 0;
+}
+
+li.enumerate-cards-item + li {
+    margin-top: 1rem;
+}
+
+li.enumerate-cards-item {
+    background: var(--bg-color-alt);
+    font-weight: var(--font-weight-black);
+    font-size: calc(var(--font-size) * 1.25);
+    margin: auto;
+    max-width: 80%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    width: calc(100% - 2rem);
+    box-shadow: 0.25rem 0.25rem 0.75rem rgb(0 0 0 / 0.1);
+}
+
+li.enumerate-cards-item::before {
+    background: var(--header-bg-color);
+    counter-increment: list-item;
+    content: counter(list-item);
+    font-size: calc(var(--font-size) * 2);
+    font-weight: var(--font-weight-black);
+    width: 1.5em;
+    height: 1.5em;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    color: var(--header-fg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+li.enumerate-cards-item:nth-child(even) {
+    background: var(--table-row-stripped-bg-color);
+    flex-direction: row-reverse;
+    margin-right: -2rem;
+    margin-left: 2rem;
+}

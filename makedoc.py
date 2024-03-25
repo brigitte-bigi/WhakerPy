@@ -35,7 +35,7 @@ try:
 except ImportError:
     print("This program requires `Clamming` documentation generator.")
     print("It can be installed with: pip install Clamming.")
-    print("See <https://pypi.org/project/Clamming/> for details.")
+    print("See <https://clamming.sf.net/> for details.")
     sys.exit(-1)
 
 # ---------------------------------------------------------------------------
@@ -60,8 +60,8 @@ html_export.theme = 'light'
 
 # Export documentation into HTML files.
 # One .html file = one documented class.
-clamming.ClamsPack.html_export_packages(packages, "doc", html_export)
+clamming.ClamsPack.html_export_packages(packages, "docs", html_export)
 
 # Export documentation into a Markdown file.
 # One .md file = one documented module.
-clamming.ClamsPack.markdown_export_packages(packages, "doc", html_export)
+clamming.ClamsPack.markdown_export_packages(packages, "docs", html_export)

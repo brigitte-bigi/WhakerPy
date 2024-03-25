@@ -53,7 +53,7 @@ Install all the optional dependencies with:
 WhakerPy package includes the following folders and files:
 
 1. "whakerpy": the source code package
-2. "doc": the documentation of whakerpy library in HTML and Markdown
+2. "docs": the documentation of whakerpy library in HTML and Markdown
 3. "sample": a webapp sample
 4. "tests": the tests of the source code
 
@@ -126,12 +126,13 @@ For a more complex example of an already in-used web frontend, see: <https://sou
 
 ## Projects using WhakerPy
 
-WhakerPy was initially developed within SPPAS <https://sppas.org>; it was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on whakerpy API, and it's website too.
+WhakerPy was initially developed within SPPAS <https://sppas.org>; it was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on `whakerpy` API.
 
 Other projects: 
 
 - the website <https://auto-cuedspeech.org> is entirely based on WhakerPy.
-- *contact the author if your project is using whakerpy*
+- the website <https://sppas.org> is entirely based on WhakerPy.
+- *contact the author if your project is using WhakerPy*
 
 
 # The developer's corner
@@ -149,7 +150,7 @@ The API documentation is available in the `doc` folder. Click the file `index.ht
 
 To re-generate the doc, install the required external program, then launch the doc generator:
 ```bash
->python -m pip install ".[doc]"
+>python -m pip install ".[docs]"
 >python makedoc.py
 ```
 
@@ -186,5 +187,5 @@ If you plan to contribute to the code, please send an e-mail to the author.
 
 ## Author/Copyright
 
-Copyright (C) 2023-2024 - Brigitte Bigi - <contact@sppas.org>
+Copyright (C) 2023-2024 - [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>, 
 Laboratoire Parole et Langage, Aix-en-Provence, France.
