@@ -60,12 +60,13 @@ const requestManager = new RequestManager();
 
 async function setRandomColor() {
     // test with json post request
-    const response = await requestManager.send_post_request({update_text_color: true}, true);
-
+    const response = await requestManager.send_post_request({update_text_color: true});
+    console.log(response);
+    
     let date = new Date();
     console.log("time to receive server response: " + (date.getTime() - response["time"]) + "ms");
 
-    let coloredElement = document.getElementsByTagName("colored")[0];
+    let coloredElement = document.getElementsByName("colored")[0];
     coloredElement.style.color = response["random_color"];
 }
 
@@ -159,12 +160,6 @@ class SampleAppResponse(BaseResponseRecipe):
         # Replace the existing empty nav
         self._htree.set_body_nav(SampleNavNode(self._htree.body_main.identifier))
 
-        # Add element into the main
-        _p = HTMLNode(self._htree.body_main.identifier, None, "p",
-                      value="THIS text-line is changing color without refreshing the page!")
-        _p.set_attribute("name", "colored")
-        self._htree.body_main.append_child(_p)
-
         # Add an element in the footer
         _p = HTMLNode(self._htree.body_footer.identifier, None, "p", value="Copyleft 2023-2024 WhakerPy")
         self._htree.body_footer.append_child(_p)
@@ -221,6 +216,12 @@ class SampleAppResponse(BaseResponseRecipe):
         self.comment("Body content")
         text = SampleAppResponse.__generate_random_text()
         logging.debug(" -> new dynamic content: {:s}".format(text))
+
+        # Add element into the main
+        _p = HTMLNode(self._htree.body_main.identifier, None, "p",
+                      value="THIS text-line is changing color without refreshing the page!")
+        _p.set_attribute("name", "colored")
+        self._htree.body_main.append_child(_p)
 
         # The easiest way to create an element and add it into the body->main
         h2 = self.element("h2")
