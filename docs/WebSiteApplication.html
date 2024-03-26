@@ -8,20 +8,38 @@
             <link rel="logo icon" href="statics/whakerpy32x32.ico" />
             <link rel="stylesheet" href="./wexa_statics/css/wexa.css" type="text/css" />
             <link rel="stylesheet" href="./wexa_statics/css/cards.css" type="text/css" />
-            <link rel="stylesheet" href="./wexa_statics/css/book.css" type="text/css" />
-            <link rel="stylesheet" href="statics/light.css" type="text/css" />
-            <link rel="stylesheet" href="statics/clamming.css" type="text/css" />
-            <link rel="stylesheet" href="statics/code.css" type="text/css" />
-            <script src="./wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
-            <script src="./wexa_statics/js/book.js" type="application/javascript"></script>
-            <script type="application/javascript">
-                OnLoadManager.addLoadFunction(() => {
-                    let book = new Book("main-content");
-                    book.delete_html_tags("h1")
-                    book.add_html_tags("h5")
-                    book.fill_table(false);
-                });
+            <link rel="stylesheet" href="statics/css/light.css" type="text/css" />
+            <link rel="stylesheet" href="statics/css/clamming.css" type="text/css" />
+            <link rel="stylesheet" href="statics/css/code.css" type="text/css" />
+            
+            <script type="text/javascript">
+                function htmlTableOfContents(documentRef) {
+
+                    var documentRef = documentRef || document;
+                    var toc = documentRef.getElementById('toc');
+                    var tocContent = documentRef.getElementById('main-content');
+                    var headings = [].slice.call(tocContent.querySelectorAll('h2, h3, h4, h5'));
+                    headings.forEach(function (heading, index) {
+                        /* Add the anchor right before the heading */
+                        var anchor = documentRef.createElement('a');
+                        anchor.setAttribute('name', 'toc' + index);
+                        anchor.setAttribute('id', 'toc' + index);
+
+                        /* Add an entry into the table of content */
+                        var link = documentRef.createElement('a');
+                        link.setAttribute('href', '#toc' + index);
+                        link.textContent = heading.textContent;
+
+                        var div = documentRef.createElement('li');
+                        div.setAttribute('class', heading.tagName.toLowerCase());
+
+                        div.appendChild(link);
+                        toc.appendChild(div);
+                        heading.parentNode.insertBefore(anchor, heading);
+                    });
+                }
             </script>
+    
        </head>
        
        <body class="light">
@@ -35,7 +53,7 @@
         <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 0.5</h1>
+    <h1>WhakerPy 0.5.1</h1>
     <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     <ul>
@@ -52,7 +70,7 @@
 </nav>
     <main id="main-content" class="toc-shift">
     <div id="toc-content">
-    <h1>WhakerPy 0.5</h1>
+    <h1>WhakerPy 0.5.1</h1>
     <section id="#whakerpy.webapp">    <h2>Module whakerpy.webapp</h2>
 <section id="#WebSiteApplication">
 <h3>Class WebSiteApplication</h3>
@@ -90,11 +108,11 @@
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="55688_collapse_id" aria-expanded="false" aria-controls="55688_expand_id">
+             <button class="rise-trigger" id="94837_collapse_id" aria-expanded="false" aria-controls="94837_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="55688_expand_id" aria-labelledby="55688_collapse_id">
+         <main class="rise-main" id="94837_expand_id" aria-labelledby="94837_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_cls</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;HTTPD Server initialization.</span>
 
@@ -126,11 +144,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="79009_collapse_id" aria-expanded="false" aria-controls="79009_expand_id">
+             <button class="rise-trigger" id="72360_collapse_id" aria-expanded="false" aria-controls="72360_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="79009_expand_id" aria-labelledby="79009_collapse_id">
+         <main class="rise-main" id="72360_expand_id" aria-labelledby="72360_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">client_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the client URL of this server.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s1">&#39;http://</span><span class="si">{:s}</span><span class="s1">:</span><span class="si">{:d}</span><span class="s1">/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__location</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__port</span><span class="p">)</span>
@@ -162,11 +180,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="10427_collapse_id" aria-expanded="false" aria-controls="10427_expand_id">
+             <button class="rise-trigger" id="11035_collapse_id" aria-expanded="false" aria-controls="11035_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="10427_expand_id" aria-labelledby="10427_collapse_id">
+         <main class="rise-main" id="11035_expand_id" aria-labelledby="11035_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the application with a main loop.</span>
 
@@ -192,6 +210,20 @@ View Source
                 <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
             </footer>
             
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                         htmlTableOfContents();
+                     }
+                 );
+
+                 try {
+                     module.exports = htmlTableOfContents;
+                 } catch (e) {
+                     // module.exports is not defined
+                 }
+            </script>
+    
             <script src="statics/accordion.js" type="text/javascript"></script>
         
 </body>
