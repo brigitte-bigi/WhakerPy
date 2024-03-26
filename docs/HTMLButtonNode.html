@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <title>WhakerPy doc</title>
+            <link rel="logo icon" href="statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./wexa_statics/css/cards.css" type="text/css" />
+            <link rel="stylesheet" href="./wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="statics/light.css" type="text/css" />
+            <link rel="stylesheet" href="statics/clamming.css" type="text/css" />
+            <link rel="stylesheet" href="statics/code.css" type="text/css" />
+            <script src="./wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
+            <script src="./wexa_statics/js/book.js" type="application/javascript"></script>
+            <script type="application/javascript">
+                OnLoadManager.addLoadFunction(() => {
+                    let book = new Book("main-content");
+                    book.delete_html_tags("h1")
+                    book.add_html_tags("h5")
+                    book.fill_table(false);
+                });
+            </script>
+       </head>
+       
+       <body class="light">
+        <header>
+
+                <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+                </a>
+        
+        <p><img class="small-logo" src="statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 0.5</h1>
+    <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
+    <ul>
+<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="HTMLRadioBox.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="BaseNode.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="whakerpy.httpd.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">Clamming</a></small></p>
+</nav>
+    <main id="main-content" class="toc-shift">
+    <div id="toc-content">
+    <h1>WhakerPy 0.5</h1>
+    <section id="#whakerpy.htmlmaker">    <h2>Module whakerpy.htmlmaker</h2>
+<section id="#HTMLButtonNode">
+<h3>Class HTMLButtonNode</h3>
+
+<h4 id="#description_HTMLButtonNode">Description</h4>
+    <article class="docstring">
+<p><em>Represent a button element.</em></p>
+
+<p></p>
+
+<p>The set_attribute method should be overridden to check if the given key</p>
+
+<p>is in the list of accepted attributes.</p>
+
+    </article>
+<h4 id="#constructor_HTMLButtonNode">Constructor</h4>
+    <article class="docstring">
+<p><em>Create an input node. Default type is 'text'.</em></p>
+
+<p></p>
+
+<p></p>
+<h6>Parameters</h6>
+
+<ul>
+<li><strong>parent</strong></li>
+<li><strong>identifier</strong></li>
+<li><strong>attributes</strong></li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="44942_collapse_id" aria-expanded="false" aria-controls="44942_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="44942_expand_id" aria-labelledby="44942_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="nb">dict</span><span class="p">()):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an input node. Default type is &#39;text&#39;.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">HTMLButtonNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="s1">&#39;button&#39;</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="n">attributes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;id&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_attribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_attribute</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_attribute</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;button&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+<h4 id="#public_fct_HTMLButtonNode">Public functions</h4>
+<section>
+<h5>set_icon</h5>
+
+    <article class="docstring">
+<p><em>Set an icon to the button from its filename.</em></p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>icon</strong>: (<em>str</em>) Name of an icon in the app.</li>
+</ul>
+
+<ul>
+<li><strong>attributes</strong>: (<em>dict</em>).</li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="30945_collapse_id" aria-expanded="false" aria-controls="30945_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="30945_expand_id" aria-labelledby="30945_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_icon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">icon</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="nb">dict</span><span class="p">()):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set an icon to the button from its filename.</span>
+
+<span class="sd">        :param icon: (str) Name of an icon in the app.</span>
+<span class="sd">        :param attributes: (dict).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">HTMLImage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="n">icon</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">attributes</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">node</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+<section>
+<h5>set_text</h5>
+
+    <article class="docstring">
+<p><em>Set a text to the button.</em></p>
+
+<p></p>
+
+<h6>Parameters</h6>
+
+<p></p>
+
+<ul>
+<li><strong>ident</strong>: (<em>str</em>) Identifier for the span text.</li>
+</ul>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) Button text.</li>
+</ul>
+
+<ul>
+<li><strong>attributes</strong>: (<em>dict</em>)</li>
+</ul>
+
+    </article>
+
+
+    <article class="rise">
+         <header class="rise-header">
+             <button class="rise-trigger" id="69750_collapse_id" aria-expanded="false" aria-controls="69750_expand_id">
+View Source
+             </button>
+         </header>
+         <main class="rise-main" id="69750_expand_id" aria-labelledby="69750_collapse_id">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ident</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="nb">dict</span><span class="p">()):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a text to the button.</span>
+
+<span class="sd">        :param ident: (str) Identifier for the span text.</span>
+<span class="sd">        :param text: (str) Button text.</span>
+<span class="sd">        :param attributes: (dict)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">HTMLNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">ident</span><span class="p">,</span> <span class="s1">&#39;span&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="n">attributes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ident</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">ident</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ident</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s1">&#39;aria-labelledby&#39;</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">node</span>
+</code></pre></div>
+
+        </main>
+    </article>
+
+
+</section>
+</section>    </section>    </div>
+    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+            
+            <script src="statics/accordion.js" type="text/javascript"></script>
+        
+</body>
+</html>

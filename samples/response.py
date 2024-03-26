@@ -60,13 +60,14 @@ const requestManager = new RequestManager();
 
 async function setRandomColor() {
     // test with json post request
-    const response = await requestManager.send_post_request({update_text_color: true}, true);
-
+    const response = await requestManager.send_post_request({update_text_color: true});
+    console.log(response);
+    
     let date = new Date();
     console.log("time to receive server response: " + (date.getTime() - response["time"]) + "ms");
 
-    let h2Element = document.getElementsByTagName("h2")[0];
-    h2Element.style.color = response["random_color"];
+    let coloredElement = document.getElementsByName("colored")[0];
+    coloredElement.style.color = response["random_color"];
 }
 
 // we wait that the page finished to load to get the h2 element
@@ -150,20 +151,17 @@ class SampleAppResponse(BaseResponseRecipe):
         """
         # Define this page title
         self._htree.head.title(self._name)
+        self._htree.head.link(rel="stylesheet", href="docs/wexa_statics/css/wexa.css", link_type="text/css")
 
         # Add elements in the header
         _h1 = HTMLNode(self._htree.body_header.identifier, None, "h1", value="Test of WhakerPy")
         self._htree.body_header.append_child(_h1)
 
-        _p = HTMLNode(self._htree.body_header.identifier, None, "p",
-                      value="The text is changing color without refreshing the page!")
-        self._htree.body_header.append_child(_p)
-
         # Replace the existing empty nav
         self._htree.set_body_nav(SampleNavNode(self._htree.body_main.identifier))
 
         # Add an element in the footer
-        _p = HTMLNode(self._htree.body_footer.identifier, None, "p", value="Copyleft 2023 WhakerPy")
+        _p = HTMLNode(self._htree.body_footer.identifier, None, "p", value="Copyleft 2023-2024 WhakerPy")
         self._htree.body_footer.append_child(_p)
 
         # The javascript
@@ -218,6 +216,12 @@ class SampleAppResponse(BaseResponseRecipe):
         self.comment("Body content")
         text = SampleAppResponse.__generate_random_text()
         logging.debug(" -> new dynamic content: {:s}".format(text))
+
+        # Add element into the main
+        _p = HTMLNode(self._htree.body_main.identifier, None, "p",
+                      value="THIS text-line is changing color without refreshing the page!")
+        _p.set_attribute("name", "colored")
+        self._htree.body_main.append_child(_p)
 
         # The easiest way to create an element and add it into the body->main
         h2 = self.element("h2")

@@ -152,7 +152,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         # dynamically -- i.e. from an HTMLTree.
         page_name = os.path.basename(self.path)
 
-        if mime_type == "application/javascript":
+        if mime_type == "application/json":
             content, status = self.server.page_bakery(page_name, events, True)
         else:
             content, status = self.server.page_bakery(page_name, events)
