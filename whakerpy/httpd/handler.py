@@ -166,6 +166,8 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
             code = status
             status = HTTPDStatus()
             status.code = code
+        elif not isinstance(status, HTTPDStatus):
+            raise TypeError("The status has to be an instance of HTTPDStatus (or int). Got: " + status)
 
         return content, status
 
