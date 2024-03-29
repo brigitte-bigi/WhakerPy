@@ -161,6 +161,11 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         if status == 404:
             content, status = self._static_content(self.path[1:], mime_type)
 
+        # if the user makes a mistake and set to the status an integer and not a HTTPDStatus
+        if isinstance(status, int):
+            status = HTTPDStatus()
+            status.code = status
+
         return content, status
 
     # -----------------------------------------------------------------------
@@ -366,20 +371,20 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         if content_type is None or content_length == 0:
             data = dict()
 
-        # parse text data from forms
-        elif content_type.startswith("application/x-www-form-urlencoded") or content_type.startswith("multipart/form-data"):
+        # parse json data from request.js
+        elif "application/json" in content_type:
+            try:
+                data = json.loads(data)
+            except json.JSONDecodeError:
+                logging.error("Can't decode JSON POSTED data : {}".format(data))
+
+        # otherwise try to parse text data from forms
+        else:
             data = dict(parse_qsl(
                 data,
                 keep_blank_values=True,
                 strict_parsing=False  # errors are silently ignored
             ))
-
-        # parse json data from request.js
-        else:
-            try:
-                data = json.loads(data)
-            except json.JSONDecodeError:
-                logging.error("Can't decode JSON POSTED data : {}".format(data))
 
         # return data parsed in python dictionary
         return data

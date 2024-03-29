@@ -61,7 +61,6 @@ const requestManager = new RequestManager();
 async function setRandomColor() {
     // test with json post request
     const response = await requestManager.send_post_request({update_text_color: true});
-    console.log(response);
     
     let date = new Date();
     console.log("time to receive server response: " + (date.getTime() - response["time"]) + "ms");
