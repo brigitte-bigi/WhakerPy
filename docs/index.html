@@ -8,20 +8,38 @@
             <link rel="logo icon" href="statics/whakerpy32x32.ico" />
             <link rel="stylesheet" href="./wexa_statics/css/wexa.css" type="text/css" />
             <link rel="stylesheet" href="./wexa_statics/css/cards.css" type="text/css" />
-            <link rel="stylesheet" href="./wexa_statics/css/book.css" type="text/css" />
-            <link rel="stylesheet" href="statics/light.css" type="text/css" />
-            <link rel="stylesheet" href="statics/clamming.css" type="text/css" />
-            <link rel="stylesheet" href="statics/code.css" type="text/css" />
-            <script src="./wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
-            <script src="./wexa_statics/js/book.js" type="application/javascript"></script>
-            <script type="application/javascript">
-                OnLoadManager.addLoadFunction(() => {
-                    let book = new Book("main-content");
-                    book.delete_html_tags("h1")
-                    book.add_html_tags("h5")
-                    book.fill_table(false);
-                });
+            <link rel="stylesheet" href="statics/css/light.css" type="text/css" />
+            <link rel="stylesheet" href="statics/css/clamming.css" type="text/css" />
+            <link rel="stylesheet" href="statics/css/code.css" type="text/css" />
+            
+            <script type="text/javascript">
+                function htmlTableOfContents(documentRef) {
+
+                    var documentRef = documentRef || document;
+                    var toc = documentRef.getElementById('toc');
+                    var tocContent = documentRef.getElementById('main-content');
+                    var headings = [].slice.call(tocContent.querySelectorAll('h2, h3, h4, h5'));
+                    headings.forEach(function (heading, index) {
+                        /* Add the anchor right before the heading */
+                        var anchor = documentRef.createElement('a');
+                        anchor.setAttribute('name', 'toc' + index);
+                        anchor.setAttribute('id', 'toc' + index);
+
+                        /* Add an entry into the table of content */
+                        var link = documentRef.createElement('a');
+                        link.setAttribute('href', '#toc' + index);
+                        link.textContent = heading.textContent;
+
+                        var div = documentRef.createElement('li');
+                        div.setAttribute('class', heading.tagName.toLowerCase());
+
+                        div.appendChild(link);
+                        toc.appendChild(div);
+                        heading.parentNode.insertBefore(anchor, heading);
+                    });
+                }
             </script>
+    
        </head>
        
        <body class="light">
@@ -35,7 +53,7 @@
         <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 0.5</h1>
+    <h1>WhakerPy 0.5.1</h1>
     <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     <ul>
@@ -52,7 +70,7 @@
 </nav>
     <main id="main-content" class="toc-shift">
     <div id="toc-content">
-    <h1>WhakerPy 0.5</h1>
+    <h1>WhakerPy 0.5.1</h1>
     <section id="#whakerpy.htmlmaker">
     <h2>Module whakerpy.htmlmaker</h2>
         <section class="cards-panel">
@@ -62,7 +80,7 @@
                 <h3>NodeTypeError</h3>
             </main>
             <footer>
-                <a role="button" href="./NodeTypeError.html">Read me →</a>
+                <a role="button" href=".\NodeTypeError.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -71,7 +89,7 @@
                 <h3>NodeTagError</h3>
             </main>
             <footer>
-                <a role="button" href="./NodeTagError.html">Read me →</a>
+                <a role="button" href=".\NodeTagError.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -80,7 +98,7 @@
                 <h3>NodeKeyError</h3>
             </main>
             <footer>
-                <a role="button" href="./NodeKeyError.html">Read me →</a>
+                <a role="button" href=".\NodeKeyError.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -89,7 +107,7 @@
                 <h3>NodeAttributeError</h3>
             </main>
             <footer>
-                <a role="button" href="./NodeAttributeError.html">Read me →</a>
+                <a role="button" href=".\NodeAttributeError.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -98,7 +116,7 @@
                 <h3>NodeChildTagError</h3>
             </main>
             <footer>
-                <a role="button" href="./NodeChildTagError.html">Read me →</a>
+                <a role="button" href=".\NodeChildTagError.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -107,7 +125,7 @@
                 <h3>NodeInvalidIdentifierError</h3>
             </main>
             <footer>
-                <a role="button" href="./NodeInvalidIdentifierError.html">Read me →</a>
+                <a role="button" href=".\NodeInvalidIdentifierError.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -116,7 +134,7 @@
                 <h3>NodeIdentifierError</h3>
             </main>
             <footer>
-                <a role="button" href="./NodeIdentifierError.html">Read me →</a>
+                <a role="button" href=".\NodeIdentifierError.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -125,7 +143,7 @@
                 <h3>NodeParentIdentifierError</h3>
             </main>
             <footer>
-                <a role="button" href="./NodeParentIdentifierError.html">Read me →</a>
+                <a role="button" href=".\NodeParentIdentifierError.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -134,7 +152,7 @@
                 <h3>Doctype</h3>
             </main>
             <footer>
-                <a role="button" href="./Doctype.html">Read me →</a>
+                <a role="button" href=".\Doctype.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -143,7 +161,7 @@
                 <h3>HTMLComment</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLComment.html">Read me →</a>
+                <a role="button" href=".\HTMLComment.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -152,7 +170,7 @@
                 <h3>HTMLImage</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLImage.html">Read me →</a>
+                <a role="button" href=".\HTMLImage.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -161,7 +179,7 @@
                 <h3>HTMLHr</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLHr.html">Read me →</a>
+                <a role="button" href=".\HTMLHr.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -170,7 +188,7 @@
                 <h3>HTMLBr</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLBr.html">Read me →</a>
+                <a role="button" href=".\HTMLBr.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -179,7 +197,7 @@
                 <h3>HTMLInputText</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLInputText.html">Read me →</a>
+                <a role="button" href=".\HTMLInputText.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -188,7 +206,7 @@
                 <h3>HTMLRadioBox</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLRadioBox.html">Read me →</a>
+                <a role="button" href=".\HTMLRadioBox.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -197,7 +215,7 @@
                 <h3>HTMLButtonNode</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLButtonNode.html">Read me →</a>
+                <a role="button" href=".\HTMLButtonNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -206,7 +224,7 @@
                 <h3>BaseNode</h3>
             </main>
             <footer>
-                <a role="button" href="./BaseNode.html">Read me →</a>
+                <a role="button" href=".\BaseNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -215,7 +233,7 @@
                 <h3>BaseTagNode</h3>
             </main>
             <footer>
-                <a role="button" href="./BaseTagNode.html">Read me →</a>
+                <a role="button" href=".\BaseTagNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -224,7 +242,7 @@
                 <h3>EmptyNode</h3>
             </main>
             <footer>
-                <a role="button" href="./EmptyNode.html">Read me →</a>
+                <a role="button" href=".\EmptyNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -233,7 +251,7 @@
                 <h3>HTMLNode</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLNode.html">Read me →</a>
+                <a role="button" href=".\HTMLNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -242,7 +260,7 @@
                 <h3>HTMLHeadNode</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLHeadNode.html">Read me →</a>
+                <a role="button" href=".\HTMLHeadNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -251,7 +269,7 @@
                 <h3>HTMLHeaderNode</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLHeaderNode.html">Read me →</a>
+                <a role="button" href=".\HTMLHeaderNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -260,7 +278,7 @@
                 <h3>HTMLNavNode</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLNavNode.html">Read me →</a>
+                <a role="button" href=".\HTMLNavNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -269,7 +287,7 @@
                 <h3>HTMLMainNode</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLMainNode.html">Read me →</a>
+                <a role="button" href=".\HTMLMainNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -278,7 +296,7 @@
                 <h3>HTMLFooterNode</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLFooterNode.html">Read me →</a>
+                <a role="button" href=".\HTMLFooterNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -287,7 +305,7 @@
                 <h3>HTMLScriptNode</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLScriptNode.html">Read me →</a>
+                <a role="button" href=".\HTMLScriptNode.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -296,7 +314,7 @@
                 <h3>HTMLTree</h3>
             </main>
             <footer>
-                <a role="button" href="./HTMLTree.html">Read me →</a>
+                <a role="button" href=".\HTMLTree.html">Read me →</a>
             </footer>
         </article>
         </section>
@@ -309,7 +327,7 @@
                 <h3>BaseResponseRecipe</h3>
             </main>
             <footer>
-                <a role="button" href="./BaseResponseRecipe.html">Read me →</a>
+                <a role="button" href=".\BaseResponseRecipe.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -318,7 +336,7 @@
                 <h3>HTTPDStatus</h3>
             </main>
             <footer>
-                <a role="button" href="./HTTPDStatus.html">Read me →</a>
+                <a role="button" href=".\HTTPDStatus.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -327,7 +345,7 @@
                 <h3>HTTPDValueError</h3>
             </main>
             <footer>
-                <a role="button" href="./HTTPDValueError.html">Read me →</a>
+                <a role="button" href=".\HTTPDValueError.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -336,7 +354,7 @@
                 <h3>HTTPDHandler</h3>
             </main>
             <footer>
-                <a role="button" href="./HTTPDHandler.html">Read me →</a>
+                <a role="button" href=".\HTTPDHandler.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -345,7 +363,7 @@
                 <h3>BaseHTTPDServer</h3>
             </main>
             <footer>
-                <a role="button" href="./BaseHTTPDServer.html">Read me →</a>
+                <a role="button" href=".\BaseHTTPDServer.html">Read me →</a>
             </footer>
         </article>
         </section>
@@ -358,7 +376,7 @@
                 <h3>WebSiteData</h3>
             </main>
             <footer>
-                <a role="button" href="./WebSiteData.html">Read me →</a>
+                <a role="button" href=".\WebSiteData.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -367,7 +385,7 @@
                 <h3>WebSiteResponse</h3>
             </main>
             <footer>
-                <a role="button" href="./WebSiteResponse.html">Read me →</a>
+                <a role="button" href=".\WebSiteResponse.html">Read me →</a>
             </footer>
         </article>
         <article class="card">
@@ -376,7 +394,7 @@
                 <h3>WebSiteApplication</h3>
             </main>
             <footer>
-                <a role="button" href="./WebSiteApplication.html">Read me →</a>
+                <a role="button" href=".\WebSiteApplication.html">Read me →</a>
             </footer>
         </article>
         </section>
@@ -387,6 +405,20 @@
                 <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
             </footer>
             
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                         htmlTableOfContents();
+                     }
+                 );
+
+                 try {
+                     module.exports = htmlTableOfContents;
+                 } catch (e) {
+                     // module.exports is not defined
+                 }
+            </script>
+    
             <script src="statics/accordion.js" type="text/javascript"></script>
         
 </body>

@@ -8,20 +8,38 @@
             <link rel="logo icon" href="statics/whakerpy32x32.ico" />
             <link rel="stylesheet" href="./wexa_statics/css/wexa.css" type="text/css" />
             <link rel="stylesheet" href="./wexa_statics/css/cards.css" type="text/css" />
-            <link rel="stylesheet" href="./wexa_statics/css/book.css" type="text/css" />
-            <link rel="stylesheet" href="statics/light.css" type="text/css" />
-            <link rel="stylesheet" href="statics/clamming.css" type="text/css" />
-            <link rel="stylesheet" href="statics/code.css" type="text/css" />
-            <script src="./wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
-            <script src="./wexa_statics/js/book.js" type="application/javascript"></script>
-            <script type="application/javascript">
-                OnLoadManager.addLoadFunction(() => {
-                    let book = new Book("main-content");
-                    book.delete_html_tags("h1")
-                    book.add_html_tags("h5")
-                    book.fill_table(false);
-                });
+            <link rel="stylesheet" href="statics/css/light.css" type="text/css" />
+            <link rel="stylesheet" href="statics/css/clamming.css" type="text/css" />
+            <link rel="stylesheet" href="statics/css/code.css" type="text/css" />
+            
+            <script type="text/javascript">
+                function htmlTableOfContents(documentRef) {
+
+                    var documentRef = documentRef || document;
+                    var toc = documentRef.getElementById('toc');
+                    var tocContent = documentRef.getElementById('main-content');
+                    var headings = [].slice.call(tocContent.querySelectorAll('h2, h3, h4, h5'));
+                    headings.forEach(function (heading, index) {
+                        /* Add the anchor right before the heading */
+                        var anchor = documentRef.createElement('a');
+                        anchor.setAttribute('name', 'toc' + index);
+                        anchor.setAttribute('id', 'toc' + index);
+
+                        /* Add an entry into the table of content */
+                        var link = documentRef.createElement('a');
+                        link.setAttribute('href', '#toc' + index);
+                        link.textContent = heading.textContent;
+
+                        var div = documentRef.createElement('li');
+                        div.setAttribute('class', heading.tagName.toLowerCase());
+
+                        div.appendChild(link);
+                        toc.appendChild(div);
+                        heading.parentNode.insertBefore(anchor, heading);
+                    });
+                }
             </script>
+    
        </head>
        
        <body class="light">
@@ -35,7 +53,7 @@
         <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 0.5</h1>
+    <h1>WhakerPy 0.5.1</h1>
     <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     <ul>
@@ -52,7 +70,7 @@
 </nav>
     <main id="main-content" class="toc-shift">
     <div id="toc-content">
-    <h1>WhakerPy 0.5</h1>
+    <h1>WhakerPy 0.5.1</h1>
     <section id="#whakerpy.httpd">    <h2>Module whakerpy.httpd</h2>
 <section id="#HTTPDHandler">
 <h3>Class HTTPDHandler</h3>
@@ -125,11 +143,11 @@
 <h4 id="#constructor_HTTPDHandler">Constructor</h4>
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="93532_collapse_id" aria-expanded="false" aria-controls="93532_expand_id">
+             <button class="rise-trigger" id="93150_collapse_id" aria-expanded="false" aria-controls="93150_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="93532_expand_id" aria-labelledby="93532_collapse_id">
+         <main class="rise-main" id="93150_expand_id" aria-labelledby="93150_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">client_address</span><span class="p">,</span> <span class="n">server</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">client_address</span> <span class="o">=</span> <span class="n">client_address</span>
@@ -157,11 +175,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="85558_collapse_id" aria-expanded="false" aria-controls="85558_expand_id">
+             <button class="rise-trigger" id="38546_collapse_id" aria-expanded="false" aria-controls="38546_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="85558_expand_id" aria-labelledby="85558_collapse_id">
+         <main class="rise-main" id="38546_expand_id" aria-labelledby="38546_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_HEAD</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a HEAD request.&quot;&quot;&quot;</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;HEAD -- requested: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
@@ -188,11 +206,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="38118_collapse_id" aria-expanded="false" aria-controls="38118_expand_id">
+             <button class="rise-trigger" id="86890_collapse_id" aria-expanded="false" aria-controls="86890_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="38118_expand_id" aria-labelledby="38118_collapse_id">
+         <main class="rise-main" id="86890_expand_id" aria-labelledby="86890_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a GET request.</span>
 
@@ -205,9 +223,9 @@ View Source
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">HTTPDHandler</span><span class="o">.</span><span class="n">filter_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">mime_type</span> <span class="o">=</span> <span class="n">HTTPDHandler</span><span class="o">.</span><span class="n">get_mime_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mime_type</span> <span class="o">==</span> <span class="s1">&#39;text/html&#39;</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="nb">dict</span><span class="p">(),</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="nb">dict</span><span class="p">(),</span> <span class="n">mime_type</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">mime_type</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
 </code></pre></div>
 
@@ -231,11 +249,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="20127_collapse_id" aria-expanded="false" aria-controls="20127_expand_id">
+             <button class="rise-trigger" id="54799_collapse_id" aria-expanded="false" aria-controls="54799_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="20127_expand_id" aria-labelledby="20127_collapse_id">
+         <main class="rise-main" id="54799_expand_id" aria-labelledby="54799_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_POST</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a POST request.</span>
 
@@ -249,10 +267,10 @@ View Source
     <span class="n">events</span> <span class="o">=</span> <span class="n">HTTPDHandler</span><span class="o">.</span><span class="n">extract_body_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">))</span>
     <span class="k">if</span> <span class="s1">&#39;application/json&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Accept&#39;</span><span class="p">):</span>
         <span class="n">mime_type</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">mime_type</span> <span class="o">=</span> <span class="s1">&#39;text/html&#39;</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
 </code></pre></div>
 
@@ -278,11 +296,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="40440_collapse_id" aria-expanded="false" aria-controls="40440_expand_id">
+             <button class="rise-trigger" id="31703_collapse_id" aria-expanded="false" aria-controls="31703_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="40440_expand_id" aria-labelledby="40440_collapse_id">
+         <main class="rise-main" id="31703_expand_id" aria-labelledby="31703_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">log_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. For a quiet handler pls!!!.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
@@ -324,11 +342,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="92292_collapse_id" aria-expanded="false" aria-controls="92292_expand_id">
+             <button class="rise-trigger" id="84639_collapse_id" aria-expanded="false" aria-controls="84639_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="92292_expand_id" aria-labelledby="92292_collapse_id">
+         <main class="rise-main" id="84639_expand_id" aria-labelledby="84639_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get_mime_type</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the mime type of given file name or path.</span>
@@ -338,7 +356,7 @@ View Source
 <span class="sd">        :return: (str) The mime type of the file or &#39;unknown&#39; if we can&#39;t find the type</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="n">mime_type</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">mime_type</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mime_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">mime_type</span>
     <span class="k">else</span><span class="p">:</span>
@@ -385,11 +403,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="35666_collapse_id" aria-expanded="false" aria-controls="35666_expand_id">
+             <button class="rise-trigger" id="78154_collapse_id" aria-expanded="false" aria-controls="78154_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="35666_expand_id" aria-labelledby="35666_collapse_id">
+         <main class="rise-main" id="78154_expand_id" aria-labelledby="78154_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">open_file_to_binary</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open and read the given file and transform the content to bytes value.</span>
@@ -450,11 +468,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="35743_collapse_id" aria-expanded="false" aria-controls="35743_expand_id">
+             <button class="rise-trigger" id="10744_collapse_id" aria-expanded="false" aria-controls="10744_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="35743_expand_id" aria-labelledby="35743_collapse_id">
+         <main class="rise-main" id="10744_expand_id" aria-labelledby="10744_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">filter_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse the path to return the correct filename and page name (for webapp package : WebSiteData class).</span>
@@ -523,11 +541,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="56724_collapse_id" aria-expanded="false" aria-controls="56724_expand_id">
+             <button class="rise-trigger" id="93197_collapse_id" aria-expanded="false" aria-controls="93197_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="56724_expand_id" aria-labelledby="56724_collapse_id">
+         <main class="rise-main" id="93197_expand_id" aria-labelledby="93197_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">extract_body_content</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">content_length</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read and parse the body content of a POST request.</span>
@@ -598,11 +616,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="35171_collapse_id" aria-expanded="false" aria-controls="35171_expand_id">
+             <button class="rise-trigger" id="30046_collapse_id" aria-expanded="false" aria-controls="30046_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="35171_expand_id" aria-labelledby="35171_collapse_id">
+         <main class="rise-main" id="30046_expand_id" aria-labelledby="30046_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_set_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the HTTPD response headers.</span>
 
@@ -659,11 +677,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="36069_collapse_id" aria-expanded="false" aria-controls="36069_expand_id">
+             <button class="rise-trigger" id="24485_collapse_id" aria-expanded="false" aria-controls="24485_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="36069_expand_id" aria-labelledby="36069_collapse_id">
+         <main class="rise-main" id="24485_expand_id" aria-labelledby="24485_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the file content and the corresponding status.</span>
 
@@ -728,11 +746,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="70967_collapse_id" aria-expanded="false" aria-controls="70967_expand_id">
+             <button class="rise-trigger" id="13250_collapse_id" aria-expanded="false" aria-controls="13250_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="70967_expand_id" aria-labelledby="70967_collapse_id">
+         <main class="rise-main" id="13250_expand_id" aria-labelledby="13250_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_bakery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the events and return the html page content or json data and status.</span>
 
@@ -745,12 +763,12 @@ View Source
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="s1">&#39;page_bakery&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">mime_type</span><span class="p">)</span>
     <span class="n">page_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">mime_type</span> <span class="o">==</span> <span class="s1">&#39;application/javascript&#39;</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mime_type</span> <span class="o">==</span> <span class="s1">&#39;application/json&#39;</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">mime_type</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
 </code></pre></div>
 
@@ -788,11 +806,11 @@ View Source
 
     <article class="rise">
          <header class="rise-header">
-             <button class="rise-trigger" id="97009_collapse_id" aria-expanded="false" aria-controls="97009_expand_id">
+             <button class="rise-trigger" id="39584_collapse_id" aria-expanded="false" aria-controls="39584_expand_id">
 View Source
              </button>
          </header>
-         <main class="rise-main" id="97009_expand_id" aria-labelledby="97009_collapse_id">
+         <main class="rise-main" id="39584_expand_id" aria-labelledby="39584_collapse_id">
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make the appropriate HTTPD response.</span>
 
@@ -824,6 +842,20 @@ View Source
                 <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
             </footer>
             
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                         htmlTableOfContents();
+                     }
+                 );
+
+                 try {
+                     module.exports = htmlTableOfContents;
+                 } catch (e) {
+                     // module.exports is not defined
+                 }
+            </script>
+    
             <script src="statics/accordion.js" type="text/javascript"></script>
         
 </body>

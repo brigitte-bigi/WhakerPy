@@ -1,4 +1,4 @@
-# WhakerPy 0.5
+# WhakerPy 0.5.1
 
 ## Package `whakerpy.httpd`
 
@@ -567,9 +567,9 @@ def do_GET(self) -> None:
         self.path = HTTPDHandler.filter_path(self.path)[0]
     mime_type = HTTPDHandler.get_mime_type(self.path)
     if mime_type == 'text/html':
-        content, status = self._bakery(dict(), mime_type)
+        (content, status) = self._bakery(dict(), mime_type)
     else:
-        content, status = self._static_content(self.path[1:], mime_type)
+        (content, status) = self._static_content(self.path[1:], mime_type)
     self._response(content, status.code, mime_type)
 ```
 
@@ -593,10 +593,10 @@ def do_POST(self) -> None:
     events = HTTPDHandler.extract_body_content(self.rfile, self.headers.get('Content-Type'), self.headers.get('Content-Length'))
     if 'application/json' in self.headers.get('Accept'):
         mime_type = 'application/json'
-        content, status = self._bakery(events, mime_type)
+        (content, status) = self._bakery(events, mime_type)
     else:
         mime_type = 'text/html'
-        content, status = self._bakery(events, mime_type)
+        (content, status) = self._bakery(events, mime_type)
     self._response(content, status.code, mime_type)
 ```
 
@@ -626,7 +626,7 @@ def get_mime_type(filename: str) -> str:
         :return: (str) The mime type of the file or 'unknown' if we can't find the type
 
         """
-    mime_type, _ = mimetypes.guess_type(filename)
+    (mime_type, _) = mimetypes.guess_type(filename)
     if mime_type is not None:
         return mime_type
     else:
@@ -847,12 +847,12 @@ def _bakery(self, events: dict, mime_type: str) -> tuple:
     if hasattr(self.server, 'page_bakery') is False:
         return self._static_content(self.path[1:], mime_type)
     page_name = os.path.basename(self.path)
-    if mime_type == 'application/javascript':
-        content, status = self.server.page_bakery(page_name, events, True)
+    if mime_type == 'application/json':
+        (content, status) = self.server.page_bakery(page_name, events, True)
     else:
-        content, status = self.server.page_bakery(page_name, events)
+        (content, status) = self.server.page_bakery(page_name, events)
     if status == 404:
-        content, status = self._static_content(self.path[1:], mime_type)
+        (content, status) = self._static_content(self.path[1:], mime_type)
     return (content, status)
 ```
 

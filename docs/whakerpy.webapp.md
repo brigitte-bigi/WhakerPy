@@ -1,4 +1,4 @@
-# WhakerPy 0.5
+# WhakerPy 0.5.1
 
 ## Package `whakerpy.webapp`
 
