@@ -163,8 +163,9 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
         # if the user makes a mistake and set to the status an integer and not a HTTPDStatus
         if isinstance(status, int):
+            code = status
             status = HTTPDStatus()
-            status.code = status
+            status.code = code
 
         return content, status
 
