@@ -13,7 +13,7 @@ Create and manipulate HTML from the power of Python:
 * Can save as static files, and/or
 * Run locally with its HTTPD server and response "bakery" system.
 
-Not enough? Install <https://whakerexa.sf.net> too, an extension for WhakerPy. It includes useful CSS frameworks, JavaScripts, and Python classes for a stylized static or dynamic content.
+Not enough? Install <https://whakerexa.sf.net> too, an extension for WhakerPy. It includes useful CSS frameworks, and JavaScripts for a stylized static or dynamic content.
 
 ## License
 
@@ -126,7 +126,8 @@ For a more complex example of an already in-used web frontend, see: <https://sou
 
 ## Projects using WhakerPy
 
-WhakerPy was initially developed within SPPAS <https://sppas.org>; it was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on `whakerpy` API.
+WhakerPy was initially developed within SPPAS <https://sppas.org>.
+It was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on `whakerpy` API.
 
 Other projects: 
 
@@ -139,8 +140,7 @@ Other projects:
 
 ## Create a wheel
 
-WhakerPy is no system dependent. Information to build its wheel are stored into the file `pyproject.toml`. 
-
+WhakerPy is no system dependent. Information to build its wheel are stored into the file `pyproject.toml`.
 The universal wheel is created with: `python -m build`
 
 
@@ -158,7 +158,7 @@ To re-generate the doc, install the required external program, then launch the d
 ## Test/Analyze source code
 
 Code coverage can be analyzed with unittest and coverage. 
-Install them with the command: `python -m pip install ".[test]"`.
+Install them with the command: `python -m pip install ".[tests]"`.
 Then, perform the following steps:
 
 1. `coverage run -m unittest`
@@ -175,14 +175,15 @@ The whakerpy package can be analyzed with SonarQube by following these steps:
    Add the python plugin and restart server.
 4. Click "Add project" with name "WhakerPy", and provide it a token
 5. Download sonar-scanner client. On macOS its: `brew install sonar-scanner`.
-6. Launch: `sonar-scanner -Dsonar.tokan="paste the token here"`
+6. Launch: `sonar-scanner -Dsonar.token="paste the token here"`
 7. See results in the opened URL. You may not forget that it's an *automatic* code analyzer, 
    not an *intelligent* one.
 
 
-## How to contribute
+## Help / How to contribute
 
-If you plan to contribute to the code, please send an e-mail to the author.
+If you plan to contribute to the code or to report a bug, please send an e-mail to the author.
+Any and all constructive comments are welcome.
 
 
 ## Author/Copyright
