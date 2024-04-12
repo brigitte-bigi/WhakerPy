@@ -7,7 +7,7 @@
 */*/*/__pycache__*
 build
 venv
-dist/*.gz
+dist/*
 *.egg-info
 .coverage
 .scannerwork
