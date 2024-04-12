@@ -196,7 +196,10 @@ class BaseResponseRecipe:
 
         """
         # Process the given events with the application
-        dirty = self._process_events(events)
+        if len(events) > 0:
+            dirty = self._process_events(events)
+        else:
+            dirty = True
 
         # Re-create the page content only if something changed during
         # processing the events.
