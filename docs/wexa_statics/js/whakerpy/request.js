@@ -47,6 +47,7 @@ class RequestManager {
     // The declaration outside the constructor and the '#' symbol notify a private attribute in Javascript.
     #protocol;
     #port;
+    #path;
     #url;
     #status;
 
@@ -59,7 +60,8 @@ class RequestManager {
     constructor() {
         this.#protocol = window.location.protocol;
         this.#port = window.location.port;
-        this.#url = this.#protocol + "//" + window.location.hostname + ":" + this.#port + "/";
+        this.#path = window.location.pathname;
+        this.#url = this.#protocol + "//" + window.location.hostname + ":" + this.#port + this.#path;
         this.#status = null;
     }
 
@@ -81,6 +83,15 @@ class RequestManager {
      */
     get port() {
         return this.#port;
+    }
+
+    /**
+     * Get the url path.
+     *
+     * @returns {string} - The path of the url
+     */
+    get path() {
+        return this.#path;
     }
 
     /**
