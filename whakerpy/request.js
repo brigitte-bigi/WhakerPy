@@ -181,7 +181,7 @@ class RequestManager {
             // then gets content of the server response
             .then(async response =>  {
                 // get the status response and check if there is an error
-                this.#status = response.status
+                this.#status = response.status;
 
                 request_response_data = await response.json();
             })
@@ -193,5 +193,37 @@ class RequestManager {
         ;
 
         return request_response_data;
+    }
+
+    /**
+     * This method upload a file (only one) from an input to the server.
+     * Returns the server response in json format (already decoded).
+     *
+     * @param input {HTMLInputElement} The input that contains the file to upload
+     *
+     * @returns {Promise<*>} The server response.
+     */
+    async upload_file(input) {
+        let response_data = null;
+
+        // format file to upload to the server
+        let data = new FormData();
+        data.append('file', input.files[0]);
+
+        // send request to the back-end and wait the response (response in json)
+        await fetch(this.request_url, {
+            method: 'POST',
+            headers: {
+                "Accept": "application/json"
+            },
+            body: data
+        })
+            // get the response and update the current status code
+            .then(async response => {
+                this.#status = response.status;
+                response_data = await response.json();
+            });
+
+        return response_data;
     }
 }

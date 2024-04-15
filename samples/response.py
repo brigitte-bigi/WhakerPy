@@ -69,13 +69,33 @@ async function setRandomColor() {
     coloredElement.style.color = response["random_color"];
 }
 
+async function send_file() {
+    // get the input file and check if a file has set
+    let input = document.getElementById("file_input");
+    
+    // check if the user has set a file in the input
+    if (input.files.length > 0) {
+        const response = await requestManager.upload_file(input);
+        console.log("Server response : " + response);
+        
+        // check the status code response
+        if (requestManager.status === 200) {
+            alert("The server correctly received the uploaded file !");
+        } else {
+            console.error("The server has encountered a problem, status : " + requestManager.status);
+        }
+    } else {
+        console.log("No file set in the input");
+    }
+}
+
 // we wait that the page finished to load to get the h2 element
-window.onload = () => {
+// window.onload = () => {
     // loop every 1.5s times
-    setInterval(() => {
-        setRandomColor();
-    }, 1500);
-};
+    // setInterval(() => {
+    //    setRandomColor();
+    // }, 1500);
+// };
 
 """
 
@@ -175,7 +195,13 @@ class SampleAppResponse(BaseResponseRecipe):
         :return: (bool) True if the whole page must be re-created.
 
         """
-        logging.debug(" >>>>> Page whakerpy.html -- Process events: {} <<<<<< ".format(events))
+        if "upload_file" in events:
+            logging.debug(" >>>>> --------------------------------------------------------- <<<<<< ")
+            logging.debug(" >>>>> Page whakerpy.html -- Process events: 'upload_file' event <<<<<< ")
+            logging.debug(" >>>>> --------------------------------------------------------- <<<<<< ")
+        else:
+            logging.debug(" >>>>> Page whakerpy.html -- Process events: {} <<<<<< ".format(events))
+
         self._status.code = 200
         dirty = False
 
@@ -186,6 +212,14 @@ class SampleAppResponse(BaseResponseRecipe):
 
             elif event_name == "update_btn_text_event":
                 dirty = True
+
+            elif event_name == "upload_file":
+                file_data = events['upload_file']
+
+                print(f"Received uploaded file : {file_data['filename']}")
+                print(f"Mime type of the file : {file_data['mime_type']}")
+                print(f"Content of the file :\n{file_data['file_content']}")
+                self._data = {'salut': True}
 
             else:
                 logging.warning("Ignore event: {:s}".format(event_name))
@@ -237,6 +271,18 @@ class SampleAppResponse(BaseResponseRecipe):
         b = HTMLButtonNode(self._htree.body_main.identifier, "update_btn_text", attributes=attr)
         b.set_value(text)
         self._htree.body_main.append_child(b)
+
+        # create elements to send a file to the server
+        h2 = self.element("h2")
+        h2.set_value("Try to upload a file to the server")
+
+        input_file = HTMLNode(self._htree.body_main.identifier, None, "input",
+                              attributes={'id': "file_input", 'type': "file", 'name': 'file_input'})
+        self._htree.body_main.append_child(input_file)
+
+        submit_btn = HTMLNode(self._htree.body_main.identifier, None, "button", value="envoyer",
+                              attributes={'onclick': "send_file()"})
+        self._htree.body_main.append_child(submit_btn)
 
     # ------------------------------------------------------------------
     # Our back-end application.... can random things.

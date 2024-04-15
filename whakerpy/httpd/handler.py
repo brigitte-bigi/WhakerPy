@@ -368,11 +368,15 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
         # read file and print traceback
         data = content.read(length).decode("utf-8")
-        logging.debug("POST -- data: {}".format(data))
 
         # if content-type is not defined in the header request
         if content_type is None or content_length == 0:
             data = dict()
+
+        # parse uploaded file
+        elif "multipart/form-data; boundary=" in content_type:
+            filename, mime_type, content = HTTPDHandler.__extract_form_data_file(content_type, data)
+            data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
 
         # parse json data from request.js
         elif "application/json" in content_type:
@@ -390,4 +394,52 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
             ))
 
         # return data parsed in python dictionary
+        logging.debug("POST -- data: {}".format(data))
         return data
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def __extract_form_data_file(content_type: str, data: str) -> tuple[str, str, str]:
+        # parse filename
+        start_index_filename = data.index('filename="') + len('filename="')
+        end_index_filename = start_index_filename + data[start_index_filename:].index('"')
+        filename = data[start_index_filename:end_index_filename]
+
+        # print("//// ATTENTION FILENAME ////")
+        # print(filename)
+        # print("//// ATTENTION FILENAME ////")
+
+        # remove filename line
+        data = data[end_index_filename:]
+
+        # parse content-type
+        start_index_type = data.index("Content-Type: ") + len("Content-Type: ")
+        end_index_type = start_index_type + data[start_index_type:].index("\n")
+        mime_type = data[start_index_type:end_index_type]
+        mime_type = mime_type.replace('\r', '')
+
+        # print("//// ATTENTION MIME-TYPE ////")
+        # print(mime_type)
+        # print("//// ATTENTION MIME-TYPE ////")
+
+        # remove content-type line
+        data = data[end_index_type + 1:]
+
+        # parse file content
+        start_boundary = content_type.index("boundary=") + len("boundary=")
+        boundary = "--" + content_type[start_boundary:] + "--"
+
+        # print("//// ATTENTION BOUNDARY ////")
+        # print(boundary)
+        # print("//// ATTENTION BOUNDARY ////")
+
+        start_content = data.index("\n") + 1  # remove empty line
+        end_content = data[start_content:].index(boundary)
+        content = data[start_content:end_content]
+
+        # print("//// ATTENTION FILE CONTENT ////")
+        # print(content)
+        # print("//// ATTENTION FILE CONTENT ////")
+
+        return filename, mime_type, content
