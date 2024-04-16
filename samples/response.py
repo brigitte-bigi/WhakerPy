@@ -92,9 +92,9 @@ async function send_file() {
 // we wait that the page finished to load to get the h2 element
 // window.onload = () => {
     // loop every 1.5s times
-    // setInterval(() => {
-    //    setRandomColor();
-    // }, 1500);
+    setInterval(() => {
+       setRandomColor();
+    }, 1500);
 // };
 
 """
@@ -196,9 +196,7 @@ class SampleAppResponse(BaseResponseRecipe):
 
         """
         if "upload_file" in events:
-            logging.debug(" >>>>> --------------------------------------------------------- <<<<<< ")
-            logging.debug(" >>>>> Page whakerpy.html -- Process events: 'upload_file' event <<<<<< ")
-            logging.debug(" >>>>> --------------------------------------------------------- <<<<<< ")
+            logging.debug(f" >>>>> Page whakerpy.html -- Process events: upload_file[{events['upload_file']['filename']}] <<<<<< ")
         else:
             logging.debug(" >>>>> Page whakerpy.html -- Process events: {} <<<<<< ".format(events))
 
@@ -218,8 +216,8 @@ class SampleAppResponse(BaseResponseRecipe):
 
                 print(f"Received uploaded file : {file_data['filename']}")
                 print(f"Mime type of the file : {file_data['mime_type']}")
-                print(f"Content of the file :\n{file_data['file_content']}")
-                self._data = {'salut': True}
+                # don't print them because if the file is in binary like video or image, it's SO LONG to print them !
+                # print(f"Content of the file :\n{file_data['file_content']}")
 
             else:
                 logging.warning("Ignore event: {:s}".format(event_name))

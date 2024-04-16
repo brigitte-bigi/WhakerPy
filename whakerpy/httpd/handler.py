@@ -50,6 +50,7 @@ from urllib.parse import parse_qsl
 
 from .hstatus import HTTPDStatus
 
+
 # ---------------------------------------------------------------------------
 
 
@@ -367,7 +368,12 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
             length = 0
 
         # read file and print traceback
-        data = content.read(length).decode("utf-8")
+        data = content.read(length)
+
+        try:
+            data = data.decode("utf-8")
+        except UnicodeError:  # the data is a binary file can't decode in utf-8 format (like image or video file)
+            pass
 
         # if content-type is not defined in the header request
         if content_type is None or content_length == 0:
@@ -394,13 +400,26 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
             ))
 
         # return data parsed in python dictionary
-        logging.debug("POST -- data: {}".format(data))
+        if "upload_file" in data:
+            logging.debug(f"POST -- data: upload_file[{data['upload_file']['filename']}]")
+        else:
+            logging.debug("POST -- data: {}".format(data))
+
         return data
 
     # -----------------------------------------------------------------------
 
     @staticmethod
-    def __extract_form_data_file(content_type: str, data: str) -> tuple[str, str, str]:
+    def __extract_form_data_file(content_type: str, data: str | bytes) -> tuple[str, str, str]:
+        # set special characters depending on if the uploaded file is in binary or utf-8 format
+        if isinstance(data, bytes):
+            data = str(data)
+            end_line = "\\n"
+            carriage_return = "\\r"
+        else:
+            end_line = "\n"
+            carriage_return = "\r"
+
         # parse filename
         start_index_filename = data.index('filename="') + len('filename="')
         end_index_filename = start_index_filename + data[start_index_filename:].index('"')
@@ -415,9 +434,9 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
         # parse content-type
         start_index_type = data.index("Content-Type: ") + len("Content-Type: ")
-        end_index_type = start_index_type + data[start_index_type:].index("\n")
+        end_index_type = start_index_type + data[start_index_type:].index(end_line)
         mime_type = data[start_index_type:end_index_type]
-        mime_type = mime_type.replace('\r', '')
+        mime_type = mime_type.replace(carriage_return, '')
 
         # print("//// ATTENTION MIME-TYPE ////")
         # print(mime_type)
@@ -430,11 +449,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         start_boundary = content_type.index("boundary=") + len("boundary=")
         boundary = "--" + content_type[start_boundary:] + "--"
 
-        # print("//// ATTENTION BOUNDARY ////")
-        # print(boundary)
-        # print("//// ATTENTION BOUNDARY ////")
-
-        start_content = data.index("\n") + 1  # remove empty line
+        start_content = data.index(end_line) + 1  # remove empty line
         end_content = data[start_content:].index(boundary)
         content = data[start_content:end_content]
 
