@@ -115,22 +115,29 @@ class BaseResponseRecipe:
 
     # -----------------------------------------------------------------------
 
-    def get_json_data(self) -> str:
+    def get_data(self) -> str | bytes:
         """Gets the current data to send to the client following this request.
 
-        :return: (str) The json data in the string format
+        :return: (str) The data in the string format or json depending on the type.
 
         """
-        return json.dumps(self._data)
+        if isinstance(self._data, dict):
+            return json.dumps(self._data)
+
+        elif isinstance(self._data, bytes) or isinstance(self._data, str):
+            return self._data
+
+        else:
+            raise ValueError(f"Unexpected data type to response to the client : {type(self._data)}")
 
     # -----------------------------------------------------------------------
 
-    def reset_json_data(self) -> None:
+    def reset_data(self) -> None:
         """Clear json data of the response.
         This function has to be called after each response send to the client to avoid overflow problems.
 
         """
-        self._data.clear()
+        self._data = dict()
 
     # -----------------------------------------------------------------------
     # Getters

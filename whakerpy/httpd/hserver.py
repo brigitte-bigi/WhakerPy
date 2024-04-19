@@ -93,7 +93,7 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
 
     # -----------------------------------------------------------------------
 
-    def page_bakery(self, page_name: str, events: dict, is_json_data_to_return: bool = False) -> tuple:
+    def page_bakery(self, page_name: str, events: dict, has_data_to_return: bool = False) -> tuple:
         """Return the page content and response status.
 
         This method should be invoked after a POST request in order to
@@ -101,8 +101,8 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
 
         :param page_name: (str) Requested page name
         :param events: (dict) key=event name, value=event value
-        :param is_json_data_to_return: (bool) False by default - Boolean
-        value to know if the server return json data or html page
+        :param has_data_to_return: (bool) False by default -
+                                          Boolean value to know if the server return data or html page
 
         :return: tuple(bytes, HTTPDStatus)
 
@@ -113,10 +113,13 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
                 bakery = self._pages[page_name]
                 content = bytes(bakery.bake(events), "utf-8")
 
-                if is_json_data_to_return:
+                if has_data_to_return:
                     # get data set by the current page
-                    content = bytes(bakery.get_json_data(), "utf-8")
-                    bakery.reset_json_data()
+                    content = bakery.get_data()
+                    if not isinstance(content, bytes):
+                        content = bytes(content, "utf-8")
+
+                    bakery.reset_data()
 
                 return content, bakery.status
 

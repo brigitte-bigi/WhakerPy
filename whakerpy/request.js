@@ -1,8 +1,9 @@
 /**
-:filename: whakerpy.js.request.js
+:filename: whakerpy.request.js
 :author: Florian Lopitaux
 :contact: contact@sppas.org
-:summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost client and gets data in return.
+:summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost
+          client and gets data in return.
 
 .. _This file is part of WhakerPy: https://sourceforge.net/projects/whakerpy/ ,
 .. on 2024-02-28.
@@ -158,16 +159,17 @@ class RequestManager {
      * The content of the posted data must be in JSON format.
      *
      * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
+     * @param accept_type {string} - mime type of the server response, json by default.
      *
      * @returns {Promise<*>} - The server data response.
      */
-    async send_post_request(post_parameters) {
+    async send_post_request(post_parameters, accept_type = "application/json") {
         let request_response_data = null;
 
         // build request header and body depending on parameter passed to the method
         post_parameters = JSON.stringify(post_parameters);
         let request_header = {
-            'Accept': "application/json",
+            'Accept': accept_type,
             'Content-Type': "application/json; charset=utf-8",
             'Content-Length': post_parameters.length.toString()
         }
@@ -199,11 +201,12 @@ class RequestManager {
      * This method upload a file (only one) from an input to the server.
      * Returns the server response in json format (already decoded).
      *
-     * @param input {HTMLInputElement} The input that contains the file to upload
+     * @param input {HTMLInputElement} - the input that contains the file to upload
+     * @param accept_type {string} - mime type of the server response, json by default.
      *
      * @returns {Promise<*>} The server response.
      */
-    async upload_file(input) {
+    async upload_file(input, accept_type = "application/json") {
         let response_data = null;
 
         // format file to upload to the server
@@ -214,7 +217,7 @@ class RequestManager {
         await fetch(this.request_url, {
             method: 'POST',
             headers: {
-                "Accept": "application/json"
+                "Accept": accept_type
             },
             body: data
         })

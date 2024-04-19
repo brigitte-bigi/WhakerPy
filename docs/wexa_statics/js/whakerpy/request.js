@@ -158,16 +158,17 @@ class RequestManager {
      * The content of the posted data must be in JSON format.
      *
      * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
+     * @param accept_type {string} - mime type of the server response, json by default.
      *
      * @returns {Promise<*>} - The server data response.
      */
-    async send_post_request(post_parameters) {
+    async send_post_request(post_parameters, accept_type = "application/json") {
         let request_response_data = null;
 
         // build request header and body depending on parameter passed to the method
         post_parameters = JSON.stringify(post_parameters);
         let request_header = {
-            'Accept': "application/json",
+            'Accept': accept_type,
             'Content-Type': "application/json; charset=utf-8",
             'Content-Length': post_parameters.length.toString()
         }
@@ -181,7 +182,7 @@ class RequestManager {
             // then gets content of the server response
             .then(async response =>  {
                 // get the status response and check if there is an error
-                this.#status = response.status
+                this.#status = response.status;
 
                 request_response_data = await response.json();
             })
@@ -193,5 +194,37 @@ class RequestManager {
         ;
 
         return request_response_data;
+    }
+
+    /**
+     * This method upload a file (only one) from an input to the server.
+     * Returns the server response in json format (already decoded).
+     *
+     * @param input {HTMLInputElement} The input that contains the file to upload
+     *
+     * @returns {Promise<*>} The server response.
+     */
+    async upload_file(input) {
+        let response_data = null;
+
+        // format file to upload to the server
+        let data = new FormData();
+        data.append('file', input.files[0]);
+
+        // send request to the back-end and wait the response (response in json)
+        await fetch(this.request_url, {
+            method: 'POST',
+            headers: {
+                "Accept": "application/json"
+            },
+            body: data
+        })
+            // get the response and update the current status code
+            .then(async response => {
+                this.#status = response.status;
+                response_data = await response.json();
+            });
+
+        return response_data;
     }
 }

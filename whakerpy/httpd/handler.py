@@ -153,7 +153,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         # dynamically -- i.e. from an HTMLTree.
         page_name = os.path.basename(self.path)
 
-        if mime_type == "application/json":
+        if mime_type == "application/json" or mime_type.startswith("image/") or mime_type.startswith("video/"):
             content, status = self.server.page_bakery(page_name, events, True)
         else:
             content, status = self.server.page_bakery(page_name, events)
@@ -261,14 +261,12 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
                                                    self.headers.get('Content-Length'))
 
         # Create the response
-        if "application/json" in self.headers.get('Accept'):
-            mime_type = "application/json"
-            content, status = self._bakery(events, mime_type)
-        else:
-            mime_type = "text/html"
-            content, status = self._bakery(events, mime_type)
+        accept_type = self.headers.get('Accept', "text/html")
+        if "text/html" in accept_type:
+            accept_type = "text/html"
 
-        self._response(content, status.code, mime_type)
+        content, status = self._bakery(events, accept_type)
+        self._response(content, status.code, accept_type)
 
     # -----------------------------------------------------------------------
 
