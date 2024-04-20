@@ -3,15 +3,16 @@
 
 ## Overview
 
-WhakerPy is an open source library to create dynamic HTML content; it's a light web application framework.
+WhakerPy is an open source library to create dynamic HTML content and web applications. It's a light web application framework.
 
 Create and manipulate HTML from the power of Python:
 
 * Easy to learn, consistent, simple syntax.
 * Flexible and easy usage.
 * Create HTML pages dynamically.
-* Can save as static files, and/or
-* Run locally with its HTTPD server and response "bakery" system.
+* Can save as static HTML files.
+* Create a web-frontend with its HTTPD response "bakery" system.
+* Run locally with its HTTPD server.
 
 Not enough? Install <https://whakerexa.sf.net> too, an extension for WhakerPy. It includes useful CSS frameworks, and JavaScripts for a stylized static or dynamic content.
 
@@ -44,16 +45,10 @@ Download the repository and unpack it, or clone with `git`. Optionally, it can b
 > python -m pip install .
 ```
 
-Install all the optional dependencies with:
-
-```bash
-> python -m pip install ".[docs, tests]"
-```
-
 WhakerPy package includes the following folders and files:
 
 1. "whakerpy": the source code package
-2. "docs": the documentation of whakerpy library in HTML and Markdown
+2. "docs": the documentation of `whakerpy` library in HTML and Markdown
 3. "sample": a webapp sample
 4. "tests": the tests of the source code
 
@@ -144,11 +139,12 @@ WhakerPy is no system dependent. Information to build its wheel are stored into 
 The universal wheel is created with: `python -m build`
 
 
-## Make the doc
+## Make the documentation
 
-The API documentation is available in the `doc` folder. Click the file `index.html` to browse throw the documented classes.
+The API documentation is available in the `docs` folder. Click the file `index.html` to browse throw the documented classes.
+The documentation requires Whakerexa <https://whakerexa.sf.net>, which is already available into the "docs" folder of the distributed ".zip" archive of WhakerPy. If not, download and unzip it into the "docs" folder.
 
-To re-generate the doc, install the required external program, then launch the doc generator:
+To re-generate the documentation, install the required external program, then launch the doc generator:
 ```bash
 >python -m pip install ".[docs]"
 >python makedoc.py
@@ -156,6 +152,12 @@ To re-generate the doc, install the required external program, then launch the d
 
 
 ## Test/Analyze source code
+
+Install the optional dependencies with:
+
+```bash
+> python -m pip install ".[tests]"
+```
 
 Code coverage can be analyzed with unittest and coverage. 
 Install them with the command: `python -m pip install ".[tests]"`.
