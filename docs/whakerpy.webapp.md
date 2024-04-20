@@ -1,4 +1,4 @@
-# WhakerPy 0.5.1
+# WhakerPy 0.6
 
 ## Package `whakerpy.webapp`
 
@@ -435,4 +435,4 @@ def run(self) -> int:
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.6 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.7 ~

@@ -1,4 +1,4 @@
-# WhakerPy 0.5.1
+# WhakerPy 0.6
 
 ## Package `whakerpy.htmlmaker`
 
@@ -2736,4 +2736,4 @@ def __str__(self):
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.6 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.7 ~

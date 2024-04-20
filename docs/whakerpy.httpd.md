@@ -1,4 +1,4 @@
-# WhakerPy 0.5.1
+# WhakerPy 0.6
 
 ## Package `whakerpy.httpd`
 
@@ -55,33 +55,38 @@ def page() -> str:
 
 *Return the HTML page name. To be overridden.*
 
-##### get_json_data
+##### get_data
 
 ```python
-def get_json_data(self) -> str:
+def get_data(self) -> str | bytes:
     """Gets the current data to send to the client following this request.
 
-        :return: (str) The json data in the string format
+        :return: (str) The data in the string format or json depending on the type.
 
         """
-    return json.dumps(self._data)
+    if isinstance(self._data, dict):
+        return json.dumps(self._data)
+    elif isinstance(self._data, bytes) or isinstance(self._data, str):
+        return self._data
+    else:
+        raise ValueError(f'Unexpected data type to response to the client : {type(self._data)}')
 ```
 
 *Gets the current data to send to the client following this request.*
 
 ###### Returns
 
-- (*str*) The json data in the string format
+- (*str*) The data in the string format or json depending on the type.
 
-##### reset_json_data
+##### reset_data
 
 ```python
-def reset_json_data(self) -> None:
+def reset_data(self) -> None:
     """Clear json data of the response.
         This function has to be called after each response send to the client to avoid overflow problems.
 
         """
-    self._data.clear()
+    self._data = dict()
 ```
 
 *Clear json data of the response.*
@@ -567,9 +572,9 @@ def do_GET(self) -> None:
         self.path = HTTPDHandler.filter_path(self.path)[0]
     mime_type = HTTPDHandler.get_mime_type(self.path)
     if mime_type == 'text/html':
-        (content, status) = self._bakery(dict(), mime_type)
+        content, status = self._bakery(dict(), mime_type)
     else:
-        (content, status) = self._static_content(self.path[1:], mime_type)
+        content, status = self._static_content(self.path[1:], mime_type)
     self._response(content, status.code, mime_type)
 ```
 
@@ -591,13 +596,11 @@ def do_POST(self) -> None:
     except AttributeError:
         self.path = HTTPDHandler.filter_path(self.path)[0]
     events = HTTPDHandler.extract_body_content(self.rfile, self.headers.get('Content-Type'), self.headers.get('Content-Length'))
-    if 'application/json' in self.headers.get('Accept'):
-        mime_type = 'application/json'
-        (content, status) = self._bakery(events, mime_type)
-    else:
-        mime_type = 'text/html'
-        (content, status) = self._bakery(events, mime_type)
-    self._response(content, status.code, mime_type)
+    accept_type = self.headers.get('Accept', 'text/html')
+    if 'text/html' in accept_type:
+        accept_type = 'text/html'
+    content, status = self._bakery(events, accept_type)
+    self._response(content, status.code, accept_type)
 ```
 
 *Prepare the response to a POST request.*
@@ -626,7 +629,7 @@ def get_mime_type(filename: str) -> str:
         :return: (str) The mime type of the file or 'unknown' if we can't find the type
 
         """
-    (mime_type, _) = mimetypes.guess_type(filename)
+    mime_type, _ = mimetypes.guess_type(filename)
     if mime_type is not None:
         return mime_type
     else:
@@ -733,17 +736,27 @@ def extract_body_content(content, content_type: str, content_length: str) -> dic
         length = int(content_length)
     except (TypeError, ValueError):
         length = 0
-    data = content.read(length).decode('utf-8')
-    logging.debug('POST -- data: {}'.format(data))
+    data = content.read(length)
+    try:
+        data = data.decode('utf-8')
+    except UnicodeError:
+        pass
     if content_type is None or content_length == 0:
         data = dict()
-    elif content_type.startswith('application/x-www-form-urlencoded') or content_type.startswith('multipart/form-data'):
-        data = dict(parse_qsl(data, keep_blank_values=True, strict_parsing=False))
-    else:
+    elif 'multipart/form-data; boundary=' in content_type:
+        filename, mime_type, content = HTTPDHandler.__extract_form_data_file(content_type, data)
+        data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
+    elif 'application/json' in content_type:
         try:
             data = json.loads(data)
         except json.JSONDecodeError:
             logging.error("Can't decode JSON POSTED data : {}".format(data))
+    else:
+        data = dict(parse_qsl(data, keep_blank_values=True, strict_parsing=False))
+    if 'upload_file' in data:
+        logging.debug(f"POST -- data: upload_file[{data['upload_file']['filename']}]")
+    else:
+        logging.debug('POST -- data: {}'.format(data))
     return data
 ```
 
@@ -847,12 +860,18 @@ def _bakery(self, events: dict, mime_type: str) -> tuple:
     if hasattr(self.server, 'page_bakery') is False:
         return self._static_content(self.path[1:], mime_type)
     page_name = os.path.basename(self.path)
-    if mime_type == 'application/json':
-        (content, status) = self.server.page_bakery(page_name, events, True)
+    if mime_type == 'application/json' or mime_type.startswith('image/') or mime_type.startswith('video/'):
+        content, status = self.server.page_bakery(page_name, events, True)
     else:
-        (content, status) = self.server.page_bakery(page_name, events)
+        content, status = self.server.page_bakery(page_name, events)
     if status == 404:
-        (content, status) = self._static_content(self.path[1:], mime_type)
+        content, status = self._static_content(self.path[1:], mime_type)
+    if isinstance(status, int):
+        code = status
+        status = HTTPDStatus()
+        status.code = code
+    elif not isinstance(status, HTTPDStatus):
+        raise TypeError('The status has to be an instance of HTTPDStatus (or int). Got: ' + status)
     return (content, status)
 ```
 
@@ -896,6 +915,41 @@ def _response(self, content: bytes, status: int, mime_type: str=None) -> None:
 - **content**: (*bytes*) The HTML response content
 - **status**: (*int*) The HTTPD status code of the response
 - **mime_type**: (*str*) The mime type of the file response
+
+
+
+#### Protected functions
+
+##### __extract_form_data_file
+
+```python
+@staticmethod
+def __extract_form_data_file(content_type: str, data: str | bytes) -> tuple[str, str, str]:
+    if isinstance(data, bytes):
+        data = str(data)
+        end_line = '\\n'
+        carriage_return = '\\r'
+    else:
+        end_line = '\n'
+        carriage_return = '\r'
+    start_index_filename = data.index('filename="') + len('filename="')
+    end_index_filename = start_index_filename + data[start_index_filename:].index('"')
+    filename = data[start_index_filename:end_index_filename]
+    data = data[end_index_filename:]
+    start_index_type = data.index('Content-Type: ') + len('Content-Type: ')
+    end_index_type = start_index_type + data[start_index_type:].index(end_line)
+    mime_type = data[start_index_type:end_index_type]
+    mime_type = mime_type.replace(carriage_return, '')
+    data = data[end_index_type + 1:]
+    start_boundary = content_type.index('boundary=') + len('boundary=')
+    boundary = '--' + content_type[start_boundary:] + '--'
+    start_content = data.index(end_line) + 1
+    end_content = data[start_content:].index(boundary)
+    content = data[start_content:end_content]
+    return (filename, mime_type, content)
+```
+
+
 
 
 
@@ -987,7 +1041,7 @@ Below is an example on how to override this method:
 ##### page_bakery
 
 ```python
-def page_bakery(self, page_name: str, events: dict, is_json_data_to_return: bool=False) -> tuple:
+def page_bakery(self, page_name: str, events: dict, has_data_to_return: bool=False) -> tuple:
     """Return the page content and response status.
 
         This method should be invoked after a POST request in order to
@@ -995,8 +1049,8 @@ def page_bakery(self, page_name: str, events: dict, is_json_data_to_return: bool
 
         :param page_name: (str) Requested page name
         :param events: (dict) key=event name, value=event value
-        :param is_json_data_to_return: (bool) False by default - Boolean
-        value to know if the server return json data or html page
+        :param has_data_to_return: (bool) False by default -
+                                          Boolean value to know if the server return data or html page
 
         :return: tuple(bytes, HTTPDStatus)
 
@@ -1005,9 +1059,11 @@ def page_bakery(self, page_name: str, events: dict, is_json_data_to_return: bool
         if isinstance(self._pages[page_name], BaseResponseRecipe) is True:
             bakery = self._pages[page_name]
             content = bytes(bakery.bake(events), 'utf-8')
-            if is_json_data_to_return:
-                content = bytes(bakery.get_json_data(), 'utf-8')
-                bakery.reset_json_data()
+            if has_data_to_return:
+                content = bakery.get_data()
+                if not isinstance(content, bytes):
+                    content = bytes(content, 'utf-8')
+                bakery.reset_data()
             return (content, bakery.status)
     status = HTTPDStatus()
     status.code = 404
@@ -1023,7 +1079,7 @@ take the events into account when baking the HTML page content.
 
 - **page_name**: (*str*) Requested page name
 - **events**: (*dict*) key=event name, value=event value
-- **is_json_data_to_return**: (*bool*) False by default - Boolean value to know if the server return json data or html page
+- **has_data_to_return**: (*bool*) False by default - Boolean value to know if the server return data or html page
 
 ###### Returns
 
@@ -1033,4 +1089,4 @@ take the events into account when baking the HTML page content.
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.6 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.7 ~

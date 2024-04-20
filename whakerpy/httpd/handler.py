@@ -40,6 +40,7 @@
 
 """
 
+from __future__ import annotations
 import os
 import json
 import logging
@@ -49,7 +50,6 @@ import http.server
 from urllib.parse import parse_qsl
 
 from .hstatus import HTTPDStatus
-
 
 # ---------------------------------------------------------------------------
 

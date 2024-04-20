@@ -47,7 +47,7 @@ Download the repository and unpack it, or clone with `git`. Optionally, it can b
 Install all the optional dependencies with:
 
 ```bash
-> python -m pip install ".[doc, dev, test]"
+> python -m pip install ".[docs, tests]"
 ```
 
 WhakerPy package includes the following folders and files:

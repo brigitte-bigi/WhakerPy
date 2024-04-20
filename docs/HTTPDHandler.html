@@ -5,41 +5,24 @@
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
             <title>WhakerPy doc</title>
-            <link rel="logo icon" href="statics/whakerpy32x32.ico" />
-            <link rel="stylesheet" href="./wexa_statics/css/wexa.css" type="text/css" />
-            <link rel="stylesheet" href="./wexa_statics/css/cards.css" type="text/css" />
-            <link rel="stylesheet" href="statics/css/light.css" type="text/css" />
-            <link rel="stylesheet" href="statics/css/clamming.css" type="text/css" />
-            <link rel="stylesheet" href="statics/css/code.css" type="text/css" />
-            
-            <script type="text/javascript">
-                function htmlTableOfContents(documentRef) {
+            <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
 
-                    var documentRef = documentRef || document;
-                    var toc = documentRef.getElementById('toc');
-                    var tocContent = documentRef.getElementById('main-content');
-                    var headings = [].slice.call(tocContent.querySelectorAll('h2, h3, h4, h5'));
-                    headings.forEach(function (heading, index) {
-                        /* Add the anchor right before the heading */
-                        var anchor = documentRef.createElement('a');
-                        anchor.setAttribute('name', 'toc' + index);
-                        anchor.setAttribute('id', 'toc' + index);
-
-                        /* Add an entry into the table of content */
-                        var link = documentRef.createElement('a');
-                        link.setAttribute('href', '#toc' + index);
-                        link.textContent = heading.textContent;
-
-                        var div = documentRef.createElement('li');
-                        div.setAttribute('class', heading.tagName.toLowerCase());
-
-                        div.appendChild(link);
-                        toc.appendChild(div);
-                        heading.parentNode.insertBefore(anchor, heading);
-                    });
-                }
+            <script src="./Whakerexa-0.3/wexa_statics/js/purejs-tools/OnLoadManager.js"  type="application/javascript"></script>
+            <script src="./Whakerexa-0.3/wexa_statics/js/book.js" type="application/javascript"></script>
+            <script type="application/javascript">
+                OnLoadManager.addLoadFunction(() => {
+                    let book = new Book("main-content");
+                    book.delete_html_tags("h1")
+                    book.add_html_tags("h5")
+                    book.fill_table(false);
+                });
             </script>
-    
        </head>
        
        <body class="light">
@@ -49,12 +32,12 @@
                 Go to main content
                 </a>
         
-        <p><img class="small-logo" src="statics/whakerpy.png" alt="Software logo"/></p>
+        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 0.5.1</h1>
-    <img class="small-logo center" src="statics/whakerpy.png" alt=""/>
+    <h1>WhakerPy 0.6</h1>
+    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     <ul>
 <li><a role="button" tabindex="0" href="whakerpy.htmlmaker.html"> &crarr; Prev. Module</a></li>
@@ -70,16 +53,17 @@
 </nav>
     <main id="main-content" class="toc-shift">
     <div id="toc-content">
-    <h1>WhakerPy 0.5.1</h1>
+    <h1>WhakerPy 0.6</h1>
     <section id="#whakerpy.httpd">    <h2>Module whakerpy.httpd</h2>
 <section id="#HTTPDHandler">
 <h3>Class HTTPDHandler</h3>
 
+<section>
 <h4 id="#description_HTTPDHandler">Description</h4>
     <article class="docstring">
 <p><em>Web-based application HTTPD handler.</em></p>
 
-<p></p>
+
 
 <p>This class is instantiated by the server each time a request is received</p>
 
@@ -89,7 +73,7 @@
 
 <p>specific method depending on the request type.</p>
 
-<p></p>
+
 
 <p>In this handler, HTML pages are supposed to not be static. Instead,</p>
 
@@ -99,7 +83,7 @@
 
 <p>server page's bakery to get the html content and response status.</p>
 
-<p></p>
+
 
 <p>The parent server is supposed to have all the pages as members in a</p>
 
@@ -109,11 +93,11 @@
 
 <p>with any other http.server.ThreadingHTTPServer.</p>
 
-<p></p>
+
 
 <p>The currently supported HTTPD responses status are:</p>
 
-<p></p>
+
 
 <ul>
 <li>200: OK</li>
@@ -140,14 +124,13 @@
 </ul>
 
     </article>
+</section>
+<section>
 <h4 id="#constructor_HTTPDHandler">Constructor</h4>
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="93150_collapse_id" aria-expanded="false" aria-controls="93150_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="93150_expand_id" aria-labelledby="93150_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">client_address</span><span class="p">,</span> <span class="n">server</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">client_address</span> <span class="o">=</span> <span class="n">client_address</span>
@@ -159,10 +142,11 @@ View Source
         <span class="bp">self</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
+</section>
+<section>
 <h4 id="#public_fct_HTTPDHandler">Public functions</h4>
 <section>
 <h5>do_HEAD</h5>
@@ -173,21 +157,17 @@ View Source
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="38546_collapse_id" aria-expanded="false" aria-controls="38546_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="38546_expand_id" aria-labelledby="38546_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_HEAD</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a HEAD request.&quot;&quot;&quot;</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;HEAD -- requested: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_set_headers</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
@@ -197,20 +177,17 @@ View Source
     <article class="docstring">
 <p><em>Prepare the response to a GET request.</em></p>
 
-<p></p>
 
-<p></p>
+
+
 
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="86890_collapse_id" aria-expanded="false" aria-controls="86890_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="86890_expand_id" aria-labelledby="86890_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a GET request.</span>
 
@@ -223,14 +200,13 @@ View Source
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">HTTPDHandler</span><span class="o">.</span><span class="n">filter_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">mime_type</span> <span class="o">=</span> <span class="n">HTTPDHandler</span><span class="o">.</span><span class="n">get_mime_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mime_type</span> <span class="o">==</span> <span class="s1">&#39;text/html&#39;</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="nb">dict</span><span class="p">(),</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="nb">dict</span><span class="p">(),</span> <span class="n">mime_type</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">mime_type</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
@@ -240,20 +216,17 @@ View Source
     <article class="docstring">
 <p><em>Prepare the response to a POST request.</em></p>
 
-<p></p>
 
-<p></p>
+
+
 
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="54799_collapse_id" aria-expanded="false" aria-controls="54799_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="54799_expand_id" aria-labelledby="54799_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">do_POST</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a POST request.</span>
 
@@ -265,17 +238,14 @@ View Source
     <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">HTTPDHandler</span><span class="o">.</span><span class="n">filter_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">events</span> <span class="o">=</span> <span class="n">HTTPDHandler</span><span class="o">.</span><span class="n">extract_body_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">))</span>
-    <span class="k">if</span> <span class="s1">&#39;application/json&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Accept&#39;</span><span class="p">):</span>
-        <span class="n">mime_type</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">mime_type</span> <span class="o">=</span> <span class="s1">&#39;text/html&#39;</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
+    <span class="n">accept_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Accept&#39;</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;text/html&#39;</span> <span class="ow">in</span> <span class="n">accept_type</span><span class="p">:</span>
+        <span class="n">accept_type</span> <span class="o">=</span> <span class="s1">&#39;text/html&#39;</span>
+    <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">accept_type</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">accept_type</span><span class="p">)</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
@@ -294,20 +264,16 @@ View Source
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="31703_collapse_id" aria-expanded="false" aria-controls="31703_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="31703_expand_id" aria-labelledby="31703_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">log_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. For a quiet handler pls!!!.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
@@ -317,21 +283,21 @@ View Source
     <article class="docstring">
 <p><em>Returns the mime type of given file name or path.</em></p>
 
-<p></p>
+
 
 <h6>Parameters</h6>
 
-<p></p>
+
 
 <ul>
 <li><strong>filename</strong>: (<em>str</em>) The name or path of the file</li>
 </ul>
 
-<p></p>
+
 
 <h6>Returns</h6>
 
-<p></p>
+
 
 <ul>
 <li>(<em>str</em>) The mime type of the file or 'unknown' if we can't find the type</li>
@@ -340,13 +306,10 @@ View Source
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="84639_collapse_id" aria-expanded="false" aria-controls="84639_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="84639_expand_id" aria-labelledby="84639_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get_mime_type</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the mime type of given file name or path.</span>
@@ -356,15 +319,14 @@ View Source
 <span class="sd">        :return: (str) The mime type of the file or &#39;unknown&#39; if we can&#39;t find the type</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="p">(</span><span class="n">mime_type</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">mime_type</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mime_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">mime_type</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;unknown&#39;</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
@@ -374,11 +336,11 @@ View Source
     <article class="docstring">
 <p><em>Open and read the given file and transform the content to bytes value.</em></p>
 
-<p></p>
+
 
 <h6>Parameters</h6>
 
-<p></p>
+
 
 <ul>
 <li><strong>filename</strong>: (<em>str</em>) The path of the file to read</li>
@@ -388,11 +350,11 @@ View Source
 <li><strong>mime_type</strong>: (<em>str</em>) The mime type of the file response</li>
 </ul>
 
-<p></p>
+
 
 <h6>Returns</h6>
 
-<p></p>
+
 
 <ul>
 <li>(<em>bytes</em>) the file content in bytes format</li>
@@ -401,13 +363,10 @@ View Source
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="78154_collapse_id" aria-expanded="false" aria-controls="78154_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="78154_expand_id" aria-labelledby="78154_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">open_file_to_binary</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open and read the given file and transform the content to bytes value.</span>
@@ -428,8 +387,7 @@ View Source
         <span class="k">return</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
@@ -439,11 +397,11 @@ View Source
     <article class="docstring">
 <p><em>Parse the path to return the correct filename and page name (for webapp package : WebSiteData class).</em></p>
 
-<p></p>
+
 
 <h6>Parameters</h6>
 
-<p></p>
+
 
 <ul>
 <li><strong>path</strong>: (<em>str</em>) The path obtain from the http request</li>
@@ -453,11 +411,11 @@ View Source
 <li><strong>default_path</strong>: (<em>str</em>) The default path to add if the path is juste '/'</li>
 </ul>
 
-<p></p>
+
 
 <h6>Returns</h6>
 
-<p></p>
+
 
 <ul>
 <li><strong>(tuple[str, str]) first</strong>: the filename requested second : the page name (for webapp package)</li>
@@ -466,13 +424,10 @@ View Source
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="10744_collapse_id" aria-expanded="false" aria-controls="10744_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="10744_expand_id" aria-labelledby="10744_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">filter_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse the path to return the correct filename and page name (for webapp package : WebSiteData class).</span>
@@ -495,8 +450,7 @@ View Source
     <span class="k">return</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">page_name</span><span class="p">)</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
@@ -508,11 +462,11 @@ View Source
 
 <p>Return a dictionary with keys and values.</p>
 
-<p></p>
+
 
 <h6>Parameters</h6>
 
-<p></p>
+
 
 <ul>
 <li><strong>content</strong>: (Binary <em>object</em>) the body of the POST request</li>
@@ -526,11 +480,11 @@ View Source
 <li><strong>content_length</strong>: (<em>str</em>) the content length of the body, given (or not) in the request header</li>
 </ul>
 
-<p></p>
+
 
 <h6>Returns</h6>
 
-<p></p>
+
 
 <ul>
 <li>(<em>dict</em>) the dictionary that contains the events to process, return an empty dictionary if there is an error.</li>
@@ -539,13 +493,10 @@ View Source
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="93197_collapse_id" aria-expanded="false" aria-controls="93197_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="93197_expand_id" aria-labelledby="93197_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">extract_body_content</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">content_length</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read and parse the body content of a POST request.</span>
@@ -563,25 +514,36 @@ View Source
         <span class="n">length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">content_length</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
         <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">length</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;POST -- data: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">UnicodeError</span><span class="p">:</span>
+        <span class="k">pass</span>
     <span class="k">if</span> <span class="n">content_type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">content_length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="n">content_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;application/x-www-form-urlencoded&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">content_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;multipart/form-data&#39;</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">parse_qsl</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">keep_blank_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">strict_parsing</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="s1">&#39;multipart/form-data; boundary=&#39;</span> <span class="ow">in</span> <span class="n">content_type</span><span class="p">:</span>
+        <span class="n">filename</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">HTTPDHandler</span><span class="o">.</span><span class="n">__extract_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;upload_file&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;mime_type&#39;</span><span class="p">:</span> <span class="n">mime_type</span><span class="p">,</span> <span class="s1">&#39;file_content&#39;</span><span class="p">:</span> <span class="n">content</span><span class="p">}}</span>
+    <span class="k">elif</span> <span class="s1">&#39;application/json&#39;</span> <span class="ow">in</span> <span class="n">content_type</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Can&#39;t decode JSON POSTED data : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">parse_qsl</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">keep_blank_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">strict_parsing</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="k">if</span> <span class="s1">&#39;upload_file&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;POST -- data: upload_file[</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;upload_file&#39;</span><span class="p">][</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;POST -- data: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">data</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
+</section>
+<section>
 <h4 id="#private_fct_HTTPDHandler">Private functions</h4>
 <section>
 <h5>_set_headers</h5>
@@ -589,11 +551,11 @@ View Source
     <article class="docstring">
 <p><em>Set the HTTPD response headers.</em></p>
 
-<p></p>
+
 
 <h6>Parameters</h6>
 
-<p></p>
+
 
 <ul>
 <li><strong>status</strong>: (<em>int</em>) A response status.</li>
@@ -603,24 +565,21 @@ View Source
 <li><strong>mime_type</strong>: (<em>str</em>) The mime type of the file response</li>
 </ul>
 
-<p></p>
+
 
 <h6>Raises</h6>
 
-<p></p>
+
 
 <p>sppasHTTPDValueError</p>
 
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="30046_collapse_id" aria-expanded="false" aria-controls="30046_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="30046_expand_id" aria-labelledby="30046_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_set_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the HTTPD response headers.</span>
 
@@ -637,8 +596,7 @@ View Source
     <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
@@ -648,11 +606,11 @@ View Source
     <article class="docstring">
 <p><em>Return the file content and the corresponding status.</em></p>
 
-<p></p>
+
 
 <h6>Parameters</h6>
 
-<p></p>
+
 
 <ul>
 <li><strong>filename</strong>: (<em>str</em>) The path of the file to return</li>
@@ -662,11 +620,11 @@ View Source
 <li><strong>mime_type</strong>: (<em>str</em>) The mime type of the file response</li>
 </ul>
 
-<p></p>
+
 
 <h6>Returns</h6>
 
-<p></p>
+
 
 <ul>
 <li>tuple(<em>bytes</em>, HTTPDStatus)</li>
@@ -675,13 +633,10 @@ View Source
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="24485_collapse_id" aria-expanded="false" aria-controls="24485_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="24485_expand_id" aria-labelledby="24485_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the file content and the corresponding status.</span>
 
@@ -706,8 +661,7 @@ View Source
     <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
@@ -717,11 +671,11 @@ View Source
     <article class="docstring">
 <p><em>Process the events and return the html page content or json data and status.</em></p>
 
-<p></p>
+
 
 <h6>Parameters</h6>
 
-<p></p>
+
 
 <ul>
 <li><strong>events</strong>: (<em>dict</em>) key=event name, value=event value</li>
@@ -731,11 +685,11 @@ View Source
 <li><strong>mime_type</strong>: (<em>str</em>) The mime type of the file response</li>
 </ul>
 
-<p></p>
+
 
 <h6>Returns</h6>
 
-<p></p>
+
 
 <ul>
 <li>tuple(<em>bytes</em>, HTTPDStatus) the content of the response the httpd status</li>
@@ -744,13 +698,10 @@ View Source
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="13250_collapse_id" aria-expanded="false" aria-controls="13250_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="13250_expand_id" aria-labelledby="13250_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_bakery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the events and return the html page content or json data and status.</span>
 
@@ -763,17 +714,22 @@ View Source
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="s1">&#39;page_bakery&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">mime_type</span><span class="p">)</span>
     <span class="n">page_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">mime_type</span> <span class="o">==</span> <span class="s1">&#39;application/json&#39;</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mime_type</span> <span class="o">==</span> <span class="s1">&#39;application/json&#39;</span> <span class="ow">or</span> <span class="n">mime_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;image/&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">mime_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;video/&#39;</span><span class="p">):</span>
+        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
+        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">mime_type</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">status</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">()</span>
+        <span class="n">status</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">HTTPDStatus</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The status has to be an instance of HTTPDStatus (or int). Got: &#39;</span> <span class="o">+</span> <span class="n">status</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
 </section>
@@ -783,11 +739,11 @@ View Source
     <article class="docstring">
 <p><em>Make the appropriate HTTPD response.</em></p>
 
-<p></p>
+
 
 <h6>Parameters</h6>
 
-<p></p>
+
 
 <ul>
 <li><strong>content</strong>: (<em>bytes</em>) The HTML response content</li>
@@ -804,13 +760,10 @@ View Source
     </article>
 
 
-    <article class="rise">
-         <header class="rise-header">
-             <button class="rise-trigger" id="39584_collapse_id" aria-expanded="false" aria-controls="39584_expand_id">
+    <details>
+    <summary>
 View Source
-             </button>
-         </header>
-         <main class="rise-main" id="39584_expand_id" aria-labelledby="39584_collapse_id">
+    </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make the appropriate HTTPD response.</span>
 
@@ -830,10 +783,50 @@ View Source
             <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 </code></pre></div>
 
-        </main>
-    </article>
+    </details>
 
 
+</section>
+</section>
+<section>
+<h4 id="#protected_fct_HTTPDHandler">Protected functions</h4>
+<section>
+<h5>__extract_form_data_file</h5>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">__extract_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">end_line</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">n&#39;</span>
+        <span class="n">carriage_return</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">r&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">end_line</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">carriage_return</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span>
+    <span class="n">start_index_filename</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;filename=&quot;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;filename=&quot;&#39;</span><span class="p">)</span>
+    <span class="n">end_index_filename</span> <span class="o">=</span> <span class="n">start_index_filename</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="n">start_index_filename</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">start_index_filename</span><span class="p">:</span><span class="n">end_index_filename</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">end_index_filename</span><span class="p">:]</span>
+    <span class="n">start_index_type</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;Content-Type: &#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;Content-Type: &#39;</span><span class="p">)</span>
+    <span class="n">end_index_type</span> <span class="o">=</span> <span class="n">start_index_type</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="n">start_index_type</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">end_line</span><span class="p">)</span>
+    <span class="n">mime_type</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">start_index_type</span><span class="p">:</span><span class="n">end_index_type</span><span class="p">]</span>
+    <span class="n">mime_type</span> <span class="o">=</span> <span class="n">mime_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">carriage_return</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">end_index_type</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+    <span class="n">start_boundary</span> <span class="o">=</span> <span class="n">content_type</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;boundary=&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;boundary=&#39;</span><span class="p">)</span>
+    <span class="n">boundary</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span> <span class="o">+</span> <span class="n">content_type</span><span class="p">[</span><span class="n">start_boundary</span><span class="p">:]</span> <span class="o">+</span> <span class="s1">&#39;--&#39;</span>
+    <span class="n">start_content</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">end_line</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">end_content</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">start_content</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">boundary</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">start_content</span><span class="p">:</span><span class="n">end_content</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
 </section>
 </section>    </section>    </div>
     </main>
@@ -841,22 +834,6 @@ View Source
             <footer>
                 <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
             </footer>
-            
-            
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                         htmlTableOfContents();
-                     }
-                 );
-
-                 try {
-                     module.exports = htmlTableOfContents;
-                 } catch (e) {
-                     // module.exports is not defined
-                 }
-            </script>
-    
-            <script src="statics/accordion.js" type="text/javascript"></script>
         
 </body>
 </html>
