@@ -157,8 +157,10 @@ class TagNode(BaseTagNode):
         :raises: NodeParentIdentifierError:
 
         """
-        if isinstance(node, BaseNode) is False:
-            raise TypeError("Node expected.")
+        # if isinstance(node, BaseNode) is False:
+        #     raise TypeError("Node expected.")
+        if hasattr(node, 'identifier') is False:
+            raise NodeTypeError(type(node))
 
         if node.identifier == self._parent or node.identifier == self.identifier:
             raise NodeKeyError(self.identifier, node.identifier)
@@ -181,8 +183,10 @@ class TagNode(BaseTagNode):
         :raises: Exception:
 
         """
-        if isinstance(node, BaseNode) is False:
-            raise TypeError("Node expected.")
+        # if isinstance(node, BaseNode) is False:
+        #    raise TypeError("Node expected.")
+        if hasattr(node, 'identifier') is False:
+            raise NodeTypeError(type(node))
 
         if node.identifier == self._parent or node.identifier == self.identifier:
             raise NodeKeyError(self.identifier, node.identifier)

@@ -263,7 +263,8 @@ class HTMLTree(BaseNode):
         :raises: NodeIdentifierError: if head_node identifier is not "head"
 
         """
-        if isinstance(head_node, HTMLNode) is False:
+        # if isinstance(head_node, HTMLNode) is False:
+        if hasattr(head_node, 'identifier') is False:
             raise NodeTypeError(type(head_node))
         if head_node.identifier != "head":
             raise NodeIdentifierError("head", head_node.identifier)
@@ -295,7 +296,8 @@ class HTMLTree(BaseNode):
         :Raises: NodeIdentifierError: if head_node identifier is not "body_header"
 
         """
-        if isinstance(body_node, HTMLNode) is False:
+        # if isinstance(body_node, HTMLNode) is False:
+        if hasattr(body_node, 'identifier') is False:
             raise NodeTypeError(type(body_node))
         if body_node.identifier != "body_header":
             raise NodeIdentifierError("body_header", body_node.identifier)
@@ -326,7 +328,8 @@ class HTMLTree(BaseNode):
         :raises: NodeIdentifierError: if head_node identifier is not "body_nav"
 
         """
-        if isinstance(body_node, HTMLNode) is False:
+        #if isinstance(body_node, HTMLNode) is False:
+        if hasattr(body_node, 'identifier') is False:
             raise NodeTypeError(type(body_node))
         if body_node.identifier != "body_nav":
             raise NodeIdentifierError("body_nav", body_node.identifier)
@@ -368,7 +371,8 @@ class HTMLTree(BaseNode):
         :Raises: NodeIdentifierError: if head_node identifier is not "body_footer"
 
         """
-        if isinstance(body_node, HTMLNode) is False:
+        #if isinstance(body_node, HTMLNode) is False:
+        if hasattr(body_node, 'identifier') is False:
             raise NodeTypeError(type(body_node))
         if body_node.identifier != "body_footer":
             raise NodeIdentifierError("body_footer", body_node.identifier)
@@ -399,7 +403,8 @@ class HTMLTree(BaseNode):
         :raises: NodeIdentifierError: if head_node identifier is not "body_script"
 
         """
-        if isinstance(body_node, HTMLNode) is False:
+        #if isinstance(body_node, HTMLNode) is False:
+        if hasattr(body_node, 'identifier') is False:
             raise NodeTypeError(type(body_node))
         if body_node.identifier != "body_script":
             raise NodeIdentifierError("body_script", body_node.identifier)
@@ -515,7 +520,8 @@ class HTMLTree(BaseNode):
         :return: (str) Serialized node only if it has children or a value.
 
         """
-        if isinstance(node, HTMLNode) is False:
+        # if isinstance(node, HTMLNode) is False:
+        if hasattr(node, 'identifier') is False:
             raise NodeTypeError(type(node))
 
         if node.children_size() > 0 or node.get_value() is not None:
