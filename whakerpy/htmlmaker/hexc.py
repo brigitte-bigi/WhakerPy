@@ -115,7 +115,7 @@ class NodeIdentifierError(KeyError):
 class NodeParentIdentifierError(ValueError):
     """:ERROR 9312:.
 
-    "Expected HTML Parent node identifier {:s}. Got '{!s:s}' instead."
+    Expected HTML Parent node identifier {:s}. Got '{!s:s}' instead.
 
     """
 

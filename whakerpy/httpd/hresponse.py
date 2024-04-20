@@ -101,7 +101,7 @@ class BaseResponseRecipe:
         else:
             self._htree = HTMLTree(self._name.replace(" ", "_"))
 
-        # Test if this tree can manage events (from buttons, forms, etc)
+        # Test if this tree can manage events (from buttons, forms, etc.)
         shead = self._htree.head.serialize()
 
         if "notify_event" not in shead:

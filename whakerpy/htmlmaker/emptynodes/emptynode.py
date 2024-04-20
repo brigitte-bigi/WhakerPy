@@ -38,6 +38,7 @@
 
 """
 
+from __future__ import annotations
 from ..hexc import NodeAttributeError
 from ..hexc import NodeTagError
 from ..basenodes import BaseNode
@@ -68,7 +69,7 @@ class BaseTagNode(BaseNode):
 
     """
 
-    def __init__(self, parent: str, identifier: str, tag: str, attributes: dict = dict()):
+    def __init__(self, parent: str | None, identifier: str, tag: str, attributes: dict = dict()):
         """Create a new empty node.
 
         :param parent: (str) Parent identifier

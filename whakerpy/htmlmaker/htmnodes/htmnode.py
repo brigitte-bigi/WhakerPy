@@ -38,6 +38,7 @@
 
 """
 
+from __future__ import annotations
 import logging
 import traceback
 
@@ -45,7 +46,6 @@ from ..hconsts import HTML_TAGS
 from ..hexc import NodeParentIdentifierError
 from ..hexc import NodeKeyError
 from ..hexc import NodeTagError
-from ..basenodes import BaseNode
 from ..emptynodes import BaseTagNode
 
 # ---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ class TagNode(BaseTagNode):
 
     """
 
-    def __init__(self, parent: str, identifier: str, tag: str, attributes=dict(), value=None):
+    def __init__(self, parent: str | None, identifier: str, tag: str, attributes=dict(), value=None):
         """Create a tag node to represent any HTML element.
 
         :param parent: (str) Parent identifier

@@ -3,13 +3,13 @@
 ## Install required dependencies
 
 ```bash
-> cd tests 
-> python -m pip install -r requirements.txt
+> python -m pip install "[.tests]"
 ```
 
 ## Launch tests
 
 ```bash
+>cd tests
 >python -m unittest discover
 ```
 

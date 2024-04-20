@@ -3,7 +3,7 @@
 :filename: sppas.ui.whakerpy.httpd.__init__.py
 :author:   Brigitte Bigi
 :contact:  contact@sppas.org
-:summary:  Manage an HTTPD server and an handler for any web-based app.
+:summary:  Manage an HTTPD server and a handler for any web-based app.
 
 .. _This file is part of SPPAS: https://sppas.org/
 ..

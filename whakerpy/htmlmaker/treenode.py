@@ -485,7 +485,7 @@ class HTMLTree(BaseNode):
         """Add an image to the body->main.
 
         :param src: (str) The path of the image file
-        :param alt_text: (str) the alternative text if for some reasons the image doesn't display or for narrator
+        :param alt_text: (str) the alternative text if for some reason the image doesn't display or for narrator
         :param identifier: (str) Optional, the identifier of the node (and also the id of the tag in the html generated)
         :param class_name: (str) Optional, the classes attribute for css of the button tag
 
