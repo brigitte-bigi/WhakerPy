@@ -211,7 +211,7 @@ class HTTPDStatus(object):
     # -----------------------------------------------------------------------
 
     def __repr__(self):
-        return "{:d}: {:s}".format(self.__scode, HTTPDStatus.HTTPD_STATUS[self.__scode])
+        return "{:d} {:s}".format(self.__scode, HTTPDStatus.HTTPD_STATUS[self.__scode])
 
     # -----------------------------------------------------------------------
 

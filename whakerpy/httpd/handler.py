@@ -57,6 +57,8 @@ from .hstatus import HTTPDStatus
 class HTTPDHandler(http.server.BaseHTTPRequestHandler):
     """Web-based application HTTPD handler.
 
+    This class is used to handle the HTTP requests that arrive at the server.
+
     This class is instantiated by the server each time a request is received
     and then a response is created. This is an HTTPD handler for any Web-based
     application server. It parses the request and the headers, then call a
@@ -101,7 +103,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
     # -----------------------------------------------------------------------
 
-    def _static_content(self, filename: str, mime_type: str) -> tuple:
+    def static_content(self, filename: str, mime_type: str) -> tuple:
         """Return the file content and the corresponding status.
 
         :param filename: (str) The path of the file to return
@@ -147,7 +149,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         # Test if the server is our
         if hasattr(self.server, 'page_bakery') is False:
             # Server is not the custom one for SPPAS wapp.
-            return self._static_content(self.path[1:], mime_type)
+            return self.static_content(self.path[1:], mime_type)
 
         # Requested page name and page bakery for all the pages created
         # dynamically -- i.e. from an HTMLTree.
@@ -160,7 +162,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
         # but the HTML page may be static
         if status == 404:
-            content, status = self._static_content(self.path[1:], mime_type)
+            content, status = self.static_content(self.path[1:], mime_type)
 
         # if the user makes a mistake and set to the status an integer and not a HTTPDStatus
         if isinstance(status, int):
@@ -236,7 +238,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
             # The client requested a css, a script, an image, a font, etc.
             # These are statics' content. The handler is reading it from disk,
             # and it makes the response itself.
-            content, status = self._static_content(self.path[1:], mime_type)
+            content, status = self.static_content(self.path[1:], mime_type)
 
         self._response(content, status.code, mime_type)
 
@@ -321,21 +323,21 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
     @staticmethod
     def filter_path(path: str, default_path: str = "index.html") -> tuple[str, str]:
-        """Parse the path to return the correct filename and page name (for webapp package : WebSiteData class).
+        """Parse the path to return the correct filename and page name.
 
-        :param path: (str) The path obtain from the http request
-        :param default_path: (str) The default path to add if the path is juste '/'
+        :param path: (str) The path obtain from the request or environ
+        :param default_path: (str) The default path to add if the path ends with '/'
 
-        :return: (tuple[str, str]) first : the filename requested
-                                   second : the page name (for webapp package)
+        :return: (tuple[str, str]) the requested filename and the requested page name
 
         """
-        # this block has to be before the '/' condition (example: http://localhost:8080/?wexa_color=light)
+        # this block has to be before the '/' condition
+        # example: http://localhost:8080/?wexa_color=light
         if "?" in path:
             path = path[:path.index("?")]
 
         filename = path
-        if filename == "/":
+        if filename.endswith("/") is True:
             filename += default_path
 
         page_name = path
@@ -349,14 +351,13 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
     @staticmethod
     def extract_body_content(content, content_type: str, content_length: str) -> dict:
         """Read and parse the body content of a POST request.
-        Return a dictionary with keys and values.
-
+        
         :param content: (Binary object) the body of the POST request
         :param content_type: (str) the content type of the body, given (or not) in the request header
         :param content_length: (str) the content length of the body, given (or not) in the request header
 
         :return: (dict) the dictionary that contains the events to process,
-                        return an empty dictionary if there is an error.
+                        or an empty dictionary if there is an error.
 
         """
         try:
