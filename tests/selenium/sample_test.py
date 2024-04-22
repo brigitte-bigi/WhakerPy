@@ -58,18 +58,17 @@ class SampleTest(unittest.TestCase):
         """
         self.app_url = f"http://localhost:{LOCAL_PORT}/"
 
-        match NAVIGATOR:
-            case "FIREFOX":
-                self.driver = webdriver.Firefox()
-            case "CHROME":
-                self.driver = webdriver.Chrome()
-            case "EDGE":
-                self.driver = webdriver.Edge()
-            case "SAFARI":
-                self.driver = webdriver.Safari()
-            case _:  # default case
-                print(f"Unknown navigator set : {NAVIGATOR}, start Firefox by default.")
-                self.driver = webdriver.Firefox()
+        if NAVIGATOR == "FIREFOX":
+            self.driver = webdriver.Firefox()
+        elif NAVIGATOR == "CHROME":
+            self.driver = webdriver.Chrome()
+        elif NAVIGATOR == "EDGE":
+            self.driver = webdriver.Edge()
+        elif NAVIGATOR == "SAFARI":
+            self.driver = webdriver.Safari()
+        else:
+            print(f"Unknown navigator set : {NAVIGATOR}, start Firefox by default.")
+            self.driver = webdriver.Firefox()
 
         self.driver.get(self.app_url)
 
