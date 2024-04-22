@@ -44,6 +44,7 @@ import traceback
 
 from ..hconsts import HTML_TAGS
 from ..hexc import NodeParentIdentifierError
+from ..hexc import NodeTypeError
 from ..hexc import NodeKeyError
 from ..hexc import NodeTagError
 from ..emptynodes import BaseTagNode
