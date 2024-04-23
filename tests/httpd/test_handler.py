@@ -45,39 +45,43 @@ class TestHTTPDHandler(unittest.TestCase):
     def test_filter_path(self):
         default_path = "index.html"
 
-        # Path ending with '/'
-        path = "/documents/"
-        filename, page_name = HTTPDHandler.filter_path(path, default_path)
-        self.assertEqual(filename, "/documents/index.html")
-        self.assertEqual(page_name, "documents/")  ### ???
+        # Correct path
+        path = "/documents/hello.html"
+        filepath, page_name = HTTPDHandler.filter_path(path, default_path)
+        self.assertEqual(filepath, path)
+        self.assertEqual(page_name, "hello.html")
 
         # Path ending with '/'
+        path = "/documents/"
+        filepath, page_name = HTTPDHandler.filter_path(path, default_path)
+        self.assertEqual(filepath, "/documents/index.html")
+        self.assertEqual(page_name, default_path)
+
+        # Other path ending with '/'
         path = "http://localhost:8080/documents/"
-        filename, page_name = HTTPDHandler.filter_path(path, default_path)
-        self.assertEqual(filename, "http://localhost:8080/documents/index.html")
-        self.assertEqual(page_name, "http://localhost:8080/documents/")  ### ???
+        filepath, page_name = HTTPDHandler.filter_path(path, default_path)
+        self.assertEqual(filepath, "http://localhost:8080/documents/index.html")
+        self.assertEqual(page_name, default_path)
 
         # Path ending with '/' with query string
         path = "/home/user/documents/?wexa_color=light"
-        filename, page_name = HTTPDHandler.filter_path(path, default_path)
-        self.assertEqual(filename, "/home/user/documents/index.html")
-        self.assertEqual(page_name, "home/user/documents/")  ### ???
+        filepath, page_name = HTTPDHandler.filter_path(path, default_path)
+        self.assertEqual(filepath, "/home/user/documents/index.html")
+        self.assertEqual(page_name, default_path)
 
         # Existing path, not ending by '/'
         path = os.getcwd()
-        filename, page_name = HTTPDHandler.filter_path(path, default_path)
-        self.assertEqual(filename, path + "/index.html")
-        self.assertEqual(page_name, "home/user/documents/")
+        filepath, page_name = HTTPDHandler.filter_path(path, default_path)
+        self.assertEqual(filepath, path + "/index.html")
+        self.assertEqual(page_name, default_path)
 
         # Non-existing path, not ending by '/'
         path = "/home/user/documents"
-        filename, page_name = HTTPDHandler.filter_path(path, default_path)
-        self.assertEqual(filename, path + "/index.html")
-        self.assertEqual(page_name, "home/user/documents/")
+        filepath, page_name = HTTPDHandler.filter_path(path, default_path)
+        self.assertEqual(filepath, path + "/index.html")
+        self.assertEqual(page_name, default_path)
 
         # No path
-        filename, page_name = HTTPDHandler.filter_path("", default_path)
-        self.assertEqual(filename, "index.html")
-        self.assertEqual(page_name, "")
-
-
+        filepath, page_name = HTTPDHandler.filter_path("", default_path)
+        self.assertEqual(filepath, "/index.html")
+        self.assertEqual(page_name, default_path)

@@ -336,15 +336,22 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         if "?" in path:
             path = path[:path.index("?")]
 
-        filename = path
-        if filename.endswith("/") is True:
-            filename += default_path
+        if len(path) == 0:
+            return f"/{default_path}", default_path
 
-        page_name = path
-        if page_name.startswith('/'):
-            page_name = page_name[1:]
+        filepath = path
+        page_name = os.path.basename(path)
+        _, extension = os.path.splitext(path)
 
-        return filename, page_name
+        if len(page_name) == 0 or len(extension) == 0:
+            page_name = default_path
+
+            if filepath.endswith("/"):
+                filepath += default_path
+            else:
+                filepath += f"/{default_path}"
+
+        return filepath, page_name
 
     # -----------------------------------------------------------------------
 
