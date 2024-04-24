@@ -127,7 +127,7 @@ class HTTPDHandlerUtils:
         events = self.__extract_body_content(body)
 
         # Create the response
-        accept_type = self.__headers.get('Accept', "text/html")
+        accept_type = self.__get_headers_value('Accept', "text/html")
         if "text/html" in accept_type:
             accept_type = "text/html"
 
@@ -206,6 +206,34 @@ class HTTPDHandlerUtils:
     # PRIVATE METHODS
     # -----------------------------------------------------------------------
 
+    def __get_headers_value(self, key: str, default_value: object = None) -> object:
+        """Get headers value for a given key, try different keys format depending on server (httpd or wsgi).
+
+        :param key: (str) the header key
+        :param default_value: (object) optional parameter, value returned if the header doesn't contain the key
+
+        :return: (object) the value in the header or the default value
+
+        """
+        value = self.__headers.get(key)
+
+        # first key not found
+        if value is None:
+            # convert to wsgi key
+            new_key = key.upper().replace('-', '_')
+            value = self.__headers.get(new_key)
+
+            # key not found again
+            if value is None:
+                return default_value
+            else:
+                return value
+
+        else:
+            return default_value
+
+    # -----------------------------------------------------------------------
+
     def __open_file_to_binary(self, filepath: str) -> bytes:
         """Open and read the given file and transform the content to bytes value.
 
@@ -214,8 +242,8 @@ class HTTPDHandlerUtils:
         :return: (bytes) the file content in bytes format
 
         """
-        if "Content-Type" in self.__headers.keys():
-            file_type = self.__headers['Content-Type']
+        if self.__get_headers_value("Content-Type") is None:
+            file_type = self.__get_headers_value("Content-Type")
         else:
             file_type = HTTPDHandlerUtils.get_mime_type(filepath)
 
@@ -243,10 +271,10 @@ class HTTPDHandlerUtils:
 
         """
         # try to get the content type
-        content_type = self.__headers.get('Content-Type')
+        content_type = self.__get_headers_value("Content-Type")
 
         # try to get the content length
-        content_length = self.__headers.get('Content-Length', "0")
+        content_length = self.__get_headers_value("Content-Length", "0")
         try:
             content_length = int(content_length)
         # if the length is None or not a string which contains an integer if somebody set the header with bad values
