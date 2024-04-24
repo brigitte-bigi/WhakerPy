@@ -41,6 +41,7 @@
 
 from .hstatus import HTTPDValueError
 from .hstatus import HTTPDStatus
+from .hutils import HTTPDHandlerUtils
 from .handler import HTTPDHandler
 from .hserver import BaseHTTPDServer
 from .hresponse import BaseResponseRecipe
@@ -50,4 +51,6 @@ __all__ = (
     "HTTPDStatus",
     "HTTPDValueError",
     "HTTPDHandler",
-    "BaseHTTPDServer")
+    "HTTPDHandlerUtils",
+    "BaseHTTPDServer"
+)

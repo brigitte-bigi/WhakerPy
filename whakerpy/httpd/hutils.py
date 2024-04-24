@@ -1,0 +1,318 @@
+# -*- coding: UTF-8 -*-
+"""
+:filename: sppas.ui.whakerpy.httpd.hutils.py
+:author:   Brigitte Bigi
+:contributor: Florian Lopitaux
+:contact:  contact@sppas.org
+:summary:  Manage an HTTPD handler for any web-based application.
+
+.. _This file is part of SPPAS: https://sppas.org/
+..
+    -------------------------------------------------------------------------
+
+     ___   __    __    __    ___
+    /     |  \  |  \  |  \  /              the automatic
+    \__   |__/  |__/  |___| \__             annotation and
+       \  |     |     |   |    \             analysis
+    ___/  |     |     |   | ___/              of speech
+
+    Copyright (C) 2011-2023  Brigitte Bigi
+    Laboratoire Parole et Langage, Aix-en-Provence, France
+
+    Use of this software is governed by the GNU Public License, version 3.
+
+    SPPAS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    SPPAS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
+
+    This banner notice must not be removed.
+
+    -------------------------------------------------------------------------
+
+"""
+
+import os
+import json
+import codecs
+import logging
+import mimetypes
+from io import BufferedReader
+from http.client import HTTPMessage
+from urllib.parse import parse_qsl
+
+from .hstatus import HTTPDStatus
+
+# -----------------------------------------------------------------------
+
+
+class HTTPDHandlerUtils:
+
+    def __init__(self, headers: HTTPMessage | dict, path: str, default_page: str = "index.html"):
+        self.__path, self.__page_name = HTTPDHandlerUtils.filter_path(path, default_page)
+        self.__headers = dict()
+
+        if isinstance(headers, HTTPMessage) or isinstance(headers, dict):
+            self.__headers = headers
+        else:
+            raise TypeError("The headers parameter has to be a dictionary or HTTPMessage class !")
+
+    # -----------------------------------------------------------------------
+    # GETTERS
+    # -----------------------------------------------------------------------
+
+    def get_path(self) -> str:
+        return self.__path
+
+    # -----------------------------------------------------------------------
+
+    def get_page_name(self) -> str:
+        return self.__page_name
+
+    # -----------------------------------------------------------------------
+    # PUBLIC METHODS
+    # -----------------------------------------------------------------------
+
+    def static_content(self, filepath: str) -> tuple[bytes, int]:
+        """Return the file content and update the corresponding status.
+
+        :param filepath: (str) The path of the file to return
+
+        :return: (tuple[bytes, int]) The file content
+
+        """
+        if not os.path.exists(filepath):
+            return HTTPDStatus.response_404(filepath), 404
+
+        if not os.path.isfile(filepath):
+            return HTTPDStatus.response_403(filepath), 403
+
+        content = self.__open_file_to_binary(filepath)
+        return content, 200
+
+    # -----------------------------------------------------------------------
+
+    def process_post(self, body: BufferedReader) -> tuple[dict, str]:
+        # Parse the posted data
+        events = self.__extract_body_content(body)
+
+        # Create the response
+        accept_type = self.__headers.get('Accept', "text/html")
+        if "text/html" in accept_type:
+            accept_type = "text/html"
+
+        return events, accept_type
+
+    # -----------------------------------------------------------------------
+    # STATIC METHODS
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def get_mime_type(filename: str) -> str:
+        """Returns the mime type of given file name or path.
+
+        :param filename: (str) The name or path of the file
+
+        :return: (str) The mime type of the file or 'unknown' if we can't find the type
+
+        """
+        mime_type, _ = mimetypes.guess_type(filename)
+
+        if mime_type is None:
+            return "unknown"
+        else:
+            return mime_type
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def filter_path(path: str, default_path: str = "index.html") -> tuple[str, str]:
+        """Parse the path to return the correct filename and page name.
+
+        :param path: (str) The path obtain from the request or environ
+        :param default_path: (str) The default path to add if the path ends with '/'
+
+        :return: (tuple[str, str]) the requested filename and the requested page name
+
+        """
+        # this block has to be before the '/' condition
+        # example: http://localhost:8080/?wexa_color=light
+        if "?" in path:
+            path = path[:path.index("?")]
+
+        if len(path) == 0:
+            return f"/{default_path}", default_path
+
+        filepath = path
+        page_name = os.path.basename(path)
+        _, extension = os.path.splitext(path)
+
+        if len(page_name) == 0 or len(extension) == 0:
+            page_name = default_path
+
+            if filepath.endswith("/"):
+                filepath += default_path
+            else:
+                filepath += f"/{default_path}"
+
+        return filepath, page_name
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def has_to_return_data(accept_type: str) -> bool:
+        return accept_type == "application/json" or \
+            accept_type.startswith("image/") or \
+            accept_type.startswith("video/")
+
+    # -----------------------------------------------------------------------
+    # PRIVATE METHODS
+    # -----------------------------------------------------------------------
+
+    def __open_file_to_binary(self, filepath: str) -> bytes:
+        """Open and read the given file and transform the content to bytes value.
+
+        :param filepath: (str) The path of the file to read
+
+        :return: (bytes) the file content in bytes format
+
+        """
+        if "Content-Type" in self.__headers.keys():
+            file_type = self.__headers['Content-Type']
+        else:
+            file_type = HTTPDHandlerUtils.get_mime_type(filepath)
+
+        if file_type.startswith("text/") or file_type.startswith("application/"):
+            with codecs.open(filepath, "r", "utf-8") as fp:
+                content = bytes("", "utf-8")
+
+                for line in fp.readlines():
+                    content += bytes(line, "utf-8")
+
+                return content
+
+        else:
+            return open(filepath, "rb").read()
+
+    # -----------------------------------------------------------------------
+
+    def __extract_body_content(self, content) -> dict:
+        """Read and parse the body content of a POST request.
+
+        :param content: (Binary object) the body of the POST request
+
+        :return: (dict) the dictionary that contains the events to process,
+                        or an empty dictionary if there is an error.
+
+        """
+        # try to get the content type
+        content_type = self.__headers.get('Content-Type')
+
+        # try to get the content length
+        content_length = self.__headers.get('Content-Length', "0")
+        try:
+            content_length = int(content_length)
+        # if the length is None or not a string which contains an integer if somebody set the header with bad values
+        except (TypeError, ValueError):
+            content_length = 0
+
+        # read request body and decode them
+        data = content.read(content_length)
+
+        try:
+            data = data.decode("utf-8")
+        # the data is a binary file can't decode in utf-8 format (like image or video file)
+        except UnicodeError:
+            pass
+
+        # if content-type or content_length are not defined in the header request
+        if content_type is None or content_length == 0:
+            data = dict()
+
+        # parse json data from request.js
+        elif "application/json" in content_type:
+            try:
+                data = json.loads(data)
+            except json.JSONDecodeError:
+                logging.error(f"Can't decode JSON posted data : {data}")
+
+        # parse uploaded file
+        elif "multipart/form-data; boundary=" in content_type:
+            filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
+            data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
+
+        # otherwise try to parse text data from forms
+        else:
+            data = dict(parse_qsl(
+                data,
+                keep_blank_values=True,
+                strict_parsing=False  # errors are silently ignored
+            ))
+
+        # print traceback and return data parsed in python dictionary
+        if "upload_file" in data:
+            logging.debug(f"POST -- data: upload_file[{data['upload_file']['filename']}]")
+        else:
+            logging.debug("POST -- data: {}".format(data))
+
+        return data
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def __extract_form_data_file(content_type: str, data: str | bytes) -> tuple[str, str, str]:
+        # set special characters depending on if the uploaded file is in binary or utf-8 format
+        if isinstance(data, bytes):
+            data = str(data)
+            end_line = "\\n"
+            carriage_return = "\\r"
+        else:
+            end_line = "\n"
+            carriage_return = "\r"
+
+        # parse filename
+        start_index_filename = data.index('filename="') + len('filename="')
+        end_index_filename = start_index_filename + data[start_index_filename:].index('"')
+        filename = data[start_index_filename:end_index_filename]
+
+        # print("//// ATTENTION FILENAME ////")
+        # print(filename)
+        # print("//// ATTENTION FILENAME ////")
+
+        # remove filename line
+        data = data[end_index_filename:]
+
+        # parse content-type
+        start_index_type = data.index("Content-Type: ") + len("Content-Type: ")
+        end_index_type = start_index_type + data[start_index_type:].index(end_line)
+        mime_type = data[start_index_type:end_index_type]
+        mime_type = mime_type.replace(carriage_return, '')
+
+        # print("//// ATTENTION MIME-TYPE ////")
+        # print(mime_type)
+        # print("//// ATTENTION MIME-TYPE ////")
+
+        # remove content-type line
+        data = data[end_index_type + 1:]
+
+        # parse file content
+        start_boundary = content_type.index("boundary=") + len("boundary=")
+        boundary = "--" + content_type[start_boundary:] + "--"
+
+        start_content = data.index(end_line) + 1  # remove empty line
+        end_content = data[start_content:].index(boundary)
+        content = data[start_content:end_content]
+
+        # print("//// ATTENTION FILE CONTENT ////")
+        # print(content)
+        # print("//// ATTENTION FILE CONTENT ////")
+
+        return filename, mime_type, content
