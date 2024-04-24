@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
-:filename: sppas.ui.whakerpy.httpd.handler.py
+:filename: whakerpy.httpd.handler.py
 :author:   Brigitte Bigi
 :contributor: Florian Lopitaux
 :contact:  contact@sppas.org
@@ -41,7 +41,6 @@
 """
 
 from __future__ import annotations
-import os
 import logging
 import http.server
 
@@ -159,12 +158,10 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
     # -----------------------------------------------------------------------
 
     def do_GET(self) -> None:
-        """Prepare the response to a GET request.
-
-        """
+        """Prepare the response to a GET request."""
         logging.debug("GET -- requested: {}".format(self.path))
 
-        handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.get_default_page())
+        handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
         self.path = handler_utils.get_path()
         mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
 
@@ -180,12 +177,10 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
     # -----------------------------------------------------------------------
 
     def do_POST(self) -> None:
-        """Prepare the response to a POST request.
-
-        """
+        """Prepare the response to a POST request."""
         logging.debug("POST -- requested: {}".format(self.path))
 
-        handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.get_default_page())
+        handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
         events, accept = handler_utils.process_post(self.rfile)
 
         content, status = self._bakery(handler_utils, events, accept)
@@ -201,7 +196,12 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
     # PRIVATE METHODS
     # -----------------------------------------------------------------------
 
-    def get_default_page(self) -> str:
+    def __get_default_page(self) -> str:
+        """Get the default page in case if the url doesn't specify any page.
+
+        :return: (str) the default page name
+
+        """
         try:
             default = self.server.default()
         except AttributeError:  # Server is not the custom one for dynamic app.

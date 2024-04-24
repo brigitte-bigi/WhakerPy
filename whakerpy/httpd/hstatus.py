@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
-:filename: sppas.ui.whakerpy.httpd.hstatus.py
+:filename: whakerpy.httpd.hstatus.py
 :author:   Brigitte Bigi
 :contact:  contact@sppas.org
 :summary:  The HTTPD status codes.
@@ -64,7 +64,7 @@ HTML_404 = """
     <title>404 error</title>
 </head>
 <body>
-    <h1>Error 404: The requested file {1} does not exist.</h1>
+    <h1>Error 404: The requested file {0} does not exist.</h1>
 </body>
 </html>
 """
@@ -250,6 +250,13 @@ class HTTPDStatus(object):
 
     @staticmethod
     def response_403(path: str) -> bytes:
+        """Return the html page when the server has a status code of 403 (Forbidden resource).
+
+        :param path: (str) the path of the request was failed and raise a 403 error code
+
+        :return: (bytes) the html page in bytes format ready to send
+
+        """
         content = HTML_403.format(path)
         return content.encode("utf-8")
 
@@ -257,6 +264,13 @@ class HTTPDStatus(object):
 
     @staticmethod
     def response_404(path: str) -> bytes:
+        """Return the html page when the server has a status code of 404 (Not found resource).
+
+        :param path: (str) the path of the request was failed and raise a 404 error code
+
+        :return: (bytes) the html page in bytes format ready to send
+
+        """
         content = HTML_404.format(path)
         return content.encode("utf-8")
 
@@ -264,6 +278,13 @@ class HTTPDStatus(object):
 
     @staticmethod
     def response_500(msg_error: str = "No information") -> bytes:
+        """Return the html page when the server has a status code of 505 (Internal problem).
+
+        :param msg_error: (str) the message error to have more information when this case append
+
+        :return: (bytes) the html page in bytes format ready to send
+
+        """
         content = HTML_500.format(msg_error)
         return content.encode("utf-8")
 

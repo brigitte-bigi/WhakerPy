@@ -1,5 +1,5 @@
 """
-:filename: sppas.ui.whakerpy.httpd.server.py
+:filename: whakerpy.httpd.server.py
 :author:   Brigitte Bigi
 :contact:  contact@sppas.org
 :summary: This is the Web-based application HTTPD server.

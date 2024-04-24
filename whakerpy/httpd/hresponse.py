@@ -1,5 +1,5 @@
 """
-:filename: sppas.ui.whakerpy.httpd.hresponse.py
+:filename: whakerpy.httpd.hresponse.py
 :author:   Brigitte Bigi
 :contact:  contact@sppas.org
 :summary:  Base class to create an HTML response.

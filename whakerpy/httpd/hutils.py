@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*-
 """
-:filename: sppas.ui.whakerpy.httpd.hutils.py
+:filename: whakerpy.httpd.hutils.py
 :author:   Brigitte Bigi
 :contributor: Florian Lopitaux
 :contact:  contact@sppas.org
-:summary:  Manage an HTTPD handler for any web-based application.
+:summary:  Class to help to manage http request for httpd or wsgi application.
 
 .. _This file is part of SPPAS: https://sppas.org/
 ..
@@ -57,6 +57,13 @@ from .hstatus import HTTPDStatus
 class HTTPDHandlerUtils:
 
     def __init__(self, headers: HTTPMessage | dict, path: str, default_page: str = "index.html"):
+        """Instantiate class, filter the path for getters method and get the headers data
+
+        :param headers: (HTTPMessage|dict) the headers of the request
+        :param path: (str) the brut path get by the request
+        :param default_page: (str) optional parameter, default page when the page doesn't specify it
+
+        """
         self.__path, self.__page_name = HTTPDHandlerUtils.filter_path(path, default_page)
         self.__headers = dict()
 
@@ -70,18 +77,28 @@ class HTTPDHandlerUtils:
     # -----------------------------------------------------------------------
 
     def get_path(self) -> str:
+        """Get the path of the request after filtered true path in constructor.
+
+        :return: (str) the path
+
+        """
         return self.__path
 
     # -----------------------------------------------------------------------
 
     def get_page_name(self) -> str:
+        """Get the name of the page after filtered path in constructor.
+
+        :return: (str) the page name ask by the request
+
+        """
         return self.__page_name
 
     # -----------------------------------------------------------------------
     # PUBLIC METHODS
     # -----------------------------------------------------------------------
 
-    def static_content(self, filepath: str) -> tuple[bytes, int]:
+    def static_content(self, filepath: str) -> tuple[bytes, HTTPDStatus]:
         """Return the file content and update the corresponding status.
 
         :param filepath: (str) The path of the file to return
@@ -90,17 +107,22 @@ class HTTPDHandlerUtils:
 
         """
         if not os.path.exists(filepath):
-            return HTTPDStatus.response_404(filepath), 404
+            return HTTPDStatus.response_404(filepath), HTTPDStatus(404)
 
         if not os.path.isfile(filepath):
-            return HTTPDStatus.response_403(filepath), 403
+            return HTTPDStatus.response_403(filepath), HTTPDStatus(403)
 
         content = self.__open_file_to_binary(filepath)
-        return content, 200
+        return content, HTTPDStatus(200)
 
     # -----------------------------------------------------------------------
 
     def process_post(self, body: BufferedReader) -> tuple[dict, str]:
+        """Process the request body to return events and accept mime type.
+
+        :param body: (BufferedReader) The body buffer of the request (rfile)
+
+        """
         # Parse the posted data
         events = self.__extract_body_content(body)
 
@@ -169,6 +191,13 @@ class HTTPDHandlerUtils:
 
     @staticmethod
     def has_to_return_data(accept_type: str) -> bool:
+        """Boolean expression to know if the server has to respond data or a html page.
+
+        :param accept_type: (str) The mime type of the 'Accept' header request
+
+        :return: (bool) True if we have to return data, False if we have to return html content
+
+        """
         return accept_type == "application/json" or \
             accept_type.startswith("image/") or \
             accept_type.startswith("video/")
@@ -269,6 +298,14 @@ class HTTPDHandlerUtils:
 
     @staticmethod
     def __extract_form_data_file(content_type: str, data: str | bytes) -> tuple[str, str, str]:
+        """Extract the body of a "formdata request" to upload a file.
+
+        :param content_type: (str) The content type in the header of the request
+        :param data: (str | bytes) the body of the request in bytes or string format
+
+        :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content
+
+        """
         # set special characters depending on if the uploaded file is in binary or utf-8 format
         if isinstance(data, bytes):
             data = str(data)
