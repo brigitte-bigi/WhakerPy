@@ -160,6 +160,15 @@ class WebSiteData:
     # -----------------------------------------------------------------------
 
     def create_pages(self, web_response=WebSiteResponse, default_path: str = None) -> dict:
+        """Instantiate all pages response from the json.
+
+        :param web_response: (BaseResponseRecipe) the class to used to create the pages,
+                            WebSiteResponse class used by default
+        :param default_path: (str) None by default, the default path for all pages
+
+        :return: (dict) a dictionary with key = page name and value = the response object
+
+        """
         pages = dict()
 
         tree = HTMLTree("sample")

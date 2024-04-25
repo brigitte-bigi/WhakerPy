@@ -34,6 +34,7 @@
 import os
 
 from ..httpd import HTTPDHandlerUtils
+from ..httpd import BaseResponseRecipe
 
 from .webconfig import WebSiteData
 from .webresponse import WebSiteResponse
@@ -110,3 +111,24 @@ class WSGIApplication(object):
         # send response to the client
         start_response(repr(status), [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))])
         return content
+
+    # ---------------------------------------------------------------------------
+
+    def add_page(self, page_name: str, response: BaseResponseRecipe) -> bool:
+        """Add a page to the list of available pages.
+
+        :param page_name: (str) the name of the page
+        :param response: (BaseResponseRecipe) the response object of the page (has to inherited of BaseResponseRecipe)
+
+        :return: (bool) True if we successfully added the page
+                        or False else (if the page already exists or the response has a wrong type)
+
+        """
+        if page_name in self._pages.keys():
+            return False
+
+        if not isinstance(response, BaseResponseRecipe):
+            return False
+
+        self._pages[page_name] = response
+        return True

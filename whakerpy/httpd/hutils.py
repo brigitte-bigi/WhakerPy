@@ -214,6 +214,16 @@ class HTTPDHandlerUtils:
 
     @staticmethod
     def bakery(pages: dict, page_name: str, events: dict, has_to_return_data: bool = False) -> tuple[bytes, HTTPDStatus]:
+        """Process received events and bake the given page.
+
+        :param pages: (dict) A dictionary with key=page_name and value=ResponseRecipe
+        :param page_name: (str) The current page name
+        :param events: (dict) The events extract from the request (only for POST request, send empty dict for GET)
+        :param has_to_return_data: (bool) False by default, Boolean to know if we have to return the html page or data
+
+        :return: (tuple[bytes, HTTPDStatus]) The content to answer to the client and the status of the response
+
+        """
         # get the response and check it
         response = pages.get(page_name)
 
