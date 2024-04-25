@@ -1,0 +1,38 @@
+// filename: whakerpy.webapp.yuml
+// author:   Brigitte Bigi
+// contact:  contact@sppas.org
+// summary:  UML class diagram for Webapp package.
+//
+// This file is part of SPPAS: https://sppas.org/
+//     Copyright (C) 2011-2023 Brigitte Bigi
+//     Laboratoire Parole et Langage, Aix-en-Provence, France
+//     Use of this software is governed by the GNU Public License, version 3.
+//
+// This file was migrated to the "WhakerPy" library by its author.
+//
+// Copy/paste the following at:
+// https://yuml.me/diagram/scruffy/class/draw
+// Or try with: https://github.com/jaime-olivares/yuml-diagram
+
+// -------------------
+// Class descriptions
+// -------------------
+
+[WebSiteData|~main_path:str;~default:str]
+[WebSiteApplication|-server: BaseHTTPServer;-port: int;-location: str]
+[WebSiteResponse]
+[WSGIApplication|-default_path:str;-default_file:str;~pages:dict]
+
+// -------------------
+// Class relations
+// -------------------
+
+[WebSiteApplication]->[HTTPDHandler {bg:purple}]
+
+[WebSiteData]->[WebSiteResponse]
+
+[BaseResponseRecipe {bg:purple}]^[WebSiteResponse]
+
+[WSGIApplication]->[WebSiteData]
+[WSGIApplication]-n>[WebSiteResponse]
+[WSGIApplication]->[HTTPDHandlerUtils {bg:purple}]

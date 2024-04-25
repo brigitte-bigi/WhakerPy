@@ -31,11 +31,13 @@
 // -------------------
 
 [BaseHTTPDServer]-1>[BaseResponseRecipe]
+[http.server.ThreadingHTTPServer {bg:purple}]^[BaseHTTPDServer]
 
 [BaseResponseRecipe]-1>[HTMLTree {bg:purple}]
 [BaseResponseRecipe]-1>[HTTPDStatus]
 
 [HTTPDHandler]-1>[HTTPDHandlerUtils]
+[http.server.BaseHTTPRequestHandler {bg:purple}]^[HTTPDHandler]
 
 [HTTPDHandlerUtils]-1>[HTTPDStatus]
 [WSGIApplication {bg:purple}]-1>[HTTPDHandlerUtils]
