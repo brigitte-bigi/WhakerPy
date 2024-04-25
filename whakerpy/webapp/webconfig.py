@@ -42,6 +42,9 @@ import codecs
 import os
 import json
 
+from ..htmlmaker import HTMLTree
+from .webresponse import WebSiteResponse
+
 # ---------------------------------------------------------------------------
 
 
@@ -152,6 +155,22 @@ class WebSiteData:
                 return self._pages[page]["footer"]
 
         return False
+
+    # -----------------------------------------------------------------------
+
+    def create_pages(self, default_path: str = None) -> dict:
+        pages = dict()
+
+        tree = HTMLTree("skeleton")
+        for page_name in self._pages:
+            if default_path is None:
+                page_path = self.filename(page_name)
+            else:
+                page_path = os.path.join(default_path, self.filename(page_name))
+
+            pages[page_name] = WebSiteResponse(page_path, tree)
+
+        return pages
 
     # -----------------------------------------------------------------------
     # Overloads

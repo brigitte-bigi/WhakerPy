@@ -93,7 +93,7 @@ async function send_file() {
 // window.onload = () => {
     // loop every 1.5s times
     setInterval(() => {
-       setRandomColor();
+        setRandomColor();
     }, 1500);
 // };
 
@@ -170,7 +170,6 @@ class SampleAppResponse(BaseResponseRecipe):
         """
         # Define this page title
         self._htree.head.title(self._name)
-        self._htree.head.link(rel="stylesheet", href="docs/wexa_statics/css/wexa.css", link_type="text/css")
 
         # Add elements in the header
         _h1 = HTMLNode(self._htree.body_header.identifier, None, "h1", value="Test of WhakerPy")

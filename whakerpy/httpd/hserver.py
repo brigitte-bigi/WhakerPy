@@ -42,6 +42,7 @@ import http.server
 
 from .hstatus import HTTPDStatus
 from .hresponse import BaseResponseRecipe
+from .hutils import HTTPDHandlerUtils
 
 # ---------------------------------------------------------------------------
 
@@ -93,7 +94,7 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
 
     # -----------------------------------------------------------------------
 
-    def page_bakery(self, page_name: str, events: dict, has_data_to_return: bool = False) -> tuple:
+    def page_bakery(self, page_name: str, events: dict, has_to_return_data: bool = False) -> tuple:
         """Return the page content and response status.
 
         This method should be invoked after a POST request in order to
@@ -101,29 +102,9 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
 
         :param page_name: (str) Requested page name
         :param events: (dict) key=event name, value=event value
-        :param has_data_to_return: (bool) False by default -
-                                          Boolean value to know if the server return data or html page
+        :param has_to_return_data: (bool) False by default - Boolean to know if the server return data or html page
 
         :return: tuple(bytes, HTTPDStatus)
 
         """
-        # Get the response from the appropriate bakery.
-        if page_name in self._pages:
-            if isinstance(self._pages[page_name], BaseResponseRecipe) is True:
-                bakery = self._pages[page_name]
-                content = bytes(bakery.bake(events), "utf-8")
-
-                if has_data_to_return:
-                    # get data set by the current page
-                    content = bakery.get_data()
-                    if not isinstance(content, bytes):
-                        content = bytes(content, "utf-8")
-
-                    bakery.reset_data()
-
-                return content, bakery.status
-
-        # or not!
-        status = HTTPDStatus()
-        status.code = 404
-        return bytes(" ", "utf-8"), status
+        return HTTPDHandlerUtils.bakery(self._pages, page_name, events, has_to_return_data)

@@ -33,28 +33,10 @@
 
 import os
 
-from ..httpd import HTTPDHandler
 from ..httpd import HTTPDStatus
+from ..httpd import HTTPDHandlerUtils
 
-# ---------------------------------------------------------------------------
-# Error's responses
-# ---------------------------------------------------------------------------
-
-ERROR = "Unknown"
-HTTPD_500 = [
-'<!DOCTYPE html>',
-'<html>',
-'  <head>',
-'    <meta charset="utf-8">',
-'    <title>Error 500</title>',
-'  </head>',
-'  <body>',
-'    <h1>Internal Server Error 500. </h1>',
-'    <p>The system returned the following error message: {}.</p>'.format(ERROR),
-'    <p>Please send this message by e-mail to Brigitte Bigi: <contact@sppas.org></p>',
-'  </body>',
-'</html>'
-]
+from .webconfig import WebSiteData
 
 # ---------------------------------------------------------------------------
 # A wsgi application, for the web.
@@ -94,47 +76,40 @@ class WSGIApplication(object):
 
     """
 
-    def __init__(self, default_path: str = "", default_filename: str = "index.html"):
+    def __init__(self, default_path: str = "", default_filename: str = "index.html", default_web_json: str = None):
         self.__default_path = default_path
         self.__default_file = default_filename
 
+        if default_web_json is None:
+            self._pages = dict()
+        else:
+            data = WebSiteData(default_web_json)
+            self._pages = data.create_pages(self.__default_path)
+
+    # ---------------------------------------------------------------------------
+
     def __call__(self, environ, start_response):
-        content = None
-        _error = "Unknown error..."
-        status = HTTPDStatus()
-        status.code = 500
-
         # Get the expected filename
-        filename, page_name = HTTPDHandler.filter_path(environ["PATH_INFO"], default_path=self.__default_file)
-        filename = self.__default_path + filename
-        if os.path.isdir(filename):
-            # Do it again...
-            filename, page_name = HTTPDHandler.filter_path(environ["PATH_INFO"] + "/", default_path=self.__default_file)
-            filename = self.__default_path + filename
-
-        # Get its mimetype
-        mime_type = HTTPDHandler.get_mime_type(filename)
+        handler_utils = HTTPDHandlerUtils(environ, environ["PATH_INFO"], self.__default_file)
+        filepath = self.__default_path + handler_utils.get_path()
 
         # If the requested file is a static one
-        if os.path.exists(filename) is True:
+        if os.path.exists(filepath) is True:
             try:
-                content, status = HTTPDHandler.static_content(filename, mime_type)
-                start_response(repr(status), [('Content-Type', mime_type)])
+                content, status = handler_utils.static_content(filepath)
             except Exception as e:
-                content = None
-                _error = str(e)
+                start_response(repr(500), [('Content-Type', 'text/html; charset=utf-8')])
+                return HTTPDStatus.response_500(str(e))
 
-        if content is None:
-            status.code = 404
-            start_response(repr(status), [('Content-Type', 'text/html; charset=utf-8')])
-            content = ['<!DOCTYPE html><html><meta charset="utf-8"><title>Error 404</title>'.encode('utf-8'),
-                       "<p>Requested pagename={} was not found.</p></p>".format(page_name).encode('utf-8'),
-                       '<p>Error 404: The requested file {:s} does not exist.</p>'.format(filename).encode('utf-8'),
-                       '<p>More error infos: {:s}</p>'.format(_error).encode('utf-8'),
-                       ]
+        # else, it's a dynamic page
+        else:
+            # read and parse data if it's a POST request, empty events if it's not
+            events, accept = handler_utils.process_post(environ['wsgi.input'])
 
-        if content is not None:
-            return content
+            # bakery the response
+            content, status = HTTPDHandlerUtils.bakery(self._pages, handler_utils.get_page_name(), events,
+                                                       HTTPDHandlerUtils.has_to_return_data(accept))
 
-        start_response(repr(status), [('Content-Type', 'text/html; charset=utf-8')])
-        return [line.encode("utf-8") for line in HTTPD_500]
+        # send response to the client
+        start_response(repr(status), [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))])
+        return content

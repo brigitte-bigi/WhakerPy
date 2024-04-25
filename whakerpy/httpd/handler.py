@@ -134,16 +134,6 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         content, status = self.server.page_bakery(handler_utils.get_page_name(), events,
                                                   handler_utils.has_to_return_data(mime_type))
 
-        # no page found but the HTML page may be static
-        if status == 404:
-            content, status = handler_utils.static_content(self.path[1:])
-
-        # if the user makes a mistake and set to the status an integer and not a HTTPDStatus
-        if isinstance(status, int):
-            status = HTTPDStatus(status)
-        elif not isinstance(status, HTTPDStatus):
-            raise TypeError(f"The status has to be an instance of HTTPDStatus (or int). Got: {status}")
-
         return content, status
 
     # -----------------------------------------------------------------------

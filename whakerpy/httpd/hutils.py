@@ -123,6 +123,10 @@ class HTTPDHandlerUtils:
         :param body: (BufferedReader) The body buffer of the request (rfile)
 
         """
+        # check for wsgi server case
+        if self.__headers.get("REQUEST_METHOD", "POST").upper() != "POST":
+            return dict(), "text/html"
+
         # Parse the posted data
         events = self.__extract_body_content(body)
 
@@ -203,6 +207,37 @@ class HTTPDHandlerUtils:
             accept_type.startswith("video/")
 
     # -----------------------------------------------------------------------
+
+    @staticmethod
+    def bakery(pages: dict, page_name: str, events: dict, has_to_return_data: bool = False) -> tuple[bytes, HTTPDStatus]:
+        # get the response and check it
+        response = pages.get(page_name)
+
+        if response is None:
+            return HTTPDStatus.response_404(page_name), HTTPDStatus(404)
+
+        content = bytes(response.bake(events), "utf-8")
+
+        # check if we have to return data or html page
+        if has_to_return_data:
+            # get data set by the current page
+            content = response.get_data()
+            if not isinstance(content, bytes):
+                content = bytes(content, "utf-8")
+
+            response.reset_data()
+
+        # get the status of the response
+        status = response.status
+
+        if isinstance(status, int):  # if the user makes a mistake and set in the status directly an integer
+            status = HTTPDStatus(status)
+        elif not isinstance(status, HTTPDStatus):
+            raise TypeError(f"The status has to be an instance of HTTPDStatus (or int). Got: {status}")
+
+        return content, status
+
+    # -----------------------------------------------------------------------
     # PRIVATE METHODS
     # -----------------------------------------------------------------------
 
@@ -230,7 +265,7 @@ class HTTPDHandlerUtils:
                 return value
 
         else:
-            return default_value
+            return value
 
     # -----------------------------------------------------------------------
 
@@ -243,11 +278,11 @@ class HTTPDHandlerUtils:
 
         """
         if self.__get_headers_value("Content-Type") is None:
-            file_type = self.__get_headers_value("Content-Type")
-        else:
             file_type = HTTPDHandlerUtils.get_mime_type(filepath)
+        else:
+            file_type = self.__get_headers_value("Content-Type")
 
-        if file_type.startswith("text/") or file_type.startswith("application/"):
+        if file_type is not None and (file_type.startswith("text/") or file_type.startswith("application/")):
             with codecs.open(filepath, "r", "utf-8") as fp:
                 content = bytes("", "utf-8")
 

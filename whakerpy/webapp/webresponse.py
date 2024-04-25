@@ -41,8 +41,8 @@
 import logging
 import codecs
 
-from whakerpy.httpd import BaseResponseRecipe
 from whakerpy.httpd import HTTPDStatus
+from whakerpy.httpd import BaseResponseRecipe
 
 # ---------------------------------------------------------------------------
 
