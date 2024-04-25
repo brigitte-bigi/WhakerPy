@@ -40,8 +40,6 @@
 
 import http.server
 
-from .hstatus import HTTPDStatus
-from .hresponse import BaseResponseRecipe
 from .hutils import HTTPDHandlerUtils
 
 # ---------------------------------------------------------------------------
