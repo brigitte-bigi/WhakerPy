@@ -1,38 +1,32 @@
 # -*- coding: UTF-8 -*-
 """
 :filename: whakerpy.httpd.hutils.py
-:author:   Brigitte Bigi
+:author: Brigitte Bigi
 :contributor: Florian Lopitaux
-:contact:  contact@sppas.org
-:summary:  Class to help to manage http request for httpd or wsgi application.
+:contact: contact@sppas.org
+:summary: Class to help to manage http request for httpd or wsgi application.
 
-.. _This file is part of SPPAS: https://sppas.org/
+.. _This file is part of WhakerPy: https://whakerpy.sf.net
 ..
     -------------------------------------------------------------------------
 
-     ___   __    __    __    ___
-    /     |  \  |  \  |  \  /              the automatic
-    \__   |__/  |__/  |___| \__             annotation and
-       \  |     |     |   |    \             analysis
-    ___/  |     |     |   | ___/              of speech
-
-    Copyright (C) 2011-2023  Brigitte Bigi
+    Copyright (C) 2023-2024  Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     Use of this software is governed by the GNU Public License, version 3.
 
-    SPPAS is free software: you can redistribute it and/or modify
+    WhakerPy is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    SPPAS is distributed in the hope that it will be useful,
+    WhakerPy is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
+    along with WhakerPy. If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -40,6 +34,7 @@
 
 """
 
+from __future__ import annotations
 import os
 import json
 import codecs
@@ -102,7 +97,6 @@ class HTTPDHandlerUtils:
         """Return the file content and update the corresponding status.
 
         :param filepath: (str) The path of the file to return
-
         :return: (tuple[bytes, int]) The file content
 
         """
@@ -125,6 +119,7 @@ class HTTPDHandlerUtils:
         """Process the request body to return events and accept mime type.
 
         :param body: (BufferedReader) The body buffer of the request (rfile)
+        :return: (dict, str) the body and accept mime type
 
         """
         # check for wsgi server case
@@ -150,7 +145,6 @@ class HTTPDHandlerUtils:
         """Returns the mime type of given file name or path.
 
         :param filename: (str) The name or path of the file
-
         :return: (str) The mime type of the file or 'unknown' if we can't find the type
 
         """
@@ -169,7 +163,6 @@ class HTTPDHandlerUtils:
 
         :param path: (str) The path obtain from the request or environ
         :param default_path: (str) The default path to add if the path ends with '/'
-
         :return: (tuple[str, str]) the requested filename and the requested page name
 
         """
@@ -199,10 +192,9 @@ class HTTPDHandlerUtils:
 
     @staticmethod
     def has_to_return_data(accept_type: str) -> bool:
-        """Boolean expression to know if the server has to respond data or a html page.
+        """Boolean expression to know if the server has to respond data or a HTML page.
 
         :param accept_type: (str) The mime type of the 'Accept' header request
-
         :return: (bool) True if we have to return data, False if we have to return html content
 
         """
@@ -220,7 +212,6 @@ class HTTPDHandlerUtils:
         :param page_name: (str) The current page name
         :param events: (dict) The events extract from the request (only for POST request, send empty dict for GET)
         :param has_to_return_data: (bool) False by default, Boolean to know if we have to return the html page or data
-
         :return: (tuple[bytes, HTTPDStatus]) The content to answer to the client and the status of the response
 
         """
@@ -260,7 +251,6 @@ class HTTPDHandlerUtils:
 
         :param key: (str) the header key
         :param default_value: (object) optional parameter, value returned if the header doesn't contain the key
-
         :return: (object) the value in the header or the default value
 
         """
@@ -287,7 +277,6 @@ class HTTPDHandlerUtils:
         """Open and read the given file and transform the content to bytes value.
 
         :param filepath: (str) The path of the file to read
-
         :return: (bytes) the file content in bytes format
 
         """
@@ -314,7 +303,6 @@ class HTTPDHandlerUtils:
         """Read and parse the body content of a POST request.
 
         :param content: (Binary object) the body of the POST request
-
         :return: (dict) the dictionary that contains the events to process,
                         or an empty dictionary if there is an error.
 
@@ -379,7 +367,6 @@ class HTTPDHandlerUtils:
 
         :param content_type: (str) The content type in the header of the request
         :param data: (str | bytes) the body of the request in bytes or string format
-
         :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content
 
         """
@@ -397,10 +384,6 @@ class HTTPDHandlerUtils:
         end_index_filename = start_index_filename + data[start_index_filename:].index('"')
         filename = data[start_index_filename:end_index_filename]
 
-        # print("//// ATTENTION FILENAME ////")
-        # print(filename)
-        # print("//// ATTENTION FILENAME ////")
-
         # remove filename line
         data = data[end_index_filename:]
 
@@ -409,10 +392,6 @@ class HTTPDHandlerUtils:
         end_index_type = start_index_type + data[start_index_type:].index(end_line)
         mime_type = data[start_index_type:end_index_type]
         mime_type = mime_type.replace(carriage_return, '')
-
-        # print("//// ATTENTION MIME-TYPE ////")
-        # print(mime_type)
-        # print("//// ATTENTION MIME-TYPE ////")
 
         # remove content-type line
         data = data[end_index_type + 1:]
@@ -424,9 +403,5 @@ class HTTPDHandlerUtils:
         start_content = data.index(end_line) + 1  # remove empty line
         end_content = data[start_content:].index(boundary)
         content = data[start_content:end_content]
-
-        # print("//// ATTENTION FILE CONTENT ////")
-        # print(content)
-        # print("//// ATTENTION FILE CONTENT ////")
 
         return filename, mime_type, content

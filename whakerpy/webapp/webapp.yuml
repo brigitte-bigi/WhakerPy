@@ -1,14 +1,12 @@
 // filename: whakerpy.webapp.yuml
-// author:   Brigitte Bigi
-// contact:  contact@sppas.org
-// summary:  UML class diagram for Webapp package.
+// author: Brigitte Bigi, Florian Lopitaux
+// contact: contact@sppas.org
+// summary: UML class diagram for Webapp package.
 //
-// This file is part of SPPAS: https://sppas.org/
-//     Copyright (C) 2011-2023 Brigitte Bigi
+// This file is part of WhakerPy: https://whakerpy.sf.net
+//     Copyright (C) 2023-2024 Brigitte Bigi
 //     Laboratoire Parole et Langage, Aix-en-Provence, France
 //     Use of this software is governed by the GNU Public License, version 3.
-//
-// This file was migrated to the "WhakerPy" library by its author.
 //
 // Copy/paste the following at:
 // https://yuml.me/diagram/scruffy/class/draw

@@ -1,6 +1,6 @@
 """
 :filename: whakerpy.webapp.webwsgi.py
-:author: Brigitte Bigi
+:author: Brigitte Bigi, Florian Lopitaux
 :contact: contact@sppas.org
 :summary: Create a HTTPD localhost server.
 
@@ -45,7 +45,7 @@ from .webresponse import WebSiteResponse
 
 
 class WSGIApplication(object):
-    """Create de default application for an UWSGI server.
+    """Create the default application for an UWSGI server.
 
     WSGI response is created from given "environ" parameters and communicated
     with start_response. The "environ" parameter is a dictionary. Here are
