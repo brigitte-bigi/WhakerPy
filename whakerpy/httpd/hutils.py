@@ -112,8 +112,12 @@ class HTTPDHandlerUtils:
         if not os.path.isfile(filepath):
             return HTTPDStatus.response_403(filepath), HTTPDStatus(403)
 
-        content = self.__open_file_to_binary(filepath)
-        return content, HTTPDStatus(200)
+        try:
+            content = self.__open_file_to_binary(filepath)
+            return content, HTTPDStatus(200)
+        except Exception as e:
+            content = HTTPDStatus.response_500(str(e))
+            return content, HTTPDStatus(500)
 
     # -----------------------------------------------------------------------
 

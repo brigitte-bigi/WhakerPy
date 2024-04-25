@@ -47,13 +47,8 @@ class AppServer(BaseHTTPDServer):
 
         # Extract the config data of the sample webapp from a JSON file
         data = WebSiteData(os.path.join("samples", "webapp.json"))
-
         # Create the dynamic tree for each page described in data
-        tree = HTMLTree("sample")
-        for page_name in data:
-            page_path = os.path.join("samples", data.filename(page_name))
-            bakery = SampleWebResponse(page_path, tree)
-            self._pages[page_name] = bakery
+        self._pages.update(data.create_pages(web_response=SampleWebResponse, default_path="samples"))
 
 # ---------------------------------------------------------------------------
 

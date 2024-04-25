@@ -45,6 +45,7 @@ import json
 from ..htmlmaker import HTMLTree
 from .webresponse import WebSiteResponse
 
+
 # ---------------------------------------------------------------------------
 
 
@@ -158,17 +159,17 @@ class WebSiteData:
 
     # -----------------------------------------------------------------------
 
-    def create_pages(self, default_path: str = None) -> dict:
+    def create_pages(self, web_response=WebSiteResponse, default_path: str = None) -> dict:
         pages = dict()
 
-        tree = HTMLTree("skeleton")
+        tree = HTMLTree("sample")
         for page_name in self._pages:
             if default_path is None:
                 page_path = self.filename(page_name)
             else:
                 page_path = os.path.join(default_path, self.filename(page_name))
 
-            pages[page_name] = WebSiteResponse(page_path, tree)
+            pages[page_name] = web_response(page_path, tree)
 
         return pages
 

@@ -33,10 +33,10 @@
 
 import os
 
-from ..httpd import HTTPDStatus
 from ..httpd import HTTPDHandlerUtils
 
 from .webconfig import WebSiteData
+from .webresponse import WebSiteResponse
 
 # ---------------------------------------------------------------------------
 # A wsgi application, for the web.
@@ -76,7 +76,9 @@ class WSGIApplication(object):
 
     """
 
-    def __init__(self, default_path: str = "", default_filename: str = "index.html", default_web_json: str = None):
+    def __init__(self, default_path: str = "", default_filename: str = "index.html",
+                 web_response=WebSiteResponse, default_web_json: str = None):
+
         self.__default_path = default_path
         self.__default_file = default_filename
 
@@ -84,7 +86,7 @@ class WSGIApplication(object):
             self._pages = dict()
         else:
             data = WebSiteData(default_web_json)
-            self._pages = data.create_pages(self.__default_path)
+            self._pages = data.create_pages(web_response=web_response, default_path=self.__default_path)
 
     # ---------------------------------------------------------------------------
 
@@ -95,12 +97,7 @@ class WSGIApplication(object):
 
         # If the requested file is a static one
         if os.path.exists(filepath) is True:
-            try:
-                content, status = handler_utils.static_content(filepath)
-            except Exception as e:
-                start_response(repr(500), [('Content-Type', 'text/html; charset=utf-8')])
-                return HTTPDStatus.response_500(str(e))
-
+            content, status = handler_utils.static_content(filepath)
         # else, it's a dynamic page
         else:
             # read and parse data if it's a POST request, empty events if it's not
