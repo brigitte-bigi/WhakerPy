@@ -68,4 +68,11 @@ else:
     # or GET, or ... method.
     application = WSGIApplication(
         default_path="samples",
-        default_web_json=os.path.join("samples", "webapp.json"))
+        default_filename="whakerpy.html",
+        web_response=SampleWebResponse,
+        default_web_json="webapp.json"
+    )
+
+    # add whakerpy.html page
+    httpd_app = SampleAppResponse()
+    application.add_page(httpd_app.page(), httpd_app)

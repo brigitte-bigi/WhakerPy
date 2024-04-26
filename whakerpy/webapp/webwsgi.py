@@ -82,12 +82,8 @@ class WSGIApplication(object):
 
         self.__default_path = default_path
         self.__default_file = default_filename
-
-        if default_web_json is None:
-            self._pages = dict()
-        else:
-            data = WebSiteData(default_web_json)
-            self._pages = data.create_pages(web_response=web_response, default_path=self.__default_path)
+        self.__dynamic_pages = (web_response, os.path.join(self.__default_path, default_web_json))
+        self._pages = dict()
 
     # ---------------------------------------------------------------------------
 
@@ -99,8 +95,15 @@ class WSGIApplication(object):
         # If the requested file is a static one
         if os.path.exists(filepath) is True:
             content, status = handler_utils.static_content(filepath)
+
         # else, it's a dynamic page
         else:
+            # create dynamic pages in web json (if given)
+            if self.__dynamic_pages[1] is not None:
+                data = WebSiteData(self.__dynamic_pages[1])
+                self._pages.update(data.create_pages(web_response=self.__dynamic_pages[0],
+                                                     default_path=self.__default_path))
+
             # read and parse data if it's a POST request, empty events if it's not
             events, accept = handler_utils.process_post(environ['wsgi.input'])
 
