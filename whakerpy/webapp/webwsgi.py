@@ -78,16 +78,18 @@ class WSGIApplication(object):
     """
 
     def __init__(self, default_path: str = "", default_filename: str = "index.html",
-                 web_response=WebSiteResponse, default_web_json: str = None):
+                 web_page_maker=WebSiteResponse, default_web_json: str = None):
 
         self.__default_path = default_path
         self.__default_file = default_filename
-        self.__dynamic_pages = (web_response, os.path.join(self.__default_path, default_web_json))
+        self.__dynamic_pages = (web_page_maker, os.path.join(self.__default_path, default_web_json))
         self._pages = dict()
 
     # ---------------------------------------------------------------------------
 
     def __call__(self, environ, start_response):
+        environ['Accept'] = environ['HTTP_ACCEPT']
+
         # Get the expected filename
         handler_utils = HTTPDHandlerUtils(environ, environ["PATH_INFO"], self.__default_file)
         filepath = self.__default_path + handler_utils.get_path()
@@ -96,13 +98,14 @@ class WSGIApplication(object):
         if os.path.exists(filepath) is True:
             content, status = handler_utils.static_content(filepath)
 
+        elif os.path.isfile(environ['PATH_INFO'][1:]) is True:
+            content, status = handler_utils.static_content(environ['PATH_INFO'][1:])
+
         # else, it's a dynamic page
         else:
-            # create dynamic pages in web json (if given)
-            if self.__dynamic_pages[1] is not None:
-                data = WebSiteData(self.__dynamic_pages[1])
-                self._pages.update(data.create_pages(web_response=self.__dynamic_pages[0],
-                                                     default_path=self.__default_path))
+            # create dynamic page in web json (if given)
+            if self.__dynamic_pages[1] is not None and handler_utils.get_page_name() not in self._pages:
+                self.__create_web_page(handler_utils.get_page_name())
 
             # read and parse data if it's a POST request, empty events if it's not
             events, accept = handler_utils.process_post(environ['wsgi.input'])
@@ -114,6 +117,17 @@ class WSGIApplication(object):
         # send response to the client
         start_response(repr(status), [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))])
         return content
+
+    # ---------------------------------------------------------------------------
+
+    def __create_web_page(self, page_name: str) -> None:
+        web_data = self.__dynamic_pages[0]
+
+        if hasattr(web_data, 'bake_response'):
+            data = web_data(self.__dynamic_pages[1])
+            self._pages[page_name] = data.bake_response(page_name, default=self.__default_path)
+        else:
+            self._pages[page_name] = web_data(page_name)
 
     # ---------------------------------------------------------------------------
 
@@ -130,7 +144,7 @@ class WSGIApplication(object):
         if page_name in self._pages.keys():
             return False
 
-        if not isinstance(response, BaseResponseRecipe):
+        if isinstance(response, BaseResponseRecipe) is False:
             return False
 
         self._pages[page_name] = response

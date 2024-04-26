@@ -38,13 +38,13 @@
 
 """
 
+from __future__ import annotations
 import codecs
 import os
 import json
 
 from ..htmlmaker import HTMLTree
 from .webresponse import WebSiteResponse
-
 
 # ---------------------------------------------------------------------------
 
@@ -181,6 +181,20 @@ class WebSiteData:
             pages[page_name] = web_response(page_path, tree)
 
         return pages
+
+    # -----------------------------------------------------------------------
+
+    def bake_response(self, page_name: str, default: str = "") -> WebSiteResponse:
+        """Return the bakery system to create the page dynamically.
+
+        To be overridden by subclasses.
+
+        :param page_name: (str) Name of an HTML page
+        :param default: (str) The default path
+        :return: (WebSiteResponse)
+
+        """
+        raise NotImplementedError
 
     # -----------------------------------------------------------------------
     # Overloads

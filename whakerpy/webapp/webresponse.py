@@ -56,7 +56,7 @@ class WebSiteResponse(BaseResponseRecipe):
 
     """
 
-    def __init__(self, name="index.html", tree=None):
+    def __init__(self, name="index.html", tree=None, **kwargs):
         """Create a HTTPD Response instance with a default response.
 
         Useful when creating dynamically the HTML Tree for a webapp.

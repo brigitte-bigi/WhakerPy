@@ -100,10 +100,10 @@ class HTTPDHandlerUtils:
         :return: (tuple[bytes, int]) The file content
 
         """
-        if not os.path.exists(filepath):
+        if os.path.exists(filepath) is False:
             return HTTPDStatus.response_404(filepath), HTTPDStatus(404)
 
-        if not os.path.isfile(filepath):
+        if os.path.isfile(filepath) is False:
             return HTTPDStatus.response_403(filepath), HTTPDStatus(403)
 
         try:
@@ -223,7 +223,7 @@ class HTTPDHandlerUtils:
 
         content = bytes(response.bake(events), "utf-8")
 
-        # check if we have to return data or html page
+        # check if we have to return data or HTML page
         if has_to_return_data:
             # get data set by the current page
             content = response.get_data()
@@ -237,7 +237,7 @@ class HTTPDHandlerUtils:
 
         if isinstance(status, int):  # if the user makes a mistake and set in the status directly an integer
             status = HTTPDStatus(status)
-        elif not isinstance(status, HTTPDStatus):
+        elif hasattr(status, 'code') is False:
             raise TypeError(f"The status has to be an instance of HTTPDStatus (or int). Got: {status}")
 
         return content, status

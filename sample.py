@@ -11,6 +11,7 @@ import os
 import webbrowser
 import logging
 
+from whakerpy import WebSiteResponse
 from whakerpy.httpd.hserver import BaseHTTPDServer
 from whakerpy.webapp import WSGIApplication
 from whakerpy.webapp import WebSiteData
@@ -63,17 +64,27 @@ if __name__ == "__main__":
     app.run()
 
 else:
+    class SampleWebData(WebSiteData):
+        """A custom WebSiteData for `sample` web front-end.
+
+        Create the requested page name from webapp.json.
+
+        """
+        def bake_response(self, page_name: str, default: str = "") -> WebSiteResponse:
+            return SampleWebResponse(os.path.join(default, self.filename(page_name)))
+
     # The WSGI server is searching for an "application(environ, start_response)"
     # function. It is invoked every time a request is received by either POST,
     # or GET, or ... method.
+    # uwsgi --http :9090 --wsgi-file sample.py
     app = WSGIApplication(
         default_path="samples",
         default_filename="whakerpy.html",
-        web_response=SampleWebResponse,
+        web_page_maker=SampleWebData,
         default_web_json="webapp.json"
     )
 
-    # add whakerpy.html page
+    # add whakerpy.html page (pages not in json file)
     httpd_app = SampleAppResponse()
     app.add_page(httpd_app.page(), httpd_app)
 
