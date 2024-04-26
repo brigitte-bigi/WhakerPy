@@ -66,7 +66,7 @@ else:
     # The WSGI server is searching for an "application(environ, start_response)"
     # function. It is invoked every time a request is received by either POST,
     # or GET, or ... method.
-    application = WSGIApplication(
+    app = WSGIApplication(
         default_path="samples",
         default_filename="whakerpy.html",
         web_response=SampleWebResponse,
@@ -75,4 +75,6 @@ else:
 
     # add whakerpy.html page
     httpd_app = SampleAppResponse()
-    application.add_page(httpd_app.page(), httpd_app)
+    app.add_page(httpd_app.page(), httpd_app)
+
+    application = app
