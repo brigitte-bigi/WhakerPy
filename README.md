@@ -39,21 +39,22 @@ Download the wheel file (WhakerPy-xxx.whl) and install it in your python environ
 
 ### From its repo:
 
-Download the repository and unpack it, or clone with `git`. Optionally, it can be installed with:
-
-```bash
-> python -m pip install .
-```
-
-WhakerPy package includes the following folders and files:
+Download the latest ".zip" and unpack it, or clone the repository with `git`. WhakerPy package includes the following folders and files:
 
 1. "whakerpy": the source code package
 2. "docs": the documentation of `whakerpy` library in HTML and Markdown
-3. "sample": a webapp sample
+3. "sample": a web application sample 
 4. "tests": the tests of the source code
 
+```bash
+> unzip WhakerPy-0.6.zip 
+> git clone https://git.code.sf.net/p/whakerpy/code whakerpy-code
+> python -m pip install .
+```
 
 ## Quick Start
+
+### Create a dynamic HTML tree
 
 Open a Python interpreter and type or paste the following:
 
@@ -112,17 +113,16 @@ Let's view the result in your favorite web browser:
 >>> webbrowser.open_new_tab(file_whakerpy)
 ```
 
-## Create a web application frontend with dynamic HTML content
+### Create a web application frontend with dynamic HTML content
 
 For a quick start, see the file `sample.py` in the repo. It shows a very simple solution to create a server that can handle dynamic content. This content is created from a custom `BaseResponseRecipe()` object, available in the file `samples/response.py`. The response is the interface between a local back-end python application and the web front-end.
 
-For a more complex example of an already in-used web frontend, see: <https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py>.
+For a more complex example of an already in-used application web frontend, see: <https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py>.
 
 
 ## Projects using WhakerPy
 
-WhakerPy was initially developed within SPPAS <https://sppas.org>.
-It was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on `whakerpy` API.
+WhakerPy was initially developed within SPPAS <https://sppas.org>. It was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on `whakerpy` API.
 
 Other projects: 
 
