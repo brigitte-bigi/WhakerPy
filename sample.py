@@ -71,6 +71,9 @@ else:
 
         """
         def bake_response(self, page_name: str, default: str = "") -> WebSiteResponse:
+            # Possibly test the page_name to return another response
+            # if page_name == "whakerpy.html": return SampleAppResponse()
+            # or return the response matching a page_name in webapp.json
             return SampleWebResponse(os.path.join(default, self.filename(page_name)))
 
     # The WSGI server is searching for an "application(environ, start_response)"
@@ -84,7 +87,8 @@ else:
         default_web_json="webapp.json"
     )
 
-    # add whakerpy.html page (pages not in json file)
+    # This is another solution to add 'whakerpy.html' page response,
+    # which is a page not in json file. Add as many page as wanted.
     httpd_app = SampleAppResponse()
     app.add_page(httpd_app.page(), httpd_app)
 
