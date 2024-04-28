@@ -137,26 +137,30 @@ class HTMLHeadNode(HTMLNode):
     def script(self, src, script_type) -> None:
         """Add a meta tag to the header.
 
-        :param src: (str) Script source file
-        :param script_type: (str) Script type
+        :param src: (str) Script source file or Script content
+        :param script_type: (str) Script type or None if script content
 
         """
-        d = dict()
-        d["src"] = src
-        d["type"] = script_type
+        if script_type is not None:
+            d = dict()
+            d["src"] = src
+            d["type"] = script_type
 
-        child_node = HTMLNode(self.identifier, None, "script", attributes=d)
-        self._children.append(child_node)
+            child_node = HTMLNode(self.identifier, None, "script", attributes=d)
+            self._children.append(child_node)
+        else:
+            child_node = HTMLNode(self.identifier, None, "script", value=str(src))
+            self._children.append(child_node)
 
     # -----------------------------------------------------------------------
 
-    def css(self, script_content) -> None:
+    def css(self, css_content) -> None:
         """Append css style content.
 
         :param script_content: (str) CSS content
 
         """
-        child_node = HTMLNode(self.identifier, None, "style", value=str(script_content))
+        child_node = HTMLNode(self.identifier, None, "style", value=str(css_content))
         self._children.append(child_node)
 
 # ---------------------------------------------------------------------------
