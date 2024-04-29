@@ -88,7 +88,8 @@ class WSGIApplication(object):
     # ---------------------------------------------------------------------------
 
     def __call__(self, environ, start_response):
-        environ['Accept'] = environ['HTTP_ACCEPT']
+        if 'HTTP_ACCEPT' in environ:
+            environ['Accept'] = environ['HTTP_ACCEPT']
 
         # Get the expected filename
         handler_utils = HTTPDHandlerUtils(environ, environ["PATH_INFO"], self.__default_file)
