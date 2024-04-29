@@ -38,6 +38,7 @@
 
 """
 
+from __future__ import annotations
 import os
 
 from .hexc import NodeTypeError
@@ -277,10 +278,10 @@ class HTMLTree(BaseNode):
 
     # -----------------------------------------------------------------------
 
-    def get_body_header(self) -> HTMLNode:
+    def get_body_header(self) -> HTMLNode | None:
         """Get the body->header element node.
 
-        :return: (HTMLNode) Body header node element
+        :return: (HTMLNode | None) Body header node element
 
         """
         return self._get_body().get_child("body_header")
@@ -520,6 +521,8 @@ class HTMLTree(BaseNode):
         :return: (str) Serialized node only if it has children or a value.
 
         """
+        if node is None:
+            return ""
         # if isinstance(node, HTMLNode) is False:
         if hasattr(node, 'identifier') is False:
             raise NodeTypeError(type(node))
@@ -555,11 +558,18 @@ class HTMLTree(BaseNode):
                 s += '="' + avalue + '"'
         s += ">\n"
 
-        s += self.serialize_element(self.get_body_header(), nbs)
-        s += self.serialize_element(self.get_body_nav(), nbs)
-        s += self.get_body_main().serialize(nbs)
-        s += self.serialize_element(self.get_body_footer(), nbs)
-        s += self.serialize_element(self.get_body_script(), nbs)
+        # It should be "s += self.__html.get_child("body").serialize(nbs)"
+        # but the tree has main then header then nav then footer!
+        if self.get_body_header() is not None:
+            s += self.serialize_element(self.get_body_header(), nbs)
+        if self.get_body_nav() is not None:
+            s += self.serialize_element(self.get_body_nav(), nbs)
+        if self.get_body_main() is not None:
+            s += self.get_body_main().serialize(nbs)
+        if self.get_body_footer() is not None:
+            s += self.serialize_element(self.get_body_footer(), nbs)
+        if self.get_body_script() is not None:
+            s += self.serialize_element(self.get_body_script(), nbs)
         s += "\n</body>\n</html>\n"
 
         return s
