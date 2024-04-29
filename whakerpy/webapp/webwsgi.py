@@ -33,6 +33,7 @@
 
 import os
 
+from ..httpd import HTTPDStatus
 from ..httpd import HTTPDHandlerUtils
 from ..httpd import BaseResponseRecipe
 
@@ -93,6 +94,7 @@ class WSGIApplication(object):
         # Get the expected filename
         handler_utils = HTTPDHandlerUtils(environ, environ["PATH_INFO"], self.__default_file)
         filepath = self.__default_path + handler_utils.get_path()
+        page_name = handler_utils.get_page_name()
 
         # If the requested file is a static one
         if os.path.exists(filepath) is True:
@@ -104,14 +106,20 @@ class WSGIApplication(object):
         # else, it's a dynamic page
         else:
             # create dynamic page in web json (if given)
-            if self.__dynamic_pages[1] is not None and handler_utils.get_page_name() not in self._pages:
-                self.__create_web_page(handler_utils.get_page_name())
+            if self.__dynamic_pages[1] is not None and page_name not in self._pages:
+                self.__create_web_page(page_name)
+
+            # if the page doesn't exist even after the dynamic creation
+            if page_name not in self._pages:
+                status = HTTPDStatus(404)
+                start_response(repr(status), [('Content-Type', "text/html")])
+                return status.to_html(encode=True, msg_error=f"Page not found : {filepath}")
 
             # read and parse data if it's a POST request, empty events if it's not
             events, accept = handler_utils.process_post(environ['wsgi.input'])
 
             # bakery the response
-            content, status = HTTPDHandlerUtils.bakery(self._pages, handler_utils.get_page_name(), events,
+            content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, events,
                                                        HTTPDHandlerUtils.has_to_return_data(accept))
 
         # send response to the client
@@ -121,13 +129,17 @@ class WSGIApplication(object):
     # ---------------------------------------------------------------------------
 
     def __create_web_page(self, page_name: str) -> None:
+        """Create page dynamically from the json config file."""
         web_data = self.__dynamic_pages[0]
 
         if hasattr(web_data, 'bake_response'):
             data = web_data(self.__dynamic_pages[1])
-            self._pages[page_name] = data.bake_response(page_name, default=self.__default_path)
+            if page_name in data:
+                self._pages[page_name] = data.bake_response(page_name, default=self.__default_path)
         else:
-            self._pages[page_name] = web_data(page_name)
+            data = WebSiteData(self.__dynamic_pages[1])
+            if page_name in data:
+                self._pages[page_name] = web_data(page_name)
 
     # ---------------------------------------------------------------------------
 
