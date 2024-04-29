@@ -288,7 +288,9 @@ class HTTPDHandlerUtils:
         else:
             file_type = self.__get_headers_value("Content-Type")
 
-        if file_type is not None and (file_type.startswith("text/") or file_type.startswith("application/")):
+        if file_type is not None and file_type != "application/pdf" and \
+                (file_type.startswith("text/") or file_type.startswith("application/")):
+
             with codecs.open(filepath, "r", "utf-8") as fp:
                 content = bytes("", "utf-8")
 
