@@ -111,8 +111,9 @@ class WebSiteResponse(BaseResponseRecipe):
 
         """
         node = self._htree.body_main
-        for i in reversed(range(node.children_size())):
-            node.pop_child(i)
+        node.clear_children()
+        # for i in reversed(range(node.children_size())):
+        #     node.pop_child(i)
 
     # -----------------------------------------------------------------------
 
@@ -126,4 +127,5 @@ class WebSiteResponse(BaseResponseRecipe):
         # Define this page main content.
         with codecs.open(self._name, "r", "utf-8") as fp:
             lines = fp.readlines()
-            self._htree.body_main.set_value(" ".join(lines))
+            if self._htree.get_body_main() is not None:
+                self._htree.body_main.set_value(" ".join(lines))

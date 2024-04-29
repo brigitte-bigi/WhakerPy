@@ -39,6 +39,7 @@
 
 """
 
+from __future__ import annotations
 from whakerpy.messages import error
 from whakerpy.htmlmaker import HTMLTreeError
 
