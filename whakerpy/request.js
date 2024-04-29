@@ -185,7 +185,11 @@ class RequestManager {
                 // get the status response and check if there is an error
                 this.#status = response.status;
 
-                request_response_data = await response.json();
+                if (accept_type.includes("application/json")) {
+                    request_response_data = await response.json();
+                } else {
+                    request_response_data = await response.blob();
+                }
             })
             // handle error
             .catch(error => {

@@ -125,7 +125,7 @@ class BaseResponseRecipe:
         if isinstance(self._data, dict):
             return json.dumps(self._data)
 
-        elif isinstance(self._data, bytes) or isinstance(self._data, str):
+        elif isinstance(self._data, bytes) or isinstance(self._data, bytearray) or isinstance(self._data, str):
             return self._data
 
         else:

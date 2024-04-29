@@ -108,6 +108,7 @@ from .treeelts import HTMLFooterNode
 from .treeelts import HTMLScriptNode
 
 from .treenode import HTMLTree
+from .treeerror import HTMLTreeError
 
 __all__ = (
     "HTML_EMPTY_TAGS",
@@ -142,5 +143,6 @@ __all__ = (
     "HTMLMainNode",
     "HTMLFooterNode",
     "HTMLScriptNode",
-    "HTMLTree"
+    "HTMLTree",
+    "HTMLTreeError"
 )

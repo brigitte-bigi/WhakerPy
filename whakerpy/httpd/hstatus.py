@@ -40,49 +40,7 @@
 """
 
 from whakerpy.messages import error
-
-# -----------------------------------------------------------------------
-
-HTML_403 = """
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>403 error</title>
-</head>
-<body>
-    <h1>Error 403: Forbidden.</h1>
-    <p>The client can't have access to the requested {0}.</p>
-</body>
-</html>
-"""
-
-HTML_404 = """
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>404 error</title>
-</head>
-<body>
-    <h1>Error 404: The requested file {0} does not exist.</h1>
-</body>
-</html>
-"""
-
-HTML_500 = """
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>500 error</title>
-  </head>
-  <body>
-    <h1>Internal Server Error 500.</h1>
-    <p>The system returned the following error message: {0}.</p>
-    <p>Please send this message by e-mail to Brigitte Bigi: <contact@sppas.org></p>
-  </body>
-</html>
-"""
+from whakerpy.htmlmaker import HTMLTreeError
 
 # -----------------------------------------------------------------------
 
@@ -245,48 +203,22 @@ class HTTPDStatus(object):
     code = property(get, set)
 
     # -----------------------------------------------------------------------
-    # Static methods
-    # -----------------------------------------------------------------------
 
-    @staticmethod
-    def response_403(path: str) -> bytes:
-        """Return the html page when the server has a status code of 403 (Forbidden resource).
+    def to_html(self, encode: bool = False, msg_error: str = None) -> HTMLTreeError | bytes:
+        """Create an error HTML page for the instance of status error and return the tree instance (or serialize).
 
-        :param path: (str) the path of the request was failed and raise a 403 error code
+        :param encode: (bool) Optional, False by default, Boolean to know if we serialize the return or not
+        :param msg_error: (str) Optional, an error message for more information for the user
 
-        :return: (bytes) the html page in bytes format ready to send
+        :return: (HTMLTreeError | bytes) the tree error generated, encoded in bytes for response or object instance
 
         """
-        content = HTML_403.format(path)
-        return content.encode("utf-8")
+        tree = HTMLTreeError(self, msg_error)
 
-    # -----------------------------------------------------------------------
-
-    @staticmethod
-    def response_404(path: str) -> bytes:
-        """Return the html page when the server has a status code of 404 (Not found resource).
-
-        :param path: (str) the path of the request was failed and raise a 404 error code
-
-        :return: (bytes) the html page in bytes format ready to send
-
-        """
-        content = HTML_404.format(path)
-        return content.encode("utf-8")
-
-    # -----------------------------------------------------------------------
-
-    @staticmethod
-    def response_500(msg_error: str = "No information") -> bytes:
-        """Return the html page when the server has a status code of 505 (Internal problem).
-
-        :param msg_error: (str) the message error to have more information when this case append
-
-        :return: (bytes) the html page in bytes format ready to send
-
-        """
-        content = HTML_500.format(msg_error)
-        return content.encode("utf-8")
+        if encode is True:
+            return tree.serialize().encode("utf-8")
+        else:
+            return tree
 
     # -----------------------------------------------------------------------
     # Overloads

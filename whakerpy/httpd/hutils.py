@@ -101,17 +101,19 @@ class HTTPDHandlerUtils:
 
         """
         if os.path.exists(filepath) is False:
-            return HTTPDStatus.response_404(filepath), HTTPDStatus(404)
+            status = HTTPDStatus(404)
+            return status.to_html(encode=True, msg_error=f"File not found : {filepath}"), status
 
         if os.path.isfile(filepath) is False:
-            return HTTPDStatus.response_403(filepath), HTTPDStatus(403)
+            status = HTTPDStatus(403)
+            return status.to_html(encode=True, msg_error=f"The path give access to a folder : {filepath}"), status
 
         try:
             content = self.__open_file_to_binary(filepath)
             return content, HTTPDStatus(200)
         except Exception as e:
-            content = HTTPDStatus.response_500(str(e))
-            return content, HTTPDStatus(500)
+            status = HTTPDStatus(500)
+            return status.to_html(encode=True, msg_error=str(e)), status
 
     # -----------------------------------------------------------------------
 
@@ -219,7 +221,8 @@ class HTTPDHandlerUtils:
         response = pages.get(page_name)
 
         if response is None:
-            return HTTPDStatus.response_404(page_name), HTTPDStatus(404)
+            status = HTTPDStatus(404)
+            return status.to_html(encode=True, msg_error=f"Page not found : {page_name}"), status
 
         content = bytes(response.bake(events), "utf-8")
 
@@ -227,7 +230,7 @@ class HTTPDHandlerUtils:
         if has_to_return_data:
             # get data set by the current page
             content = response.get_data()
-            if not isinstance(content, bytes):
+            if isinstance(content, bytes) is False and isinstance(content, bytearray) is False:
                 content = bytes(content, "utf-8")
 
             response.reset_data()

@@ -90,12 +90,12 @@ async function send_file() {
 }
 
 // we wait that the page finished to load to get the h2 element
-// window.onload = () => {
+window.onload = () => {
     // loop every 1.5s times
     setInterval(() => {
         setRandomColor();
     }, 1500);
-// };
+};
 
 """
 
