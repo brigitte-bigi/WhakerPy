@@ -46,6 +46,7 @@ from urllib.parse import parse_qsl
 
 from .hstatus import HTTPDStatus
 
+
 # -----------------------------------------------------------------------
 
 
@@ -207,7 +208,8 @@ class HTTPDHandlerUtils:
     # -----------------------------------------------------------------------
 
     @staticmethod
-    def bakery(pages: dict, page_name: str, events: dict, has_to_return_data: bool = False) -> tuple[bytes, HTTPDStatus]:
+    def bakery(pages: dict, page_name: str, events: dict, has_to_return_data: bool = False) -> tuple[
+        bytes, HTTPDStatus]:
         """Process received events and bake the given page.
 
         :param pages: (dict) A dictionary with key=page_name and value=ResponseRecipe
@@ -288,8 +290,8 @@ class HTTPDHandlerUtils:
         else:
             file_type = self.__get_headers_value("Content-Type")
 
-        if file_type is not None and file_type != "application/pdf" and \
-                (file_type.startswith("text/") or file_type.startswith("application/")):
+        if file_type is not None and (file_type.startswith("text/")
+                                      or file_type == "application/javascript" or file_type == "application/json"):
 
             with codecs.open(filepath, "r", "utf-8") as fp:
                 content = bytes("", "utf-8")
