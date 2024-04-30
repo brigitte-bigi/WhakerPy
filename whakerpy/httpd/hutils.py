@@ -1,8 +1,7 @@
 # -*- coding: UTF-8 -*-
 """
 :filename: whakerpy.httpd.hutils.py
-:author: Brigitte Bigi, Florian Lopitaux
-:contributor: Florian Lopitaux
+:author: Florian Lopitaux, Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Class to help to manage http request for httpd or wsgi application.
 
@@ -145,7 +144,7 @@ class HTTPDHandlerUtils:
 
     @staticmethod
     def get_mime_type(filename: str) -> str:
-        """Returns the mime type of given file name or path.
+        """Return the mime type of given file name or path.
 
         :param filename: (str) The name or path of the file
         :return: (str) The mime type of the file or 'unknown' if we can't find the type
