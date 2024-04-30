@@ -125,7 +125,7 @@ class HTMLHr(EmptyNode):
         except Exception:
             raise NodeAttributeError(key)
 
-        if key not in HTML_GLOBAL_ATTR:
+        if key not in HTML_GLOBAL_ATTR and key.startswith("data-") is False:
             raise NodeAttributeError(key)
 
         return key

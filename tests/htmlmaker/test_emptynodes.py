@@ -73,20 +73,51 @@ class TestEmptyNode(unittest.TestCase):
     # -----------------------------------------------------------------------
 
     def test_check_attribute(self):
+        node = BaseTagNode(None, None, "div")
+
+        # Valid attribute
+        key = "class"
+        result = node.check_attribute(key)
+        self.assertEqual(result, key)
+
+        # Lower/upper case
+        key = "CLASS"
+        result = node.check_attribute(key)
+        self.assertEqual(result, key.lower())
+
+        # Global HTML attribute
+        key = "accesskey"
+        result = node.check_attribute(key)
+        self.assertEqual(result, key)
+
+        # data- Global HTML Attribute
+        key = "data-attribute"
+        result = node.check_attribute(key)
+        self.assertEqual(result, key)
+
+        # Tag specific HTML attribute
+        e = BaseTagNode(None, None, "img")
+        self.assertTrue(e.check_attribute("src"))
+        self.assertTrue(e.check_attribute("alt"))
+
+        # None attribute
+        key = None
+        with self.assertRaises(NodeAttributeError):
+            node.check_attribute(key)
+
         # Wrong type
         with self.assertRaises(NodeAttributeError):
-            e = BaseTagNode(None, None, "img")
-            e.check_attribute(BaseNode())
+            node.check_attribute(BaseNode())
+        with self.assertRaises(NodeAttributeError):
+            node.check_attribute(123)
 
         # Unknown attribute
         with self.assertRaises(NodeAttributeError):
             e = BaseTagNode(None, None, "img")
             e.check_attribute("toto")
 
-        e = BaseTagNode(None, None, "img")
-        self.assertTrue(e.check_attribute("src"))
-        self.assertTrue(e.check_attribute("alt"))
-        self.assertTrue(e.check_attribute("loop"))  # but should be False
+        # API ERROR -------
+        self.assertTrue(e.check_attribute("loop"))  # Should be False
 
     # -----------------------------------------------------------------------
 
@@ -223,7 +254,15 @@ class TestElements(unittest.TestCase):
 
     def test_hr(self):
         hr = HTMLHr("parent_id")
-        hr.set_attribute("class", "nidehr")
+
+        # An HTML Global attribute
+        hr.set_attribute("class", "nicehr")
+
+        # A "data-*" HTML Global attribute
+        hr.set_attribute("data-tooltip", "center")
+        self.assertTrue(hr.has_attribute("data-tooltip"))
+
+        # An invalid attribute
         self.assertTrue(hr.has_attribute("class"))
         with self.assertRaises(NodeAttributeError):
             hr.set_attribute("required", None)

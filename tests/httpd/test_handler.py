@@ -69,16 +69,16 @@ class TestHTTPDHandler(unittest.TestCase):
         self.assertEqual(filepath, "/home/user/documents/index.html")
         self.assertEqual(page_name, default_path)
 
-        # Existing path, not ending by '/'
+        # Existing path, not ending by '/'... is invalid.
         path = os.getcwd()
         filepath, page_name = HTTPDHandlerUtils.filter_path(path, default_path)
-        self.assertEqual(filepath, path + "/index.html")
+        self.assertEqual(filepath, path)
         self.assertEqual(page_name, default_path)
 
-        # Non-existing path, not ending by '/'
+        # Non-existing path, not ending by '/'... is invalid
         path = "/home/user/documents"
         filepath, page_name = HTTPDHandlerUtils.filter_path(path, default_path)
-        self.assertEqual(filepath, path + "/index.html")
+        self.assertEqual(filepath, path)
         self.assertEqual(page_name, default_path)
 
         # No path
