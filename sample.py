@@ -11,8 +11,8 @@ import os
 import webbrowser
 import logging
 
-from whakerpy import WebSiteResponse
-from whakerpy.httpd.hserver import BaseHTTPDServer
+from whakerpy.httpd import BaseResponseRecipe
+from whakerpy.httpd import BaseHTTPDServer
 from whakerpy.webapp import WSGIApplication
 from whakerpy.webapp import WebSiteData
 from whakerpy.webapp import WebSiteApplication
@@ -70,11 +70,16 @@ else:
         Create the requested page name from webapp.json.
 
         """
-        def bake_response(self, page_name: str, default: str = "") -> WebSiteResponse:
-            # Possibly test the page_name to return another response
-            # if page_name == "whakerpy.html": return SampleAppResponse()
-            # or return the response matching a page_name in webapp.json
-            return SampleWebResponse(os.path.join(default, self.filename(page_name)))
+        def bake_response(self, page_name: str, default: str = "") -> BaseResponseRecipe | None:
+            if page_name == "whakerpy.html":
+                # we already create this response during the WSGI class instantiation just below this class, so we never
+                # pass this condition because when we request the whakerpy.html page the method is not called
+                # since the page is already created.
+                return SampleAppResponse()
+            elif page_name in self._pages:
+                return SampleWebResponse(os.path.join(default, self.filename(page_name)))
+            else:
+                return None
 
     # The WSGI server is searching for an "application(environ, start_response)"
     # function. It is invoked every time a request is received by either POST,

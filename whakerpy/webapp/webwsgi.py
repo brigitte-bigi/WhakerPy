@@ -101,6 +101,7 @@ class WSGIApplication(object):
         if os.path.exists(filepath) is True:
             content, status = handler_utils.static_content(filepath)
 
+        # If the requested file doesn't in the given default path (like the request.js)
         elif os.path.isfile(environ['PATH_INFO'][1:]) is True:
             content, status = handler_utils.static_content(environ['PATH_INFO'][1:])
 
@@ -135,8 +136,11 @@ class WSGIApplication(object):
 
         if hasattr(web_data, 'bake_response'):
             data = web_data(self.__dynamic_pages[1])
-            if page_name in data:
-                self._pages[page_name] = data.bake_response(page_name, default=self.__default_path)
+            page = data.bake_response(page_name, default=self.__default_path)
+
+            if page is not None:
+                self._pages[page_name] = page
+
         else:
             data = WebSiteData(self.__dynamic_pages[1])
             if page_name in data:

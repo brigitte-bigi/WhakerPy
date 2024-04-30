@@ -44,6 +44,7 @@ import os
 import json
 
 from ..htmlmaker import HTMLTree
+from ..httpd import BaseResponseRecipe
 from .webresponse import WebSiteResponse
 
 # ---------------------------------------------------------------------------
@@ -159,7 +160,7 @@ class WebSiteData:
 
     # -----------------------------------------------------------------------
 
-    def create_pages(self, web_response=WebSiteResponse, default_path: str = None) -> dict:
+    def create_pages(self, web_response=WebSiteResponse, default_path: str = "") -> dict:
         """Instantiate all pages response from the json.
 
         :param web_response: (BaseResponseRecipe) the class to used to create the pages,
@@ -173,25 +174,21 @@ class WebSiteData:
 
         tree = HTMLTree("sample")
         for page_name in self._pages:
-            if default_path is None:
-                page_path = self.filename(page_name)
-            else:
-                page_path = os.path.join(default_path, self.filename(page_name))
-
+            page_path = os.path.join(default_path, self.filename(page_name))
             pages[page_name] = web_response(page_path, tree)
 
         return pages
 
     # -----------------------------------------------------------------------
 
-    def bake_response(self, page_name: str, default: str = "") -> WebSiteResponse:
+    def bake_response(self, page_name: str, default: str = "") -> BaseResponseRecipe | None:
         """Return the bakery system to create the page dynamically.
 
         To be overridden by subclasses.
 
         :param page_name: (str) Name of an HTML page
         :param default: (str) The default path
-        :return: (WebSiteResponse)
+        :return: (BaseResponseRecipe)
 
         """
         raise NotImplementedError
