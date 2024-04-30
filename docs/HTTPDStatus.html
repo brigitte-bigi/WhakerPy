@@ -109,6 +109,11 @@
 
 
 <p>Default status code is 200 for an "OK" httpd response.</p>
+<h6>Parameters</h6>
+
+<ul>
+<li><strong>code</strong></li>
+</ul>
 
     </article>
 
@@ -117,13 +122,13 @@
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the private member for the status code.</span>
 
 <span class="sd">    Default status code is 200 for an &quot;OK&quot; httpd response.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__scode</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__scode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
 </code></pre></div>
 
     </details>
@@ -269,6 +274,63 @@ View Source
 
 
 </section>
+<section>
+<h5>to_html</h5>
+
+    <article class="docstring">
+<p><em>Create an error HTML page for the instance of status error and return the tree instance (or serialize).</em></p>
+
+
+
+<h6>Parameters</h6>
+
+
+
+<ul>
+<li><strong>encode</strong>: (<em>bool</em>) Optional, False by default, Boolean to know if we serialize the return or not</li>
+</ul>
+
+<ul>
+<li><strong>msg_error</strong>: (<em>str</em>) Optional, an error message for more information for the user</li>
+</ul>
+
+
+
+<h6>Returns</h6>
+
+
+
+<ul>
+<li>(HTMLTreeError | <em>bytes</em>) the tree error generated, encoded in bytes for response or object instance</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encode</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">msg_error</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLTreeError</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an error HTML page for the instance of status error and return the tree instance (or serialize).</span>
+
+<span class="sd">        :param encode: (bool) Optional, False by default, Boolean to know if we serialize the return or not</span>
+<span class="sd">        :param msg_error: (str) Optional, an error message for more information for the user</span>
+
+<span class="sd">        :return: (HTMLTreeError | bytes) the tree error generated, encoded in bytes for response or object instance</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">HTMLTreeError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg_error</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">encode</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tree</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tree</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
 </section>
 <section>
 <h4 id="#overloads_{:s}">Overloads</h4>
@@ -295,7 +357,7 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1">: </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scode</span><span class="p">,</span> <span class="n">HTTPDStatus</span><span class="o">.</span><span class="n">HTTPD_STATUS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__scode</span><span class="p">])</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1"> </span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scode</span><span class="p">,</span> <span class="n">HTTPDStatus</span><span class="o">.</span><span class="n">HTTPD_STATUS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__scode</span><span class="p">])</span>
 </code></pre></div>
 
     </details>

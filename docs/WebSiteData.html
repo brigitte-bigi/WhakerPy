@@ -366,6 +366,125 @@ View Source
 
 
 </section>
+<section>
+<h5>create_pages</h5>
+
+    <article class="docstring">
+<p><em>Instantiate all pages response from the json.</em></p>
+
+
+
+<h6>Parameters</h6>
+
+
+
+<ul>
+<li><strong>web_response</strong>: (BaseResponseRecipe) the class to used to create the pages, WebSiteResponse class used by default</li>
+</ul>
+
+<ul>
+<li><strong>default_path</strong>: (<em>str</em>) None by default, the default path for all pages</li>
+</ul>
+
+
+
+<h6>Returns</h6>
+
+
+
+<ul>
+<li>(<em>dict</em>) a dictionary with key = page name and value = the response object</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">web_response</span><span class="o">=</span><span class="n">WebSiteResponse</span><span class="p">,</span> <span class="n">default_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiate all pages response from the json.</span>
+
+<span class="sd">        :param web_response: (BaseResponseRecipe) the class to used to create the pages,</span>
+<span class="sd">                            WebSiteResponse class used by default</span>
+<span class="sd">        :param default_path: (str) None by default, the default path for all pages</span>
+
+<span class="sd">        :return: (dict) a dictionary with key = page name and value = the response object</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">pages</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">HTMLTree</span><span class="p">(</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="n">page_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">default_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">(</span><span class="n">page_name</span><span class="p">))</span>
+        <span class="n">pages</span><span class="p">[</span><span class="n">page_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">web_response</span><span class="p">(</span><span class="n">page_path</span><span class="p">,</span> <span class="n">tree</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pages</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h5>bake_response</h5>
+
+    <article class="docstring">
+<p><em>Return the bakery system to create the page dynamically.</em></p>
+
+
+
+<p>To be overridden by subclasses.</p>
+
+
+
+<h6>Parameters</h6>
+
+
+
+<ul>
+<li><strong>page_name</strong>: (<em>str</em>) Name of an HTML page</li>
+</ul>
+
+<ul>
+<li><strong>default</strong>: (<em>str</em>) The default path</li>
+</ul>
+
+
+
+
+
+<h6>Returns</h6>
+
+
+
+<ul>
+<li>(BaseResponseRecipe)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">bake_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseResponseRecipe</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the bakery system to create the page dynamically.</span>
+
+<span class="sd">        To be overridden by subclasses.</span>
+
+<span class="sd">        :param page_name: (str) Name of an HTML page</span>
+<span class="sd">        :param default: (str) The default path</span>
+<span class="sd">        :return: (BaseResponseRecipe)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
 </section>
 <section>
 <h4 id="#overloads_{:s}">Overloads</h4>

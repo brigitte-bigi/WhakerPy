@@ -43,7 +43,7 @@
 <li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
 <li><a role="button" tabindex="0" href="HTMLScriptNode.html"> &uarr; Prev. Class</a></li>
 <li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
-<li><a role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="HTMLTreeError.html"> &darr; Next Class</a></li>
 <li><a role="button" tabindex="0" href="whakerpy.httpd.html"> &rdsh; Next Module</a></li>
     </ul>
     <h2>Table of Contents</h2>
@@ -724,7 +724,7 @@ View Source
 <span class="sd">        :raises: NodeIdentifierError: if head_node identifier is not &quot;head&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">head_node</span><span class="p">,</span> <span class="n">HTMLNode</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">head_node</span><span class="p">,</span> <span class="s1">&#39;identifier&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeTypeError</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">head_node</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">head_node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">!=</span> <span class="s1">&#39;head&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeIdentifierError</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="n">head_node</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
@@ -750,7 +750,7 @@ View Source
 
 
 <ul>
-<li>(HTMLNode) Body header node element</li>
+<li>(HTMLNode | None) Body header node element</li>
 </ul>
 
     </article>
@@ -760,10 +760,10 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_body_header</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLNode</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_body_header</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HTMLNode</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the body-&gt;header element node.</span>
 
-<span class="sd">        :return: (HTMLNode) Body header node element</span>
+<span class="sd">        :return: (HTMLNode | None) Body header node element</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_body</span><span class="p">()</span><span class="o">.</span><span class="n">get_child</span><span class="p">(</span><span class="s1">&#39;body_header&#39;</span><span class="p">)</span>
@@ -819,7 +819,7 @@ View Source
 <span class="sd">        :Raises: NodeIdentifierError: if head_node identifier is not &quot;body_header&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">body_node</span><span class="p">,</span> <span class="n">HTMLNode</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">body_node</span><span class="p">,</span> <span class="s1">&#39;identifier&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeTypeError</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">body_node</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">body_node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">!=</span> <span class="s1">&#39;body_header&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeIdentifierError</span><span class="p">(</span><span class="s1">&#39;body_header&#39;</span><span class="p">,</span> <span class="n">body_node</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
@@ -914,7 +914,7 @@ View Source
 <span class="sd">        :raises: NodeIdentifierError: if head_node identifier is not &quot;body_nav&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">body_node</span><span class="p">,</span> <span class="n">HTMLNode</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">body_node</span><span class="p">,</span> <span class="s1">&#39;identifier&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeTypeError</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">body_node</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">body_node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">!=</span> <span class="s1">&#39;body_nav&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeIdentifierError</span><span class="p">(</span><span class="s1">&#39;body_nav&#39;</span><span class="p">,</span> <span class="n">body_node</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
@@ -1046,7 +1046,7 @@ View Source
 <span class="sd">        :Raises: NodeIdentifierError: if head_node identifier is not &quot;body_footer&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">body_node</span><span class="p">,</span> <span class="n">HTMLNode</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">body_node</span><span class="p">,</span> <span class="s1">&#39;identifier&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeTypeError</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">body_node</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">body_node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">!=</span> <span class="s1">&#39;body_footer&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeIdentifierError</span><span class="p">(</span><span class="s1">&#39;body_footer&#39;</span><span class="p">,</span> <span class="n">body_node</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
@@ -1141,7 +1141,7 @@ View Source
 <span class="sd">        :raises: NodeIdentifierError: if head_node identifier is not &quot;body_script&quot;</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">body_node</span><span class="p">,</span> <span class="n">HTMLNode</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">body_node</span><span class="p">,</span> <span class="s1">&#39;identifier&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeTypeError</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">body_node</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">body_node</span><span class="o">.</span><span class="n">identifier</span> <span class="o">!=</span> <span class="s1">&#39;body_script&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeIdentifierError</span><span class="p">(</span><span class="s1">&#39;body_script&#39;</span><span class="p">,</span> <span class="n">body_node</span><span class="o">.</span><span class="n">identifier</span><span class="p">)</span>
@@ -1336,7 +1336,7 @@ View Source
 </ul>
 
 <ul>
-<li><strong>alt_text</strong>: (<em>str</em>) the alternative text if for some reasons the image doesn't display or for narrator</li>
+<li><strong>alt_text</strong>: (<em>str</em>) the alternative text if for some reason the image doesn't display or for narrator</li>
 </ul>
 
 <ul>
@@ -1368,7 +1368,7 @@ View Source
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add an image to the body-&gt;main.</span>
 
 <span class="sd">        :param src: (str) The path of the image file</span>
-<span class="sd">        :param alt_text: (str) the alternative text if for some reasons the image doesn&#39;t display or for narrator</span>
+<span class="sd">        :param alt_text: (str) the alternative text if for some reason the image doesn&#39;t display or for narrator</span>
 <span class="sd">        :param identifier: (str) Optional, the identifier of the node (and also the id of the tag in the html generated)</span>
 <span class="sd">        :param class_name: (str) Optional, the classes attribute for css of the button tag</span>
 
@@ -1450,7 +1450,9 @@ View Source
 <span class="sd">        :return: (str) Serialized node only if it has children or a value.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">HTMLNode</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s1">&#39;identifier&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NodeTypeError</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">children_size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">nbs</span><span class="p">)</span>
@@ -1519,11 +1521,16 @@ View Source
         <span class="k">if</span> <span class="n">avalue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;=&quot;&#39;</span> <span class="o">+</span> <span class="n">avalue</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span>
     <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialize_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_body_header</span><span class="p">(),</span> <span class="n">nbs</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialize_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_body_nav</span><span class="p">(),</span> <span class="n">nbs</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_body_main</span><span class="p">()</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">nbs</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialize_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_body_footer</span><span class="p">(),</span> <span class="n">nbs</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialize_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_body_script</span><span class="p">(),</span> <span class="n">nbs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_body_header</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialize_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_body_header</span><span class="p">(),</span> <span class="n">nbs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_body_nav</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialize_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_body_nav</span><span class="p">(),</span> <span class="n">nbs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_body_main</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_body_main</span><span class="p">()</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">nbs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_body_footer</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialize_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_body_footer</span><span class="p">(),</span> <span class="n">nbs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_body_script</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serialize_element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_body_script</span><span class="p">(),</span> <span class="n">nbs</span><span class="p">)</span>
     <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&lt;/body&gt;</span><span class="se">\n</span><span class="s1">&lt;/html&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
     <span class="k">return</span> <span class="n">s</span>
 </code></pre></div>

@@ -41,7 +41,7 @@
         <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
     <ul>
 <li><a role="button" tabindex="0" href="whakerpy.htmlmaker.html"> &crarr; Prev. Module</a></li>
-<li><a role="button" tabindex="0" href="HTTPDHandler.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="HTTPDHandlerUtils.html"> &uarr; Prev. Class</a></li>
 <li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
 <li><a role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a></li>
 <li><a role="button" tabindex="0" href="whakerpy.webapp.html"> &rdsh; Next Module</a></li>
@@ -219,7 +219,7 @@ View Source
 </ul>
 
 <ul>
-<li><strong>has<em>data</em>to_return</strong>: (<em>bool</em>) False by default - Boolean value to know if the server return data or html page</li>
+<li><strong>has<em>to</em>return_data</strong>: (<em>bool</em>) False by default - Boolean to know if the server return data or html page</li>
 </ul>
 
 
@@ -239,7 +239,7 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">page_bakery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">has_data_to_return</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">page_bakery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">has_to_return_data</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the page content and response status.</span>
 
 <span class="sd">        This method should be invoked after a POST request in order to</span>
@@ -247,25 +247,12 @@ View Source
 
 <span class="sd">        :param page_name: (str) Requested page name</span>
 <span class="sd">        :param events: (dict) key=event name, value=event value</span>
-<span class="sd">        :param has_data_to_return: (bool) False by default -</span>
-<span class="sd">                                          Boolean value to know if the server return data or html page</span>
+<span class="sd">        :param has_to_return_data: (bool) False by default - Boolean to know if the server return data or html page</span>
 
 <span class="sd">        :return: tuple(bytes, HTTPDStatus)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page_name</span><span class="p">],</span> <span class="n">BaseResponseRecipe</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">bakery</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page_name</span><span class="p">]</span>
-            <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">bakery</span><span class="o">.</span><span class="n">bake</span><span class="p">(</span><span class="n">events</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">has_data_to_return</span><span class="p">:</span>
-                <span class="n">content</span> <span class="o">=</span> <span class="n">bakery</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
-                    <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-                <span class="n">bakery</span><span class="o">.</span><span class="n">reset_data</span><span class="p">()</span>
-            <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">bakery</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">()</span>
-    <span class="n">status</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="mi">404</span>
-    <span class="k">return</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">status</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">bakery</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">,</span> <span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">has_to_return_data</span><span class="p">)</span>
 </code></pre></div>
 
     </details>

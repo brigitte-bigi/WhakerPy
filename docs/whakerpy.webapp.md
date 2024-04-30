@@ -173,6 +173,68 @@ def has_footer(self, page: str) -> bool:
 
 - (*bool*)
 
+##### create_pages
+
+```python
+def create_pages(self, web_response=WebSiteResponse, default_path: str='') -> dict:
+    """Instantiate all pages response from the json.
+
+        :param web_response: (BaseResponseRecipe) the class to used to create the pages,
+                            WebSiteResponse class used by default
+        :param default_path: (str) None by default, the default path for all pages
+
+        :return: (dict) a dictionary with key = page name and value = the response object
+
+        """
+    pages = dict()
+    tree = HTMLTree('sample')
+    for page_name in self._pages:
+        page_path = os.path.join(default_path, self.filename(page_name))
+        pages[page_name] = web_response(page_path, tree)
+    return pages
+```
+
+*Instantiate all pages response from the json.*
+
+###### Parameters
+
+- **web_response**: (BaseResponseRecipe) the class to used to create the pages, WebSiteResponse class used by default
+- **default_path**: (*str*) None by default, the default path for all pages
+
+###### Returns
+
+- (*dict*) a dictionary with key = page name and value = the response object
+
+##### bake_response
+
+```python
+def bake_response(self, page_name: str, default: str='') -> BaseResponseRecipe | None:
+    """Return the bakery system to create the page dynamically.
+
+        To be overridden by subclasses.
+
+        :param page_name: (str) Name of an HTML page
+        :param default: (str) The default path
+        :return: (BaseResponseRecipe)
+
+        """
+    raise NotImplementedError
+```
+
+*Return the bakery system to create the page dynamically.*
+
+To be overridden by subclasses.
+
+###### Parameters
+
+- **page_name**: (*str*) Name of an HTML page
+- **default**: (*str*) The default path
+
+
+###### Returns
+
+- (BaseResponseRecipe)
+
 
 
 #### Overloads
@@ -233,7 +295,7 @@ body->main is changed depending on the requested page.
 ##### __init__
 
 ```python
-def __init__(self, name='index.html', tree=None):
+def __init__(self, name='index.html', tree=None, **kwargs):
     """Create a HTTPD Response instance with a default response.
 
     Useful when creating dynamically the HTML Tree for a webapp.
@@ -330,8 +392,7 @@ def _invalidate(self) -> None:
 
         """
     node = self._htree.body_main
-    for i in reversed(range(node.children_size())):
-        node.pop_child(i)
+    node.clear_children()
 ```
 
 *Remove all children nodes of the body "main".*
@@ -350,7 +411,8 @@ def _bake(self) -> None:
     logging.debug(' -> Set {:s} content to the body->main'.format(self._name))
     with codecs.open(self._name, 'r', 'utf-8') as fp:
         lines = fp.readlines()
-        self._htree.body_main.set_value(' '.join(lines))
+        if self._htree.get_body_main() is not None:
+            self._htree.body_main.set_value(' '.join(lines))
 ```
 
 *Create the dynamic page content in HTML.*
@@ -430,6 +492,148 @@ def run(self) -> int:
 ###### Returns
 
 - (*int*) Exit status (0=normal)
+
+
+
+### Class `WSGIApplication`
+
+#### Description
+
+*Create the default application for an UWSGI server.*
+
+WSGI response is created from given "environ" parameters and communicated
+with start_response. The "environ" parameter is a dictionary. Here are
+examples of "environ" key/values:
+
+- 'REQUEST_METHOD': 'GET'
+- 'REQUEST_URI': '/information.html',
+- 'PATH_INFO': '/information.html',
+- 'QUERY_STRING': '',
+- 'SERVER_PROTOCOL': 'HTTP/1.1',
+- 'SCRIPT_NAME': '',
+- 'SERVER_NAME': 'macpro-1.home',
+- 'SERVER_PORT': '9090',
+- 'UWSGI_ROUTER': 'http',
+- 'REMOTE_ADDR': '127.0.0.1',
+- 'REMOTE_PORT': '26095',
+- 'HTTP_HOST': 'localhost:9090',
+- 'HTTP_USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0',
+- 'HTTP_ACCEPT': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+- 'HTTP_ACCEPT_LANGUAGE': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+- 'HTTP_ACCEPT_ENCODING': 'gzip, deflate, br',
+- 'HTTP_REFERER': 'http://localhost:9090/contributeurs.html',
+- 'HTTP_DNT': '1', 'HTTP_CONNECTION': 'keep-alive',
+- 'HTTP_UPGRADE_INSECURE_REQUESTS': '1',
+- 'HTTP_SEC_FETCH_DEST': 'document',
+- 'HTTP_SEC_FETCH_MODE': 'navigate',
+- 'HTTP_SEC_FETCH_SITE': 'same-origin',
+- 'HTTP_SEC_FETCH_USER': '?1',
+
+
+#### Constructor
+
+##### __init__
+
+```python
+def __init__(self, default_path: str='', default_filename: str='index.html', web_page_maker=WebSiteResponse, default_web_json: str=None):
+    self.__default_path = default_path
+    self.__default_file = default_filename
+    self.__dynamic_pages = (web_page_maker, os.path.join(self.__default_path, default_web_json))
+    self._pages = dict()
+```
+
+
+
+
+
+#### Public functions
+
+##### add_page
+
+```python
+def add_page(self, page_name: str, response: BaseResponseRecipe) -> bool:
+    """Add a page to the list of available pages.
+
+        :param page_name: (str) the name of the page
+        :param response: (BaseResponseRecipe) the response object of the page (has to inherited of BaseResponseRecipe)
+
+        :return: (bool) True if we successfully added the page
+                        or False else (if the page already exists or the response has a wrong type)
+
+        """
+    if page_name in self._pages.keys():
+        return False
+    if isinstance(response, BaseResponseRecipe) is False:
+        return False
+    self._pages[page_name] = response
+    return True
+```
+
+*Add a page to the list of available pages.*
+
+###### Parameters
+
+- **page_name**: (*str*) the name of the page
+- **response**: (BaseResponseRecipe) the response object of the page (has to inherited of BaseResponseRecipe)
+
+###### Returns
+
+- (*bool*) True if we successfully added the page or False else (if the page already exists or the response has a wrong type)
+
+
+
+#### Protected functions
+
+##### __create_web_page
+
+```python
+def __create_web_page(self, page_name: str) -> None:
+    """Create page dynamically from the json config file."""
+    web_data = self.__dynamic_pages[0]
+    if hasattr(web_data, 'bake_response'):
+        data = web_data(self.__dynamic_pages[1])
+        page = data.bake_response(page_name, default=self.__default_path)
+        if page is not None:
+            self._pages[page_name] = page
+    else:
+        data = WebSiteData(self.__dynamic_pages[1])
+        if page_name in data:
+            self._pages[page_name] = web_data(page_name)
+```
+
+*Create page dynamically from the json config file.*
+
+
+
+#### Overloads
+
+##### __call__
+
+```python
+def __call__(self, environ, start_response):
+    if 'HTTP_ACCEPT' in environ:
+        environ['Accept'] = environ['HTTP_ACCEPT']
+    handler_utils = HTTPDHandlerUtils(environ, environ['PATH_INFO'], self.__default_file)
+    filepath = self.__default_path + handler_utils.get_path()
+    page_name = handler_utils.get_page_name()
+    if os.path.exists(filepath) is True:
+        content, status = handler_utils.static_content(filepath)
+    elif os.path.isfile(handler_utils.get_path()[1:]) is True:
+        content, status = handler_utils.static_content(handler_utils.get_path()[1:])
+    else:
+        if self.__dynamic_pages[1] is not None and page_name not in self._pages:
+            self.__create_web_page(page_name)
+        if page_name not in self._pages or filepath != f'{self.__default_path}/{page_name}':
+            status = HTTPDStatus(404)
+            start_response(repr(status), [('Content-Type', 'text/html')])
+            return status.to_html(encode=True, msg_error=f'Page not found : {filepath}')
+        events, accept = handler_utils.process_post(environ['wsgi.input'])
+        content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, events, HTTPDHandlerUtils.has_to_return_data(accept))
+    start_response(repr(status), [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))])
+    return content
+```
+
+
 
 
 

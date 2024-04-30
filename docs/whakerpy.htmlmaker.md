@@ -351,7 +351,7 @@ def __str__(self):
 
 *:ERROR 9312:.*
 
-"Expected HTML Parent node identifier {:s}. Got '{!s:s}' instead."
+Expected HTML Parent node identifier {:s}. Got '{!s:s}' instead.
 
 
 #### Constructor
@@ -611,7 +611,7 @@ def check_attribute(self, key: str) -> str:
         key = str(key)
     except Exception:
         raise NodeAttributeError(key)
-    if key not in HTML_GLOBAL_ATTR:
+    if key not in HTML_GLOBAL_ATTR and key.startswith('data-') is False:
         raise NodeAttributeError(key)
     return key
 ```
@@ -1179,7 +1179,7 @@ For example, it can deal with elements like:
 ##### __init__
 
 ```python
-def __init__(self, parent: str, identifier: str, tag: str, attributes: dict=dict()):
+def __init__(self, parent: str | None, identifier: str, tag: str, attributes: dict=dict()):
     """Create a new empty node.
 
     :param parent: (str) Parent identifier
@@ -1250,7 +1250,7 @@ def check_attribute(self, key) -> str:
         key = key.lower()
     except Exception:
         raise NodeAttributeError(key)
-    if key not in HTML_GLOBAL_ATTR and key not in HTML_VISIBLE_ATTR and (key not in HTML_TAG_ATTR.keys()) and (key not in ARIA_TAG_ATTR.keys()):
+    if key not in HTML_GLOBAL_ATTR and key.startswith('data-') is False and (key not in HTML_VISIBLE_ATTR) and (key not in HTML_TAG_ATTR.keys()) and (key not in ARIA_TAG_ATTR.keys()):
         raise NodeAttributeError(key)
     return key
 ```
@@ -1707,7 +1707,7 @@ def meta(self, metadict) -> None:
 ##### link
 
 ```python
-def link(self, rel, href, link_type=None) -> None:
+def link(self, rel: str, href: str, link_type: str=None) -> None:
     """Add a link tag to the header.
 
         :param rel: (str)
@@ -1717,7 +1717,10 @@ def link(self, rel, href, link_type=None) -> None:
         """
     d = dict()
     d['rel'] = rel
-    d['href'] = href
+    if len(href) > 0 and href[0].isalpha():
+        d['href'] = os.sep + href
+    else:
+        d['href'] = href
     if link_type is not None:
         d['type'] = link_type
     child_node = EmptyNode(self.identifier, None, 'link', attributes=d)
@@ -1738,34 +1741,41 @@ def link(self, rel, href, link_type=None) -> None:
 def script(self, src, script_type) -> None:
     """Add a meta tag to the header.
 
-        :param src: (str) Script source file
-        :param script_type: (str) Script type
+        :param src: (str) Script source file or Script content
+        :param script_type: (str) Script type or None if script content
 
         """
-    d = dict()
-    d['src'] = src
-    d['type'] = script_type
-    child_node = HTMLNode(self.identifier, None, 'script', attributes=d)
-    self._children.append(child_node)
+    if script_type is not None:
+        d = dict()
+        d['type'] = script_type
+        if len(src) > 0 and src[0].isalpha():
+            d['src'] = os.sep + src
+        else:
+            d['src'] = src
+        child_node = HTMLNode(self.identifier, None, 'script', attributes=d)
+        self._children.append(child_node)
+    else:
+        child_node = HTMLNode(self.identifier, None, 'script', value=str(src))
+        self._children.append(child_node)
 ```
 
 *Add a meta tag to the header.*
 
 ###### Parameters
 
-- **src**: (*str*) Script source file
-- **script_type**: (*str*) Script type
+- **src**: (*str*) Script source file or Script content
+- **script_type**: (*str*) Script type or None if script content
 
 ##### css
 
 ```python
-def css(self, script_content) -> None:
+def css(self, css_content) -> None:
     """Append css style content.
 
         :param script_content: (str) CSS content
 
         """
-    child_node = HTMLNode(self.identifier, None, 'style', value=str(script_content))
+    child_node = HTMLNode(self.identifier, None, 'style', value=str(css_content))
     self._children.append(child_node)
 ```
 
@@ -2214,7 +2224,7 @@ def set_head(self, head_node: HTMLNode) -> None:
         :raises: NodeIdentifierError: if head_node identifier is not "head"
 
         """
-    if isinstance(head_node, HTMLNode) is False:
+    if hasattr(head_node, 'identifier') is False:
         raise NodeTypeError(type(head_node))
     if head_node.identifier != 'head':
         raise NodeIdentifierError('head', head_node.identifier)
@@ -2237,10 +2247,10 @@ def set_head(self, head_node: HTMLNode) -> None:
 ##### get_body_header
 
 ```python
-def get_body_header(self) -> HTMLNode:
+def get_body_header(self) -> HTMLNode | None:
     """Get the body->header element node.
 
-        :return: (HTMLNode) Body header node element
+        :return: (HTMLNode | None) Body header node element
 
         """
     return self._get_body().get_child('body_header')
@@ -2250,7 +2260,7 @@ def get_body_header(self) -> HTMLNode:
 
 ###### Returns
 
-- (HTMLNode) Body header node element
+- (HTMLNode | None) Body header node element
 
 ##### set_body_header
 
@@ -2264,7 +2274,7 @@ def set_body_header(self, body_node):
         :Raises: NodeIdentifierError: if head_node identifier is not "body_header"
 
         """
-    if isinstance(body_node, HTMLNode) is False:
+    if hasattr(body_node, 'identifier') is False:
         raise NodeTypeError(type(body_node))
     if body_node.identifier != 'body_header':
         raise NodeIdentifierError('body_header', body_node.identifier)
@@ -2314,7 +2324,7 @@ def set_body_nav(self, body_node):
         :raises: NodeIdentifierError: if head_node identifier is not "body_nav"
 
         """
-    if isinstance(body_node, HTMLNode) is False:
+    if hasattr(body_node, 'identifier') is False:
         raise NodeTypeError(type(body_node))
     if body_node.identifier != 'body_nav':
         raise NodeIdentifierError('body_nav', body_node.identifier)
@@ -2381,7 +2391,7 @@ def set_body_footer(self, body_node):
         :Raises: NodeIdentifierError: if head_node identifier is not "body_footer"
 
         """
-    if isinstance(body_node, HTMLNode) is False:
+    if hasattr(body_node, 'identifier') is False:
         raise NodeTypeError(type(body_node))
     if body_node.identifier != 'body_footer':
         raise NodeIdentifierError('body_footer', body_node.identifier)
@@ -2432,7 +2442,7 @@ def set_body_script(self, body_node):
         :raises: NodeIdentifierError: if head_node identifier is not "body_script"
 
         """
-    if isinstance(body_node, HTMLNode) is False:
+    if hasattr(body_node, 'identifier') is False:
         raise NodeTypeError(type(body_node))
     if body_node.identifier != 'body_script':
         raise NodeIdentifierError('body_script', body_node.identifier)
@@ -2543,7 +2553,7 @@ def image(self, src: str, alt_text: str, identifier: str=None, class_name: str=N
     """Add an image to the body->main.
 
         :param src: (str) The path of the image file
-        :param alt_text: (str) the alternative text if for some reasons the image doesn't display or for narrator
+        :param alt_text: (str) the alternative text if for some reason the image doesn't display or for narrator
         :param identifier: (str) Optional, the identifier of the node (and also the id of the tag in the html generated)
         :param class_name: (str) Optional, the classes attribute for css of the button tag
 
@@ -2565,7 +2575,7 @@ def image(self, src: str, alt_text: str, identifier: str=None, class_name: str=N
 ###### Parameters
 
 - **src**: (*str*) The path of the image file
-- **alt_text**: (*str*) the alternative text if for some reasons the image doesn't display or for narrator
+- **alt_text**: (*str*) the alternative text if for some reason the image doesn't display or for narrator
 - **identifier**: (*str*) Optional, the identifier of the node (and also the id of the tag in the html generated)
 - **class_name**: (*str*) Optional, the classes attribute for css of the button tag
 
@@ -2586,7 +2596,9 @@ def serialize_element(node: HTMLNode, nbs: int=4) -> str:
         :return: (str) Serialized node only if it has children or a value.
 
         """
-    if isinstance(node, HTMLNode) is False:
+    if node is None:
+        return ''
+    if hasattr(node, 'identifier') is False:
         raise NodeTypeError(type(node))
     if node.children_size() > 0 or node.get_value() is not None:
         return node.serialize(nbs)
@@ -2636,11 +2648,16 @@ def serialize(self, nbs: int=4) -> str:
         if avalue is not None:
             s += '="' + avalue + '"'
     s += '>\n'
-    s += self.serialize_element(self.get_body_header(), nbs)
-    s += self.serialize_element(self.get_body_nav(), nbs)
-    s += self.get_body_main().serialize(nbs)
-    s += self.serialize_element(self.get_body_footer(), nbs)
-    s += self.serialize_element(self.get_body_script(), nbs)
+    if self.get_body_header() is not None:
+        s += self.serialize_element(self.get_body_header(), nbs)
+    if self.get_body_nav() is not None:
+        s += self.serialize_element(self.get_body_nav(), nbs)
+    if self.get_body_main() is not None:
+        s += self.get_body_main().serialize(nbs)
+    if self.get_body_footer() is not None:
+        s += self.serialize_element(self.get_body_footer(), nbs)
+    if self.get_body_script() is not None:
+        s += self.serialize_element(self.get_body_script(), nbs)
     s += '\n</body>\n</html>\n'
     return s
 ```
@@ -2731,6 +2748,39 @@ def __str__(self):
 ```
 
 
+
+
+
+### Class `HTMLTreeError`
+
+#### Constructor
+
+##### __init__
+
+```python
+def __init__(self, status, msg_error: str=None):
+    """Create an HTML Tree for status error response.
+
+    :param status: (HTTPDStatus) The status of the response. (DO NOT typing it for circular import problem)
+    :param msg_error: (str) Optional parameter, error message to display in the page for more information
+
+    """
+    text = f'{status.code} : {status.HTTPD_STATUS[status.code]}'
+    super(HTMLTreeError, self).__init__(f'tree_{status.code}')
+    self.head.title(text)
+    h1 = self.element('h1')
+    h1.set_value(text)
+    if msg_error is not None:
+        html_error = self.element('p')
+        html_error.set_value(msg_error)
+```
+
+*Create an HTML Tree for status error response.*
+
+###### Parameters
+
+- **status**: (HTTPDStatus) The status of the response. (DO NOT typing it for circular import problem)
+- **msg_error**: (*str*) Optional parameter, error message to display in the page for more information
 
 
 
