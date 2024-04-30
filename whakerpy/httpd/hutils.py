@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 """
 :filename: whakerpy.httpd.hutils.py
-:author: Brigitte Bigi
+:author: Brigitte Bigi, Florian Lopitaux
 :contributor: Florian Lopitaux
 :contact: contact@sppas.org
 :summary: Class to help to manage http request for httpd or wsgi application.

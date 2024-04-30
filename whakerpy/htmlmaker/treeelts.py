@@ -38,6 +38,8 @@
 
 """
 
+import os
+
 from .hexc import NodeChildTagError
 from .hconsts import HEAD_TAGS
 from .emptynodes import EmptyNode
@@ -116,7 +118,7 @@ class HTMLHeadNode(HTMLNode):
 
     # -----------------------------------------------------------------------
 
-    def link(self, rel, href, link_type=None) -> None:
+    def link(self, rel: str, href: str, link_type: str = None) -> None:
         """Add a link tag to the header.
 
         :param rel: (str)
@@ -126,7 +128,12 @@ class HTMLHeadNode(HTMLNode):
         """
         d = dict()
         d["rel"] = rel
-        d["href"] = href
+
+        if len(href) > 0 and href[0].isalpha():
+            d["href"] = os.sep + href
+        else:
+            d["href"] = href
+
         if link_type is not None:
             d["type"] = link_type
         child_node = EmptyNode(self.identifier, None, "link", attributes=d)
@@ -143,8 +150,12 @@ class HTMLHeadNode(HTMLNode):
         """
         if script_type is not None:
             d = dict()
-            d["src"] = src
             d["type"] = script_type
+
+            if len(src) > 0 and src[0].isalpha():
+                d["src"] = os.sep + src
+            else:
+                d["src"] = src
 
             child_node = HTMLNode(self.identifier, None, "script", attributes=d)
             self._children.append(child_node)

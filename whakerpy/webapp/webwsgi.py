@@ -102,8 +102,8 @@ class WSGIApplication(object):
             content, status = handler_utils.static_content(filepath)
 
         # If the requested file doesn't in the given default path (like the request.js)
-        elif os.path.isfile(environ['PATH_INFO'][1:]) is True:
-            content, status = handler_utils.static_content(environ['PATH_INFO'][1:])
+        elif os.path.isfile(handler_utils.get_path()[1:]) is True:
+            content, status = handler_utils.static_content(handler_utils.get_path()[1:])
 
         # else, it's a dynamic page
         else:
