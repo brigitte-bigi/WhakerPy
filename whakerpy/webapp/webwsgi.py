@@ -111,8 +111,8 @@ class WSGIApplication(object):
             if self.__dynamic_pages[1] is not None and page_name not in self._pages:
                 self.__create_web_page(page_name)
 
-            # if the page doesn't exist even after the dynamic creation
-            if page_name not in self._pages:
+            # if the page doesn't exist even after the dynamic creation or wrong path
+            if page_name not in self._pages or filepath != f"{self.__default_path}/{page_name}":
                 status = HTTPDStatus(404)
                 start_response(repr(status), [('Content-Type', "text/html")])
                 return status.to_html(encode=True, msg_error=f"Page not found : {filepath}")
