@@ -186,8 +186,6 @@ class HTTPDHandlerUtils:
 
             if filepath.endswith("/"):
                 filepath += default_path
-            else:
-                filepath += f"/{default_path}"
 
         return filepath, page_name
 
