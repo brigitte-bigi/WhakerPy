@@ -8,7 +8,7 @@
     "dateModified": "2024-04-20",
     "downloadUrl": "https://sourceforge.net/projects/whakerpy/files/latest/download",
     "name": "WhakerPy",
-    "version": "0.6",
+    "version": "0.7",
     "description": "Whakerpy is a simple library useful to create dynamic HTML content; it's a light web application framework. Create and manipulate HTML from the power of Python.",
     "applicationCategory": "Computer Science",
     "releaseNotes": "",
