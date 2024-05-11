@@ -1,4 +1,4 @@
-# WhakerPy 0.6
+# WhakerPy 0.7
 
 ## Package `whakerpy.htmlmaker`
 

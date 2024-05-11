@@ -49,7 +49,7 @@ packages.append(clamming.ClamsPack(whakerpy.webapp))
 # Options for HTML exportation
 html_export = clamming.HTMLDocExport()
 html_export.software = 'WhakerPy ' + whakerpy.__version__
-html_export.url = 'https://whakerpy.sf.net'
+html_export.url = 'https://sourceforge.net/projects/whakerpy/'
 html_export.copyright = whakerpy.__copyright__
 html_export.title = 'WhakerPy doc'
 # ... statics is the relative path to a folder with custom CSS, JS, etc.
@@ -60,7 +60,7 @@ html_export.icon = 'whakerpy.png'
 # ... the theme corresponds to a statics/<theme>.css file or "light" or "dark"
 html_export.theme = 'light'
 # ... path to 'wexa_statics' folder, relatively to "docs"
-html_export.wexa_statics = "./Whakerexa-0.3/wexa_statics"
+html_export.wexa_statics = "./Whakerexa-0.4/wexa_statics"
 
 # Export documentation into HTML files.
 # One .html file = one documented class.

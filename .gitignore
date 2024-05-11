@@ -8,6 +8,8 @@
 build
 venv
 dist/*
+docs/*.html
+docs/Whakerexa*
 *.egg-info
 .coverage
 .scannerwork
