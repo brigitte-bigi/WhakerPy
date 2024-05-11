@@ -54,19 +54,22 @@ WhakerPy is then a collection of packages and modules that help developers to cr
 * open-source: easily add new features and functionalities 
 * easily customizable: it's a pure python library in Object-Oriented Programming
 * portable: can be hosted on any web server - as soon as python is available, or used locally
-* it is distributed as a single file module and has no dependencies other than the Python Standard Library.
+* it is distributed as a single folder module and has no dependencies other than the Python Standard Library.
 
-## Install WhakerPy
 
-### From pypi.org:
+## Get and install WhakerPy
+
+Get it from it's repository <https://sourceforge.net/projects/whakerpy/> or from Pypi <https://pypi.org/project/whakerpy/>, and get documentation <https://whakerpy.sourceforge.io>.
+
+### Install from pypi.org:
 
 ```bash
 > python -m pip install WhakerPy
 ```
 
-### From its wheel package:
+### Install from its wheel package:
 
-Download the wheel file (WhakerPy-xxx.whl) and install it in your python environment with:
+Download the wheel file (WhakerPy-xxx.whl) from it's web page and install it in your python environment with:
 
 ```bash
 > python -m pip install dist/<WhakerPy-xxx.whl>
@@ -74,12 +77,12 @@ Download the wheel file (WhakerPy-xxx.whl) and install it in your python environ
 
 ### From its repo:
 
-Download the latest ".zip" and unpack it, or clone the repository with `git`. WhakerPy package includes the following folders and files:
+Download the latest ".zip" from it's web page and unpack it, or clone the repository with `git`. WhakerPy package includes the following folders and files:
 
 1. "whakerpy": the source code package
 2. "docs": the documentation of `whakerpy` library in HTML and Markdown
-3. "sample": a web application sample 
-4. "tests": the tests of the source code
+3. "tests": the tests of the source code
+4. "sample": a web application sample 
 
 ```bash
 > unzip WhakerPy-0.6.zip 

@@ -24,7 +24,8 @@
         "Development Status :: 5 - Production/Stable"]
 
 [project.urls]
-    "Homepage" = "https://whakerpy.sf.net"
+    "Homepage" = "https://sourceforge.net/projects/whakerpy/"
+    "Documentation" = "https://whakerpy.sourceforge.io"
     "Pypi" = "https://pypi.org/project/whakerpy/"
 
 # -------------------
