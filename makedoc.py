@@ -42,30 +42,36 @@ logging.getLogger().setLevel(0)
 
 # List of modules to be documented.
 packages = list()
-packages.append(clamming.ClamsPack(whakerpy.htmlmaker))
-packages.append(clamming.ClamsPack(whakerpy.httpd))
-packages.append(clamming.ClamsPack(whakerpy.webapp))
+packages.append(whakerpy.htmlmaker)
+packages.append(whakerpy.httpd)
+packages.append(whakerpy.webapp)
 
 # Options for HTML exportation
-html_export = clamming.HTMLDocExport()
-html_export.software = 'WhakerPy ' + whakerpy.__version__
-html_export.url = 'https://sourceforge.net/projects/whakerpy/'
-html_export.copyright = whakerpy.__copyright__
-html_export.title = 'WhakerPy doc'
+opts_export = clamming.ExportOptions()
+opts_export.software = 'WhakerPy ' + whakerpy.__version__
+opts_export.url = 'https://sourceforge.net/projects/whakerpy/'
+opts_export.copyright = whakerpy.__copyright__
+opts_export.title = 'WhakerPy doc'
 # ... statics is the relative path to a folder with custom CSS, JS, etc.
-html_export.statics = './statics'
+opts_export.statics = './statics'
 # ... the favicon and icon are files in the statics folder
-html_export.favicon = 'whakerpy32x32.ico'
-html_export.icon = 'whakerpy.png'
+opts_export.favicon = 'whakerpy32x32.ico'
+opts_export.icon = 'whakerpy.png'
 # ... the theme corresponds to a statics/<theme>.css file or "light" or "dark"
-html_export.theme = 'light'
+opts_export.theme = 'light'
 # ... path to 'wexa_statics' folder, relatively to "docs"
-html_export.wexa_statics = "./Whakerexa-0.4/wexa_statics"
+opts_export.wexa_statics = "./Whakerexa-0.4/wexa_statics"
+
+
+# -------------------------------------------------
+# Generate documentation
+# -------------------------------------------------
+clams_modules = clamming.ClamsModules(packages)
 
 # Export documentation into HTML files.
 # One .html file = one documented class.
-clamming.ClamsPack.html_export_packages(packages, "docs", html_export)
+clams_modules.html_export_packages("docs", opts_export, "README.md")
 
 # Export documentation into a Markdown file.
 # One .md file = one documented module.
-clamming.ClamsPack.markdown_export_packages(packages, "docs", html_export)
+clams_modules.markdown_export_packages("docs", opts_export)

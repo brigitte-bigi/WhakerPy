@@ -1,4 +1,3 @@
-# WhakerPy - a Web HTML maker in Python
 
 ```
 -----------------------------------------------------------------------------                                                           
@@ -16,7 +15,11 @@
 -----------------------------------------------------------------------------                                                              
 ```
 
+# WhakerPy
+
 ## Overview
+
+> WhakerPy - a Web HTML maker in Python
 
 ### Use case
 
@@ -105,9 +108,12 @@ Open a Python interpreter and type or paste the following:
 ```
 
 Render and print the HTML:
+
 ```python
 >>> print(htree.serialize())
 ```
+
+and the result is:
 
 ```html
 <!DOCTYPE html>

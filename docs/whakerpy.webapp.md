@@ -1,10 +1,10 @@
-# WhakerPy 0.7
+# whakerpy.webapp module
 
-## Package `whakerpy.webapp`
+## Module classes
 
-### Class `WebSiteData`
+## Class `WebSiteData`
 
-#### Description
+### Description
 
 *Storage class of a webapp configuration, extracted from a JSON file.*
 
@@ -21,9 +21,9 @@ Below is an example of a page description in the JSON parsed file:
 }
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, json_filename=DEFAULT_CONFIG_FILE):
@@ -47,15 +47,15 @@ def __init__(self, json_filename=DEFAULT_CONFIG_FILE):
 
 *Create a WebSiteData instance.*
 
-###### Parameters
+##### Parameters
 
 - **json_filename**: (*str*) Configuration filename.
 
 
 
-#### Public functions
+### Public functions
 
-##### get_default_page
+#### get_default_page
 
 ```python
 def get_default_page(self) -> str:
@@ -65,7 +65,7 @@ def get_default_page(self) -> str:
 
 *Return the name of the default page.*
 
-##### filename
+#### filename
 
 ```python
 def filename(self, page: str) -> str:
@@ -83,16 +83,16 @@ def filename(self, page: str) -> str:
 
 *Return the filename of a given page.*
 
-###### Parameters
+##### Parameters
 
 - **page**: (*str*) Name of an HTML page
 
 
-###### Returns
+##### Returns
 
 - (*str*)
 
-##### title
+#### title
 
 ```python
 def title(self, page: str) -> str:
@@ -110,16 +110,16 @@ def title(self, page: str) -> str:
 
 *Return the title of a given page.*
 
-###### Parameters
+##### Parameters
 
 - **page**: (*str*) Name of an HTML page
 
 
-###### Returns
+##### Returns
 
 - (*str*)
 
-##### has_header
+#### has_header
 
 ```python
 def has_header(self, page: str) -> bool:
@@ -137,16 +137,16 @@ def has_header(self, page: str) -> bool:
 
 *Return True if the given page should have the header.*
 
-###### Parameters
+##### Parameters
 
 - **page**: (*str*) Name of an HTML page
 
 
-###### Returns
+##### Returns
 
 - (*bool*)
 
-##### has_footer
+#### has_footer
 
 ```python
 def has_footer(self, page: str) -> bool:
@@ -164,16 +164,16 @@ def has_footer(self, page: str) -> bool:
 
 *Return True if the given page should have the footer.*
 
-###### Parameters
+##### Parameters
 
 - **page**: (*str*) Name of an HTML page
 
 
-###### Returns
+##### Returns
 
 - (*bool*)
 
-##### create_pages
+#### create_pages
 
 ```python
 def create_pages(self, web_response=WebSiteResponse, default_path: str='') -> dict:
@@ -196,16 +196,16 @@ def create_pages(self, web_response=WebSiteResponse, default_path: str='') -> di
 
 *Instantiate all pages response from the json.*
 
-###### Parameters
+##### Parameters
 
 - **web_response**: (BaseResponseRecipe) the class to used to create the pages, WebSiteResponse class used by default
 - **default_path**: (*str*) None by default, the default path for all pages
 
-###### Returns
+##### Returns
 
 - (*dict*) a dictionary with key = page name and value = the response object
 
-##### bake_response
+#### bake_response
 
 ```python
 def bake_response(self, page_name: str, default: str='') -> BaseResponseRecipe | None:
@@ -225,21 +225,21 @@ def bake_response(self, page_name: str, default: str='') -> BaseResponseRecipe |
 
 To be overridden by subclasses.
 
-###### Parameters
+##### Parameters
 
 - **page_name**: (*str*) Name of an HTML page
 - **default**: (*str*) The default path
 
 
-###### Returns
+##### Returns
 
 - (BaseResponseRecipe)
 
 
 
-#### Overloads
+### Overloads
 
-##### __format__
+#### __format__
 
 ```python
 def __format__(self, fmt):
@@ -248,7 +248,7 @@ def __format__(self, fmt):
 
 
 
-##### __iter__
+#### __iter__
 
 ```python
 def __iter__(self):
@@ -258,7 +258,7 @@ def __iter__(self):
 
 
 
-##### __len__
+#### __len__
 
 ```python
 def __len__(self):
@@ -267,7 +267,7 @@ def __len__(self):
 
 
 
-##### __contains__
+#### __contains__
 
 ```python
 def __contains__(self, value):
@@ -279,9 +279,9 @@ def __contains__(self, value):
 
 
 
-### Class `WebSiteResponse`
+## Class `WebSiteResponse`
 
-#### Description
+### Description
 
 *Create an HTML response content.*
 
@@ -290,9 +290,9 @@ and footer. Then, **only one tree** is created for all pages, and its
 body->main is changed depending on the requested page.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, name='index.html', tree=None, **kwargs):
@@ -317,15 +317,15 @@ Useful when creating dynamically the HTML Tree for a webapp.
 The "main" part of the body is re-created every time bake() is invoked.
 Here, it's loaded from a static file.
 
-###### Parameters
+##### Parameters
 
 - **name**: (*str*) Filename of the body main content.
 
 
 
-#### Public functions
+### Public functions
 
-##### page
+#### page
 
 ```python
 def page(self) -> str:
@@ -339,15 +339,15 @@ def page(self) -> str:
 
 *Override. Return the current HTML page name.*
 
-###### Returns
+##### Returns
 
 - (*str*) Name of the file containing the body->main.
 
 
 
-#### Private functions
+### Private functions
 
-##### _process_events
+#### _process_events
 
 ```python
 def _process_events(self, events) -> bool:
@@ -373,16 +373,16 @@ Processing an event may change the content of the tree. In that case,
 the `dirty` method must be turned into True: it will invalidate the
 deprecated content (_invalidate) and re-generate a new one (_bake).
 
-###### Parameters
+##### Parameters
 
 - **events (dict)**: key=event_name, value=event_value
 
 
-###### Returns
+##### Returns
 
 - (*bool*)
 
-##### _invalidate
+#### _invalidate
 
 ```python
 def _invalidate(self) -> None:
@@ -399,7 +399,7 @@ def _invalidate(self) -> None:
 
 Delete the body main content and nothing else.
 
-##### _bake
+#### _bake
 
 ```python
 def _bake(self) -> None:
@@ -421,9 +421,9 @@ Load the body->main content from a file and add it to the tree.
 
 
 
-### Class `WebSiteApplication`
+## Class `WebSiteApplication`
 
-#### Description
+### Description
 
 *Create and run a webapp applications.*
 
@@ -433,9 +433,9 @@ like a communication system between a web-browser and a Python API.
 The localhost port is randomly assigned.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, server_cls):
@@ -459,9 +459,9 @@ Create the application for a Web Front-End based on HTTPD protocol.
 
 
 
-#### Public functions
+### Public functions
 
-##### client_url
+#### client_url
 
 ```python
 def client_url(self) -> str:
@@ -471,7 +471,7 @@ def client_url(self) -> str:
 
 *Return the client URL of this server.*
 
-##### run
+#### run
 
 ```python
 def run(self) -> int:
@@ -489,15 +489,15 @@ def run(self) -> int:
 
 *Run the application with a main loop.*
 
-###### Returns
+##### Returns
 
 - (*int*) Exit status (0=normal)
 
 
 
-### Class `WSGIApplication`
+## Class `WSGIApplication`
 
-#### Description
+### Description
 
 *Create the default application for an UWSGI server.*
 
@@ -530,9 +530,9 @@ examples of "environ" key/values:
 - 'HTTP_SEC_FETCH_USER': '?1',
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, default_path: str='', default_filename: str='index.html', web_page_maker=WebSiteResponse, default_web_json: str=None):
@@ -546,9 +546,9 @@ def __init__(self, default_path: str='', default_filename: str='index.html', web
 
 
 
-#### Public functions
+### Public functions
 
-##### add_page
+#### add_page
 
 ```python
 def add_page(self, page_name: str, response: BaseResponseRecipe) -> bool:
@@ -571,20 +571,20 @@ def add_page(self, page_name: str, response: BaseResponseRecipe) -> bool:
 
 *Add a page to the list of available pages.*
 
-###### Parameters
+##### Parameters
 
 - **page_name**: (*str*) the name of the page
 - **response**: (BaseResponseRecipe) the response object of the page (has to inherited of BaseResponseRecipe)
 
-###### Returns
+##### Returns
 
 - (*bool*) True if we successfully added the page or False else (if the page already exists or the response has a wrong type)
 
 
 
-#### Protected functions
+### Protected functions
 
-##### __create_web_page
+#### __create_web_page
 
 ```python
 def __create_web_page(self, page_name: str) -> None:
@@ -605,9 +605,9 @@ def __create_web_page(self, page_name: str) -> None:
 
 
 
-#### Overloads
+### Overloads
 
-##### __call__
+#### __call__
 
 ```python
 def __call__(self, environ, start_response):
@@ -639,4 +639,4 @@ def __call__(self, environ, start_response):
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.7 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.8 ~
