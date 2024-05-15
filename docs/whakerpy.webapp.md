@@ -1,6 +1,6 @@
 # whakerpy.webapp module
 
-## Module classes
+## List of classes
 
 ## Class `WebSiteData`
 
@@ -639,4 +639,4 @@ def __call__(self, environ, start_response):
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.8 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.9 ~

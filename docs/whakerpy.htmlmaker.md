@@ -1,6 +1,6 @@
 # whakerpy.htmlmaker module
 
-## Module classes
+## List of classes
 
 ## Class `NodeTypeError`
 
@@ -2786,4 +2786,4 @@ def __init__(self, status, msg_error: str=None):
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.8 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.9 ~
