@@ -124,7 +124,11 @@ class WSGIApplication(object):
                                                        HTTPDHandlerUtils.has_to_return_data(accept))
 
         # send response to the client
-        start_response(repr(status), [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))])
+        headers = [
+                ('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath)),
+                ('Cache-Control', 'max-age=0')   # Disable Varnish
+            ]
+        start_response(repr(status), headers)
         return content
 
     # ---------------------------------------------------------------------------
