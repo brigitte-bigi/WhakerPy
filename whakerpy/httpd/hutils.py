@@ -40,6 +40,7 @@ import mimetypes
 from io import BufferedReader
 from http.client import HTTPMessage
 from urllib.parse import parse_qsl
+from urllib.parse import unquote
 
 from .hstatus import HTTPDStatus
 
@@ -165,6 +166,9 @@ class HTTPDHandlerUtils:
         :return: (tuple[str, str]) the requested filename and the requested page name
 
         """
+        # decode html url (for example space character which became %20)
+        path = unquote(path)
+
         # this block has to be before the '/' condition
         # example: http://localhost:8080/?wexa_color=light
         if "?" in path:
