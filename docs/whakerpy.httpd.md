@@ -1,19 +1,19 @@
-# WhakerPy 0.6
+# whakerpy.httpd module
 
-## Package `whakerpy.httpd`
+## List of classes
 
-### Class `BaseResponseRecipe`
+## Class `BaseResponseRecipe`
 
-#### Description
+### Description
 
 *Base class to create an HTML response content.*
 
 
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, name='Undefined', tree=None):
@@ -42,9 +42,9 @@ def __init__(self, name='Undefined', tree=None):
 
 
 
-#### Public functions
+### Public functions
 
-##### page
+#### page
 
 ```python
 @staticmethod
@@ -55,7 +55,7 @@ def page() -> str:
 
 *Return the HTML page name. To be overridden.*
 
-##### get_data
+#### get_data
 
 ```python
 def get_data(self) -> str | bytes:
@@ -66,7 +66,7 @@ def get_data(self) -> str | bytes:
         """
     if isinstance(self._data, dict):
         return json.dumps(self._data)
-    elif isinstance(self._data, bytes) or isinstance(self._data, str):
+    elif isinstance(self._data, bytes) or isinstance(self._data, bytearray) or isinstance(self._data, str):
         return self._data
     else:
         raise ValueError(f'Unexpected data type to response to the client : {type(self._data)}')
@@ -74,11 +74,11 @@ def get_data(self) -> str | bytes:
 
 *Gets the current data to send to the client following this request.*
 
-###### Returns
+##### Returns
 
 - (*str*) The data in the string format or json depending on the type.
 
-##### reset_data
+#### reset_data
 
 ```python
 def reset_data(self) -> None:
@@ -92,7 +92,7 @@ def reset_data(self) -> None:
 *Clear json data of the response.*
 This function has to be called after each response send to the client to avoid overflow problems.
 
-##### name
+#### name
 
 ```python
 @property
@@ -102,7 +102,7 @@ def name(self) -> str:
 
 
 
-##### status
+#### status
 
 ```python
 @property
@@ -112,7 +112,7 @@ def status(self) -> HTTPDStatus:
 
 
 
-##### comment
+#### comment
 
 ```python
 def comment(self, content: str) -> HTMLComment:
@@ -127,16 +127,16 @@ def comment(self, content: str) -> HTMLComment:
 
 *Add a comment to the body->main.*
 
-###### Parameters
+##### Parameters
 
 - **content**: (*str*) The comment content
 
 
-###### Returns
+##### Returns
 
 - (HTMLComment) the created node
 
-##### element
+#### element
 
 ```python
 def element(self, tag: str='div', ident=None, class_name=None) -> HTMLNode:
@@ -153,18 +153,18 @@ def element(self, tag: str='div', ident=None, class_name=None) -> HTMLNode:
 
 *Add an element node to the body->main.*
 
-###### Parameters
+##### Parameters
 
 - **tag**: (*str*) HTML element name
 - **ident**: (*str*) Identifier of the element
 - **class_name**: (*str*) Value of the class attribute
 
 
-###### Returns
+##### Returns
 
 - (HTMLNode) The created node
 
-##### create
+#### create
 
 ```python
 def create(self) -> None:
@@ -182,7 +182,7 @@ def create(self) -> None:
 This method is intended to be used to create the parts of the tree
 that won't be invalidated when baking.
 
-##### bake
+#### bake
 
 ```python
 def bake(self, events) -> str:
@@ -208,15 +208,15 @@ Processing the events may change the response status. This method is
 invoked by the HTTPD server to construct the response. Given events
 are the information the handler received (commonly with POST).
 
-###### Parameters
+##### Parameters
 
 - **events**: (*dict*) The requested events to be processed
 
 
 
-#### Private functions
+### Private functions
 
-##### _process_events
+#### _process_events
 
 ```python
 def _process_events(self, events) -> bool:
@@ -242,16 +242,16 @@ Processing an event may change the content of the tree. In that case,
 the `dirty` method must be turned into True: it will invalidate the
 deprecated content (_invalidate) and re-generate a new one (_bake).
 
-###### Parameters
+##### Parameters
 
 - **events (dict)**: key=event_name, value=event_value
 
 
-###### Returns
+##### Returns
 
 - None
 
-##### _invalidate
+#### _invalidate
 
 ```python
 def _invalidate(self):
@@ -273,7 +273,7 @@ when baking.
 
 If the tree has no dynamic content, this method is un-used.
 
-##### _bake
+#### _bake
 
 ```python
 def _bake(self) -> None:
@@ -297,9 +297,9 @@ should not change the content created by the method create().
 
 
 
-### Class `HTTPDStatus`
+## Class `HTTPDStatus`
 
-#### Description
+### Description
 
 *A status code value of an HTTPD server.*
 
@@ -317,18 +317,18 @@ classes defined by the standard:
 - 5xx server error – the server failed to fulfil an apparently valid request
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
-def __init__(self):
+def __init__(self, code: int=200):
     """Create the private member for the status code.
 
     Default status code is 200 for an "OK" httpd response.
 
     """
-    self.__scode = 200
+    self.__scode = self.check(code)
 ```
 
 *Create the private member for the status code.*
@@ -337,9 +337,9 @@ Default status code is 200 for an "OK" httpd response.
 
 
 
-#### Public functions
+### Public functions
 
-##### check
+#### check
 
 ```python
 @staticmethod
@@ -362,21 +362,21 @@ def check(value):
 
 *Raise an exception if given status value is invalid.*
 
-###### Parameters
+##### Parameters
 
 - **value**: (*int*) A response status.
 
 
-###### Raises
+##### Raises
 
 sppasHTTPDValueError
 
 
-###### Returns
+##### Returns
 
 - (*int*) value
 
-##### get
+#### get
 
 ```python
 def get(self):
@@ -386,7 +386,7 @@ def get(self):
 
 *Return the status code value (int).*
 
-##### set
+#### set
 
 ```python
 def set(self, value):
@@ -402,20 +402,50 @@ def set(self, value):
 
 *Set a new value to the status code.*
 
-###### Parameters
+##### Parameters
 
 - **value**: (*int*) HTTPD status code value.
 
 
-###### Raises
+##### Raises
 
 sppasHTTPDValueError
 
+#### to_html
+
+```python
+def to_html(self, encode: bool=False, msg_error: str=None) -> HTMLTreeError | bytes:
+    """Create an error HTML page for the instance of status error and return the tree instance (or serialize).
+
+        :param encode: (bool) Optional, False by default, Boolean to know if we serialize the return or not
+        :param msg_error: (str) Optional, an error message for more information for the user
+
+        :return: (HTMLTreeError | bytes) the tree error generated, encoded in bytes for response or object instance
+
+        """
+    tree = HTMLTreeError(self, msg_error)
+    if encode is True:
+        return tree.serialize().encode('utf-8')
+    else:
+        return tree
+```
+
+*Create an error HTML page for the instance of status error and return the tree instance (or serialize).*
+
+##### Parameters
+
+- **encode**: (*bool*) Optional, False by default, Boolean to know if we serialize the return or not
+- **msg_error**: (*str*) Optional, an error message for more information for the user
+
+##### Returns
+
+- (HTMLTreeError | *bytes*) the tree error generated, encoded in bytes for response or object instance
 
 
-#### Overloads
 
-##### __str__
+### Overloads
+
+#### __str__
 
 ```python
 def __str__(self):
@@ -424,16 +454,16 @@ def __str__(self):
 
 
 
-##### __repr__
+#### __repr__
 
 ```python
 def __repr__(self):
-    return '{:d}: {:s}'.format(self.__scode, HTTPDStatus.HTTPD_STATUS[self.__scode])
+    return '{:d} {:s}'.format(self.__scode, HTTPDStatus.HTTPD_STATUS[self.__scode])
 ```
 
 
 
-##### __eq__
+#### __eq__
 
 ```python
 def __eq__(self, other):
@@ -444,18 +474,18 @@ def __eq__(self, other):
 
 
 
-### Class `HTTPDValueError`
+## Class `HTTPDValueError`
 
-#### Description
+### Description
 
 *:ERROR 0377:.*
 
 Invalid HTTPD status code value '{!s:s}'.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, value):
@@ -467,9 +497,9 @@ def __init__(self, value):
 
 
 
-#### Public functions
+### Public functions
 
-##### get_status
+#### get_status
 
 ```python
 def get_status(self):
@@ -480,9 +510,9 @@ def get_status(self):
 
 
 
-#### Overloads
+### Overloads
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -493,11 +523,13 @@ def __str__(self):
 
 
 
-### Class `HTTPDHandler`
+## Class `HTTPDHandler`
 
-#### Description
+### Description
 
 *Web-based application HTTPD handler.*
+
+This class is used to handle the HTTP requests that arrive at the server.
 
 This class is instantiated by the server each time a request is received
 and then a response is created. This is an HTTPD handler for any Web-based
@@ -524,9 +556,9 @@ The currently supported HTTPD responses status are:
 - 418: I'm not a teapot
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, request, client_address, server):
@@ -544,9 +576,9 @@ def __init__(self, request, client_address, server):
 
 
 
-#### Public functions
+### Public functions
 
-##### do_HEAD
+#### do_HEAD
 
 ```python
 def do_HEAD(self) -> None:
@@ -557,57 +589,39 @@ def do_HEAD(self) -> None:
 
 *Prepare the response to a HEAD request.*
 
-##### do_GET
+#### do_GET
 
 ```python
 def do_GET(self) -> None:
-    """Prepare the response to a GET request.
-
-        """
+    """Prepare the response to a GET request."""
     logging.debug('GET -- requested: {}'.format(self.path))
-    try:
-        default = self.server.default()
-        self.path = HTTPDHandler.filter_path(self.path, default_path=default)[0]
-    except AttributeError:
-        self.path = HTTPDHandler.filter_path(self.path)[0]
-    mime_type = HTTPDHandler.get_mime_type(self.path)
+    handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
+    self.path = handler_utils.get_path()
+    mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
     if mime_type == 'text/html':
-        content, status = self._bakery(dict(), mime_type)
+        content, status = self._bakery(handler_utils, dict(), mime_type)
     else:
-        content, status = self._static_content(self.path[1:], mime_type)
+        content, status = handler_utils.static_content(self.path[1:])
     self._response(content, status.code, mime_type)
 ```
 
 *Prepare the response to a GET request.*
 
-
-
-##### do_POST
+#### do_POST
 
 ```python
 def do_POST(self) -> None:
-    """Prepare the response to a POST request.
-
-        """
+    """Prepare the response to a POST request."""
     logging.debug('POST -- requested: {}'.format(self.path))
-    try:
-        default = self.server.default()
-        self.path = HTTPDHandler.filter_path(self.path, default_path=default)[0]
-    except AttributeError:
-        self.path = HTTPDHandler.filter_path(self.path)[0]
-    events = HTTPDHandler.extract_body_content(self.rfile, self.headers.get('Content-Type'), self.headers.get('Content-Length'))
-    accept_type = self.headers.get('Accept', 'text/html')
-    if 'text/html' in accept_type:
-        accept_type = 'text/html'
-    content, status = self._bakery(events, accept_type)
-    self._response(content, status.code, accept_type)
+    handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
+    events, accept = handler_utils.process_post(self.rfile)
+    content, status = self._bakery(handler_utils, events, accept)
+    self._response(content, status.code, accept)
 ```
 
 *Prepare the response to a POST request.*
 
-
-
-##### log_request
+#### log_request
 
 ```python
 def log_request(self, code='-', size='-') -> None:
@@ -617,167 +631,11 @@ def log_request(self, code='-', size='-') -> None:
 
 *Override. For a quiet handler pls!!!.*
 
-##### get_mime_type
-
-```python
-@staticmethod
-def get_mime_type(filename: str) -> str:
-    """Returns the mime type of given file name or path.
-
-        :param filename: (str) The name or path of the file
-
-        :return: (str) The mime type of the file or 'unknown' if we can't find the type
-
-        """
-    mime_type, _ = mimetypes.guess_type(filename)
-    if mime_type is not None:
-        return mime_type
-    else:
-        return 'unknown'
-```
-
-*Returns the mime type of given file name or path.*
-
-###### Parameters
-
-- **filename**: (*str*) The name or path of the file
-
-###### Returns
-
-- (*str*) The mime type of the file or 'unknown' if we can't find the type
-
-##### open_file_to_binary
-
-```python
-@staticmethod
-def open_file_to_binary(filename: str, mime_type: str):
-    """Open and read the given file and transform the content to bytes value.
-
-        :param filename: (str) The path of the file to read
-        :param mime_type: (str) The mime type of the file response
-
-        :return: (bytes) the file content in bytes format
-
-        """
-    if mime_type is not None and (mime_type.startswith('text') or mime_type == 'application/javascript'):
-        with codecs.open(filename, 'r', 'utf-8') as fp:
-            content = bytes('', 'utf-8')
-            for line in fp.readlines():
-                content += bytes(line, 'utf-8')
-            return content
-    else:
-        return open(filename, 'rb').read()
-```
-
-*Open and read the given file and transform the content to bytes value.*
-
-###### Parameters
-
-- **filename**: (*str*) The path of the file to read
-- **mime_type**: (*str*) The mime type of the file response
-
-###### Returns
-
-- (*bytes*) the file content in bytes format
-
-##### filter_path
-
-```python
-@staticmethod
-def filter_path(path: str, default_path: str='index.html') -> tuple[str, str]:
-    """Parse the path to return the correct filename and page name (for webapp package : WebSiteData class).
-
-        :param path: (str) The path obtain from the http request
-        :param default_path: (str) The default path to add if the path is juste '/'
-
-        :return: (tuple[str, str]) first : the filename requested
-                                   second : the page name (for webapp package)
-
-        """
-    if '?' in path:
-        path = path[:path.index('?')]
-    filename = path
-    if filename == '/':
-        filename += default_path
-    page_name = path
-    if page_name.startswith('/'):
-        page_name = page_name[1:]
-    return (filename, page_name)
-```
-
-*Parse the path to return the correct filename and page name (for webapp package : WebSiteData class).*
-
-###### Parameters
-
-- **path**: (*str*) The path obtain from the http request
-- **default_path**: (*str*) The default path to add if the path is juste '/'
-
-###### Returns
-
-- **(tuple[str, str]) first**: the filename requested second : the page name (for webapp package)
-
-##### extract_body_content
-
-```python
-@staticmethod
-def extract_body_content(content, content_type: str, content_length: str) -> dict:
-    """Read and parse the body content of a POST request.
-        Return a dictionary with keys and values.
-
-        :param content: (Binary object) the body of the POST request
-        :param content_type: (str) the content type of the body, given (or not) in the request header
-        :param content_length: (str) the content length of the body, given (or not) in the request header
-
-        :return: (dict) the dictionary that contains the events to process,
-                        return an empty dictionary if there is an error.
-
-        """
-    try:
-        length = int(content_length)
-    except (TypeError, ValueError):
-        length = 0
-    data = content.read(length)
-    try:
-        data = data.decode('utf-8')
-    except UnicodeError:
-        pass
-    if content_type is None or content_length == 0:
-        data = dict()
-    elif 'multipart/form-data; boundary=' in content_type:
-        filename, mime_type, content = HTTPDHandler.__extract_form_data_file(content_type, data)
-        data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
-    elif 'application/json' in content_type:
-        try:
-            data = json.loads(data)
-        except json.JSONDecodeError:
-            logging.error("Can't decode JSON POSTED data : {}".format(data))
-    else:
-        data = dict(parse_qsl(data, keep_blank_values=True, strict_parsing=False))
-    if 'upload_file' in data:
-        logging.debug(f"POST -- data: upload_file[{data['upload_file']['filename']}]")
-    else:
-        logging.debug('POST -- data: {}'.format(data))
-    return data
-```
-
-*Read and parse the body content of a POST request.*
-Return a dictionary with keys and values.
-
-###### Parameters
-
-- **content**: (Binary *object*) the body of the POST request
-- **content_type**: (*str*) the content type of the body, given (or not) in the request header
-- **content_length**: (*str*) the content length of the body, given (or not) in the request header
-
-###### Returns
-
-- (*dict*) the dictionary that contains the events to process, return an empty dictionary if there is an error.
 
 
+### Private functions
 
-#### Private functions
-
-##### _set_headers
+#### _set_headers
 
 ```python
 def _set_headers(self, status: int, mime_type: str=None) -> None:
@@ -798,95 +656,16 @@ def _set_headers(self, status: int, mime_type: str=None) -> None:
 
 *Set the HTTPD response headers.*
 
-###### Parameters
+##### Parameters
 
 - **status**: (*int*) A response status.
 - **mime_type**: (*str*) The mime type of the file response
 
-###### Raises
+##### Raises
 
 sppasHTTPDValueError
 
-##### _static_content
-
-```python
-def _static_content(self, filename: str, mime_type: str) -> tuple:
-    """Return the file content and the corresponding status.
-
-        :param filename: (str) The path of the file to return
-        :param mime_type: (str) The mime type of the file response
-
-        :return: tuple(bytes, HTTPDStatus)
-
-        """
-    if os.path.exists(filename) is True:
-        if os.path.isfile(filename) is True:
-            content = HTTPDHandler.open_file_to_binary(filename, mime_type)
-            return (content, HTTPDStatus())
-        else:
-            content = bytes("<html><body>Error 403: Forbidden.The client can't have access to the requested {:s}.</body></html>".format(filename), 'utf-8')
-            status = HTTPDStatus()
-            status.code = 403
-            return (content, status)
-    content = bytes('<html><body>Error 404: Not found.The server does not have the requested {:s}.</body></html>'.format(filename), 'utf-8')
-    status = HTTPDStatus()
-    status.code = 404
-    return (content, status)
-```
-
-*Return the file content and the corresponding status.*
-
-###### Parameters
-
-- **filename**: (*str*) The path of the file to return
-- **mime_type**: (*str*) The mime type of the file response
-
-###### Returns
-
-- tuple(*bytes*, HTTPDStatus)
-
-##### _bakery
-
-```python
-def _bakery(self, events: dict, mime_type: str) -> tuple:
-    """Process the events and return the html page content or json data and status.
-
-        :param events: (dict) key=event name, value=event value
-        :param mime_type: (str) The mime type of the file response
-
-        :return: tuple(bytes, HTTPDStatus) the content of the response the httpd status
-
-        """
-    if hasattr(self.server, 'page_bakery') is False:
-        return self._static_content(self.path[1:], mime_type)
-    page_name = os.path.basename(self.path)
-    if mime_type == 'application/json' or mime_type.startswith('image/') or mime_type.startswith('video/'):
-        content, status = self.server.page_bakery(page_name, events, True)
-    else:
-        content, status = self.server.page_bakery(page_name, events)
-    if status == 404:
-        content, status = self._static_content(self.path[1:], mime_type)
-    if isinstance(status, int):
-        code = status
-        status = HTTPDStatus()
-        status.code = code
-    elif not isinstance(status, HTTPDStatus):
-        raise TypeError('The status has to be an instance of HTTPDStatus (or int). Got: ' + status)
-    return (content, status)
-```
-
-*Process the events and return the html page content or json data and status.*
-
-###### Parameters
-
-- **events**: (*dict*) key=event name, value=event value
-- **mime_type**: (*str*) The mime type of the file response
-
-###### Returns
-
-- tuple(*bytes*, HTTPDStatus) the content of the response the httpd status
-
-##### _response
+#### _response
 
 ```python
 def _response(self, content: bytes, status: int, mime_type: str=None) -> None:
@@ -897,34 +676,491 @@ def _response(self, content: bytes, status: int, mime_type: str=None) -> None:
         :param mime_type: (str) The mime type of the file response
 
         """
-    if status == 418:
-        self._set_headers(418, mime_type)
-    elif status == 205:
-        self._set_headers(205, mime_type)
-    else:
-        self._set_headers(status, mime_type)
-        self.wfile.write(content)
-        if status == 410:
-            self.server.shutdown()
+    self._set_headers(status, mime_type)
+    self.wfile.write(content)
+    if status == 410:
+        self.server.shutdown()
 ```
 
 *Make the appropriate HTTPD response.*
 
-###### Parameters
+##### Parameters
 
 - **content**: (*bytes*) The HTML response content
 - **status**: (*int*) The HTTPD status code of the response
 - **mime_type**: (*str*) The mime type of the file response
 
+#### _bakery
+
+```python
+def _bakery(self, handler_utils: HTTPDHandlerUtils, events: dict, mime_type: str) -> tuple:
+    """Process the events and return the html page content or json data and status.
+
+        :param handler_utils: (HTTPDhandlerUtils)
+        :param events: (dict) key=event name, value=event value
+        :param mime_type: (str) The mime type of the file response
+
+        :return: tuple(bytes, HTTPDStatus) the content of the response the httpd status
+
+        """
+    if not hasattr(self.server, 'page_bakery'):
+        return handler_utils.static_content(self.path[1:])
+    content, status = self.server.page_bakery(handler_utils.get_page_name(), events, handler_utils.has_to_return_data(mime_type))
+    return (content, status)
+```
+
+*Process the events and return the html page content or json data and status.*
+
+##### Parameters
+
+- **handler_utils**: (HTTPDhandlerUtils)
+- **events**: (*dict*) key=event name, value=event value
+- **mime_type**: (*str*) The mime type of the file response
+
+##### Returns
+
+- tuple(*bytes*, HTTPDStatus) the content of the response the httpd status
 
 
-#### Protected functions
 
-##### __extract_form_data_file
+### Protected functions
+
+#### __get_default_page
+
+```python
+def __get_default_page(self) -> str:
+    """Get the default page in case if the url doesn't specify any page.
+
+        :return: (str) the default page name
+
+        """
+    try:
+        default = self.server.default()
+    except AttributeError:
+        default = 'index.html'
+    return default
+```
+
+*Get the default page in case if the url doesn't specify any page.*
+
+##### Returns
+
+- (*str*) the default page name
+
+
+
+## Class `HTTPDHandlerUtils`
+
+### Constructor
+
+#### __init__
+
+```python
+def __init__(self, headers: HTTPMessage | dict, path: str, default_page: str='index.html'):
+    """Instantiate class, filter the path for getters method and get the headers data
+
+    :param headers: (HTTPMessage|dict) the headers of the request
+    :param path: (str) the brut path get by the request
+    :param default_page: (str) optional parameter, default page when the page doesn't specify it
+
+    """
+    self.__path, self.__page_name = HTTPDHandlerUtils.filter_path(path, default_page)
+    self.__headers = dict()
+    if isinstance(headers, HTTPMessage) or isinstance(headers, dict):
+        self.__headers = headers
+    else:
+        raise TypeError('The headers parameter has to be a dictionary or HTTPMessage class !')
+```
+
+Instantiate class, filter the path for getters method and get the headers data
+
+##### Parameters
+
+- **headers**: (HTTPMessage|*dict*) the headers of the request
+- **path**: (*str*) the brut path get by the request
+- **default_page**: (*str*) optional parameter, default page when the page doesn't specify it
+
+
+
+### Public functions
+
+#### get_path
+
+```python
+def get_path(self) -> str:
+    """Get the path of the request after filtered true path in constructor.
+
+        :return: (str) the path
+
+        """
+    return self.__path
+```
+
+*Get the path of the request after filtered true path in constructor.*
+
+##### Returns
+
+- (*str*) the path
+
+#### get_page_name
+
+```python
+def get_page_name(self) -> str:
+    """Get the name of the page after filtered path in constructor.
+
+        :return: (str) the page name ask by the request
+
+        """
+    return self.__page_name
+```
+
+*Get the name of the page after filtered path in constructor.*
+
+##### Returns
+
+- (*str*) the page name ask by the request
+
+#### static_content
+
+```python
+def static_content(self, filepath: str) -> tuple[bytes, HTTPDStatus]:
+    """Return the file content and update the corresponding status.
+
+        :param filepath: (str) The path of the file to return
+        :return: (tuple[bytes, int]) The file content
+
+        """
+    if os.path.exists(filepath) is False:
+        status = HTTPDStatus(404)
+        return (status.to_html(encode=True, msg_error=f'File not found : {filepath}'), status)
+    if os.path.isfile(filepath) is False:
+        status = HTTPDStatus(403)
+        return (status.to_html(encode=True, msg_error=f'The path give access to a folder : {filepath}'), status)
+    try:
+        content = self.__open_file_to_binary(filepath)
+        return (content, HTTPDStatus(200))
+    except Exception as e:
+        status = HTTPDStatus(500)
+        return (status.to_html(encode=True, msg_error=str(e)), status)
+```
+
+*Return the file content and update the corresponding status.*
+
+##### Parameters
+
+- **filepath**: (*str*) The path of the file to return
+
+
+##### Returns
+
+- (*tuple*[*bytes*, *int*]) The file content
+
+#### process_post
+
+```python
+def process_post(self, body: BufferedReader) -> tuple[dict, str]:
+    """Process the request body to return events and accept mime type.
+
+        :param body: (BufferedReader) The body buffer of the request (rfile)
+        :return: (dict, str) the body and accept mime type
+
+        """
+    if self.__headers.get('REQUEST_METHOD', 'POST').upper() != 'POST':
+        return (dict(), 'text/html')
+    events = self.__extract_body_content(body)
+    accept_type = self.__get_headers_value('Accept', 'text/html')
+    if 'text/html' in accept_type:
+        accept_type = 'text/html'
+    return (events, accept_type)
+```
+
+*Process the request body to return events and accept mime type.*
+
+##### Parameters
+
+- **body**: (BufferedReader) The body buffer of the request (rfile)
+
+
+##### Returns
+
+- (*dict*, *str*) the body and accept mime type
+
+#### get_mime_type
+
+```python
+@staticmethod
+def get_mime_type(filename: str) -> str:
+    """Return the mime type of given file name or path.
+
+        :param filename: (str) The name or path of the file
+        :return: (str) The mime type of the file or 'unknown' if we can't find the type
+
+        """
+    mime_type, _ = mimetypes.guess_type(filename)
+    if mime_type is None:
+        return 'unknown'
+    else:
+        return mime_type
+```
+
+*Return the mime type of given file name or path.*
+
+##### Parameters
+
+- **filename**: (*str*) The name or path of the file
+
+
+##### Returns
+
+- (*str*) The mime type of the file or 'unknown' if we can't find the type
+
+#### filter_path
+
+```python
+@staticmethod
+def filter_path(path: str, default_path: str='index.html') -> tuple[str, str]:
+    """Parse the path to return the correct filename and page name.
+
+        :param path: (str) The path obtain from the request or environ
+        :param default_path: (str) The default path to add if the path ends with '/'
+        :return: (tuple[str, str]) the requested filename and the requested page name
+
+        """
+    if '?' in path:
+        path = path[:path.index('?')]
+    if len(path) == 0:
+        return (f'/{default_path}', default_path)
+    filepath = path
+    page_name = os.path.basename(path)
+    _, extension = os.path.splitext(path)
+    if len(page_name) == 0 or len(extension) == 0:
+        page_name = default_path
+        if filepath.endswith('/'):
+            filepath += default_path
+    return (filepath, page_name)
+```
+
+*Parse the path to return the correct filename and page name.*
+
+##### Parameters
+
+- **path**: (*str*) The path obtain from the request or environ
+- **default_path**: (*str*) The default path to add if the path ends with '/'
+
+
+##### Returns
+
+- (*tuple*[*str*, *str*]) the requested filename and the requested page name
+
+#### has_to_return_data
+
+```python
+@staticmethod
+def has_to_return_data(accept_type: str) -> bool:
+    """Boolean expression to know if the server has to respond data or a HTML page.
+
+        :param accept_type: (str) The mime type of the 'Accept' header request
+        :return: (bool) True if we have to return data, False if we have to return html content
+
+        """
+    return accept_type == 'application/json' or accept_type.startswith('image/') or accept_type.startswith('video/')
+```
+
+*Boolean expression to know if the server has to respond data or a HTML page.*
+
+##### Parameters
+
+- **accept_type**: (*str*) The mime type of the 'Accept' header request
+
+
+##### Returns
+
+- (*bool*) True if we have to return data, False if we have to return html content
+
+#### bakery
+
+```python
+@staticmethod
+def bakery(pages: dict, page_name: str, events: dict, has_to_return_data: bool=False) -> tuple[bytes, HTTPDStatus]:
+    """Process received events and bake the given page.
+
+        :param pages: (dict) A dictionary with key=page_name and value=ResponseRecipe
+        :param page_name: (str) The current page name
+        :param events: (dict) The events extract from the request (only for POST request, send empty dict for GET)
+        :param has_to_return_data: (bool) False by default, Boolean to know if we have to return the html page or data
+        :return: (tuple[bytes, HTTPDStatus]) The content to answer to the client and the status of the response
+
+        """
+    response = pages.get(page_name)
+    if response is None:
+        status = HTTPDStatus(404)
+        return (status.to_html(encode=True, msg_error=f'Page not found : {page_name}'), status)
+    content = bytes(response.bake(events), 'utf-8')
+    if has_to_return_data:
+        content = response.get_data()
+        if isinstance(content, bytes) is False and isinstance(content, bytearray) is False:
+            content = bytes(content, 'utf-8')
+        response.reset_data()
+    status = response.status
+    if isinstance(status, int):
+        status = HTTPDStatus(status)
+    elif hasattr(status, 'code') is False:
+        raise TypeError(f'The status has to be an instance of HTTPDStatus (or int). Got: {status}')
+    return (content, status)
+```
+
+*Process received events and bake the given page.*
+
+##### Parameters
+
+- **pages**: (*dict*) A dictionary with key=page_name and value=ResponseRecipe
+- **page_name**: (*str*) The current page name
+- **events**: (*dict*) The events extract from the request (only for POST request, send empty dict for GET)
+- **has_to_return_data**: (*bool*) False by default, Boolean to know if we have to return the html page or data
+
+
+##### Returns
+
+- (*tuple*[*bytes*, HTTPDStatus]) The content to answer to the client and the status of the response
+
+
+
+### Protected functions
+
+#### __get_headers_value
+
+```python
+def __get_headers_value(self, key: str, default_value: object=None) -> object:
+    """Get headers value for a given key, try different keys format depending on server (httpd or wsgi).
+
+        :param key: (str) the header key
+        :param default_value: (object) optional parameter, value returned if the header doesn't contain the key
+        :return: (object) the value in the header or the default value
+
+        """
+    value = self.__headers.get(key)
+    if value is None:
+        new_key = key.upper().replace('-', '_')
+        value = self.__headers.get(new_key)
+        if value is None:
+            return default_value
+        else:
+            return value
+    else:
+        return value
+```
+
+*Get headers value for a given key, try different keys format depending on server (httpd or wsgi).*
+
+##### Parameters
+
+- **key**: (*str*) the header key
+- **default_value**: (*object*) optional parameter, value returned if the header doesn't contain the key
+
+
+##### Returns
+
+- (*object*) the value in the header or the default value
+
+#### __open_file_to_binary
+
+```python
+def __open_file_to_binary(self, filepath: str) -> bytes:
+    """Open and read the given file and transform the content to bytes value.
+
+        :param filepath: (str) The path of the file to read
+        :return: (bytes) the file content in bytes format
+
+        """
+    if self.__get_headers_value('Content-Type') is None:
+        file_type = HTTPDHandlerUtils.get_mime_type(filepath)
+    else:
+        file_type = self.__get_headers_value('Content-Type')
+    if file_type is not None and (file_type.startswith('text/') or file_type == 'application/javascript' or file_type == 'application/json'):
+        with codecs.open(filepath, 'r', 'utf-8') as fp:
+            content = bytes('', 'utf-8')
+            for line in fp.readlines():
+                content += bytes(line, 'utf-8')
+            return content
+    else:
+        return open(filepath, 'rb').read()
+```
+
+*Open and read the given file and transform the content to bytes value.*
+
+##### Parameters
+
+- **filepath**: (*str*) The path of the file to read
+
+
+##### Returns
+
+- (*bytes*) the file content in bytes format
+
+#### __extract_body_content
+
+```python
+def __extract_body_content(self, content) -> dict:
+    """Read and parse the body content of a POST request.
+
+        :param content: (Binary object) the body of the POST request
+        :return: (dict) the dictionary that contains the events to process,
+                        or an empty dictionary if there is an error.
+
+        """
+    content_type = self.__get_headers_value('Content-Type')
+    content_length = self.__get_headers_value('Content-Length', '0')
+    try:
+        content_length = int(content_length)
+    except (TypeError, ValueError):
+        content_length = 0
+    data = content.read(content_length)
+    try:
+        data = data.decode('utf-8')
+    except UnicodeError:
+        pass
+    if content_type is None or content_length == 0:
+        data = dict()
+    elif 'application/json' in content_type:
+        try:
+            data = json.loads(data)
+        except json.JSONDecodeError:
+            logging.error(f"Can't decode JSON posted data : {data}")
+    elif 'multipart/form-data; boundary=' in content_type:
+        filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
+        data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
+    else:
+        data = dict(parse_qsl(data, keep_blank_values=True, strict_parsing=False))
+    if 'upload_file' in data:
+        logging.debug(f"POST -- data: upload_file[{data['upload_file']['filename']}]")
+    else:
+        logging.debug('POST -- data: {}'.format(data))
+    return data
+```
+
+*Read and parse the body content of a POST request.*
+
+##### Parameters
+
+- **content**: (Binary *object*) the body of the POST request
+
+
+##### Returns
+
+- (*dict*) the dictionary that contains the events to process, or an empty dictionary if there is an error.
+
+#### __extract_form_data_file
 
 ```python
 @staticmethod
 def __extract_form_data_file(content_type: str, data: str | bytes) -> tuple[str, str, str]:
+    """Extract the body of a "formdata request" to upload a file.
+
+        :param content_type: (str) The content type in the header of the request
+        :param data: (str | bytes) the body of the request in bytes or string format
+        :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content
+
+        """
     if isinstance(data, bytes):
         data = str(data)
         end_line = '\\n'
@@ -949,28 +1185,38 @@ def __extract_form_data_file(content_type: str, data: str | bytes) -> tuple[str,
     return (filename, mime_type, content)
 ```
 
+*Extract the body of a "formdata request" to upload a file.*
+
+##### Parameters
+
+- **content_type**: (*str*) The content type in the header of the request
+- **data**: (*str* | *bytes*) the body of the request in bytes or string format
+
+
+##### Returns
+
+- **(tuple[str, str, str]) the data extracted**: filename, fime mime type and file content
 
 
 
+## Class `BaseHTTPDServer`
 
-### Class `BaseHTTPDServer`
-
-#### Description
+### Description
 
 *A base class for any custom HTTPD server.*
 
 It adds a dictionary of the HTML page's bakery this server can handle
 and the name of the default page.
 
-###### Example
+##### Example
 
     >>> s = BaseHTTPDServer(server_address, app_handler)
     >>> s.create_pages()
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, *args, **kwargs):
@@ -988,9 +1234,9 @@ def __init__(self, *args, **kwargs):
 
 
 
-#### Public functions
+### Public functions
 
-##### default
+#### default
 
 ```python
 def default(self):
@@ -999,7 +1245,7 @@ def default(self):
 
 
 
-##### create_pages
+#### create_pages
 
 ```python
 def create_pages(self, app: str='app'):
@@ -1026,7 +1272,7 @@ def create_pages(self, app: str='app'):
 The created pages are instances of the BaseResponseRecipe class.
 Below is an example on how to override this method:
 
-###### Example
+##### Example
 
     > if app == "main":
     > self._pages["index.html"] = BaseResponseRecipe("index.html", HTMLTree("Index"))
@@ -1034,14 +1280,14 @@ Below is an example on how to override this method:
     > elif app == "test":
     > self._pages["test.html"] = BaseResponseRecipe("test.html", HTMLTree("test"))
 
-###### Parameters
+##### Parameters
 
 - **app**: (*str*) Any string definition for custom use
 
-##### page_bakery
+#### page_bakery
 
 ```python
-def page_bakery(self, page_name: str, events: dict, has_data_to_return: bool=False) -> tuple:
+def page_bakery(self, page_name: str, events: dict, has_to_return_data: bool=False) -> tuple:
     """Return the page content and response status.
 
         This method should be invoked after a POST request in order to
@@ -1049,25 +1295,12 @@ def page_bakery(self, page_name: str, events: dict, has_data_to_return: bool=Fal
 
         :param page_name: (str) Requested page name
         :param events: (dict) key=event name, value=event value
-        :param has_data_to_return: (bool) False by default -
-                                          Boolean value to know if the server return data or html page
+        :param has_to_return_data: (bool) False by default - Boolean to know if the server return data or html page
 
         :return: tuple(bytes, HTTPDStatus)
 
         """
-    if page_name in self._pages:
-        if isinstance(self._pages[page_name], BaseResponseRecipe) is True:
-            bakery = self._pages[page_name]
-            content = bytes(bakery.bake(events), 'utf-8')
-            if has_data_to_return:
-                content = bakery.get_data()
-                if not isinstance(content, bytes):
-                    content = bytes(content, 'utf-8')
-                bakery.reset_data()
-            return (content, bakery.status)
-    status = HTTPDStatus()
-    status.code = 404
-    return (bytes(' ', 'utf-8'), status)
+    return HTTPDHandlerUtils.bakery(self._pages, page_name, events, has_to_return_data)
 ```
 
 *Return the page content and response status.*
@@ -1075,13 +1308,13 @@ def page_bakery(self, page_name: str, events: dict, has_data_to_return: bool=Fal
 This method should be invoked after a POST request in order to
 take the events into account when baking the HTML page content.
 
-###### Parameters
+##### Parameters
 
 - **page_name**: (*str*) Requested page name
 - **events**: (*dict*) key=event name, value=event value
-- **has_data_to_return**: (*bool*) False by default - Boolean value to know if the server return data or html page
+- **has_to_return_data**: (*bool*) False by default - Boolean to know if the server return data or html page
 
-###### Returns
+##### Returns
 
 - tuple(*bytes*, HTTPDStatus)
 
@@ -1089,4 +1322,4 @@ take the events into account when baking the HTML page content.
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.7 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.9 ~

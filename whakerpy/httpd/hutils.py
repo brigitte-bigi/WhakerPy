@@ -1,32 +1,29 @@
 # -*- coding: UTF-8 -*-
 """
 :filename: whakerpy.httpd.hutils.py
-:author: Brigitte Bigi, Florian Lopitaux
-:contributor: Florian Lopitaux
+:author: Florian Lopitaux, Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Class to help to manage http request for httpd or wsgi application.
 
-.. _This file is part of WhakerPy: https://whakerpy.sf.net
+.. _This file is now part of WhakerPy: https://whakerpy.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024  Brigitte Bigi
+    Copyright (C) 2023-2024 Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    Use of this software is governed by the GNU Public License, version 3.
-
-    WhakerPy is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    WhakerPy is distributed in the hope that it will be useful,
+    This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with WhakerPy. If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -45,7 +42,6 @@ from http.client import HTTPMessage
 from urllib.parse import parse_qsl
 
 from .hstatus import HTTPDStatus
-
 
 # -----------------------------------------------------------------------
 
@@ -145,7 +141,7 @@ class HTTPDHandlerUtils:
 
     @staticmethod
     def get_mime_type(filename: str) -> str:
-        """Returns the mime type of given file name or path.
+        """Return the mime type of given file name or path.
 
         :param filename: (str) The name or path of the file
         :return: (str) The mime type of the file or 'unknown' if we can't find the type

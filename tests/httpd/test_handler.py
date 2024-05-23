@@ -4,27 +4,25 @@
 :contact: contact@sppas.org
 :summary: Tests for HTTPD handler in package httpd.
 
-.. _This file is part of WhakerPy: https://sppas.org/
+.. _This file is part of WhakerPy: https://whakerpy.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2011-2023 Brigitte Bigi
+    Copyright (C) 2023-2024 Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    Use of this software is governed by the GNU Public License, version 3.
-
-    WhakerPy is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    WhakerPy is distributed in the hope that it will be useful,
+    This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with WhakerPy. If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -69,16 +67,16 @@ class TestHTTPDHandler(unittest.TestCase):
         self.assertEqual(filepath, "/home/user/documents/index.html")
         self.assertEqual(page_name, default_path)
 
-        # Existing path, not ending by '/'
+        # Existing path, not ending by '/'... is invalid.
         path = os.getcwd()
         filepath, page_name = HTTPDHandlerUtils.filter_path(path, default_path)
-        self.assertEqual(filepath, path + "/index.html")
+        self.assertEqual(filepath, path)
         self.assertEqual(page_name, default_path)
 
-        # Non-existing path, not ending by '/'
+        # Non-existing path, not ending by '/'... is invalid
         path = "/home/user/documents"
         filepath, page_name = HTTPDHandlerUtils.filter_path(path, default_path)
-        self.assertEqual(filepath, path + "/index.html")
+        self.assertEqual(filepath, path)
         self.assertEqual(page_name, default_path)
 
         # No path
@@ -99,7 +97,8 @@ class TestHTTPDHandler(unittest.TestCase):
         # basic files
         paths = [
             ("hello.txt", "text/plain"), ("style.css", "text/css"), ("index.html", "text/html"),
-            ("data.json", "application/json"), ("app.js", "application/javascript"),
+            # ("data.json", "application/json"), ("app.js", "application/javascript"),
+            ("data.json", "application/json"), ("app.js", "text/javascript"),
             ("logo.png", "image/png"), ("video.mp4", "video/mp4")
         ]
 

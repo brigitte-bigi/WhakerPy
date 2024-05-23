@@ -1,36 +1,28 @@
 """
-:filename: test_emptynodes.py
-:author:   Brigitte Bigi
-:contact:  contact@sppas.org
+:filename: tests.htmlmaker.test_emptynodes.py
+:author: Brigitte Bigi
+:contact: contact@sppas.org
 :summary: Tests for HTML empty nodes in package htmlmaker.
 
-.. _This file is part of SPPAS: https://sppas.org/
+.. _This file is part of WhakerPy: https://whakerpy.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
-     ___   __    __    __    ___
-    /     |  \  |  \  |  \  /              the automatic
-    \__   |__/  |__/  |___| \__             annotation and
-       \  |     |     |   |    \             analysis
-    ___/  |     |     |   | ___/              of speech
-
-    Copyright (C) 2011-2023 Brigitte Bigi
+    Copyright (C) 2023-2024 Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    Use of this software is governed by the GNU Public License, version 3.
-
-    SPPAS is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    SPPAS is distributed in the hope that it will be useful,
+    This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -73,20 +65,51 @@ class TestEmptyNode(unittest.TestCase):
     # -----------------------------------------------------------------------
 
     def test_check_attribute(self):
+        node = BaseTagNode(None, None, "div")
+
+        # Valid attribute
+        key = "class"
+        result = node.check_attribute(key)
+        self.assertEqual(result, key)
+
+        # Lower/upper case
+        key = "CLASS"
+        result = node.check_attribute(key)
+        self.assertEqual(result, key.lower())
+
+        # Global HTML attribute
+        key = "accesskey"
+        result = node.check_attribute(key)
+        self.assertEqual(result, key)
+
+        # data- Global HTML Attribute
+        key = "data-attribute"
+        result = node.check_attribute(key)
+        self.assertEqual(result, key)
+
+        # Tag specific HTML attribute
+        e = BaseTagNode(None, None, "img")
+        self.assertTrue(e.check_attribute("src"))
+        self.assertTrue(e.check_attribute("alt"))
+
+        # None attribute
+        key = None
+        with self.assertRaises(NodeAttributeError):
+            node.check_attribute(key)
+
         # Wrong type
         with self.assertRaises(NodeAttributeError):
-            e = BaseTagNode(None, None, "img")
-            e.check_attribute(BaseNode())
+            node.check_attribute(BaseNode())
+        with self.assertRaises(NodeAttributeError):
+            node.check_attribute(123)
 
         # Unknown attribute
         with self.assertRaises(NodeAttributeError):
             e = BaseTagNode(None, None, "img")
             e.check_attribute("toto")
 
-        e = BaseTagNode(None, None, "img")
-        self.assertTrue(e.check_attribute("src"))
-        self.assertTrue(e.check_attribute("alt"))
-        self.assertTrue(e.check_attribute("loop"))  # but should be False
+        # API ERROR -------
+        self.assertTrue(e.check_attribute("loop"))  # Should be False
 
     # -----------------------------------------------------------------------
 
@@ -223,7 +246,15 @@ class TestElements(unittest.TestCase):
 
     def test_hr(self):
         hr = HTMLHr("parent_id")
-        hr.set_attribute("class", "nidehr")
+
+        # An HTML Global attribute
+        hr.set_attribute("class", "nicehr")
+
+        # A "data-*" HTML Global attribute
+        hr.set_attribute("data-tooltip", "center")
+        self.assertTrue(hr.has_attribute("data-tooltip"))
+
+        # An invalid attribute
         self.assertTrue(hr.has_attribute("class"))
         with self.assertRaises(NodeAttributeError):
             hr.set_attribute("required", None)

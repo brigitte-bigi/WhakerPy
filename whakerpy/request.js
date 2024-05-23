@@ -5,27 +5,25 @@
 :summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost
           client and gets data in return.
 
-.. _This file is part of WhakerPy: https://sourceforge.net/projects/whakerpy/ ,
-.. on 2024-02-28.
+.. _This file is part of WhakerPy: https://whakerpy.sourceforge.io
+..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2011-2024  Brigitte Bigi
+    Copyright (C) 2023-2024 Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    Use of this software is governed by the GNU Public License, version 3.
-
-    Whakerpy is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Whakerpy is distributed in the hope that it will be useful,
+    This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Whakerpy. If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
