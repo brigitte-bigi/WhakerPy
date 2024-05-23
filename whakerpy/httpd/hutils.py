@@ -430,8 +430,6 @@ class HTTPDHandlerUtils:
             if content_type_pass is False and "Content-Type" in prefix:
                 content_type_pass = True
 
-        print(prefix)
-
         # extract postfix data
         reversed_boundary = HTTPDHandlerUtils.__extract_form_data_boundary(content_type)[::-1]
         file_content_end = None
