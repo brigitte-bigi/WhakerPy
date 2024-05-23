@@ -345,7 +345,11 @@ class HTTPDHandlerUtils:
 
         # parse uploaded file
         elif "multipart/form-data; boundary=" in content_type:
-            filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
+            if isinstance(data, str):
+                filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
+            else:
+                filename, mime_type, content = HTTPDHandlerUtils.__extract_binary_form_data_file(content_type, data)
+
             data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
 
         # otherwise try to parse text data from forms
@@ -367,46 +371,133 @@ class HTTPDHandlerUtils:
     # -----------------------------------------------------------------------
 
     @staticmethod
-    def __extract_form_data_file(content_type: str, data: str | bytes) -> tuple[str, str, str]:
+    def __extract_form_data_file(content_type: str, data: str) -> tuple[str, str, str]:
         """Extract the body of a "formdata request" to upload a file.
+        Use this function with utf-8 files.
 
         :param content_type: (str) The content type in the header of the request
         :param data: (str | bytes) the body of the request in bytes or string format
         :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content
 
         """
-        # set special characters depending on if the uploaded file is in binary or utf-8 format
-        if isinstance(data, bytes):
-            data = str(data)
-            end_line = "\\n"
-            carriage_return = "\\r"
-        else:
-            end_line = "\n"
-            carriage_return = "\r"
-
         # parse filename
-        start_index_filename = data.index('filename="') + len('filename="')
-        end_index_filename = start_index_filename + data[start_index_filename:].index('"')
-        filename = data[start_index_filename:end_index_filename]
-
-        # remove filename line
-        data = data[end_index_filename:]
+        filename, end_index_filename = HTTPDHandlerUtils.__extract_form_data_filename(data)
+        data = data[end_index_filename:]  # remove filename line
 
         # parse content-type
-        start_index_type = data.index("Content-Type: ") + len("Content-Type: ")
-        end_index_type = start_index_type + data[start_index_type:].index(end_line)
-        mime_type = data[start_index_type:end_index_type]
-        mime_type = mime_type.replace(carriage_return, '')
-
-        # remove content-type line
-        data = data[end_index_type + 1:]
+        mimetype, end_index_type = HTTPDHandlerUtils.__extract_form_data_mimetype(data)
+        data = data[end_index_type + 1:]  # remove content-type line
 
         # parse file content
+        boundary = HTTPDHandlerUtils.__extract_form_data_boundary(content_type)
+
+        start_content = data.index("\n") + 1  # remove empty line
+        end_content = data[start_content:].index(boundary)
+        content = data[start_content:end_content]
+        content = content.replace('\r', '')  # remove duplicate carriage return for new line
+
+        return filename, mimetype, content
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def __extract_binary_form_data_file(content_type: str, data: bytes) -> tuple:
+        """Extract the body of a "formdata request" to upload a file.
+        Use this function with binary files.
+
+        :param content_type: (str) The content type in the header of the request
+        :param data: (str | bytes) the body of the request in bytes or string format
+        :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content
+
+        """
+        # extract prefix data
+        file_content_begin = None
+        content_type_pass = False
+        prefix = ""
+
+        for i in range(len(data)):
+            # if we found a no ascii character (binary data of the file content)
+            if data[i] <= 127:
+                prefix += chr(data[i])
+            else:
+                file_content_begin = i
+                break
+
+            # if we pass the content-type data, and we finished the line then the next things is the file content
+            if content_type_pass is True:
+                index = prefix.index("Content-Type")
+                if '\n\n' in prefix[index:] or '\r\n\r\n' in prefix[index:]:
+                    file_content_begin = i + 1
+                    break
+
+            # check if we pass the content-type data (last data before the file content)
+            if content_type_pass is False and "Content-Type" in prefix:
+                content_type_pass = True
+
+        print(prefix)
+
+        # extract postfix data
+        reversed_boundary = HTTPDHandlerUtils.__extract_form_data_boundary(content_type)[::-1]
+        file_content_end = None
+        postfix = ""
+
+        for i in range(len(data) - 1, file_content_begin, -1):
+            if reversed_boundary not in postfix:
+                postfix += chr(data[i])
+            else:
+                file_content_end = i
+                break
+
+        # get variables to return
+        content = data[file_content_begin:file_content_end + 1]
+        filename = HTTPDHandlerUtils.__extract_form_data_filename(prefix)[0]
+        mimetype = HTTPDHandlerUtils.__extract_form_data_mimetype(prefix)[0]
+
+        return filename, mimetype, content
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def __extract_form_data_filename(text: str) -> tuple[str, int]:
+        """Extract the filename from the form data uploaded file.
+
+        :param text: (str) the body or a part received from the request.
+        :return: (tuple[str, str, str]) the filename and the index where the filename value ends.
+
+        """
+        start_index_filename = text.index('filename="') + len('filename="')
+        end_index_filename = start_index_filename + text[start_index_filename:].index('"')
+
+        return text[start_index_filename:end_index_filename], end_index_filename
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def __extract_form_data_mimetype(text: str) -> tuple[str, int]:
+        """Extract the mimetype from the form data uploaded file.
+
+        :param text: (str) the body or a part received from the request.
+        :return: (tuple[str, str, str]) the mimetype and the index where the mimetype value ends.
+
+        """
+        start_index_type = text.index("Content-Type: ") + len("Content-Type: ")
+        end_index_type = start_index_type + text[start_index_type:].index("\n")
+        mimetype = text[start_index_type:end_index_type]
+        mimetype = mimetype.replace("\r", '')
+
+        return mimetype, end_index_type
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def __extract_form_data_boundary(content_type: str) -> str:
+        """Extract the boundary from the form data content type which delimited the uploaded file content.
+
+        :param content_type: (str) the content type in the header of the received request.
+        :return: (tuple[str, str, str]) the boundary.
+
+        """
         start_boundary = content_type.index("boundary=") + len("boundary=")
         boundary = "--" + content_type[start_boundary:] + "--"
 
-        start_content = data.index(end_line) + 1  # remove empty line
-        end_content = data[start_content:].index(boundary)
-        content = data[start_content:end_content]
-
-        return filename, mime_type, content
+        return boundary

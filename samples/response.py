@@ -215,8 +215,18 @@ class SampleAppResponse(BaseResponseRecipe):
 
                 print(f"Received uploaded file : {file_data['filename']}")
                 print(f"Mime type of the file : {file_data['mime_type']}")
-                # don't print them because if the file is in binary like video or image, it's SO LONG to print them !
-                # print(f"Content of the file :\n{file_data['file_content']}")
+
+                # very simple example of saving files
+                path = os.path.join("samples", file_data['filename'])
+
+                if os.path.exists(path) is False:
+                    # check if it's a text file or a binary file
+                    if isinstance(file_data['file_content'], str):
+                        with open(path, 'w', encoding='utf-8') as text_file:
+                            text_file.write(file_data['file_content'])
+                    else:
+                        with open(path, 'wb') as binary_file:
+                            binary_file.write(file_data['file_content'])
 
             else:
                 logging.warning("Ignore event: {:s}".format(event_name))
