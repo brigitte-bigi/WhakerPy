@@ -169,3 +169,8 @@ class WSGIApplication(object):
 
         self._pages[page_name] = response
         return True
+
+    # ---------------------------------------------------------------------------
+
+    def __contains__(self, item):
+        return item in self._pages
