@@ -85,17 +85,18 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
 
     # -----------------------------------------------------------------------
 
-    def page_bakery(self, page_name: str, events: dict, has_to_return_data: bool = False) -> tuple:
+    def page_bakery(self, page_name: str, headers: dict, events: dict, has_to_return_data: bool = False) -> tuple:
         """Return the page content and response status.
 
         This method should be invoked after a POST request in order to
         take the events into account when baking the HTML page content.
 
         :param page_name: (str) Requested page name
+        :param headers: (dict) The headers ot the http request
         :param events: (dict) key=event name, value=event value
         :param has_to_return_data: (bool) False by default - Boolean to know if the server return data or html page
 
         :return: tuple(bytes, HTTPDStatus)
 
         """
-        return HTTPDHandlerUtils.bakery(self._pages, page_name, events, has_to_return_data)
+        return HTTPDHandlerUtils.bakery(self._pages, page_name, headers, events, has_to_return_data)

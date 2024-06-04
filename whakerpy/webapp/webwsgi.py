@@ -120,7 +120,7 @@ class WSGIApplication(object):
             events, accept = handler_utils.process_post(environ['wsgi.input'])
 
             # bakery the response
-            content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, events,
+            content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events,
                                                        HTTPDHandlerUtils.has_to_return_data(accept))
 
         # send response to the client

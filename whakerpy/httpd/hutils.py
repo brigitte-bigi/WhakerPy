@@ -206,12 +206,13 @@ class HTTPDHandlerUtils:
     # -----------------------------------------------------------------------
 
     @staticmethod
-    def bakery(pages: dict, page_name: str, events: dict, has_to_return_data: bool = False) -> tuple[
-        bytes, HTTPDStatus]:
+    def bakery(pages: dict, page_name: str, headers: dict, events: dict, has_to_return_data: bool = False)\
+            -> tuple[bytes, HTTPDStatus]:
         """Process received events and bake the given page.
 
         :param pages: (dict) A dictionary with key=page_name and value=ResponseRecipe
         :param page_name: (str) The current page name
+        :param headers: (dict) The headers of the http request
         :param events: (dict) The events extract from the request (only for POST request, send empty dict for GET)
         :param has_to_return_data: (bool) False by default, Boolean to know if we have to return the html page or data
         :return: (tuple[bytes, HTTPDStatus]) The content to answer to the client and the status of the response
@@ -224,7 +225,7 @@ class HTTPDHandlerUtils:
             status = HTTPDStatus(404)
             return status.to_html(encode=True, msg_error=f"Page not found : {page_name}"), status
 
-        content = bytes(response.bake(events), "utf-8")
+        content = bytes(response.bake(events, headers=headers), "utf-8")
 
         # check if we have to return data or HTML page
         if has_to_return_data:

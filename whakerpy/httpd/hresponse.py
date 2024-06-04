@@ -186,7 +186,7 @@ class BaseResponseRecipe:
 
     # -----------------------------------------------------------------------
 
-    def bake(self, events) -> str:
+    def bake(self, events: dict, headers: dict = None) -> str:
         """Return the HTML response after processing the events.
 
         Processing the events may change the response status. This method is
@@ -194,10 +194,11 @@ class BaseResponseRecipe:
         are the information the handler received (commonly with POST).
 
         :param events: (dict) The requested events to be processed
+        :param headers: (dict) The headers of the http request received
 
         """
         # Process the given events with the application
-        dirty = self._process_events(events)
+        dirty = self._process_events(events, headers=headers)
 
         # Re-create the page content only if something changed during
         # processing the events.
@@ -212,7 +213,7 @@ class BaseResponseRecipe:
     # Private: methods to be overridden by children to customize the recipe.
     # -----------------------------------------------------------------------
 
-    def _process_events(self, events) -> bool:
+    def _process_events(self, events: dict, **kwargs) -> bool:
         """Process the given events.
 
         The given event name must match a function of the event's manager.

@@ -179,7 +179,7 @@ class SampleAppResponse(BaseResponseRecipe):
 
     # -----------------------------------------------------------------------
 
-    def _process_events(self, events) -> bool:
+    def _process_events(self, events, **kwargs) -> bool:
         """Process the given events coming from the POST of any form.
 
         :param events (dict): key=event_name, value=event_value

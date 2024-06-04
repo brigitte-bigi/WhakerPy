@@ -80,7 +80,7 @@ class WebSiteResponse(BaseResponseRecipe):
 
     # -----------------------------------------------------------------------
 
-    def _process_events(self, events) -> bool:
+    def _process_events(self, events, **kwargs) -> bool:
         """Process the given events.
 
         The given event name must match a function of the event's manager.
