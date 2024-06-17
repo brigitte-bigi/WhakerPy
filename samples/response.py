@@ -6,33 +6,25 @@
 :contact: contact@sppas.org
 :summary: An example of custom response with HTML, JS and JSON.
 
-.. _This file is part of SPPAS: https://sppas.org/
+.. _This file is part of WhakerPy: https://whakerpy.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
-     ___   __    __    __    ___
-    /     |  \  |  \  |  \  /              the automatic
-    \__   |__/  |__/  |___| \__             annotation and
-       \  |     |     |   |    \             analysis
-    ___/  |     |     |   | ___/              of speech
-
-    Copyright (C) 2011-2023  Brigitte Bigi
+    Copyright (C) 2023-2024 Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    Use of this software is governed by the GNU Public License, version 3.
-
-    SPPAS is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    SPPAS is distributed in the hope that it will be useful,
+    This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -187,7 +179,7 @@ class SampleAppResponse(BaseResponseRecipe):
 
     # -----------------------------------------------------------------------
 
-    def _process_events(self, events) -> bool:
+    def _process_events(self, events, **kwargs) -> bool:
         """Process the given events coming from the POST of any form.
 
         :param events (dict): key=event_name, value=event_value
@@ -215,8 +207,18 @@ class SampleAppResponse(BaseResponseRecipe):
 
                 print(f"Received uploaded file : {file_data['filename']}")
                 print(f"Mime type of the file : {file_data['mime_type']}")
-                # don't print them because if the file is in binary like video or image, it's SO LONG to print them !
-                # print(f"Content of the file :\n{file_data['file_content']}")
+
+                # very simple example of saving files
+                path = os.path.join("samples", file_data['filename'])
+
+                if os.path.exists(path) is False:
+                    # check if it's a text file or a binary file
+                    if isinstance(file_data['file_content'], str):
+                        with open(path, 'w', encoding='utf-8') as text_file:
+                            text_file.write(file_data['file_content'])
+                    else:
+                        with open(path, 'wb') as binary_file:
+                            binary_file.write(file_data['file_content'])
 
             else:
                 logging.warning("Ignore event: {:s}".format(event_name))

@@ -1,36 +1,29 @@
 """
 :filename: whakerpy.httpd.server.py
-:author:   Brigitte Bigi
-:contact:  contact@sppas.org
+:author: Brigitte Bigi
+:contact: contact@sppas.org
 :summary: This is the Web-based application HTTPD server.
 
-.. _This file is part of SPPAS: https://sppas.org/
+.. _This file was initially part of SPPAS: https://sppas.org/
+.. _This file is now part of WhakerPy: https://whakerpy.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
-     ___   __    __    __    ___
-    /     |  \  |  \  |  \  /              the automatic
-    \__   |__/  |__/  |___| \__             annotation and
-       \  |     |     |   |    \             analysis
-    ___/  |     |     |   | ___/              of speech
-
-    Copyright (C) 2011-2023 Brigitte Bigi
+    Copyright (C) 2023-2024 Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    Use of this software is governed by the GNU Public License, version 3.
-
-    SPPAS is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    SPPAS is distributed in the hope that it will be useful,
+    This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -92,17 +85,18 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
 
     # -----------------------------------------------------------------------
 
-    def page_bakery(self, page_name: str, events: dict, has_to_return_data: bool = False) -> tuple:
+    def page_bakery(self, page_name: str, headers: dict, events: dict, has_to_return_data: bool = False) -> tuple:
         """Return the page content and response status.
 
         This method should be invoked after a POST request in order to
         take the events into account when baking the HTML page content.
 
         :param page_name: (str) Requested page name
+        :param headers: (dict) The headers ot the http request
         :param events: (dict) key=event name, value=event value
         :param has_to_return_data: (bool) False by default - Boolean to know if the server return data or html page
 
         :return: tuple(bytes, HTTPDStatus)
 
         """
-        return HTTPDHandlerUtils.bakery(self._pages, page_name, events, has_to_return_data)
+        return HTTPDHandlerUtils.bakery(self._pages, page_name, headers, events, has_to_return_data)

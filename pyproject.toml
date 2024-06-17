@@ -6,7 +6,7 @@
 
 [project]
     name = "WhakerPy"
-    version = "0.6"
+    version = "0.7"
     authors = [{ name="Brigitte Bigi", email="contact@sppas.org" }]
     description = "Web HTML maker in Python - a light web application framework"
     readme = "README.md"
@@ -15,7 +15,7 @@
     keywords = ["python", "html", "httpd", "dynamic", "web", "app", "ui"]
     classifiers = [
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+        "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
         "Operating System :: OS Independent",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
         "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
@@ -24,7 +24,8 @@
         "Development Status :: 5 - Production/Stable"]
 
 [project.urls]
-    "Homepage" = "https://whakerpy.sf.net"
+    "Homepage" = "https://sourceforge.net/projects/whakerpy/"
+    "Documentation" = "https://whakerpy.sourceforge.io"
     "Pypi" = "https://pypi.org/project/whakerpy/"
 
 # -------------------
@@ -35,7 +36,7 @@
     docs = [
         "pygments",
         "markdown2",
-        "ClammingPy >=1.7"]
+        "ClammingPy >=1.8"]
     tests = [
         "coverage ~=7.3.0",
         "selenium ~=4.18.1",
@@ -47,7 +48,7 @@
 
 [tool.setuptools.packages.find]
     where = ["."]
-    exclude = ["tests*", "samples"]
+    exclude = ["tests*", "samples*"]
 
 #[tool.setuptools.packages.find]
 #where = ["."]  # list of folders that contain the packages (["."] by default)

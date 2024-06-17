@@ -1,38 +1,31 @@
 # -*- coding: UTF-8 -*-
 """
 :filename: whakerpy.httpd.handler.py
-:author:   Brigitte Bigi
+:author:  Brigitte Bigi
 :contributor: Florian Lopitaux
-:contact:  contact@sppas.org
-:summary:  Manage an HTTPD handler for any web-based application.
+:contact: contact@sppas.org
+:summary: Manage an HTTPD handler for any web-based application.
 
-.. _This file is part of SPPAS: https://sppas.org/
+.. _This file was initially part of SPPAS: https://sppas.org/
+.. _This file is now part of WhakerPy: https://whakerpy.sourceforge.io
 ..
     -------------------------------------------------------------------------
 
-     ___   __    __    __    ___
-    /     |  \  |  \  |  \  /              the automatic
-    \__   |__/  |__/  |___| \__             annotation and
-       \  |     |     |   |    \             analysis
-    ___/  |     |     |   | ___/              of speech
-
-    Copyright (C) 2011-2023  Brigitte Bigi
+    Copyright (C) 2023-2024 Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    Use of this software is governed by the GNU Public License, version 3.
-
-    SPPAS is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    SPPAS is distributed in the hope that it will be useful,
+    This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -43,6 +36,7 @@
 from __future__ import annotations
 import logging
 import http.server
+import os.path
 
 from .hstatus import HTTPDStatus
 from .hutils import HTTPDHandlerUtils
@@ -131,7 +125,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
             return handler_utils.static_content(self.path[1:])
 
         # get the response
-        content, status = self.server.page_bakery(handler_utils.get_page_name(), events,
+        content, status = self.server.page_bakery(handler_utils.get_page_name(), self.headers, events,
                                                   handler_utils.has_to_return_data(mime_type))
 
         return content, status
@@ -155,10 +149,15 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         self.path = handler_utils.get_path()
         mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
 
+        # The client requested a static file (we do before check mime type in case the client ask a html static file)
+        if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
+            content, status = handler_utils.static_content(self.path[1:])
+
         # The client requested an HTML page. Response content is created by the server.
-        if mime_type == "text/html":
+        elif mime_type == "text/html":
             content, status = self._bakery(handler_utils, dict(), mime_type)
-        # The client requested a static file
+
+        # Unknown we try to get a static file
         else:
             content, status = handler_utils.static_content(self.path[1:])
 

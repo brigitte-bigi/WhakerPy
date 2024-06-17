@@ -1,36 +1,29 @@
 """
-:filename:  whakerpy.webapp.webresponse.py
-:author:   Mathias Cazals, Brigitte Bigi
-:contact:  contact@sppas.org
-:summary:  Create a generic HTTPD response for a web server.
+:filename: whakerpy.webapp.webresponse.py
+:author: Mathias Cazals, Brigitte Bigi
+:contact: contact@sppas.org
+:summary: Create a generic HTTPD response for a web server.
 
-.. _This file was part of SPPAS: https://sppas.org/ and migrated in WhakerPy,
-.. on 2023-12-08.
+.. _This file was initially part of SPPAS: https://sppas.org/
+.. _This file is now part of WhakerPy: https://whakerpy.sourceforge.io
+..
     -------------------------------------------------------------------------
 
-     ___   __    __    __    ___
-    /     |  \  |  \  |  \  /              the automatic
-    \__   |__/  |__/  |___| \__             annotation and
-       \  |     |     |   |    \             analysis
-    ___/  |     |     |   | ___/              of speech
-
-    Copyright (C) 2011-2023 Brigitte Bigi
+    Copyright (C) 2023-2024 Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    Use of this software is governed by the GNU Public License, version 3.
-
-    SPPAS is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    SPPAS is distributed in the hope that it will be useful,
+    This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    GNU Affero General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with SPPAS. If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -87,7 +80,7 @@ class WebSiteResponse(BaseResponseRecipe):
 
     # -----------------------------------------------------------------------
 
-    def _process_events(self, events) -> bool:
+    def _process_events(self, events, **kwargs) -> bool:
         """Process the given events.
 
         The given event name must match a function of the event's manager.
@@ -112,8 +105,6 @@ class WebSiteResponse(BaseResponseRecipe):
         """
         node = self._htree.body_main
         node.clear_children()
-        # for i in reversed(range(node.children_size())):
-        #     node.pop_child(i)
 
     # -----------------------------------------------------------------------
 

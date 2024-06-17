@@ -1,37 +1,80 @@
-# WhakerPy - a Web HTML maker in Python
 
+```
+-----------------------------------------------------------------------------                                                           
+
+ ██╗    ██╗ ██╗  ██╗  █████╗  ██╗  ██╗ ███████╗ ██████╗  ██████╗ ██╗   ██╗
+ ██║    ██║ ██║  ██║ ██╔══██╗ ██║ ██╔╝ ██╔════╝ ██╔══██╗ ██╔══██╗╚██╗ ██╔╝
+ ██║ █╗ ██║ ███████║ ███████║ █████╔╝  █████╗   ██████╔╝ ██████╔╝ ╚████╔╝ 
+ ██║███╗██║ ██╔══██║ ██╔══██║ ██╔═██╗  ██╔══╝   ██╔══██╗ ██╔═══╝   ╚██╔╝  
+ ╚███╔███╔╝ ██║  ██║ ██║  ██║ ██║  ██╗ ███████╗ ██║  ██║ ██║        ██║   
+  ╚══╝╚══╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝        ╚═╝   
+       
+   a Python library to create dynamic HTML content and web applications
+
+               Copyright (C) 2023-2024 Brigitte Bigi, 
+         Laboratoire Parole et Langage, Aix-en-Provence, France
+         
+-----------------------------------------------------------------------------                                                              
+```
+
+# WhakerPy
 
 ## Overview
 
-WhakerPy is an open source library to create dynamic HTML content and web applications. It's a light web application framework.
+> WhakerPy - a Web HTML maker in Python
 
-Create and manipulate HTML from the power of Python:
+### Use case
 
-* Easy to learn, consistent, simple syntax.
-* Flexible and easy usage.
-* Create HTML pages dynamically.
-* Can save as static HTML files.
-* Create a web-frontend with its HTTPD response "bakery" system.
-* Run locally with its HTTPD server.
+You want all users to get access to dynamic web pages via web browser. You then need to create a web application allowing creating HTML pages and communicating via HTTPD.
+WhakerPy is a Python library of such a tool.
 
-Not enough? Install <https://whakerexa.sf.net> too, an extension for WhakerPy. It includes useful CSS frameworks, and JavaScripts for a stylized static or dynamic content.
+In fact, you may have already heard of Django — high-level, full-stack framework, anf Flash — a micro-framework. Both of them generate output in the form of content from the model presented and formatted based on a template file.
+The "WhakerPy" library does not offer views, templates or models! On the contrary, it offers a 100% pure-Python solution by creating HTML pages entirely dynamically, or with a static content. 
 
-## License
-
-WhakerPy is under the terms of the GNU General Public License version 3.
+WhakerPy is your solution if:
+- you're looking to design a relatively simple web app with a few static pages; 
+- and/or you want a full control on dynamic HTML creation content;
+- **you want to build a web app with nothing but Python**.
 
 
-## Install WhakerPy
+### Features
 
-### From pypi.org:
+WhakerPy is a Python, free, open source, self-hosted library to create dynamic HTML content and web applications. It offers more flexibility than a framework: it's a library!
+WhakerPy is then a collection of packages and modules that help developers to create static or dynamic web content without having to worry about the details involved. 
+
+* Build powerful web apps with all the flexibility of Python: building a web app with WhakerPy is as simple as coding with Python 
+* Create HTML pages dynamically: create a tree with nodes and serialize the tree into a string
+* Can save as static HTML files
+* Create a web-frontend with its HTTPD response "bakery" system
+* Run locally with its HTTPD server
+* Run locally or remotely with its WSGI application
+
+
+### Main advantages
+
+>Creating and manipulating HTML from the power of Python!
+
+* Easy to learn, consistent, simple syntax
+* Flexible and easy usage
+* open-source: easily add new features and functionalities 
+* easily customizable: it's a pure python library in Object-Oriented Programming
+* portable: can be hosted on any web server - as soon as python is available, or used locally
+* it is distributed as a single folder module and has no dependencies other than the Python Standard Library.
+
+
+## Get and install WhakerPy
+
+Get it from it's repository <https://sourceforge.net/projects/whakerpy/> or from Pypi <https://pypi.org/project/whakerpy/>, and get documentation <https://whakerpy.sourceforge.io>.
+
+### Install from pypi.org:
 
 ```bash
 > python -m pip install WhakerPy
 ```
 
-### From its wheel package:
+### Install from its wheel package:
 
-Download the wheel file (WhakerPy-xxx.whl) and install it in your python environment with:
+Download the wheel file (WhakerPy-xxx.whl) from it's web page and install it in your python environment with:
 
 ```bash
 > python -m pip install dist/<WhakerPy-xxx.whl>
@@ -39,12 +82,12 @@ Download the wheel file (WhakerPy-xxx.whl) and install it in your python environ
 
 ### From its repo:
 
-Download the latest ".zip" and unpack it, or clone the repository with `git`. WhakerPy package includes the following folders and files:
+Download the latest ".zip" from it's web page and unpack it, or clone the repository with `git`. WhakerPy package includes the following folders and files:
 
 1. "whakerpy": the source code package
 2. "docs": the documentation of `whakerpy` library in HTML and Markdown
-3. "sample": a web application sample 
-4. "tests": the tests of the source code
+3. "tests": the tests of the source code
+4. "sample": a web application sample 
 
 ```bash
 > unzip WhakerPy-0.6.zip 
@@ -67,9 +110,12 @@ Open a Python interpreter and type or paste the following:
 ```
 
 Render and print the HTML:
+
 ```python
 >>> print(htree.serialize())
 ```
+
+and the result is:
 
 ```html
 <!DOCTYPE html>
@@ -188,7 +234,22 @@ If you plan to contribute to the code or to report a bug, please send an e-mail 
 Any and all constructive comments are welcome.
 
 
-## Author/Copyright
+## License/Copyright
 
-Copyright (C) 2023-2024 - [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>, 
-Laboratoire Parole et Langage, Aix-en-Provence, France.
+See the accompanying LICENSE and AUTHORS.md files for the full list of contributors.
+
+Copyright (C) 2023-2024 [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>
+Laboratoire Parole et Langage, Aix-en-Provence, France
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.

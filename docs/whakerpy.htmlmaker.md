@@ -1,19 +1,19 @@
-# WhakerPy 0.6
+# whakerpy.htmlmaker module
 
-## Package `whakerpy.htmlmaker`
+## List of classes
 
-### Class `NodeTypeError`
+## Class `NodeTypeError`
 
-#### Description
+### Description
 
 *:ERROR 9110:.*
 
 {!s:s} is not of the expected type 'HTMLNode'.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, rtype):
@@ -25,9 +25,9 @@ def __init__(self, rtype):
 
 
 
-#### Public functions
+### Public functions
 
-##### get_status
+#### get_status
 
 ```python
 def get_status(self):
@@ -38,9 +38,9 @@ def get_status(self):
 
 
 
-#### Overloads
+### Overloads
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -51,18 +51,18 @@ def __str__(self):
 
 
 
-### Class `NodeTagError`
+## Class `NodeTagError`
 
-#### Description
+### Description
 
 *:ERROR 9320:.*
 
 Invalid HTML node tag '{!s:s}'.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, value):
@@ -74,9 +74,9 @@ def __init__(self, value):
 
 
 
-#### Public functions
+### Public functions
 
-##### get_status
+#### get_status
 
 ```python
 def get_status(self):
@@ -87,9 +87,9 @@ def get_status(self):
 
 
 
-#### Overloads
+### Overloads
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -100,18 +100,18 @@ def __str__(self):
 
 
 
-### Class `NodeKeyError`
+## Class `NodeKeyError`
 
-#### Description
+### Description
 
 *:ERROR 9400:.*
 
 Invalid node '{!s:s}' for data '{!s:s}'.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, data_name, value):
@@ -123,9 +123,9 @@ def __init__(self, data_name, value):
 
 
 
-#### Public functions
+### Public functions
 
-##### get_status
+#### get_status
 
 ```python
 def get_status(self):
@@ -136,9 +136,9 @@ def get_status(self):
 
 
 
-#### Overloads
+### Overloads
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -149,18 +149,18 @@ def __str__(self):
 
 
 
-### Class `NodeAttributeError`
+## Class `NodeAttributeError`
 
-#### Description
+### Description
 
 *:ERROR 9330:.*
 
 Invalid HTML node attribute '{!s:s}'.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, value):
@@ -172,9 +172,9 @@ def __init__(self, value):
 
 
 
-#### Public functions
+### Public functions
 
-##### get_status
+#### get_status
 
 ```python
 def get_status(self):
@@ -185,9 +185,9 @@ def get_status(self):
 
 
 
-#### Overloads
+### Overloads
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -198,18 +198,18 @@ def __str__(self):
 
 
 
-### Class `NodeChildTagError`
+## Class `NodeChildTagError`
 
-#### Description
+### Description
 
 *:ERROR 9325:.*
 
 Invalid HTML child node tag '{!s:s}'.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, value):
@@ -221,9 +221,9 @@ def __init__(self, value):
 
 
 
-#### Public functions
+### Public functions
 
-##### get_status
+#### get_status
 
 ```python
 def get_status(self):
@@ -234,9 +234,9 @@ def get_status(self):
 
 
 
-#### Overloads
+### Overloads
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -247,18 +247,18 @@ def __str__(self):
 
 
 
-### Class `NodeInvalidIdentifierError`
+## Class `NodeInvalidIdentifierError`
 
-#### Description
+### Description
 
 *:ERROR 9310:.*
 
 Invalid HTML node identifier '{!s:s}'.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, value):
@@ -270,9 +270,9 @@ def __init__(self, value):
 
 
 
-#### Public functions
+### Public functions
 
-##### get_status
+#### get_status
 
 ```python
 def get_status(self):
@@ -283,9 +283,9 @@ def get_status(self):
 
 
 
-#### Overloads
+### Overloads
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -296,18 +296,18 @@ def __str__(self):
 
 
 
-### Class `NodeIdentifierError`
+## Class `NodeIdentifierError`
 
-#### Description
+### Description
 
 *:ERROR 9410:.*
 
 Expected HTML node identifier {:s}. Got '{!s:s}' instead.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, expected, value):
@@ -319,9 +319,9 @@ def __init__(self, expected, value):
 
 
 
-#### Public functions
+### Public functions
 
-##### get_status
+#### get_status
 
 ```python
 def get_status(self):
@@ -332,9 +332,9 @@ def get_status(self):
 
 
 
-#### Overloads
+### Overloads
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -345,18 +345,18 @@ def __str__(self):
 
 
 
-### Class `NodeParentIdentifierError`
+## Class `NodeParentIdentifierError`
 
-#### Description
+### Description
 
 *:ERROR 9312:.*
 
 Expected HTML Parent node identifier {:s}. Got '{!s:s}' instead.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, expected, value):
@@ -368,9 +368,9 @@ def __init__(self, expected, value):
 
 
 
-#### Public functions
+### Public functions
 
-##### get_status
+#### get_status
 
 ```python
 def get_status(self):
@@ -381,9 +381,9 @@ def get_status(self):
 
 
 
-#### Overloads
+### Overloads
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -394,13 +394,13 @@ def __str__(self):
 
 
 
-### Class `Doctype`
+## Class `Doctype`
 
-#### Description
+### Description
 
 *Represent the HTML doctype of an HTML-5 page.*
 
-###### Example
+##### Example
 
     >>> d = Doctype()
     >>> d.serialize()
@@ -414,9 +414,9 @@ Contrariwise to previous versions, HTML5 does not require any other
 information. Then this class does not accept any attribute or value.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self):
@@ -429,9 +429,9 @@ def __init__(self):
 
 
 
-#### Public functions
+### Public functions
 
-##### serialize
+#### serialize
 
 ```python
 def serialize(self, nbs: int=4) -> str:
@@ -446,29 +446,29 @@ def serialize(self, nbs: int=4) -> str:
 
 *Override. Serialize the doctype.*
 
-###### Parameters
+##### Parameters
 
 - **nbs**: (*int*) Number of spaces for the indentation. Un-used.
 
 
-###### Returns
+##### Returns
 
 - (*str*) Doctype in HTML5.
 
 
 
-### Class `HTMLComment`
+## Class `HTMLComment`
 
-#### Description
+### Description
 
 *Represent a comment element.*
 
 The comment tag does not support any standard attributes.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent: str, content: str=' --- '):
@@ -484,16 +484,16 @@ def __init__(self, parent: str, content: str=' --- '):
 
 *Create a comment node.*
 
-###### Parameters
+##### Parameters
 
 - **parent**: (*str*) Identifier of the parent node
 - **content**: (*str*) The comment message
 
 
 
-#### Public functions
+### Public functions
 
-##### serialize
+#### serialize
 
 ```python
 def serialize(self, nbs: int=4) -> str:
@@ -518,20 +518,20 @@ def serialize(self, nbs: int=4) -> str:
 
 *Serialize the comment into HTML.*
 
-###### Parameters
+##### Parameters
 
 - **nbs**: (*int*) Number of spaces for the indentation
 
 
-###### Returns
+##### Returns
 
 - (*str*)
 
 
 
-### Class `HTMLImage`
+## Class `HTMLImage`
 
-#### Description
+### Description
 
 *Represent an image element.*
 
@@ -539,9 +539,9 @@ The set_attribute method should be overridden to check if the given key
 is in the list of accepted attributes.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent: str, identifier: str, src: str):
@@ -559,7 +559,7 @@ def __init__(self, parent: str, identifier: str, src: str):
 
 *Create an image leaf node.*
 
-###### Parameters
+##### Parameters
 
 - **parent**: (*str*) Identifier of the parent node
 - **identifier**: (*str* | None) Identifier to assign to the image
@@ -567,18 +567,18 @@ def __init__(self, parent: str, identifier: str, src: str):
 
 
 
-### Class `HTMLHr`
+## Class `HTMLHr`
 
-#### Description
+### Description
 
 *Represent a horizontal line with &lt;hr&gt; tag.*
 
 The &lt;hr&gt; tag only supports the Global Attributes in HTML.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent: str):
@@ -594,9 +594,9 @@ def __init__(self, parent: str):
 
 
 
-#### Public functions
+### Public functions
 
-##### check_attribute
+#### check_attribute
 
 ```python
 def check_attribute(self, key: str) -> str:
@@ -618,30 +618,30 @@ def check_attribute(self, key: str) -> str:
 
 *Override.*
 
-###### Returns
+##### Returns
 
 - key(*str*)
 
 
-###### Raises
+##### Raises
 
 - *NodeAttributeError*: if given key can't be converted to string
 - *NodeAttributeError*: The attribute can't be assigned to this element.
 
 
 
-### Class `HTMLBr`
+## Class `HTMLBr`
 
-#### Description
+### Description
 
 *Represent a new line with &lt;br&gt; tag.*
 
 The &lt;br&gt; tag does not support any attribute.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent: str):
@@ -657,9 +657,9 @@ def __init__(self, parent: str):
 
 
 
-#### Public functions
+### Public functions
 
-##### check_attribute
+#### check_attribute
 
 ```python
 def check_attribute(self, key: str) -> str:
@@ -673,15 +673,15 @@ def check_attribute(self, key: str) -> str:
 
 *Override. Raise an exception because no attribute is supported.*
 
-###### Raises
+##### Raises
 
 - *NodeAttributeError*: The attribute can't be assigned to this element.
 
 
 
-### Class `HTMLInputText`
+## Class `HTMLInputText`
 
-#### Description
+### Description
 
 *Represent an input text element of a form.*
 
@@ -689,9 +689,9 @@ The set_attribute method should be overridden to check if the given key
 is in the list of accepted attributes.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent, identifier):
@@ -706,9 +706,9 @@ def __init__(self, parent, identifier):
 
 
 
-#### Public functions
+### Public functions
 
-##### set_name
+#### set_name
 
 ```python
 def set_name(self, name):
@@ -723,24 +723,24 @@ def set_name(self, name):
 
 *Set input name attribute, and 'id' too.*
 
-###### Parameters
+##### Parameters
 
 - **name**: (*str*)
 
 
 
-### Class `HTMLRadioBox`
+## Class `HTMLRadioBox`
 
-#### Description
+### Description
 
 *Represent a form with one or several input of radio type.*
 
 
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent, identifier):
@@ -756,9 +756,9 @@ def __init__(self, parent, identifier):
 
 
 
-#### Public functions
+### Public functions
 
-##### append_input
+#### append_input
 
 ```python
 def append_input(self, class_name, value, text=None, checked=False):
@@ -795,7 +795,7 @@ def append_input(self, class_name, value, text=None, checked=False):
 
 *Append a label tag with an input and a span.*
 
-###### Parameters
+##### Parameters
 
 - **class_name**: (*str*) Used for both the CSS class of the label and the name of the input
 - **value**: (*str*) input value
@@ -804,9 +804,9 @@ def append_input(self, class_name, value, text=None, checked=False):
 
 
 
-### Class `HTMLButtonNode`
+## Class `HTMLButtonNode`
 
-#### Description
+### Description
 
 *Represent a button element.*
 
@@ -814,9 +814,9 @@ The set_attribute method should be overridden to check if the given key
 is in the list of accepted attributes.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent, identifier, attributes=dict()):
@@ -838,9 +838,9 @@ def __init__(self, parent, identifier, attributes=dict()):
 
 
 
-#### Public functions
+### Public functions
 
-##### set_icon
+#### set_icon
 
 ```python
 def set_icon(self, icon, attributes=dict()):
@@ -860,12 +860,12 @@ def set_icon(self, icon, attributes=dict()):
 
 *Set an icon to the button from its filename.*
 
-###### Parameters
+##### Parameters
 
 - **icon**: (*str*) Name of an icon in the app.
 - **attributes**: (*dict*).
 
-##### set_text
+#### set_text
 
 ```python
 def set_text(self, ident, text, attributes=dict()):
@@ -887,7 +887,7 @@ def set_text(self, ident, text, attributes=dict()):
 
 *Set a text to the button.*
 
-###### Parameters
+##### Parameters
 
 - **ident**: (*str*) Identifier for the span text.
 - **text**: (*str*) Button text.
@@ -895,9 +895,9 @@ def set_text(self, ident, text, attributes=dict()):
 
 
 
-### Class `BaseNode`
+## Class `BaseNode`
 
-#### Description
+### Description
 
 *A base class for any node in an HTML tree.*
 
@@ -908,9 +908,9 @@ The BaseNode() class is a base class for any of these HTML elements.
 It is intended to be overridden.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent: str=None, identifier: str=None, **kwargs):
@@ -932,21 +932,21 @@ def __init__(self, parent: str=None, identifier: str=None, **kwargs):
 
 *Create a new base node.*
 
-###### Parameters
+##### Parameters
 
 - **parent**: (*str*) Parent identifier
 - **identifier**: (*str*) This node identifier
 
 
-###### Raises
+##### Raises
 
 - *NodeInvalidIdentifierError*: if 'identifier' contains invalid characters or if invalid length
 
 
 
-#### Public functions
+### Public functions
 
-##### validate_identifier
+#### validate_identifier
 
 ```python
 @staticmethod
@@ -973,22 +973,22 @@ def validate_identifier(identifier: str) -> str:
 
 An identifier should contain at least 1 character and no whitespace.
 
-###### Parameters
+##### Parameters
 
 - **identifier**: (*str*) Key to be validated
 
 
-###### Raises
+##### Raises
 
 - *NodeInvalidIdentifierError*: if it contains invalid characters
 - *NodeInvalidIdentifierError*: if invalid length
 
 
-###### Returns
+##### Returns
 
 - (*str*) Validated identifier
 
-##### full_strip
+#### full_strip
 
 ```python
 @staticmethod
@@ -1009,11 +1009,11 @@ def full_strip(entry):
 
 *Fully strip the string: multiple whitespace, tab and CR/LF.*
 
-###### Returns
+##### Returns
 
 - (*str*) Cleaned string
 
-##### identifier
+#### identifier
 
 ```python
 @property
@@ -1024,7 +1024,7 @@ def identifier(self) -> str:
 
 *Return the (supposed-) unique ID of the node within the scope of a tree.*
 
-##### is_leaf
+#### is_leaf
 
 ```python
 def is_leaf(self) -> bool:
@@ -1034,7 +1034,7 @@ def is_leaf(self) -> bool:
 
 *Return true if node has no children.*
 
-##### is_root
+#### is_root
 
 ```python
 def is_root(self) -> bool:
@@ -1044,7 +1044,7 @@ def is_root(self) -> bool:
 
 *Return true if node has no parent, i.e. like root.*
 
-##### get_parent
+#### get_parent
 
 ```python
 def get_parent(self) -> str:
@@ -1058,11 +1058,11 @@ def get_parent(self) -> str:
 
 *The parent identifier.*
 
-###### Returns
+##### Returns
 
 - (*str*) node identifier
 
-##### set_parent
+#### set_parent
 
 ```python
 def set_parent(self, node_id: str) -> None:
@@ -1078,11 +1078,11 @@ def set_parent(self, node_id: str) -> None:
 
 *Set the parent identifier.*
 
-###### Parameters
+##### Parameters
 
 - **node_id**: (*str*) Identifier of the parent
 
-##### has_child
+#### has_child
 
 ```python
 def has_child(self, node_id: str) -> bool:
@@ -1097,16 +1097,16 @@ def has_child(self, node_id: str) -> bool:
 
 *To be overriden. Return True if the given node ID is a direct child.*
 
-###### Parameters
+##### Parameters
 
 - **node_id**: (*str*) Identifier of the node
 
 
-###### Returns
+##### Returns
 
 - (*bool*) True if given identifier is a direct child.
 
-##### serialize
+#### serialize
 
 ```python
 def serialize(self, nbs: int=4) -> str:
@@ -1121,20 +1121,20 @@ def serialize(self, nbs: int=4) -> str:
 
 *To be overriden. Serialize the node into HTML.*
 
-###### Parameters
+##### Parameters
 
 - **nbs**: (*int*) Number of spaces for the indentation
 
 
-###### Returns
+##### Returns
 
 - (*str*)
 
 
 
-#### Overloads
+### Overloads
 
-##### __repr__
+#### __repr__
 
 ```python
 def __repr__(self):
@@ -1143,7 +1143,7 @@ def __repr__(self):
 
 
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -1154,9 +1154,9 @@ def __str__(self):
 
 
 
-### Class `BaseTagNode`
+## Class `BaseTagNode`
 
-#### Description
+### Description
 
 *A node to represents an HTML element with attributes.*
 
@@ -1174,9 +1174,9 @@ For example, it can deal with elements like:
 - &lt;tag k1=v2 k2=v2 k3 /&gt;
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent: str | None, identifier: str, tag: str, attributes: dict=dict()):
@@ -1204,7 +1204,7 @@ def __init__(self, parent: str | None, identifier: str, tag: str, attributes: di
 
 *Create a new empty node.*
 
-###### Parameters
+##### Parameters
 
 - **parent**: (*str*) Parent identifier
 - **identifier**: (*str*) This node identifier
@@ -1212,7 +1212,7 @@ def __init__(self, parent: str | None, identifier: str, tag: str, attributes: di
 - **attributes**: (*dict*) key=(str) value=(str or None)
 
 
-###### Raises
+##### Raises
 
 - *NodeInvalidIdentifierError*
 - *NodeTagError*
@@ -1220,9 +1220,9 @@ def __init__(self, parent: str | None, identifier: str, tag: str, attributes: di
 
 
 
-#### Public functions
+### Public functions
 
-##### tag
+#### tag
 
 ```python
 @property
@@ -1233,7 +1233,7 @@ def tag(self) -> str:
 
 *Return the HTML tag.*
 
-##### check_attribute
+#### check_attribute
 
 ```python
 def check_attribute(self, key) -> str:
@@ -1257,22 +1257,22 @@ def check_attribute(self, key) -> str:
 
 *Raises NodeAttributeError if key is not a valid attribute.*
 
-###### Parameters
+##### Parameters
 
 - **key**: (any) An attribute
 
 
-###### Raises
+##### Raises
 
 - *NodeAttributeError*: The attribute can't be assigned to this element.
 - *NodeAttributeError*: if given key can't be converted to string
 
 
-###### Returns
+##### Returns
 
 - key(*str*) valid key
 
-##### get_attribute_keys
+#### get_attribute_keys
 
 ```python
 def get_attribute_keys(self) -> list:
@@ -1282,7 +1282,7 @@ def get_attribute_keys(self) -> list:
 
 *Return the list of attribute keys.*
 
-##### set_attribute
+#### set_attribute
 
 ```python
 def set_attribute(self, key: str, value) -> str:
@@ -1304,23 +1304,23 @@ def set_attribute(self, key: str, value) -> str:
 
 *Set a property to the node. Delete the existing one, if any.*
 
-###### Parameters
+##### Parameters
 
 - **key**: Key property
 - **value**: (*str* or *list*)
 
 
-###### Raises
+##### Raises
 
 - *NodeAttributeError*: The attribute can't be assigned to this element.
 - *NodeAttributeError*: if given key can't be converted to string
 
 
-###### Returns
+##### Returns
 
 - key(*str*) valid assigned key
 
-##### add_attribute
+#### add_attribute
 
 ```python
 def add_attribute(self, key: str, value) -> str:
@@ -1344,23 +1344,23 @@ def add_attribute(self, key: str, value) -> str:
 
 *Add a property to the node. Append the value if existing.*
 
-###### Parameters
+##### Parameters
 
 - **key**: (*str*) Key property
 - **value**
 
 
-###### Raises
+##### Raises
 
 - *NodeAttributeError*: The attribute can't be assigned to this element.
 - *NodeAttributeError*: if given key can't be converted to string
 
 
-###### Returns
+##### Returns
 
 - key(*str*) valid assigned key
 
-##### get_attribute_value
+#### get_attribute_value
 
 ```python
 def get_attribute_value(self, key: str):
@@ -1377,16 +1377,16 @@ def get_attribute_value(self, key: str):
 
 *Return the attribute value if the node has this attribute.*
 
-###### Parameters
+##### Parameters
 
 - **key**: (*str*) Attribute key
 
 
-###### Returns
+##### Returns
 
 - (*str* | None) Value or None if the attribute does not exist or has no value
 
-##### has_attribute
+#### has_attribute
 
 ```python
 def has_attribute(self, key: str) -> bool:
@@ -1401,16 +1401,16 @@ def has_attribute(self, key: str) -> bool:
 
 *Return true if the node has the attribute.*
 
-###### Parameters
+##### Parameters
 
 - **key**: (*str*) Attribute key
 
 
-###### Returns
+##### Returns
 
 - (*bool*)
 
-##### remove_attribute
+#### remove_attribute
 
 ```python
 def remove_attribute(self, key: str) -> None:
@@ -1425,11 +1425,11 @@ def remove_attribute(self, key: str) -> None:
 
 *Remove the attribute to the node.*
 
-###### Parameters
+##### Parameters
 
 - **key**: (*str*) Attribute key
 
-##### remove_attribute_value
+#### remove_attribute_value
 
 ```python
 def remove_attribute_value(self, key: str, value: str) -> None:
@@ -1451,12 +1451,12 @@ def remove_attribute_value(self, key: str, value: str) -> None:
 
 *Remove the value of an attribute of the node.*
 
-###### Parameters
+##### Parameters
 
 - **key**: (*str*) Attribute key
 - **value**: (*str*) Attribute value
 
-##### nb_attributes
+#### nb_attributes
 
 ```python
 def nb_attributes(self) -> int:
@@ -1466,7 +1466,7 @@ def nb_attributes(self) -> int:
 
 *Return the number of attributes.*
 
-##### serialize
+#### serialize
 
 ```python
 def serialize(self, nbs: int=4) -> str:
@@ -1492,20 +1492,20 @@ def serialize(self, nbs: int=4) -> str:
 
 *Override. Serialize the node into HTML.*
 
-###### Parameters
+##### Parameters
 
 - **nbs**: (*int*) Number of spaces for the indentation
 
 
-###### Returns
+##### Returns
 
 - (*str*)
 
 
 
-### Class `EmptyNode`
+## Class `EmptyNode`
 
-#### Description
+### Description
 
 *A node to represents an HTML empty element.*
 
@@ -1513,9 +1513,9 @@ An HTML element without content is called an empty node. It has a
 start tag but neither a content nor an end tag.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent: str, identifier: str, tag: str, attributes: dict=dict()):
@@ -1537,7 +1537,7 @@ def __init__(self, parent: str, identifier: str, tag: str, attributes: dict=dict
 
 *Create a new empty node.*
 
-###### Parameters
+##### Parameters
 
 - **parent**: (*str*) Parent identifier
 - **identifier**: (*str*) This node identifier
@@ -1545,7 +1545,7 @@ def __init__(self, parent: str, identifier: str, tag: str, attributes: dict=dict
 - **attributes**: (*dict*) key=(str) value=(str or None)
 
 
-###### Raises
+##### Raises
 
 - *NodeInvalidIdentifierError*
 - *NodeTagError*
@@ -1553,11 +1553,11 @@ def __init__(self, parent: str, identifier: str, tag: str, attributes: dict=dict
 
 
 
-### Class `HTMLNode`
+## Class `HTMLNode`
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent: str, identifier: str, tag: str, attributes=dict(), value=None):
@@ -1577,30 +1577,30 @@ def __init__(self, parent: str, identifier: str, tag: str, attributes=dict(), va
 
 *Create a tag node to represent any HTML element.*
 
-###### Parameters
+##### Parameters
 
 - **parent**: (*str*) Parent identifier
 - **identifier**: (*str*) This node identifier
 
 
-###### Raises
+##### Raises
 
 - *NodeTagError*: Invalid tag. Not in the HTML_TAGS list.
 
 
 
-### Class `HTMLHeadNode`
+## Class `HTMLHeadNode`
 
-#### Description
+### Description
 
 *Convenient class to represent the head node of an HTML tree.*
 
 Children of a "head" node are limited to the ones of HEAD_TAGS list.
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent):
@@ -1612,9 +1612,9 @@ def __init__(self, parent):
 
 
 
-#### Public functions
+### Public functions
 
-##### append_child
+#### append_child
 
 ```python
 def append_child(self, node) -> None:
@@ -1631,16 +1631,16 @@ def append_child(self, node) -> None:
 
 *Append a child node.*
 
-###### Parameters
+##### Parameters
 
 - **node**: (Node)
 
 
-###### Raises
+##### Raises
 
 - *NodeChildTagError*: if invalid child tag (not in HEAD_TAGS list)
 
-##### insert_child
+#### insert_child
 
 ```python
 def insert_child(self, pos, node) -> None:
@@ -1657,12 +1657,12 @@ def insert_child(self, pos, node) -> None:
 
 *Insert a child node at the given index.*
 
-###### Parameters
+##### Parameters
 
 - **pos**: (*int*) Index position
 - **node**: (Node)
 
-##### title
+#### title
 
 ```python
 def title(self, title) -> None:
@@ -1679,11 +1679,11 @@ def title(self, title) -> None:
 
 *Set the title to the header.*
 
-###### Parameters
+##### Parameters
 
 - **title**: (*str*) The page title (expected short!)
 
-##### meta
+#### meta
 
 ```python
 def meta(self, metadict) -> None:
@@ -1700,11 +1700,11 @@ def meta(self, metadict) -> None:
 
 *Append a new meta tag to the header.*
 
-###### Parameters
+##### Parameters
 
 - **metadict**: (*dict*)
 
-##### link
+#### link
 
 ```python
 def link(self, rel: str, href: str, link_type: str=None) -> None:
@@ -1729,13 +1729,13 @@ def link(self, rel: str, href: str, link_type: str=None) -> None:
 
 *Add a link tag to the header.*
 
-###### Parameters
+##### Parameters
 
 - **rel**: (*str*)
 - **href**: (*str*) Path and/or name of the link reference
 - **link_type**: (*str*) Mimetype of the link file
 
-##### script
+#### script
 
 ```python
 def script(self, src, script_type) -> None:
@@ -1761,12 +1761,12 @@ def script(self, src, script_type) -> None:
 
 *Add a meta tag to the header.*
 
-###### Parameters
+##### Parameters
 
 - **src**: (*str*) Script source file or Script content
 - **script_type**: (*str*) Script type or None if script content
 
-##### css
+#### css
 
 ```python
 def css(self, css_content) -> None:
@@ -1781,24 +1781,24 @@ def css(self, css_content) -> None:
 
 *Append css style content.*
 
-###### Parameters
+##### Parameters
 
 - **script_content**: (*str*) CSS content
 
 
 
-### Class `HTMLHeaderNode`
+## Class `HTMLHeaderNode`
 
-#### Description
+### Description
 
 *Convenient class to represent the header node of an HTML tree.*
 
 
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent):
@@ -1814,18 +1814,18 @@ def __init__(self, parent):
 
 
 
-### Class `HTMLNavNode`
+## Class `HTMLNavNode`
 
-#### Description
+### Description
 
 *Convenient class to represent the nav node of an HTML tree.*
 
 
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent):
@@ -1837,18 +1837,18 @@ def __init__(self, parent):
 
 
 
-### Class `HTMLMainNode`
+## Class `HTMLMainNode`
 
-#### Description
+### Description
 
 *Convenient class to represent the main node of an HTML tree.*
 
 
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent):
@@ -1860,18 +1860,18 @@ def __init__(self, parent):
 
 
 
-### Class `HTMLFooterNode`
+## Class `HTMLFooterNode`
 
-#### Description
+### Description
 
 *Convenient class to represent the footer node of an HTML tree.*
 
 
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent):
@@ -1883,16 +1883,16 @@ def __init__(self, parent):
 
 
 
-### Class `HTMLScriptNode`
+## Class `HTMLScriptNode`
 
-#### Description
+### Description
 
 *Convenient class to represent the scripts node of an HTML tree.*
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, parent):
@@ -1904,9 +1904,9 @@ def __init__(self, parent):
 
 
 
-### Class `HTMLTree`
+## Class `HTMLTree`
 
-#### Description
+### Description
 
 *Root of an HTML tree.*
 
@@ -1943,7 +1943,7 @@ The following properties allow to access to "html" children nodes:
 - body_footer
 - body_script
 
-###### Example
+##### Example
 
     >>> # Create the tree
     >>> htree = HTMLTree("index")
@@ -1970,9 +1970,9 @@ that can be used with all HTML elements.
 See <https://www.w3schools.com/TAgs/ref_standardattributes.asp>
 
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, identifier: str):
@@ -2008,15 +2008,15 @@ The HTML node has 2 children: the "head" and the "body". The body
 has 5 children: "header", "nav", "main", "footer", "script".
 The empty nodes are not serialized.
 
-###### Parameters
+##### Parameters
 
 - **identifier**: (*str*) An identifier for the tree node.
 
 
 
-#### Public functions
+### Public functions
 
-##### set_parent
+#### set_parent
 
 ```python
 def set_parent(self, node_id: str) -> None:
@@ -2026,7 +2026,7 @@ def set_parent(self, node_id: str) -> None:
 
 *Override. Do not set the parent identifier.*
 
-##### is_leaf
+#### is_leaf
 
 ```python
 def is_leaf(self) -> bool:
@@ -2036,7 +2036,7 @@ def is_leaf(self) -> bool:
 
 *Override. Return False.*
 
-##### add_html_attribute
+#### add_html_attribute
 
 ```python
 def add_html_attribute(self, key: str, value: str) -> None:
@@ -2054,17 +2054,17 @@ def add_html_attribute(self, key: str, value: str) -> None:
 
 *Add or append a property to the HTML node.*
 
-###### Parameters
+##### Parameters
 
 - **key**: (*str*) Key property of an HTML attribute
 - **value**: (*str*) Value of the attribute
 
-###### Raises
+##### Raises
 
 - *NodeTypeError*: if key or value is not a string
 - *NodeAttributeError*: if unknown key.
 
-##### get_body_attribute_value
+#### get_body_attribute_value
 
 ```python
 def get_body_attribute_value(self, key: str) -> str:
@@ -2079,16 +2079,16 @@ def get_body_attribute_value(self, key: str) -> str:
 
 *Get the attribute value of the body element node.*
 
-###### Parameters
+##### Parameters
 
 - **key**: (*str*) Key property of an HTML attribute
 
 
-###### Returns
+##### Returns
 
 - (*str*) The attribute value of the <body> element
 
-##### add_body_attribute
+#### add_body_attribute
 
 ```python
 def add_body_attribute(self, key: str, value: str) -> str:
@@ -2106,23 +2106,23 @@ def add_body_attribute(self, key: str, value: str) -> str:
 
 *Add an attribute to the body element node.*
 
-###### Parameters
+##### Parameters
 
 - **key**: (*str*) Key property of an HTML attribute
 - **value**: (*str*) Value of the attribute
 
 
-###### Raises
+##### Raises
 
 - *NodeTypeError*: if key or value is not a string
 - *NodeAttributeError*: if unknown key
 
 
-###### Returns
+##### Returns
 
 - normalized key
 
-##### set_body_attribute
+#### set_body_attribute
 
 ```python
 def set_body_attribute(self, key: str, value: str) -> None:
@@ -2138,17 +2138,17 @@ def set_body_attribute(self, key: str, value: str) -> None:
 
 *Set an attribute of the body.*
 
-###### Parameters
+##### Parameters
 
 - **key**: (*str*) Key property of an HTML attribute
 - **value**: (*str*) Value of the attribute
 
 
-###### Returns
+##### Returns
 
 - (*bool*) The attribute is set
 
-##### get_body_identifier
+#### get_body_identifier
 
 ```python
 def get_body_identifier(self) -> str:
@@ -2162,11 +2162,11 @@ def get_body_identifier(self) -> str:
 
 *Return the identifier of the body node.*
 
-###### Returns
+##### Returns
 
 - (*str*) the identifier of the body node.
 
-##### insert_body_child
+#### insert_body_child
 
 ```python
 def insert_body_child(self, child: HTMLNode, index: int=0) -> None:
@@ -2185,16 +2185,16 @@ def insert_body_child(self, child: HTMLNode, index: int=0) -> None:
 
 *Insert a html node in the body.*
 
-###### Parameters
+##### Parameters
 
 - **child**: (HTMLNode) the node to append in the body
 - **index**: (*int*) Optional, the index where insert the child, by default the index is set to 0
 
-###### Raises
+##### Raises
 
 - *ValueError*: If the index is negative
 
-##### get_head
+#### get_head
 
 ```python
 def get_head(self) -> HTMLNode:
@@ -2208,11 +2208,11 @@ def get_head(self) -> HTMLNode:
 
 *Get the head node element.*
 
-###### Returns
+##### Returns
 
 - (HTMLNode) Head node element
 
-##### set_head
+#### set_head
 
 ```python
 def set_head(self, head_node: HTMLNode) -> None:
@@ -2235,16 +2235,16 @@ def set_head(self, head_node: HTMLNode) -> None:
 
 *Replace the current head node by the given one.*
 
-###### Parameters
+##### Parameters
 
 - **head_node**: (HTMLNode)
 
-###### Raises
+##### Raises
 
 - *NodeTypeError*: if head_node is not an HTMLNode
 - *NodeIdentifierError*: if head_node identifier is not "head"
 
-##### get_body_header
+#### get_body_header
 
 ```python
 def get_body_header(self) -> HTMLNode | None:
@@ -2258,11 +2258,11 @@ def get_body_header(self) -> HTMLNode | None:
 
 *Get the body->header element node.*
 
-###### Returns
+##### Returns
 
 - (HTMLNode | None) Body header node element
 
-##### set_body_header
+#### set_body_header
 
 ```python
 def set_body_header(self, body_node):
@@ -2285,16 +2285,16 @@ def set_body_header(self, body_node):
 
 *Replace the current body->header element node by the given one.*
 
-###### Parameters
+##### Parameters
 
 - **body_node**: (HTMLNode)
 
-###### Raises
+##### Raises
 
 - *NodeTypeError*: if head_node is not an HTMLNode
 - *NodeIdentifierError*: if head_node identifier is not "body_header"
 
-##### get_body_nav
+#### get_body_nav
 
 ```python
 def get_body_nav(self):
@@ -2308,11 +2308,11 @@ def get_body_nav(self):
 
 *Get the body->nav element node.*
 
-###### Returns
+##### Returns
 
 - (HTMLNode) Body nav node element
 
-##### set_body_nav
+#### set_body_nav
 
 ```python
 def set_body_nav(self, body_node):
@@ -2335,16 +2335,16 @@ def set_body_nav(self, body_node):
 
 *Replace the current body->nav node by the given one.*
 
-###### Parameters
+##### Parameters
 
 - **body_node**: (HTMLNode)
 
-###### Raises
+##### Raises
 
 - *NodeTypeError*: if head_node is not an HTMLNode
 - *NodeIdentifierError*: if head_node identifier is not "body_nav"
 
-##### get_body_main
+#### get_body_main
 
 ```python
 def get_body_main(self):
@@ -2358,11 +2358,11 @@ def get_body_main(self):
 
 *Get the body->main element node.*
 
-###### Returns
+##### Returns
 
 - (HTMLNode) Body main node element
 
-##### get_body_footer
+#### get_body_footer
 
 ```python
 def get_body_footer(self):
@@ -2376,11 +2376,11 @@ def get_body_footer(self):
 
 *Get the body->footer element node.*
 
-###### Returns
+##### Returns
 
 - (HTMLNode) Body footer node element
 
-##### set_body_footer
+#### set_body_footer
 
 ```python
 def set_body_footer(self, body_node):
@@ -2402,17 +2402,17 @@ def set_body_footer(self, body_node):
 
 *Replace the current body->footer node by the given one.*
 
-###### Parameters
+##### Parameters
 
 - **body_node**: (HTMLNode)
 
 
-###### Raises
+##### Raises
 
 - *NodeTypeError*: if head_node is not an HTMLNode
 - *NodeIdentifierError*: if head_node identifier is not "body_footer"
 
-##### get_body_script
+#### get_body_script
 
 ```python
 def get_body_script(self):
@@ -2426,11 +2426,11 @@ def get_body_script(self):
 
 *Get the body->script element node.*
 
-###### Returns
+##### Returns
 
 - (HTMLNode) Body script node element
 
-##### set_body_script
+#### set_body_script
 
 ```python
 def set_body_script(self, body_node):
@@ -2453,16 +2453,16 @@ def set_body_script(self, body_node):
 
 *Replace the current body->script node by the given one.*
 
-###### Parameters
+##### Parameters
 
 - **body_node**: (HTMLNode)
 
-###### Raises
+##### Raises
 
 - *NodeTypeError*: if head_node is not an HTMLNode
 - *NodeIdentifierError*: if head_node identifier is not "body_script"
 
-##### comment
+#### comment
 
 ```python
 def comment(self, content):
@@ -2474,7 +2474,7 @@ def comment(self, content):
 
 *Add a comment to the body->main.*
 
-##### element
+#### element
 
 ```python
 def element(self, tag: str='div', ident=None, class_name=None) -> HTMLNode:
@@ -2498,18 +2498,18 @@ def element(self, tag: str='div', ident=None, class_name=None) -> HTMLNode:
 
 *Add a node to the body->main.*
 
-###### Parameters
+##### Parameters
 
 - **tag**: (*str*) HTML element name
 - **ident**: (*str*) Identifier of the element
 - **class_name**: (*str*) Value of the class attribute
 
 
-###### Returns
+##### Returns
 
 - (HTMLNode) The created node
 
-##### button
+#### button
 
 ```python
 def button(self, value: str, on_clik: str, identifier: str=None, class_name: str=None) -> HTMLNode:
@@ -2535,18 +2535,18 @@ def button(self, value: str, on_clik: str, identifier: str=None, class_name: str
 
 *Add a classic button with given text value and onclick event to the body->main.*
 
-###### Parameters
+##### Parameters
 
 - **value**: (*str*) The text write in the button
 - **on_clik**: (*str*) the onclick event of the button (generally call a js function)
 - **identifier**: (*str*) Optional, the identifier of the node (and also the id of the tag in the html generated)
 - **class_name**: (*str*) Optional, the classes attribute for css of the button tag
 
-###### Returns
+##### Returns
 
 - (HTMLNode) The button node created
 
-##### image
+#### image
 
 ```python
 def image(self, src: str, alt_text: str, identifier: str=None, class_name: str=None) -> HTMLNode:
@@ -2572,18 +2572,18 @@ def image(self, src: str, alt_text: str, identifier: str=None, class_name: str=N
 
 *Add an image to the body->main.*
 
-###### Parameters
+##### Parameters
 
 - **src**: (*str*) The path of the image file
 - **alt_text**: (*str*) the alternative text if for some reason the image doesn't display or for narrator
 - **identifier**: (*str*) Optional, the identifier of the node (and also the id of the tag in the html generated)
 - **class_name**: (*str*) Optional, the classes attribute for css of the button tag
 
-###### Returns
+##### Returns
 
 - (HTMLNode) The image node created
 
-##### serialize_element
+#### serialize_element
 
 ```python
 @staticmethod
@@ -2607,22 +2607,22 @@ def serialize_element(node: HTMLNode, nbs: int=4) -> str:
 
 *Serialize an element node only if not empty.*
 
-###### Parameters
+##### Parameters
 
 - **node**: (HTMLNode) Any element node
 - **nbs**: (*int*) Number of space for indentation
 
 
-###### Raises
+##### Raises
 
 - *NodeTypeError*: If the given parameter is not an HTMLNode
 
 
-###### Returns
+##### Returns
 
 - (*str*) Serialized node only if it has children or a value.
 
-##### serialize
+#### serialize
 
 ```python
 def serialize(self, nbs: int=4) -> str:
@@ -2664,16 +2664,16 @@ def serialize(self, nbs: int=4) -> str:
 
 *Override. Serialize the tree into HTML.*
 
-###### Parameters
+##### Parameters
 
 - **nbs**: (*int*) Number of spaces for the indentation
 
 
-###### Returns
+##### Returns
 
 - (*str*)
 
-##### serialize_to_file
+#### serialize_to_file
 
 ```python
 def serialize_to_file(self, filename: str, nbs: int=4) -> str:
@@ -2695,21 +2695,21 @@ def serialize_to_file(self, filename: str, nbs: int=4) -> str:
 
 The HTML content is saved into the file and its URL is returned.
 
-###### Parameters
+##### Parameters
 
 - **filename**: (*str*) A filename to save the serialized HTML string.
 - **nbs**: (*int*) Number of spaces for the indentation
 
 
-###### Returns
+##### Returns
 
 - (*str*) file URL
 
 
 
-#### Private functions
+### Private functions
 
-##### _get_body
+#### _get_body
 
 ```python
 def _get_body(self) -> HTMLNode:
@@ -2723,15 +2723,15 @@ def _get_body(self) -> HTMLNode:
 
 *Get the body element node.*
 
-###### Returns
+##### Returns
 
 - (HTMLNode) The body element node
 
 
 
-#### Overloads
+### Overloads
 
-##### __contains__
+#### __contains__
 
 ```python
 def __contains__(self, identifier):
@@ -2740,7 +2740,7 @@ def __contains__(self, identifier):
 
 
 
-##### __str__
+#### __str__
 
 ```python
 def __str__(self):
@@ -2751,11 +2751,11 @@ def __str__(self):
 
 
 
-### Class `HTMLTreeError`
+## Class `HTMLTreeError`
 
-#### Constructor
+### Constructor
 
-##### __init__
+#### __init__
 
 ```python
 def __init__(self, status, msg_error: str=None):
@@ -2777,7 +2777,7 @@ def __init__(self, status, msg_error: str=None):
 
 *Create an HTML Tree for status error response.*
 
-###### Parameters
+##### Parameters
 
 - **status**: (HTTPDStatus) The status of the response. (DO NOT typing it for circular import problem)
 - **msg_error**: (*str*) Optional parameter, error message to display in the page for more information
@@ -2786,4 +2786,4 @@ def __init__(self, status, msg_error: str=None):
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.7 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.9 ~
