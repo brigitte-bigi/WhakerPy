@@ -11,7 +11,9 @@
        
    a Python library to create dynamic HTML content and web applications
 
- Copyright (C) 2024 Laboratoire Parole et Langage, Aix-en-Provence, France
+               Copyright (C) 2023-2024 Brigitte Bigi, 
+         Laboratoire Parole et Langage, Aix-en-Provence, France
+         
 -----------------------------------------------------------------------------                                                              
 ```
 

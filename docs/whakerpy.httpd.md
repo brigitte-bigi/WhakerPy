@@ -185,7 +185,7 @@ that won't be invalidated when baking.
 #### bake
 
 ```python
-def bake(self, events) -> str:
+def bake(self, events: dict, headers: dict=None) -> str:
     """Return the HTML response after processing the events.
 
         Processing the events may change the response status. This method is
@@ -193,9 +193,10 @@ def bake(self, events) -> str:
         are the information the handler received (commonly with POST).
 
         :param events: (dict) The requested events to be processed
+        :param headers: (dict) The headers of the http request received
 
         """
-    dirty = self._process_events(events)
+    dirty = self._process_events(events, headers=headers)
     if dirty is True:
         self._invalidate()
         self._bake()
@@ -211,6 +212,7 @@ are the information the handler received (commonly with POST).
 ##### Parameters
 
 - **events**: (*dict*) The requested events to be processed
+- **headers**: (*dict*) The headers of the http request received
 
 
 
@@ -219,7 +221,7 @@ are the information the handler received (commonly with POST).
 #### _process_events
 
 ```python
-def _process_events(self, events) -> bool:
+def _process_events(self, events: dict, **kwargs) -> bool:
     """Process the given events.
 
         The given event name must match a function of the event's manager.
@@ -598,7 +600,9 @@ def do_GET(self) -> None:
     handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
     self.path = handler_utils.get_path()
     mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
-    if mime_type == 'text/html':
+    if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
+        content, status = handler_utils.static_content(self.path[1:])
+    elif mime_type == 'text/html':
         content, status = self._bakery(handler_utils, dict(), mime_type)
     else:
         content, status = handler_utils.static_content(self.path[1:])
@@ -705,7 +709,7 @@ def _bakery(self, handler_utils: HTTPDHandlerUtils, events: dict, mime_type: str
         """
     if not hasattr(self.server, 'page_bakery'):
         return handler_utils.static_content(self.path[1:])
-    content, status = self.server.page_bakery(handler_utils.get_page_name(), events, handler_utils.has_to_return_data(mime_type))
+    content, status = self.server.page_bakery(handler_utils.get_page_name(), self.headers, events, handler_utils.has_to_return_data(mime_type))
     return (content, status)
 ```
 
@@ -926,6 +930,7 @@ def filter_path(path: str, default_path: str='index.html') -> tuple[str, str]:
         :return: (tuple[str, str]) the requested filename and the requested page name
 
         """
+    path = unquote(path)
     if '?' in path:
         path = path[:path.index('?')]
     if len(path) == 0:
@@ -981,11 +986,12 @@ def has_to_return_data(accept_type: str) -> bool:
 
 ```python
 @staticmethod
-def bakery(pages: dict, page_name: str, events: dict, has_to_return_data: bool=False) -> tuple[bytes, HTTPDStatus]:
+def bakery(pages: dict, page_name: str, headers: dict, events: dict, has_to_return_data: bool=False) -> tuple[bytes, HTTPDStatus]:
     """Process received events and bake the given page.
 
         :param pages: (dict) A dictionary with key=page_name and value=ResponseRecipe
         :param page_name: (str) The current page name
+        :param headers: (dict) The headers of the http request
         :param events: (dict) The events extract from the request (only for POST request, send empty dict for GET)
         :param has_to_return_data: (bool) False by default, Boolean to know if we have to return the html page or data
         :return: (tuple[bytes, HTTPDStatus]) The content to answer to the client and the status of the response
@@ -995,7 +1001,7 @@ def bakery(pages: dict, page_name: str, events: dict, has_to_return_data: bool=F
     if response is None:
         status = HTTPDStatus(404)
         return (status.to_html(encode=True, msg_error=f'Page not found : {page_name}'), status)
-    content = bytes(response.bake(events), 'utf-8')
+    content = bytes(response.bake(events, headers=headers), 'utf-8')
     if has_to_return_data:
         content = response.get_data()
         if isinstance(content, bytes) is False and isinstance(content, bytearray) is False:
@@ -1015,6 +1021,7 @@ def bakery(pages: dict, page_name: str, events: dict, has_to_return_data: bool=F
 
 - **pages**: (*dict*) A dictionary with key=page_name and value=ResponseRecipe
 - **page_name**: (*str*) The current page name
+- **headers**: (*dict*) The headers of the http request
 - **events**: (*dict*) The events extract from the request (only for POST request, send empty dict for GET)
 - **has_to_return_data**: (*bool*) False by default, Boolean to know if we have to return the html page or data
 
@@ -1127,7 +1134,10 @@ def __extract_body_content(self, content) -> dict:
         except json.JSONDecodeError:
             logging.error(f"Can't decode JSON posted data : {data}")
     elif 'multipart/form-data; boundary=' in content_type:
-        filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
+        if isinstance(data, str):
+            filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
+        else:
+            filename, mime_type, content = HTTPDHandlerUtils.__extract_binary_form_data_file(content_type, data)
         data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
     else:
         data = dict(parse_qsl(data, keep_blank_values=True, strict_parsing=False))
@@ -1153,39 +1163,29 @@ def __extract_body_content(self, content) -> dict:
 
 ```python
 @staticmethod
-def __extract_form_data_file(content_type: str, data: str | bytes) -> tuple[str, str, str]:
+def __extract_form_data_file(content_type: str, data: str) -> tuple[str, str, str]:
     """Extract the body of a "formdata request" to upload a file.
+        Use this function with utf-8 files.
 
         :param content_type: (str) The content type in the header of the request
         :param data: (str | bytes) the body of the request in bytes or string format
         :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content
 
         """
-    if isinstance(data, bytes):
-        data = str(data)
-        end_line = '\\n'
-        carriage_return = '\\r'
-    else:
-        end_line = '\n'
-        carriage_return = '\r'
-    start_index_filename = data.index('filename="') + len('filename="')
-    end_index_filename = start_index_filename + data[start_index_filename:].index('"')
-    filename = data[start_index_filename:end_index_filename]
+    filename, end_index_filename = HTTPDHandlerUtils.__extract_form_data_filename(data)
     data = data[end_index_filename:]
-    start_index_type = data.index('Content-Type: ') + len('Content-Type: ')
-    end_index_type = start_index_type + data[start_index_type:].index(end_line)
-    mime_type = data[start_index_type:end_index_type]
-    mime_type = mime_type.replace(carriage_return, '')
+    mimetype, end_index_type = HTTPDHandlerUtils.__extract_form_data_mimetype(data)
     data = data[end_index_type + 1:]
-    start_boundary = content_type.index('boundary=') + len('boundary=')
-    boundary = '--' + content_type[start_boundary:] + '--'
-    start_content = data.index(end_line) + 1
+    boundary = HTTPDHandlerUtils.__extract_form_data_boundary(content_type)
+    start_content = data.index('\n') + 1
     end_content = data[start_content:].index(boundary)
     content = data[start_content:end_content]
-    return (filename, mime_type, content)
+    content = content.replace('\r', '')
+    return (filename, mimetype, content)
 ```
 
 *Extract the body of a "formdata request" to upload a file.*
+Use this function with utf-8 files.
 
 ##### Parameters
 
@@ -1196,6 +1196,146 @@ def __extract_form_data_file(content_type: str, data: str | bytes) -> tuple[str,
 ##### Returns
 
 - **(tuple[str, str, str]) the data extracted**: filename, fime mime type and file content
+
+#### __extract_binary_form_data_file
+
+```python
+@staticmethod
+def __extract_binary_form_data_file(content_type: str, data: bytes) -> tuple:
+    """Extract the body of a "formdata request" to upload a file.
+        Use this function with binary files.
+
+        :param content_type: (str) The content type in the header of the request
+        :param data: (str | bytes) the body of the request in bytes or string format
+        :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content
+
+        """
+    file_content_begin = None
+    content_type_pass = False
+    prefix = ''
+    for i in range(len(data)):
+        if data[i] <= 127:
+            prefix += chr(data[i])
+        else:
+            file_content_begin = i
+            break
+        if content_type_pass is True:
+            index = prefix.index('Content-Type')
+            if '\n\n' in prefix[index:] or '\r\n\r\n' in prefix[index:]:
+                file_content_begin = i + 1
+                break
+        if content_type_pass is False and 'Content-Type' in prefix:
+            content_type_pass = True
+    reversed_boundary = HTTPDHandlerUtils.__extract_form_data_boundary(content_type)[::-1]
+    file_content_end = None
+    postfix = ''
+    for i in range(len(data) - 1, file_content_begin, -1):
+        if reversed_boundary not in postfix:
+            postfix += chr(data[i])
+        else:
+            file_content_end = i
+            break
+    content = data[file_content_begin:file_content_end + 1]
+    filename = HTTPDHandlerUtils.__extract_form_data_filename(prefix)[0]
+    mimetype = HTTPDHandlerUtils.__extract_form_data_mimetype(prefix)[0]
+    return (filename, mimetype, content)
+```
+
+*Extract the body of a "formdata request" to upload a file.*
+Use this function with binary files.
+
+##### Parameters
+
+- **content_type**: (*str*) The content type in the header of the request
+- **data**: (*str* | *bytes*) the body of the request in bytes or string format
+
+
+##### Returns
+
+- **(tuple[str, str, str]) the data extracted**: filename, fime mime type and file content
+
+#### __extract_form_data_filename
+
+```python
+@staticmethod
+def __extract_form_data_filename(text: str) -> tuple[str, int]:
+    """Extract the filename from the form data uploaded file.
+
+        :param text: (str) the body or a part received from the request.
+        :return: (tuple[str, str, str]) the filename and the index where the filename value ends.
+
+        """
+    start_index_filename = text.index('filename="') + len('filename="')
+    end_index_filename = start_index_filename + text[start_index_filename:].index('"')
+    return (text[start_index_filename:end_index_filename], end_index_filename)
+```
+
+*Extract the filename from the form data uploaded file.*
+
+##### Parameters
+
+- **text**: (*str*) the body or a part received from the request.
+
+
+##### Returns
+
+- (*tuple*[*str*, *str*, *str*]) the filename and the index where the filename value ends.
+
+#### __extract_form_data_mimetype
+
+```python
+@staticmethod
+def __extract_form_data_mimetype(text: str) -> tuple[str, int]:
+    """Extract the mimetype from the form data uploaded file.
+
+        :param text: (str) the body or a part received from the request.
+        :return: (tuple[str, str, str]) the mimetype and the index where the mimetype value ends.
+
+        """
+    start_index_type = text.index('Content-Type: ') + len('Content-Type: ')
+    end_index_type = start_index_type + text[start_index_type:].index('\n')
+    mimetype = text[start_index_type:end_index_type]
+    mimetype = mimetype.replace('\r', '')
+    return (mimetype, end_index_type)
+```
+
+*Extract the mimetype from the form data uploaded file.*
+
+##### Parameters
+
+- **text**: (*str*) the body or a part received from the request.
+
+
+##### Returns
+
+- (*tuple*[*str*, *str*, *str*]) the mimetype and the index where the mimetype value ends.
+
+#### __extract_form_data_boundary
+
+```python
+@staticmethod
+def __extract_form_data_boundary(content_type: str) -> str:
+    """Extract the boundary from the form data content type which delimited the uploaded file content.
+
+        :param content_type: (str) the content type in the header of the received request.
+        :return: (tuple[str, str, str]) the boundary.
+
+        """
+    start_boundary = content_type.index('boundary=') + len('boundary=')
+    boundary = '--' + content_type[start_boundary:] + '--'
+    return boundary
+```
+
+*Extract the boundary from the form data content type which delimited the uploaded file content.*
+
+##### Parameters
+
+- **content_type**: (*str*) the content type in the header of the received request.
+
+
+##### Returns
+
+- (*tuple*[*str*, *str*, *str*]) the boundary.
 
 
 
@@ -1287,20 +1427,21 @@ Below is an example on how to override this method:
 #### page_bakery
 
 ```python
-def page_bakery(self, page_name: str, events: dict, has_to_return_data: bool=False) -> tuple:
+def page_bakery(self, page_name: str, headers: dict, events: dict, has_to_return_data: bool=False) -> tuple:
     """Return the page content and response status.
 
         This method should be invoked after a POST request in order to
         take the events into account when baking the HTML page content.
 
         :param page_name: (str) Requested page name
+        :param headers: (dict) The headers ot the http request
         :param events: (dict) key=event name, value=event value
         :param has_to_return_data: (bool) False by default - Boolean to know if the server return data or html page
 
         :return: tuple(bytes, HTTPDStatus)
 
         """
-    return HTTPDHandlerUtils.bakery(self._pages, page_name, events, has_to_return_data)
+    return HTTPDHandlerUtils.bakery(self._pages, page_name, headers, events, has_to_return_data)
 ```
 
 *Return the page content and response status.*
@@ -1311,6 +1452,7 @@ take the events into account when baking the HTML page content.
 ##### Parameters
 
 - **page_name**: (*str*) Requested page name
+- **headers**: (*dict*) The headers ot the http request
 - **events**: (*dict*) key=event name, value=event value
 - **has_to_return_data**: (*bool*) False by default - Boolean to know if the server return data or html page
 

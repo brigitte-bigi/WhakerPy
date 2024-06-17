@@ -350,7 +350,7 @@ def page(self) -> str:
 #### _process_events
 
 ```python
-def _process_events(self, events) -> bool:
+def _process_events(self, events, **kwargs) -> bool:
     """Process the given events.
 
         The given event name must match a function of the event's manager.
@@ -628,9 +628,19 @@ def __call__(self, environ, start_response):
             start_response(repr(status), [('Content-Type', 'text/html')])
             return status.to_html(encode=True, msg_error=f'Page not found : {filepath}')
         events, accept = handler_utils.process_post(environ['wsgi.input'])
-        content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, events, HTTPDHandlerUtils.has_to_return_data(accept))
-    start_response(repr(status), [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))])
+        content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events, HTTPDHandlerUtils.has_to_return_data(accept))
+    headers = [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath)), ('Cache-Control', 'max-age=0')]
+    start_response(repr(status), headers)
     return content
+```
+
+
+
+#### __contains__
+
+```python
+def __contains__(self, item):
+    return item in self._pages
 ```
 
 

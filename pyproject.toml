@@ -48,7 +48,7 @@
 
 [tool.setuptools.packages.find]
     where = ["."]
-    exclude = ["tests*", "samples"]
+    exclude = ["tests*", "samples*"]
 
 #[tool.setuptools.packages.find]
 #where = ["."]  # list of folders that contain the packages (["."] by default)
