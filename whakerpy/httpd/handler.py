@@ -36,6 +36,7 @@
 from __future__ import annotations
 import logging
 import http.server
+import os.path
 
 from .hstatus import HTTPDStatus
 from .hutils import HTTPDHandlerUtils
@@ -148,10 +149,15 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         self.path = handler_utils.get_path()
         mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
 
+        # The client requested a static file (we do before check mime type in case the client ask a html static file)
+        if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
+            content, status = handler_utils.static_content(self.path[1:])
+
         # The client requested an HTML page. Response content is created by the server.
-        if mime_type == "text/html":
+        elif mime_type == "text/html":
             content, status = self._bakery(handler_utils, dict(), mime_type)
-        # The client requested a static file
+
+        # Unknown we try to get a static file
         else:
             content, status = handler_utils.static_content(self.path[1:])
 
