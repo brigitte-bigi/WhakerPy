@@ -230,8 +230,16 @@ The whakerpy package can be analyzed with SonarQube by following these steps:
 
 ## Help / How to contribute
 
-If you plan to contribute to the code or to report a bug, please send an e-mail to the author.
+If you want to report a bug, please send an e-mail to the author.
 Any and all constructive comments are welcome.
+
+If you plan to contribute to the code, please read carefully and agree both the 
+code of conduct and the code style guide.
+If you are contributing code or documentation to the WhakerPy project, you are 
+agreeing to the DCO certificate <http://developercertificate.org>. 
+Copy/paste the DCO, then you just add a line saying:
+```Signed-off-by: Random J Developer <random@developer.example.org>```.
+Send the file be e-mail to the author.
 
 
 ## License/Copyright
