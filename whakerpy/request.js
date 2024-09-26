@@ -1,29 +1,29 @@
 /**
-:filename: whakerpy.request.js
-:author: Florian Lopitaux
+:filename: whakerpy.js.request.js
+:author: Florian Lopitaux, Brigitte Bigi
 :contact: contact@sppas.org
-:summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost
-          client and gets data in return.
+:summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost client and gets data in return.
 
 .. _This file is part of WhakerPy: https://whakerpy.sourceforge.io
-..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi
+    Copyright (C) 2011-2024  Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
+    Use of this software is governed by the GNU Public License, version 3.
+
+    Whakerpy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
+    Whakerpy is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+    GNU General Public License for more details.
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with Whakerpy. If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -39,6 +39,23 @@ https://developer.mozilla.org/fr/docs/Learn/JavaScript/Asynchronous
 (only async and await keywords are necessary to understand to used the
 asynchronous class methods)
 
+Basic URL Structure: <protocol>//<hostname>:<port>/<pathname><search><hash>
+
+- protocol: Specifies the protocol name be used to access the resource on
+  the Internet.
+  For example: HTTP (without SSL) or HTTPS (with SSL)
+- hostname: Host name specifies the host that owns the resource.
+  For example, www.somewhere.org.
+  A server provides services using the name of the host.
+- port: A port number used to recognize a specific process to which an Internet
+  or other network message is to be forwarded when it arrives at a server.
+- pathname: The path gives info about the specific resource within the host t
+  that the Web client wants to access.
+  For example, /index.html.
+- search: A query string follows the path component, and provides a string
+  of information that the resource can utilize for some purpose.
+- hash: The anchor portion of a URL, includes the hash sign (#).
+
 */
 
 class RequestManager {
@@ -46,7 +63,6 @@ class RequestManager {
     // The declaration outside the constructor and the '#' symbol notify a private attribute in Javascript.
     #protocol;
     #port;
-    #path;
     #url;
     #status;
 
@@ -59,8 +75,7 @@ class RequestManager {
     constructor() {
         this.#protocol = window.location.protocol;
         this.#port = window.location.port;
-        this.#path = window.location.pathname;
-        this.#url = this.#protocol + "//" + window.location.hostname + ":" + this.#port + this.#path;
+        this.#url = this.#protocol + "//" + window.location.hostname + ":" + this.#port + "/";
         this.#status = null;
     }
 
@@ -82,15 +97,6 @@ class RequestManager {
      */
     get port() {
         return this.#port;
-    }
-
-    /**
-     * Get the url path.
-     *
-     * @returns {string} - The path of the url
-     */
-    get path() {
-        return this.#path;
     }
 
     /**
@@ -118,13 +124,13 @@ class RequestManager {
     /**
      * This method is used to send a GET HTTP request to the python server.
      *
-     * @param uri {string} - The parameters (after the url) of the GET request.
+     * @param uri {string} - The pathname of the GET request.
      * @param is_json_response {boolean} - False by default.
      *                                     Boolean value to know if the server response is a json object to parse.
      *
      * @returns {Promise<*>} - The server data response.
      */
-    async send_get_request(uri, is_json_response = false) {
+    async send_get_request(uri = "", is_json_response = false) {
         const complete_url = this.request_url + uri;
         let request_response_data = null;
 
@@ -156,12 +162,14 @@ class RequestManager {
      * This method is used to send a POST HTTP request to the python server.
      * The content of the posted data must be in JSON format.
      *
+     * @param uri {string} - The pathname of the POST request.
      * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
      * @param accept_type {string} - mime type of the server response, json by default.
      *
      * @returns {Promise<*>} - The server data response.
      */
-    async send_post_request(post_parameters, accept_type = "application/json") {
+    async send_post_request(post_parameters, accept_type = "application/json", uri = "") {
+		const complete_url = this.request_url + uri;
         let request_response_data = null;
 
         // build request header and body depending on parameter passed to the method
@@ -173,7 +181,7 @@ class RequestManager {
         }
 
         // send request to the server
-        await fetch(this.request_url, {
+        await fetch(complete_url, {
             method: "POST",
             headers: request_header,
             body: post_parameters
@@ -200,26 +208,25 @@ class RequestManager {
     }
 
     /**
-     * This method upload a file (only one) from an input to the server.
+     * Uploads a file (only one) from an input to the server.
      * Returns the server response in json format (already decoded).
      *
      * @param input {HTMLInputElement} - the input that contains the file to upload
-     * @param accept_type {string} - mime type of the server response, json by default.
-     *
+     * @param accept_type {string} - mimetype of the server response, json by default.
+     * @param token {string} - the token of the user to authenticate the request
      * @returns {Promise<*>} The server response.
      */
-    async upload_file(input, accept_type = "application/json") {
+    async upload_file(input, accept_type = "application/json", token = "") {
         let response_data = null;
-
         // format file to upload to the server
         let data = new FormData();
         data.append('file', input.files[0]);
-
         // send request to the back-end and wait the response (response in json)
         await fetch(this.request_url, {
             method: 'POST',
             headers: {
-                "Accept": accept_type
+                'Accept': accept_type,
+                "Authorization": 'Bearer ' + token
             },
             body: data
         })
