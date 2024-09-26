@@ -60,10 +60,10 @@ class HTTPDHandlerUtils:
         self.__path, self.__page_name = HTTPDHandlerUtils.filter_path(path, default_page)
         self.__headers = dict()
 
-        if isinstance(headers, HTTPMessage) or isinstance(headers, dict):
+        if isinstance(headers, HTTPMessage) is True or isinstance(headers, dict) is True:
             self.__headers = headers
         else:
-            raise TypeError("The headers parameter has to be a dictionary or HTTPMessage class !")
+            raise TypeError("The headers parameter has to be a dictionary or HTTPMessage class!")
 
     # -----------------------------------------------------------------------
     # GETTERS
@@ -134,6 +134,7 @@ class HTTPDHandlerUtils:
         if "text/html" in accept_type:
             accept_type = "text/html"
 
+        logging.debug(f" ---- handler: process post: {events}")
         return events, accept_type
 
     # -----------------------------------------------------------------------

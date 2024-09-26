@@ -94,6 +94,8 @@ class WSGIApplication(object):
         # Get the expected filename
         handler_utils = HTTPDHandlerUtils(environ, environ["PATH_INFO"], self.__default_file)
         filepath = self.__default_path + handler_utils.get_path()
+        # provide urls with several "/" instead of a single one
+        filepath = filepath.replace("//", "/")
         page_name = handler_utils.get_page_name()
 
         # If the requested file is a static one

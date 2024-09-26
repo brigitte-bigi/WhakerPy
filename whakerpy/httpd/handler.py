@@ -143,7 +143,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         """Prepare the response to a GET request."""
-        logging.debug("GET -- requested: {}".format(self.path))
+        logging.debug(" ---- DO GET -- requested: {}".format(self.path))
 
         handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
         self.path = handler_utils.get_path()
@@ -167,9 +167,11 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         """Prepare the response to a POST request."""
-        logging.debug("POST -- requested: {}".format(self.path))
+        logging.debug(" ----- DO POST -- requested: {}".format(self.path))
 
         handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
+        self.path = handler_utils.get_path()
+
         events, accept = handler_utils.process_post(self.rfile)
 
         content, status = self._bakery(handler_utils, events, accept)
