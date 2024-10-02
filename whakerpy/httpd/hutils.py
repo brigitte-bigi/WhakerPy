@@ -134,7 +134,6 @@ class HTTPDHandlerUtils:
         if "text/html" in accept_type:
             accept_type = "text/html"
 
-        logging.debug(f" ---- handler: process post: {events}")
         return events, accept_type
 
     # -----------------------------------------------------------------------
@@ -330,8 +329,10 @@ class HTTPDHandlerUtils:
 
         try:
             data = data.decode("utf-8")
-        # the data is a binary file can't decode in utf-8 format (like image or video file)
+            # the data can't be decoded in utf-8 format: like an image or a video file.
+            # it also happens if filename contains diacritics.
         except UnicodeError:
+            logging.debug("Not an utf-8 content.")
             pass
 
         # if content-type or content_length are not defined in the header request
@@ -347,11 +348,10 @@ class HTTPDHandlerUtils:
 
         # parse uploaded file
         elif "multipart/form-data; boundary=" in content_type:
-            if isinstance(data, str):
-                filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
-            else:
+            if isinstance(data, bytes) is True:
                 filename, mime_type, content = HTTPDHandlerUtils.__extract_binary_form_data_file(content_type, data)
-
+            else:
+                filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
             data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
 
         # otherwise try to parse text data from forms
@@ -375,7 +375,8 @@ class HTTPDHandlerUtils:
     @staticmethod
     def __extract_form_data_file(content_type: str, data: str) -> tuple[str, str, str]:
         """Extract the body of a "formdata request" to upload a file.
-        Use this function with utf-8 files.
+
+        Use this function with an utf-8 file content.
 
         :param content_type: (str) The content type in the header of the request
         :param data: (str | bytes) the body of the request in bytes or string format
@@ -405,7 +406,8 @@ class HTTPDHandlerUtils:
     @staticmethod
     def __extract_binary_form_data_file(content_type: str, data: bytes) -> tuple:
         """Extract the body of a "formdata request" to upload a file.
-        Use this function with binary files.
+
+        Use this function with a binary file content.
 
         :param content_type: (str) The content type in the header of the request
         :param data: (str | bytes) the body of the request in bytes or string format
