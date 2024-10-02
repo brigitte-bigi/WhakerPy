@@ -165,6 +165,7 @@ class RequestManager {
      * @param uri {string} - The pathname of the POST request.
      * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
      * @param accept_type {string} - mime type of the server response, json by default.
+     * @param uri {string} - The pathname of the GET request.
      *
      * @returns {Promise<*>} - The server data response.
      */
@@ -214,15 +215,36 @@ class RequestManager {
      * @param input {HTMLInputElement} - the input that contains the file to upload
      * @param accept_type {string} - mimetype of the server response, json by default.
      * @param token {string} - the token of the user to authenticate the request
+     * @param uri {string} - The pathname of the GET request.
+     *
      * @returns {Promise<*>} The server response.
      */
-    async upload_file(input, accept_type = "application/json", token = "") {
+    async upload_file(input, accept_type = "application/json", token = "", uri = "") {
         let response_data = null;
-        // format file to upload to the server
+        const complete_url = this.request_url + uri;
+        this.#status = 400;
+
+        // Exit the function if no file is selected
+        if (!input || !input.files || !input.files[0]) {
+            console.error("No file selected for upload.");
+            // Return a JSON object with status 400 and an error message
+            return {
+                error: "No file or empty file selected for upload."
+            };
+        }
+
+        // Create a new File instance, with the sanitized filename (no diacritics)
+        let sanitizedFileName = input.files[0].name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        let sanitizedFile = new File([input.files[0]], sanitizedFileName, {
+            type: input.files[0].type,
+            lastModified: input.files[0].lastModified,
+        });
+        // Format file to upload to the server
         let data = new FormData();
-        data.append('file', input.files[0]);
-        // send request to the back-end and wait the response (response in json)
-        await fetch(this.request_url, {
+        data.append('file', sanitizedFile);
+
+        // Send request to the back-end and wait for the response (response in json)
+        await fetch(complete_url, {
             method: 'POST',
             headers: {
                 'Accept': accept_type,
@@ -230,11 +252,25 @@ class RequestManager {
             },
             body: data
         })
-            // get the response and update the current status code
-            .then(async response => {
-                this.#status = response.status;
+        // get the response and update the current status code
+        .then(async response => {
+            this.#status = response.status;
+            // Check if the status is not 200
+            if (response.status !== 200) {
+                // Return a JSON object with status and statusText
+                return {
+                    statusText: response.statusText
+                };
+            } else {
+                // If status is 200, return the JSON response
                 response_data = await response.json();
-            });
+            }
+        })
+        // handle error
+        .catch(error => {
+            this.#status = error.status;
+            response_data = error;
+        })
 
         return response_data;
     }
