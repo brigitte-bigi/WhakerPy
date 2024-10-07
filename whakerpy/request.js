@@ -59,8 +59,9 @@ Basic URL Structure: <protocol>//<hostname>:<port>/<pathname><search><hash>
 */
 
 class RequestManager {
+
     // FIELDS
-    // The declaration outside the constructor and the '#' symbol notify a private attribute in Javascript.
+    // The declaration outside the constructor and the '#' symbol notify a private attribute.
     #protocol;
     #port;
     #url;
@@ -79,25 +80,33 @@ class RequestManager {
         this.#status = null;
     }
 
-
+    // ----------------------------------------------------------------------
     // GETTERS
+    // ----------------------------------------------------------------------
+
     /**
      * Get the protocol of the connexion of the client (In the SPPAS web application case the protocol is 'http').
      *
      * @returns {string} The protocol used.
+     *
      */
     get protocol() {
         return this.#protocol;
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Get the port of the client and server address.
      *
      * @returns {string} - The port used.
+     *
      */
     get port() {
         return this.#port;
     }
+
+    // ----------------------------------------------------------------------
 
     /**
      * Get the url of the client and server address.
@@ -106,21 +115,28 @@ class RequestManager {
      * Example: http://localhost:8080/
      *
      * @returns {string} The url of the localhost address.
+     *
      */
     get request_url() {
         return this.#url;
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Get the status of the last response of the server.
      *
      * @returns {int} The code of the response.
+     *
      */
     get status() {
         return this.#status;
     }
 
+    // ----------------------------------------------------------------------
     // METHODS
+    // ----------------------------------------------------------------------
+
     /**
      * This method is used to send a GET HTTP request to the python server.
      *
@@ -129,6 +145,7 @@ class RequestManager {
      *                                     Boolean value to know if the server response is a json object to parse.
      *
      * @returns {Promise<*>} - The server data response.
+     *
      */
     async send_get_request(uri = "", is_json_response = false) {
         const complete_url = this.request_url + uri;
@@ -157,17 +174,18 @@ class RequestManager {
         return request_response_data;
     }
 
+    // ----------------------------------------------------------------------
 
     /**
      * This method is used to send a POST HTTP request to the python server.
      * The content of the posted data must be in JSON format.
      *
-     * @param uri {string} - The pathname of the POST request.
      * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
      * @param accept_type {string} - mime type of the server response, json by default.
-     * @param uri {string} - The pathname of the GET request.
+     * @param uri {string} - The pathname of the POST request.
      *
      * @returns {Promise<*>} - The server data response.
+     *
      */
     async send_post_request(post_parameters, accept_type = "application/json", uri = "") {
 		const complete_url = this.request_url + uri;
@@ -208,6 +226,8 @@ class RequestManager {
         return request_response_data;
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Uploads a file (only one) from an input to the server.
      * Returns the server response in json format (already decoded).
@@ -218,6 +238,7 @@ class RequestManager {
      * @param uri {string} - The pathname of the GET request.
      *
      * @returns {Promise<*>} The server response.
+     *
      */
     async upload_file(input, accept_type = "application/json", token = "", uri = "") {
         let response_data = null;
