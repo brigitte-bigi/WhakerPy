@@ -121,13 +121,12 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
         """
         # Server is not the custom one for SPPAS wapp.
-        if not hasattr(self.server, 'page_bakery'):
+        if hasattr(self.server, 'page_bakery') is False:
             return handler_utils.static_content(self.path[1:])
 
         # get the response
         content, status = self.server.page_bakery(handler_utils.get_page_name(), self.headers, events,
                                                   handler_utils.has_to_return_data(mime_type))
-
         return content, status
 
     # -----------------------------------------------------------------------

@@ -193,15 +193,26 @@ class HTTPDHandlerUtils:
 
     @staticmethod
     def has_to_return_data(accept_type: str) -> bool:
-        """Boolean expression to know if the server has to respond data or a HTML page.
+        """Determine the type of the server return: True for data.
 
-        :param accept_type: (str) The mime type of the 'Accept' header request
-        :return: (bool) True if we have to return data, False if we have to return html content
+        Determine if the server should return data (e.g., JSON, image, video,
+        etc.) instead of an HTML page based on the 'Accept' header's MIME type.
+
+        :param accept_type: (str) The MIME type of the 'Accept' header request
+        :return: (bool) True if the server should return data, False if HTML content is expected
 
         """
-        return accept_type == "application/json" or \
-            accept_type.startswith("image/") or \
-            accept_type.startswith("video/")
+        data_types = [
+            "application/json",
+            "image/",
+            "video/",
+            "audio/",
+            "application/ogg"
+        ]
+        for d in data_types:
+            if accept_type.startswith(d) is True:
+                return True
+        return False
 
     # -----------------------------------------------------------------------
 
@@ -223,17 +234,16 @@ class HTTPDHandlerUtils:
 
         if response is None:
             status = HTTPDStatus(404)
-            return status.to_html(encode=True, msg_error=f"Page not found : {page_name}"), status
+            return status.to_html(encode=True, msg_error=f"Page not found: {page_name}"), status
 
         content = bytes(response.bake(events, headers=headers), "utf-8")
 
         # check if we have to return data or HTML page
-        if has_to_return_data:
+        if has_to_return_data is True:
             # get data set by the current page
             content = response.get_data()
-            if isinstance(content, bytes) is False and isinstance(content, bytearray) is False:
+            if isinstance(content, (bytes, bytearray)) is False:
                 content = bytes(content, "utf-8")
-
             response.reset_data()
 
         # get the status of the response
@@ -242,7 +252,8 @@ class HTTPDHandlerUtils:
         if isinstance(status, int):  # if the user makes a mistake and set in the status directly an integer
             status = HTTPDStatus(status)
         elif hasattr(status, 'code') is False:
-            raise TypeError(f"The status has to be an instance of HTTPDStatus (or int). Got: {status}")
+            raise TypeError(f"The status has to be an instance of HTTPDStatus or int."
+                            f"Got {status} instead.")
 
         return content, status
 
@@ -364,9 +375,7 @@ class HTTPDHandlerUtils:
 
         # print traceback and return data parsed in python dictionary
         if "upload_file" in data:
-            logging.debug(f"POST -- data: upload_file[{data['upload_file']['filename']}]")
-        else:
-            logging.debug("POST -- data: {}".format(data))
+            logging.debug(f" -- upload_file[{data['upload_file']['filename']}]")
 
         return data
 
