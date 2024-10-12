@@ -36,7 +36,7 @@
     docs = [
         "pygments",
         "markdown2",
-        "ClammingPy >=1.8"]
+        "ClammingPy >=1.9"]
     tests = [
         "coverage ~=7.3.0",
         "selenium ~=4.18.1",
