@@ -60,10 +60,10 @@ class HTTPDHandlerUtils:
         self.__path, self.__page_name = HTTPDHandlerUtils.filter_path(path, default_page)
         self.__headers = dict()
 
-        if isinstance(headers, HTTPMessage) or isinstance(headers, dict):
+        if isinstance(headers, HTTPMessage) is True or isinstance(headers, dict) is True:
             self.__headers = headers
         else:
-            raise TypeError("The headers parameter has to be a dictionary or HTTPMessage class !")
+            raise TypeError("The headers parameter has to be a dictionary or HTTPMessage class!")
 
     # -----------------------------------------------------------------------
     # GETTERS
@@ -193,15 +193,26 @@ class HTTPDHandlerUtils:
 
     @staticmethod
     def has_to_return_data(accept_type: str) -> bool:
-        """Boolean expression to know if the server has to respond data or a HTML page.
+        """Determine the type of the server return: True for data.
 
-        :param accept_type: (str) The mime type of the 'Accept' header request
-        :return: (bool) True if we have to return data, False if we have to return html content
+        Determine if the server should return data (e.g., JSON, image, video,
+        etc.) instead of an HTML page based on the 'Accept' header's MIME type.
+
+        :param accept_type: (str) The MIME type of the 'Accept' header request
+        :return: (bool) True if the server should return data, False if HTML content is expected
 
         """
-        return accept_type == "application/json" or \
-            accept_type.startswith("image/") or \
-            accept_type.startswith("video/")
+        data_types = [
+            "application/json",
+            "image/",
+            "video/",
+            "audio/",
+            "application/ogg"
+        ]
+        for d in data_types:
+            if accept_type.startswith(d) is True:
+                return True
+        return False
 
     # -----------------------------------------------------------------------
 
@@ -223,17 +234,16 @@ class HTTPDHandlerUtils:
 
         if response is None:
             status = HTTPDStatus(404)
-            return status.to_html(encode=True, msg_error=f"Page not found : {page_name}"), status
+            return status.to_html(encode=True, msg_error=f"Page not found: {page_name}"), status
 
         content = bytes(response.bake(events, headers=headers), "utf-8")
 
         # check if we have to return data or HTML page
-        if has_to_return_data:
+        if has_to_return_data is True:
             # get data set by the current page
             content = response.get_data()
-            if isinstance(content, bytes) is False and isinstance(content, bytearray) is False:
+            if isinstance(content, (bytes, bytearray)) is False:
                 content = bytes(content, "utf-8")
-
             response.reset_data()
 
         # get the status of the response
@@ -242,7 +252,8 @@ class HTTPDHandlerUtils:
         if isinstance(status, int):  # if the user makes a mistake and set in the status directly an integer
             status = HTTPDStatus(status)
         elif hasattr(status, 'code') is False:
-            raise TypeError(f"The status has to be an instance of HTTPDStatus (or int). Got: {status}")
+            raise TypeError(f"The status has to be an instance of HTTPDStatus or int."
+                            f"Got {status} instead.")
 
         return content, status
 
@@ -329,8 +340,10 @@ class HTTPDHandlerUtils:
 
         try:
             data = data.decode("utf-8")
-        # the data is a binary file can't decode in utf-8 format (like image or video file)
+            # the data can't be decoded in utf-8 format: like an image or a video file.
+            # it also happens if filename contains diacritics.
         except UnicodeError:
+            logging.debug("Not an utf-8 content.")
             pass
 
         # if content-type or content_length are not defined in the header request
@@ -346,11 +359,10 @@ class HTTPDHandlerUtils:
 
         # parse uploaded file
         elif "multipart/form-data; boundary=" in content_type:
-            if isinstance(data, str):
-                filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
-            else:
+            if isinstance(data, bytes) is True:
                 filename, mime_type, content = HTTPDHandlerUtils.__extract_binary_form_data_file(content_type, data)
-
+            else:
+                filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
             data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
 
         # otherwise try to parse text data from forms
@@ -363,9 +375,7 @@ class HTTPDHandlerUtils:
 
         # print traceback and return data parsed in python dictionary
         if "upload_file" in data:
-            logging.debug(f"POST -- data: upload_file[{data['upload_file']['filename']}]")
-        else:
-            logging.debug("POST -- data: {}".format(data))
+            logging.debug(f" -- upload_file[{data['upload_file']['filename']}]")
 
         return data
 
@@ -374,7 +384,8 @@ class HTTPDHandlerUtils:
     @staticmethod
     def __extract_form_data_file(content_type: str, data: str) -> tuple[str, str, str]:
         """Extract the body of a "formdata request" to upload a file.
-        Use this function with utf-8 files.
+
+        Use this function with an utf-8 file content.
 
         :param content_type: (str) The content type in the header of the request
         :param data: (str | bytes) the body of the request in bytes or string format
@@ -404,7 +415,8 @@ class HTTPDHandlerUtils:
     @staticmethod
     def __extract_binary_form_data_file(content_type: str, data: bytes) -> tuple:
         """Extract the body of a "formdata request" to upload a file.
-        Use this function with binary files.
+
+        Use this function with a binary file content.
 
         :param content_type: (str) The content type in the header of the request
         :param data: (str | bytes) the body of the request in bytes or string format

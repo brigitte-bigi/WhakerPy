@@ -1,29 +1,29 @@
 /**
-:filename: whakerpy.request.js
-:author: Florian Lopitaux
+:filename: whakerpy.js.request.js
+:author: Florian Lopitaux, Brigitte Bigi
 :contact: contact@sppas.org
-:summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost
-          client and gets data in return.
+:summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost client and gets data in return.
 
 .. _This file is part of WhakerPy: https://whakerpy.sourceforge.io
-..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi
+    Copyright (C) 2011-2024  Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
+    Use of this software is governed by the GNU Public License, version 3.
+
+    Whakerpy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
+    Whakerpy is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
+    GNU General Public License for more details.
 
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with Whakerpy. If not, see <https://www.gnu.org/licenses/>.
 
     This banner notice must not be removed.
 
@@ -39,14 +39,31 @@ https://developer.mozilla.org/fr/docs/Learn/JavaScript/Asynchronous
 (only async and await keywords are necessary to understand to used the
 asynchronous class methods)
 
+Basic URL Structure: <protocol>//<hostname>:<port>/<pathname><search><hash>
+
+- protocol: Specifies the protocol name be used to access the resource on
+  the Internet.
+  For example: HTTP (without SSL) or HTTPS (with SSL)
+- hostname: Host name specifies the host that owns the resource.
+  For example, www.somewhere.org.
+  A server provides services using the name of the host.
+- port: A port number used to recognize a specific process to which an Internet
+  or other network message is to be forwarded when it arrives at a server.
+- pathname: The path gives info about the specific resource within the host t
+  that the Web client wants to access.
+  For example, /index.html.
+- search: A query string follows the path component, and provides a string
+  of information that the resource can utilize for some purpose.
+- hash: The anchor portion of a URL, includes the hash sign (#).
+
 */
 
 class RequestManager {
+
     // FIELDS
-    // The declaration outside the constructor and the '#' symbol notify a private attribute in Javascript.
+    // The declaration outside the constructor and the '#' symbol notify a private attribute.
     #protocol;
     #port;
-    #path;
     #url;
     #status;
 
@@ -59,39 +76,37 @@ class RequestManager {
     constructor() {
         this.#protocol = window.location.protocol;
         this.#port = window.location.port;
-        this.#path = window.location.pathname;
-        this.#url = this.#protocol + "//" + window.location.hostname + ":" + this.#port + this.#path;
+        this.#url = this.#protocol + "//" + window.location.hostname + ":" + this.#port + "/";
         this.#status = null;
     }
 
-
+    // ----------------------------------------------------------------------
     // GETTERS
+    // ----------------------------------------------------------------------
+
     /**
      * Get the protocol of the connexion of the client (In the SPPAS web application case the protocol is 'http').
      *
      * @returns {string} The protocol used.
+     *
      */
     get protocol() {
         return this.#protocol;
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Get the port of the client and server address.
      *
      * @returns {string} - The port used.
+     *
      */
     get port() {
         return this.#port;
     }
 
-    /**
-     * Get the url path.
-     *
-     * @returns {string} - The path of the url
-     */
-    get path() {
-        return this.#path;
-    }
+    // ----------------------------------------------------------------------
 
     /**
      * Get the url of the client and server address.
@@ -100,31 +115,39 @@ class RequestManager {
      * Example: http://localhost:8080/
      *
      * @returns {string} The url of the localhost address.
+     *
      */
     get request_url() {
         return this.#url;
     }
 
+    // ----------------------------------------------------------------------
+
     /**
      * Get the status of the last response of the server.
      *
      * @returns {int} The code of the response.
+     *
      */
     get status() {
         return this.#status;
     }
 
+    // ----------------------------------------------------------------------
     // METHODS
+    // ----------------------------------------------------------------------
+
     /**
      * This method is used to send a GET HTTP request to the python server.
      *
-     * @param uri {string} - The parameters (after the url) of the GET request.
+     * @param uri {string} - The pathname of the GET request.
      * @param is_json_response {boolean} - False by default.
      *                                     Boolean value to know if the server response is a json object to parse.
      *
      * @returns {Promise<*>} - The server data response.
+     *
      */
-    async send_get_request(uri, is_json_response = false) {
+    async send_get_request(uri = "", is_json_response = false) {
         const complete_url = this.request_url + uri;
         let request_response_data = null;
 
@@ -151,6 +174,7 @@ class RequestManager {
         return request_response_data;
     }
 
+    // ----------------------------------------------------------------------
 
     /**
      * This method is used to send a POST HTTP request to the python server.
@@ -158,10 +182,13 @@ class RequestManager {
      *
      * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
      * @param accept_type {string} - mime type of the server response, json by default.
+     * @param uri {string} - The pathname of the POST request.
      *
      * @returns {Promise<*>} - The server data response.
+     *
      */
-    async send_post_request(post_parameters, accept_type = "application/json") {
+    async send_post_request(post_parameters, accept_type = "application/json", uri = "") {
+		const complete_url = this.request_url + uri;
         let request_response_data = null;
 
         // build request header and body depending on parameter passed to the method
@@ -173,7 +200,7 @@ class RequestManager {
         }
 
         // send request to the server
-        await fetch(this.request_url, {
+        await fetch(complete_url, {
             method: "POST",
             headers: request_header,
             body: post_parameters
@@ -199,35 +226,72 @@ class RequestManager {
         return request_response_data;
     }
 
+    // ----------------------------------------------------------------------
+
     /**
-     * This method upload a file (only one) from an input to the server.
+     * Uploads a file (only one) from an input to the server.
      * Returns the server response in json format (already decoded).
      *
      * @param input {HTMLInputElement} - the input that contains the file to upload
-     * @param accept_type {string} - mime type of the server response, json by default.
+     * @param accept_type {string} - mimetype of the server response, json by default.
+     * @param token {string} - the token of the user to authenticate the request
+     * @param uri {string} - The pathname of the GET request.
      *
      * @returns {Promise<*>} The server response.
+     *
      */
-    async upload_file(input, accept_type = "application/json") {
+    async upload_file(input, accept_type = "application/json", token = "", uri = "") {
         let response_data = null;
+        const complete_url = this.request_url + uri;
+        this.#status = 400;
 
-        // format file to upload to the server
+        // Exit the function if no file is selected
+        if (!input || !input.files || !input.files[0]) {
+            console.error("No file selected for upload.");
+            // Return a JSON object with status 400 and an error message
+            return {
+                error: "No file or empty file selected for upload."
+            };
+        }
+
+        // Create a new File instance, with the sanitized filename (no diacritics)
+        let sanitizedFileName = input.files[0].name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        let sanitizedFile = new File([input.files[0]], sanitizedFileName, {
+            type: input.files[0].type,
+            lastModified: input.files[0].lastModified,
+        });
+        // Format file to upload to the server
         let data = new FormData();
-        data.append('file', input.files[0]);
+        data.append('file', sanitizedFile);
 
-        // send request to the back-end and wait the response (response in json)
-        await fetch(this.request_url, {
+        // Send request to the back-end and wait for the response (response in json)
+        await fetch(complete_url, {
             method: 'POST',
             headers: {
-                "Accept": accept_type
+                'Accept': accept_type,
+                "Authorization": 'Bearer ' + token
             },
             body: data
         })
-            // get the response and update the current status code
-            .then(async response => {
-                this.#status = response.status;
+        // get the response and update the current status code
+        .then(async response => {
+            this.#status = response.status;
+            // Check if the status is not 200
+            if (response.status !== 200) {
+                // Return a JSON object with status and statusText
+                return {
+                    statusText: response.statusText
+                };
+            } else {
+                // If status is 200, return the JSON response
                 response_data = await response.json();
-            });
+            }
+        })
+        // handle error
+        .catch(error => {
+            this.#status = error.status;
+            response_data = error;
+        })
 
         return response_data;
     }

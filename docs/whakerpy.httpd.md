@@ -596,7 +596,7 @@ def do_HEAD(self) -> None:
 ```python
 def do_GET(self) -> None:
     """Prepare the response to a GET request."""
-    logging.debug('GET -- requested: {}'.format(self.path))
+    logging.debug(' ---- DO GET -- requested: {}'.format(self.path))
     handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
     self.path = handler_utils.get_path()
     mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
@@ -616,8 +616,9 @@ def do_GET(self) -> None:
 ```python
 def do_POST(self) -> None:
     """Prepare the response to a POST request."""
-    logging.debug('POST -- requested: {}'.format(self.path))
+    logging.debug(' ----- DO POST -- requested: {}'.format(self.path))
     handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
+    self.path = handler_utils.get_path()
     events, accept = handler_utils.process_post(self.rfile)
     content, status = self._bakery(handler_utils, events, accept)
     self._response(content, status.code, accept)
@@ -707,7 +708,7 @@ def _bakery(self, handler_utils: HTTPDHandlerUtils, events: dict, mime_type: str
         :return: tuple(bytes, HTTPDStatus) the content of the response the httpd status
 
         """
-    if not hasattr(self.server, 'page_bakery'):
+    if hasattr(self.server, 'page_bakery') is False:
         return handler_utils.static_content(self.path[1:])
     content, status = self.server.page_bakery(handler_utils.get_page_name(), self.headers, events, handler_utils.has_to_return_data(mime_type))
     return (content, status)
@@ -770,10 +771,10 @@ def __init__(self, headers: HTTPMessage | dict, path: str, default_page: str='in
     """
     self.__path, self.__page_name = HTTPDHandlerUtils.filter_path(path, default_page)
     self.__headers = dict()
-    if isinstance(headers, HTTPMessage) or isinstance(headers, dict):
+    if isinstance(headers, HTTPMessage) is True or isinstance(headers, dict) is True:
         self.__headers = headers
     else:
-        raise TypeError('The headers parameter has to be a dictionary or HTTPMessage class !')
+        raise TypeError('The headers parameter has to be a dictionary or HTTPMessage class!')
 ```
 
 Instantiate class, filter the path for getters method and get the headers data
@@ -962,25 +963,35 @@ def filter_path(path: str, default_path: str='index.html') -> tuple[str, str]:
 ```python
 @staticmethod
 def has_to_return_data(accept_type: str) -> bool:
-    """Boolean expression to know if the server has to respond data or a HTML page.
+    """Determine the type of the server return: True for data.
 
-        :param accept_type: (str) The mime type of the 'Accept' header request
-        :return: (bool) True if we have to return data, False if we have to return html content
+        Determine if the server should return data (e.g., JSON, image, video,
+        etc.) instead of an HTML page based on the 'Accept' header's MIME type.
+
+        :param accept_type: (str) The MIME type of the 'Accept' header request
+        :return: (bool) True if the server should return data, False if HTML content is expected
 
         """
-    return accept_type == 'application/json' or accept_type.startswith('image/') or accept_type.startswith('video/')
+    data_types = ['application/json', 'image/', 'video/', 'audio/', 'application/ogg']
+    for d in data_types:
+        if accept_type.startswith(d) is True:
+            return True
+    return False
 ```
 
-*Boolean expression to know if the server has to respond data or a HTML page.*
+*Determine the type of the server return: True for data.*
+
+Determine if the server should return data (e.g., JSON, image, video,
+etc.) instead of an HTML page based on the 'Accept' header's MIME type.
 
 ##### Parameters
 
-- **accept_type**: (*str*) The mime type of the 'Accept' header request
+- **accept_type**: (*str*) The MIME type of the 'Accept' header request
 
 
 ##### Returns
 
-- (*bool*) True if we have to return data, False if we have to return html content
+- (*bool*) True if the server should return data, False if HTML content is expected
 
 #### bakery
 
@@ -1000,18 +1011,18 @@ def bakery(pages: dict, page_name: str, headers: dict, events: dict, has_to_retu
     response = pages.get(page_name)
     if response is None:
         status = HTTPDStatus(404)
-        return (status.to_html(encode=True, msg_error=f'Page not found : {page_name}'), status)
+        return (status.to_html(encode=True, msg_error=f'Page not found: {page_name}'), status)
     content = bytes(response.bake(events, headers=headers), 'utf-8')
-    if has_to_return_data:
+    if has_to_return_data is True:
         content = response.get_data()
-        if isinstance(content, bytes) is False and isinstance(content, bytearray) is False:
+        if isinstance(content, (bytes, bytearray)) is False:
             content = bytes(content, 'utf-8')
         response.reset_data()
     status = response.status
     if isinstance(status, int):
         status = HTTPDStatus(status)
     elif hasattr(status, 'code') is False:
-        raise TypeError(f'The status has to be an instance of HTTPDStatus (or int). Got: {status}')
+        raise TypeError(f'The status has to be an instance of HTTPDStatus or int.Got {status} instead.')
     return (content, status)
 ```
 
@@ -1125,6 +1136,7 @@ def __extract_body_content(self, content) -> dict:
     try:
         data = data.decode('utf-8')
     except UnicodeError:
+        logging.debug('Not an utf-8 content.')
         pass
     if content_type is None or content_length == 0:
         data = dict()
@@ -1134,17 +1146,15 @@ def __extract_body_content(self, content) -> dict:
         except json.JSONDecodeError:
             logging.error(f"Can't decode JSON posted data : {data}")
     elif 'multipart/form-data; boundary=' in content_type:
-        if isinstance(data, str):
-            filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
-        else:
+        if isinstance(data, bytes) is True:
             filename, mime_type, content = HTTPDHandlerUtils.__extract_binary_form_data_file(content_type, data)
+        else:
+            filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
         data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
     else:
         data = dict(parse_qsl(data, keep_blank_values=True, strict_parsing=False))
     if 'upload_file' in data:
-        logging.debug(f"POST -- data: upload_file[{data['upload_file']['filename']}]")
-    else:
-        logging.debug('POST -- data: {}'.format(data))
+        logging.debug(f" -- upload_file[{data['upload_file']['filename']}]")
     return data
 ```
 
@@ -1165,7 +1175,8 @@ def __extract_body_content(self, content) -> dict:
 @staticmethod
 def __extract_form_data_file(content_type: str, data: str) -> tuple[str, str, str]:
     """Extract the body of a "formdata request" to upload a file.
-        Use this function with utf-8 files.
+
+        Use this function with an utf-8 file content.
 
         :param content_type: (str) The content type in the header of the request
         :param data: (str | bytes) the body of the request in bytes or string format
@@ -1185,7 +1196,8 @@ def __extract_form_data_file(content_type: str, data: str) -> tuple[str, str, st
 ```
 
 *Extract the body of a "formdata request" to upload a file.*
-Use this function with utf-8 files.
+
+Use this function with an utf-8 file content.
 
 ##### Parameters
 
@@ -1203,7 +1215,8 @@ Use this function with utf-8 files.
 @staticmethod
 def __extract_binary_form_data_file(content_type: str, data: bytes) -> tuple:
     """Extract the body of a "formdata request" to upload a file.
-        Use this function with binary files.
+
+        Use this function with a binary file content.
 
         :param content_type: (str) The content type in the header of the request
         :param data: (str | bytes) the body of the request in bytes or string format
@@ -1242,7 +1255,8 @@ def __extract_binary_form_data_file(content_type: str, data: bytes) -> tuple:
 ```
 
 *Extract the body of a "formdata request" to upload a file.*
-Use this function with binary files.
+
+Use this function with a binary file content.
 
 ##### Parameters
 

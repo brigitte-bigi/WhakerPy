@@ -11,7 +11,7 @@
        
    a Python library to create dynamic HTML content and web applications
 
-               Copyright (C) 2023-2024 Brigitte Bigi, 
+              Copyright (C) 2023-2024 Brigitte Bigi, CNRS
          Laboratoire Parole et Langage, Aix-en-Provence, France
          
 -----------------------------------------------------------------------------                                                              
@@ -20,8 +20,6 @@
 # WhakerPy
 
 ## Overview
-
-> WhakerPy - a Web HTML maker in Python
 
 ### Use case
 
@@ -54,8 +52,8 @@ WhakerPy is then a collection of packages and modules that help developers to cr
 
 >Creating and manipulating HTML from the power of Python!
 
-* Easy to learn, consistent, simple syntax
-* Flexible and easy usage
+* easy to learn, consistent, simple syntax
+* flexible and easy usage
 * open-source: easily add new features and functionalities 
 * easily customizable: it's a pure python library in Object-Oriented Programming
 * portable: can be hosted on any web server - as soon as python is available, or used locally
@@ -64,7 +62,7 @@ WhakerPy is then a collection of packages and modules that help developers to cr
 
 ## Get and install WhakerPy
 
-Get it from it's repository <https://sourceforge.net/projects/whakerpy/> or from Pypi <https://pypi.org/project/whakerpy/>, and get documentation <https://whakerpy.sourceforge.io>.
+Get it from its repository <https://sourceforge.net/projects/whakerpy/> or from Pypi <https://pypi.org/project/whakerpy/>, and get documentation <https://whakerpy.sourceforge.io>.
 
 ### Install from pypi.org:
 
@@ -230,13 +228,23 @@ The whakerpy package can be analyzed with SonarQube by following these steps:
 
 ## Help / How to contribute
 
-If you plan to contribute to the code or to report a bug, please send an e-mail to the author.
+If you want to report a bug, please send an e-mail to the author.
 Any and all constructive comments are welcome.
+
+If you plan to contribute to the code, please read carefully and agree both the 
+code of conduct and the code style guide.
+If you are contributing code or documentation to the WhakerPy project, you are 
+agreeing to the DCO certificate <http://developercertificate.org>. 
+Copy/paste the DCO, then you just add a line saying:
+```
+Signed-off-by: Random J Developer <random@developer.example.org>
+```
+Send this file by e-mail to the author.
 
 
 ## License/Copyright
 
-See the accompanying LICENSE and AUTHORS.md files for the full list of contributors.
+See the accompanying `LICENSE` and `AUTHORS.md` files for the full list of contributors.
 
 Copyright (C) 2023-2024 [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>
 Laboratoire Parole et Langage, Aix-en-Provence, France

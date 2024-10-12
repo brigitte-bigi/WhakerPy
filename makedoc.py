@@ -30,6 +30,8 @@ import logging
 
 import whakerpy
 try:
+    sys.path.append("/Users/bigi/Projects/clamming-code")
+    sys.path.append("/Users/bigi/Projects/clamming-code/clamming")
     import clamming
 except ImportError:
     print("This program requires `ClammingPy` documentation generator.")
@@ -60,7 +62,7 @@ opts_export.icon = 'whakerpy.png'
 # ... the theme corresponds to a statics/<theme>.css file or "light" or "dark"
 opts_export.theme = 'light'
 # ... path to 'wexa_statics' folder, relatively to "docs"
-opts_export.wexa_statics = "./Whakerexa-0.4/wexa_statics"
+opts_export.wexa_statics = "./Whakerexa-0.5/wexa_statics"
 
 
 # -------------------------------------------------
