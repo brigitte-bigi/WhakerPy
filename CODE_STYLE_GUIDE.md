@@ -14,12 +14,18 @@ not mentioned below, please refer to the base.
 A correct commit message must therefore be structured as:
 `name.of.module: Action message`
 where Action includes but is not limited to "added", "fixed", "cleaned", "removed".
-Example: sppas.src.annotations.Cuedpseech.whenhend: Added test for the model 4 -- custom rules.
+The action message should not exceed 50 characters. It can be continued with
+detailed information.
+
+Example:
+```
+    name.of.module: Added support for document sharing
+    \n\nAdded the document management feature to support collaborative sharing and real-time edits.
+```
 
 ### Naming
 
 - General class names are in Pascal Case. Example: `class WorkerOnSomething:`.
-- SPPAS integrated class names are in CamelCase. Example: `class sppasWorkerOnSomething:`
 - Function names are Snake Cases: all words lowercase separated by underscores. Example `def work_hard():`
 - Variable names and objects are Snake Cases: all words lowercase separated by underscores,
    and must express their use more than their type. Example `work_hard = True`. Exceptions: 
@@ -60,13 +66,13 @@ All specific rules below replace the corresponding base rules. For any subject
 not mentioned below, please refer to the base.
 
 
-## SPPAS specific rules
+## WhakerPy specific rules
 
 ### Coding rules
 
-- Limit all lines to a maximum of 119 characters.
-- Do not use in-line comments.
-- For type hints, do not use 'typing' library.
+- Limit all lines to a maximum of 119 characters;
+- Do not use in-line comments;
+- For type hints, do not use 'typing' library;
 - Do not use property decorator. Use "property" function instead.
 
 - Always explicit what is compared to what. Do not use 'not'. Examples:
@@ -105,7 +111,7 @@ not mentioned below, please refer to the base.
 
 ```python
 >>>def add(a: int, b: int) -> int:
->>>"""Estimate the sum of two integers.
+>>>"""Return the sum of two integers..
 
    It checks the types of given parameters and return their sum if both are integers.
    
@@ -125,3 +131,32 @@ not mentioned below, please refer to the base.
 
    """
 ```
+
+### Justification for Style Adaptations
+
+The author of the WhakerPy package has a visual impairment, and these 
+modifications to standard coding guidelines are aimed at enhancing code 
+readability and accessibility.
+
+While the general principles of PEP8, PEP257, and PEP484 are followed, 
+certain adjustments are made to accommodate specific needs related to 
+visual clarity, for example:
+
+- Avoiding the 'typing' Library: The use of type hints from the 'typing' 
+  library is deliberately avoided as they tend to clutter the code, making 
+  declarations more difficult to read. By removing this layer of complexity,   
+  the code remains clear and manageable, allowing for faster comprehension 
+  and easier maintenance.
+- Explicit Comparisons: The preference for explicit comparisons (e.g., if 
+  greeting == 0: instead of if greeting:) is designed to minimize ambiguity.
+  This makes the logical flow of the code more apparent, reducing the 
+  cognitive load when navigating through conditions and comparisons.
+- Line Length Limit: A line length of 119 characters is permitted, slightly 
+  longer than PEP8’s recommendation of 79. This provides more flexibility, 
+  reducing unnecessary line breaks while still maintaining readability on 
+  modern wide-screen displays.
+
+These adaptations are essential for maintaining efficient and **accessible**
+coding practices while adhering to the general spirit of Python's style 
+guidelines. They ensure that the code remains functional and clean, while 
+also addressing the specific needs of developers with visual impairments.

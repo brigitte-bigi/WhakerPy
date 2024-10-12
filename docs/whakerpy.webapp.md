@@ -554,11 +554,11 @@ def __init__(self, default_path: str='', default_filename: str='index.html', web
 def add_page(self, page_name: str, response: BaseResponseRecipe) -> bool:
     """Add a page to the list of available pages.
 
+        False is returned if the page already exists or the response has a wrong type.
+
         :param page_name: (str) the name of the page
         :param response: (BaseResponseRecipe) the response object of the page (has to inherited of BaseResponseRecipe)
-
         :return: (bool) True if we successfully added the page
-                        or False else (if the page already exists or the response has a wrong type)
 
         """
     if page_name in self._pages.keys():
@@ -571,14 +571,17 @@ def add_page(self, page_name: str, response: BaseResponseRecipe) -> bool:
 
 *Add a page to the list of available pages.*
 
+False is returned if the page already exists or the response has a wrong type.
+
 ##### Parameters
 
 - **page_name**: (*str*) the name of the page
 - **response**: (BaseResponseRecipe) the response object of the page (has to inherited of BaseResponseRecipe)
 
+
 ##### Returns
 
-- (*bool*) True if we successfully added the page or False else (if the page already exists or the response has a wrong type)
+- (*bool*) True if we successfully added the page
 
 
 
@@ -588,7 +591,9 @@ def add_page(self, page_name: str, response: BaseResponseRecipe) -> bool:
 
 ```python
 def __create_web_page(self, page_name: str) -> None:
-    """Create page dynamically from the json config file."""
+    """Create page dynamically from the json config file.
+
+        """
     web_data = self.__dynamic_pages[0]
     if hasattr(web_data, 'bake_response'):
         data = web_data(self.__dynamic_pages[1])
@@ -605,6 +610,8 @@ def __create_web_page(self, page_name: str) -> None:
 
 
 
+
+
 ### Overloads
 
 #### __call__
@@ -615,6 +622,7 @@ def __call__(self, environ, start_response):
         environ['Accept'] = environ['HTTP_ACCEPT']
     handler_utils = HTTPDHandlerUtils(environ, environ['PATH_INFO'], self.__default_file)
     filepath = self.__default_path + handler_utils.get_path()
+    filepath = filepath.replace('//', '/')
     page_name = handler_utils.get_page_name()
     if os.path.exists(filepath) is True:
         content, status = handler_utils.static_content(filepath)
@@ -625,13 +633,13 @@ def __call__(self, environ, start_response):
             self.__create_web_page(page_name)
         if page_name not in self._pages or filepath != f'{self.__default_path}/{page_name}':
             status = HTTPDStatus(404)
-            start_response(repr(status), [('Content-Type', 'text/html')])
-            return status.to_html(encode=True, msg_error=f'Page not found : {filepath}')
-        events, accept = handler_utils.process_post(environ['wsgi.input'])
-        content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events, HTTPDHandlerUtils.has_to_return_data(accept))
+            content = status.to_html(encode=True, msg_error=f'Page not found : {filepath}')
+        else:
+            events, accept = handler_utils.process_post(environ['wsgi.input'])
+            content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events, HTTPDHandlerUtils.has_to_return_data(accept))
     headers = [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath)), ('Cache-Control', 'max-age=0')]
     start_response(repr(status), headers)
-    return content
+    return [content]
 ```
 
 
