@@ -34,12 +34,16 @@
 
 from .hstatus import HTTPDValueError
 from .hstatus import HTTPDStatus
+from .permissions import UnixPermissions
+from .permissions import FileAccessChecker
 from .hutils import HTTPDHandlerUtils
 from .handler import HTTPDHandler
 from .hserver import BaseHTTPDServer
 from .hresponse import BaseResponseRecipe
 
 __all__ = (
+    "UnixPermissions",
+    "FileAccessChecker",
     "BaseResponseRecipe",
     "HTTPDStatus",
     "HTTPDValueError",
