@@ -2786,4 +2786,4 @@ def __init__(self, status, msg_error: str=None):
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.9 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.8 ~
