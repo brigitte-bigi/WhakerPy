@@ -43,6 +43,8 @@ from urllib.parse import parse_qsl
 from urllib.parse import unquote
 
 from .hstatus import HTTPDStatus
+from .permissions import UnixPermissions
+from .permissions import FileAccessChecker
 
 # -----------------------------------------------------------------------
 
@@ -92,26 +94,64 @@ class HTTPDHandlerUtils:
     # -----------------------------------------------------------------------
 
     def static_content(self, filepath: str) -> tuple[bytes, HTTPDStatus]:
-        """Return the file content and update the corresponding status.
+        """Return the content of a static file and update the corresponding status.
 
-        :param filepath: (str) The path of the file to return
-        :return: (tuple[bytes, int]) The file content
+        This method checks the existence of the file and its permissions before
+        returning its content. If the file does not exist or is a directory,
+        an appropriate HTTP status and message will be logged.
+
+        :param filepath: (str) The path of the file to return.
+        :return: (tuple[bytes, HTTPDStatus]) A tuple containing the file content
+                 in bytes and the corresponding HTTP status.
 
         """
+        # Check if the requested filepath exists
         if os.path.exists(filepath) is False:
-            status = HTTPDStatus(404)
-            return status.to_html(encode=True, msg_error=f"File not found : {filepath}"), status
+            return self.__log_and_status(404, filepath, "File not found")
 
+        # Check if the requested filepath is a directory:
+        # Access to directories is forbidden regardless of permissions.
         if os.path.isfile(filepath) is False:
-            status = HTTPDStatus(403)
-            return status.to_html(encode=True, msg_error=f"The path give access to a folder : {filepath}"), status
+            return self.__log_and_status(403, filepath, "Folder access is not granted")
 
+        # Check if the requested filepath is a directory:
+        # Access to directories is forbidden regardless of permissions.
+        try:
+            p = UnixPermissions()
+            checker = FileAccessChecker(filepath)
+            if checker.read_allowed(who=f"{p.group}&{p.others}") is False:
+                return self.__log_and_status(403, filepath, "Attempted access to non-allowed file")
+        except EnvironmentError:
+            # Possibly running in a local application (e.g., Windows); no risk.
+            # No need for permission checks in this case.
+            pass
+
+        # The requested filepath is a regular existing file: check permissions.
         try:
             content = self.__open_file_to_binary(filepath)
             return content, HTTPDStatus(200)
         except Exception as e:
             status = HTTPDStatus(500)
             return status.to_html(encode=True, msg_error=str(e)), status
+
+    # -----------------------------------------------------------------------
+
+    def __log_and_status(self, code: int, filepath: str, msg: str) -> tuple[bytes, HTTPDStatus]:
+        """Log the error message and return the corresponding HTTP status.
+
+        This method logs the provided message along with the file path and
+        returns an HTML error message with the appropriate HTTP status.
+
+        :param code: (int) The HTTP status code to return.
+        :param filepath: (str) The path of the file related to the error.
+        :param msg: (str) The message to log regarding the error.
+        :return: (tuple[str, HTTPDStatus]) A tuple containing the HTML error
+                 message and the corresponding HTTP status.
+        """
+        status = HTTPDStatus(code)
+        logging.error(f"{msg}: {filepath}")
+        msg = f"{msg}: {os.path.basename(filepath)}"
+        return status.to_html(encode=True, msg_error=msg), status
 
     # -----------------------------------------------------------------------
 

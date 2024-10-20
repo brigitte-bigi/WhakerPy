@@ -148,7 +148,8 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         self.path = handler_utils.get_path()
         mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
 
-        # The client requested a static file (we do before check mime type in case the client ask a html static file)
+        # The client requested a static file
+        # (must be done before checking mime type in case the client ask a html static file)
         if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
             content, status = handler_utils.static_content(self.path[1:])
 
