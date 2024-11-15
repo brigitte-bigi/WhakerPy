@@ -170,9 +170,10 @@ WhakerPy was initially developed within SPPAS <https://sppas.org>. It was extrac
 
 Other projects: 
 
-- the website <https://auto-cuedspeech.org> is entirely based on WhakerPy.
-- the website <https://sppas.org> is entirely based on WhakerPy.
-- *contact the author if your project is using WhakerPy*
+- the website <https://auto-cuedspeech.org>.
+- the website <https://sppas.org>.
+- the intranet of the Laboratoire Parole et Langage.
+- *contact the author if your project is based on WhakerPy*
 
 
 # The developer's corner
