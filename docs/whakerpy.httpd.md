@@ -2,6 +2,279 @@
 
 ## List of classes
 
+## Class `UnixPermissions`
+
+### Description
+
+*Class to handle Unix file permission roles (owner, group, others).*
+
+##### Example
+
+    >>> permissions = UnixPermissions()
+    >>> "owner" in permissions
+    > True
+
+
+### Public functions
+
+#### is_valid_role
+
+```python
+@classmethod
+def is_valid_role(cls, role: str) -> bool:
+    """Check if the provided role is valid.
+
+        :param role: (str) The role to check among the valid roles.
+
+        """
+    return role in cls.__VALID_ROLES
+```
+
+*Check if the provided role is valid.*
+
+##### Parameters
+
+- **role**: (*str*) The role to check among the valid roles.
+
+#### owner
+
+```python
+@property
+def owner(self):
+    """Return the 'owner' role."""
+    return 'owner'
+```
+
+*Return the 'owner' role.*
+
+#### group
+
+```python
+@property
+def group(self):
+    """Return the 'group' role."""
+    return 'group'
+```
+
+*Return the 'group' role.*
+
+#### others
+
+```python
+@property
+def others(self):
+    """Return the 'others' role."""
+    return 'others'
+```
+
+*Return the 'others' role.*
+
+
+
+### Overloads
+
+#### __iter__
+
+```python
+def __iter__(self):
+    """Allow iteration over VALID_ROLES."""
+    return iter(self.__VALID_ROLES)
+```
+
+*Allow iteration over VALID_ROLES.*
+
+#### __enter__
+
+```python
+def __enter__(self):
+    """Enter the context: Initialize or lock resources if needed."""
+    return self
+```
+
+*Enter the context: Initialize or lock resources if needed.*
+
+#### __exit__
+
+```python
+def __exit__(self, exc_type, exc_value, traceback):
+    """Exit the context: Clean up resources or handle exceptions.
+
+        """
+    return False
+```
+
+*Exit the context: Clean up resources or handle exceptions.*
+
+
+
+
+
+## Class `FileAccessChecker`
+
+### Description
+
+*Specialized class for checking file permissions on a specified file.*
+
+This class provides methods to check if a user, group, or owner has specific
+access rights to a given file, such as read permissions.
+
+Available only for UNIX-based platforms. Instantiating the class on another
+platform raises an EnvironmentError.
+
+##### Example
+
+    >>> checker = FileAccessChecker('/path/to/file')
+    >>> checker.read_allowed(who='owner')
+    > True
+    >>> checker.read_allowed(who='group')
+    > False
+
+
+### Constructor
+
+#### __init__
+
+```python
+def __init__(self, filename: str):
+    """Initialize the FileAccessChecker with a specific file.
+
+    The initialization ensures that the system supports group-related
+    functionalities by checking for the availability of the 'grp' module.
+
+    :param filename: (str) Path to the file to check.
+    :raises: EnvironmentError: If 'grp' module is not available (invalid platform)
+    :raises: FileNotFoundError: If the file does not exist.
+
+    """
+    if grp is None:
+        raise EnvironmentError("The 'grp' module is not available on this platform.")
+    self.__filename = filename
+    if os.path.exists(self.__filename) is False:
+        raise FileNotFoundError(f'File not found: {self.__filename}')
+    self.__file_stat = os.stat(self.__filename)
+```
+
+*Initialize the FileAccessChecker with a specific file.*
+
+The initialization ensures that the system supports group-related
+functionalities by checking for the availability of the 'grp' module.
+
+##### Parameters
+
+- **filename**: (*str*) Path to the file to check.
+
+
+##### Raises
+
+- *EnvironmentError*: If 'grp' module is not available (invalid platform)
+- *FileNotFoundError*: If the file does not exist.
+
+
+
+### Public functions
+
+#### get_filename
+
+```python
+def get_filename(self):
+    """Return the examined filename."""
+    return self.__filename
+```
+
+*Return the examined filename.*
+
+#### read_allowed
+
+```python
+def read_allowed(self, who: str='others') -> bool:
+    """Check if the given persons have read permission on the file.
+
+        "who" is one of the UnixPermission() or a comibation with '&' or '|'
+        (but not both). For example 'group&others' checks if both group
+        and others have read access; 'owner|group' checks if either owner
+        or group has read access; 'owner&group&others' checks if all have
+        read access. Forbidden combination is for example:
+        'owner&group|others'
+
+        :param who: (str) Can be 'others', 'group', or 'owner', or a combination.
+        :return: (bool) True if read permission is granted, False otherwise.
+        :raises: ValueError: If 'who' contains invalid roles or syntax.
+
+        """
+    with UnixPermissions() as permissions:
+        valid_roles = list(permissions)
+        role_pattern = '|'.join((re.escape(role) for role in valid_roles))
+        expression_pattern = f'^\\s*({role_pattern})(\\s*[\\&\\|]\\s*({role_pattern}))*\\s*$'
+        if not re.match(expression_pattern, who):
+            raise ValueError(f"Invalid 'who' value or syntax: {who}. Must contain only {valid_roles} with '&' or '|'.")
+    if '&' in who and '|' in who:
+        raise ValueError("Combination of '&' and '|' is forbidden in the 'who' parameter.")
+    or_conditions = who.split('|')
+    for or_condition in or_conditions:
+        and_roles = or_condition.split('&')
+        if all((self.__check_permission_for_role(role.strip()) for role in and_roles)):
+            return True
+    return False
+```
+
+*Check if the given persons have read permission on the file.*
+
+"who" is one of the UnixPermission() or a comibation with '&' or '|'
+(but not both). For example 'group&others' checks if both group
+and others have read access; 'owner|group' checks if either owner
+or group has read access; 'owner&group&others' checks if all have
+read access. Forbidden combination is for example:
+'owner&group|others'
+
+##### Parameters
+
+- **who**: (*str*) Can be 'others', 'group', or 'owner', or a combination.
+
+
+##### Returns
+
+- (*bool*) True if read permission is granted, False otherwise.
+
+
+##### Raises
+
+- *ValueError*: If 'who' contains invalid roles or syntax.
+
+
+
+### Protected functions
+
+#### __check_permission_for_role
+
+```python
+def __check_permission_for_role(self, role: str) -> bool:
+    """Helper function to check permissions for a single role.
+
+        :param role: (str) Who to check permissions for: 'others', 'group', or 'owner'.
+
+        """
+    current_uid = os.geteuid()
+    current_gid = os.getegid()
+    mode = self.__file_stat.st_mode
+    owner_uid = self.__file_stat.st_uid
+    group_gid = self.__file_stat.st_gid
+    if role == 'owner' and current_uid == owner_uid:
+        return bool(mode & stat.S_IRUSR)
+    elif role == 'group' and current_gid == group_gid:
+        return bool(mode & stat.S_IRGRP)
+    elif role == 'others':
+        return bool(mode & stat.S_IROTH)
+    return False
+```
+
+*Helper function to check permissions for a single role.*
+
+##### Parameters
+
+- **role**: (*str*) Who to check permissions for: 'others', 'group', or 'owner'.
+
+
+
 ## Class `BaseResponseRecipe`
 
 ### Description
@@ -829,18 +1102,28 @@ def get_page_name(self) -> str:
 
 ```python
 def static_content(self, filepath: str) -> tuple[bytes, HTTPDStatus]:
-    """Return the file content and update the corresponding status.
+    """Return the content of a static file and update the corresponding status.
 
-        :param filepath: (str) The path of the file to return
-        :return: (tuple[bytes, int]) The file content
+        This method checks the existence of the file and its permissions before
+        returning its content. If the file does not exist or is a directory,
+        an appropriate HTTP status and message will be logged.
+
+        :param filepath: (str) The path of the file to return.
+        :return: (tuple[bytes, HTTPDStatus]) A tuple containing the file content
+                 in bytes and the corresponding HTTP status.
 
         """
     if os.path.exists(filepath) is False:
-        status = HTTPDStatus(404)
-        return (status.to_html(encode=True, msg_error=f'File not found : {filepath}'), status)
+        return self.__log_and_status(404, filepath, 'File not found')
     if os.path.isfile(filepath) is False:
-        status = HTTPDStatus(403)
-        return (status.to_html(encode=True, msg_error=f'The path give access to a folder : {filepath}'), status)
+        return self.__log_and_status(403, filepath, 'Folder access is not granted')
+    try:
+        p = UnixPermissions()
+        checker = FileAccessChecker(filepath)
+        if checker.read_allowed(who=f'{p.group}&{p.others}') is False:
+            return self.__log_and_status(403, filepath, 'Attempted access to non-allowed file')
+    except EnvironmentError:
+        pass
     try:
         content = self.__open_file_to_binary(filepath)
         return (content, HTTPDStatus(200))
@@ -849,16 +1132,20 @@ def static_content(self, filepath: str) -> tuple[bytes, HTTPDStatus]:
         return (status.to_html(encode=True, msg_error=str(e)), status)
 ```
 
-*Return the file content and update the corresponding status.*
+*Return the content of a static file and update the corresponding status.*
+
+This method checks the existence of the file and its permissions before
+returning its content. If the file does not exist or is a directory,
+an appropriate HTTP status and message will be logged.
 
 ##### Parameters
 
-- **filepath**: (*str*) The path of the file to return
+- **filepath**: (*str*) The path of the file to return.
 
 
 ##### Returns
 
-- (*tuple*[*bytes*, *int*]) The file content
+- (*tuple*[*bytes*, HTTPDStatus]) A tuple containing the file content in bytes and the corresponding HTTP status.
 
 #### process_post
 
@@ -870,12 +1157,17 @@ def process_post(self, body: BufferedReader) -> tuple[dict, str]:
         :return: (dict, str) the body and accept mime type
 
         """
-    if self.__headers.get('REQUEST_METHOD', 'POST').upper() != 'POST':
-        return (dict(), 'text/html')
-    events = self.__extract_body_content(body)
-    accept_type = self.__get_headers_value('Accept', 'text/html')
-    if 'text/html' in accept_type:
-        accept_type = 'text/html'
+    html_mime = 'text/html'
+    events = dict()
+    accept_type = html_mime
+    if self.__headers.get('REQUEST_METHOD', 'POST').upper() == 'POST':
+        events = self.__extract_body_content(body)
+        accept_type = self.__get_headers_value('Accept', 'text/html')
+        if html_mime in accept_type:
+            accept_type = html_mime
+        token = self.__get_headers_value('X-Auth-Token')
+        if token is not None:
+            events['token'] = token.replace('Bearer ', '')
     return (events, accept_type)
 ```
 
@@ -1045,6 +1337,43 @@ def bakery(pages: dict, page_name: str, headers: dict, events: dict, has_to_retu
 
 ### Protected functions
 
+#### __log_and_status
+
+```python
+def __log_and_status(self, code: int, filepath: str, msg: str) -> tuple[bytes, HTTPDStatus]:
+    """Log the error message and return the corresponding HTTP status.
+
+        This method logs the provided message along with the file path and
+        returns an HTML error message with the appropriate HTTP status.
+
+        :param code: (int) The HTTP status code to return.
+        :param filepath: (str) The path of the file related to the error.
+        :param msg: (str) The message to log regarding the error.
+        :return: (tuple[str, HTTPDStatus]) A tuple containing the HTML error
+                 message and the corresponding HTTP status.
+        """
+    status = HTTPDStatus(code)
+    logging.error(f'{msg}: {filepath}')
+    msg = f'{msg}: {os.path.basename(filepath)}'
+    return (status.to_html(encode=True, msg_error=msg), status)
+```
+
+*Log the error message and return the corresponding HTTP status.*
+
+This method logs the provided message along with the file path and
+returns an HTML error message with the appropriate HTTP status.
+
+##### Parameters
+
+- **code**: (*int*) The HTTP status code to return.
+- **filepath**: (*str*) The path of the file related to the error.
+- **msg**: (*str*) The message to log regarding the error.
+
+
+##### Returns
+
+- (*tuple*[*str*, HTTPDStatus]) A tuple containing the HTML error message and the corresponding HTTP status.
+
 #### __get_headers_value
 
 ```python
@@ -1061,11 +1390,11 @@ def __get_headers_value(self, key: str, default_value: object=None) -> object:
         new_key = key.upper().replace('-', '_')
         value = self.__headers.get(new_key)
         if value is None:
-            return default_value
-        else:
-            return value
-    else:
-        return value
+            new_key = 'HTTP_' + new_key
+            value = self.__headers.get(new_key)
+            if value is None:
+                return default_value
+    return value
 ```
 
 *Get headers value for a given key, try different keys format depending on server (httpd or wsgi).*
@@ -1478,4 +1807,4 @@ take the events into account when baking the HTML page content.
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.9 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.8 ~

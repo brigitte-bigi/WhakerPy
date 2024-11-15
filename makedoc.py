@@ -30,8 +30,6 @@ import logging
 
 import whakerpy
 try:
-    sys.path.append("/Users/bigi/Projects/clamming-code")
-    sys.path.append("/Users/bigi/Projects/clamming-code/clamming")
     import clamming
 except ImportError:
     print("This program requires `ClammingPy` documentation generator.")
