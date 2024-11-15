@@ -1157,12 +1157,17 @@ def process_post(self, body: BufferedReader) -> tuple[dict, str]:
         :return: (dict, str) the body and accept mime type
 
         """
-    if self.__headers.get('REQUEST_METHOD', 'POST').upper() != 'POST':
-        return (dict(), 'text/html')
-    events = self.__extract_body_content(body)
-    accept_type = self.__get_headers_value('Accept', 'text/html')
-    if 'text/html' in accept_type:
-        accept_type = 'text/html'
+    html_mime = 'text/html'
+    events = dict()
+    accept_type = html_mime
+    if self.__headers.get('REQUEST_METHOD', 'POST').upper() == 'POST':
+        events = self.__extract_body_content(body)
+        accept_type = self.__get_headers_value('Accept', 'text/html')
+        if html_mime in accept_type:
+            accept_type = html_mime
+        token = self.__get_headers_value('X-Auth-Token')
+        if token is not None:
+            events['token'] = token.replace('Bearer ', '')
     return (events, accept_type)
 ```
 
@@ -1385,11 +1390,11 @@ def __get_headers_value(self, key: str, default_value: object=None) -> object:
         new_key = key.upper().replace('-', '_')
         value = self.__headers.get(new_key)
         if value is None:
-            return default_value
-        else:
-            return value
-    else:
-        return value
+            new_key = 'HTTP_' + new_key
+            value = self.__headers.get(new_key)
+            if value is None:
+                return default_value
+    return value
 ```
 
 *Get headers value for a given key, try different keys format depending on server (httpd or wsgi).*

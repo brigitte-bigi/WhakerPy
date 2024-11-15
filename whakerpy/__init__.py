@@ -25,6 +25,6 @@ from .httpd import *
 from .messages import error
 from .webapp import *
 
-__version__ = "0.9"
+__version__ = "1.0"
 ___author__ = "Brigitte Bigi"
 __copyright__ = "Copyright (C) 2023-2024 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France"
