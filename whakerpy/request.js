@@ -1,33 +1,35 @@
 /**
 :filename: whakerpy.js.request.js
-:author: Florian Lopitaux, Brigitte Bigi
+:author: Brigitte Bigi
+:contributor: Florian Lopitaux
 :contact: contact@sppas.org
 :summary: A class to simplify the sending of request (on the Javascript side) to the python server of the localhost client and gets data in return.
 
-.. _This file is part of WhakerPy: https://whakerpy.sourceforge.io
-    -------------------------------------------------------------------------
+-------------------------------------------------------------------------
 
-    Copyright (C) 2011-2024  Brigitte Bigi
-    Laboratoire Parole et Langage, Aix-en-Provence, France
+This file is part of WhakerPy: https://whakerpy.sourceforge.io
 
-    Use of this software is governed by the GNU Public License, version 3.
+Copyright (C) 2013-2024 Brigitte Bigi, CNRS
+Laboratoire Parole et Langage, Aix-en-Provence, France
 
-    Whakerpy is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Use of this software is governed by the GNU Public License, version 3.
 
-    Whakerpy is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Whakerpy is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    You should have received a copy of the GNU General Public License
-    along with Whakerpy. If not, see <https://www.gnu.org/licenses/>.
+Whakerpy is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    This banner notice must not be removed.
+You should have received a copy of the GNU General Public License
+along with Whakerpy. If not, see <https://www.gnu.org/licenses/>.
 
-    -------------------------------------------------------------------------
+This banner notice must not be removed.
+
+-------------------------------------------------------------------------
 
 A class to simplify the sending of request (on the Javascript side) to the
 python server of the localhost client and gets data in return.
@@ -66,7 +68,7 @@ class RequestManager {
     #port;
     #url;
     #status;
-
+    maxFileSize;
 
     // CONSTRUCTOR
     /**
@@ -78,6 +80,7 @@ class RequestManager {
         this.#port = window.location.port;
         this.#url = this.#protocol + "//" + window.location.hostname + ":" + this.#port + "/";
         this.#status = null;
+        this.maxFileSize = 0;  // No upload file size limit
     }
 
     // ----------------------------------------------------------------------
@@ -176,15 +179,18 @@ class RequestManager {
 
     // ----------------------------------------------------------------------
 
+
     /**
-     * This method is used to send a POST HTTP request to the python server.
-     * The content of the posted data must be in JSON format.
+     * Sends a POST HTTP request to the server, posting data in JSON format.
      *
-     * @param post_parameters {Object} - Object (dictionary), the posted data to send to the server.
-     * @param accept_type {string} - mime type of the server response, json by default.
-     * @param uri {string} - The pathname of the POST request.
+     * Manages both JSON and Blob responses, and opens HTML error pages (like
+     * 500 errors) in a new tab if encountered.
      *
-     * @returns {Promise<*>} - The server data response.
+     * @param {Object} post_parameters - Data to be sent in the POST request, in JSON format.
+     * @param {string} [accept_type="application/json"] - Expected MIME type of the server's response, defaults to JSON.
+     * @param {string} [uri=""] - Additional path to append to the base request URL.
+     * @returns {Promise<*>} - Returns the parsed response data (JSON or Blob), or an error object.
+     * @throws {Error} - Throws an error if there is a network or if an HTML error page is received.
      *
      */
     async send_post_request(post_parameters, accept_type = "application/json", uri = "") {
@@ -211,8 +217,33 @@ class RequestManager {
                 this.#status = response.status;
 
                 if (accept_type.includes("application/json")) {
-                    request_response_data = await response.json();
-                } else {
+                    try {
+                        request_response_data = await response.json();
+                    } catch (error) {
+                        console.error("Failed to parse JSON response", error);
+                        const responseText = await response.text();
+                        request_response_data = {
+                            status: response.status,
+                            error: "Failed to parse JSON. See error details in the newly opened tab.",
+                            html: responseText
+                        };
+                        // Open a new tab to display the error content -- probably HTML
+                        this.openErrorTab(responseText);
+                    }
+                }
+                // Handle HTML responses (e.g., error pages)
+                else if (accept_type.includes("text/html")) {
+                    // If response is HTML, treat it as a failed request (500 error or other)
+                    const responseText = await response.text();
+                    request_response_data = {
+                        status: response.status,
+                        error: "Received HTML instead of JSON. See error details in the newly opened tab.",
+                        html: responseText
+                    };
+                    // Open a new tab to display the HTML error content
+                    this.openErrorTab(responseText);
+                }
+                else {
                     request_response_data = await response.blob();
                 }
             })
@@ -224,6 +255,26 @@ class RequestManager {
         ;
 
         return request_response_data;
+    }
+
+    // ----------------------------------------------------------------------
+
+    /**
+     * This function opens a new tab to display the HTML error content received from the server.
+     * It is used when the server returns HTML content, typically in error cases.
+     *
+     * @param responseText {string} - The HTML response text to display in the new tab.
+     */
+    openErrorTab(responseText) {
+        // Optionally open a new tab to display the HTML error content
+        const errorTab = window.open();
+        if (errorTab) {
+            errorTab.document.open();
+            errorTab.document.write(responseText);
+            errorTab.document.close();
+        } else {
+            console.error("Failed to open a new tab for the error page.");
+        }
     }
 
     // ----------------------------------------------------------------------
@@ -247,11 +298,18 @@ class RequestManager {
 
         // Exit the function if no file is selected
         if (!input || !input.files || !input.files[0]) {
-            console.error("No file selected for upload.");
+            console.warn("No file selected for upload.");
             // Return a JSON object with status 400 and an error message
-            return {
-                error: "No file or empty file selected for upload."
-            };
+            return { error: "No file or empty file selected for upload." };
+        }
+
+        console.debug("Defined size limit: ", this.maxFileSize);
+        console.debug("File size to upload: ", input.files[0].size);
+        // Exit the function if size limit
+        if (this.maxFileSize !== 0 && input.files[0].size > this.maxFileSize) {
+            console.error("File size exceeds maximum of ${this.maxFileSize} bytes.");
+            // Return a JSON object with status 400 and an error message
+            return { error: "File size exceeds maximum allowed length." };
         }
 
         // Create a new File instance, with the sanitized filename (no diacritics)
@@ -260,6 +318,7 @@ class RequestManager {
             type: input.files[0].type,
             lastModified: input.files[0].lastModified,
         });
+
         // Format file to upload to the server
         let data = new FormData();
         data.append('file', sanitizedFile);
@@ -275,20 +334,20 @@ class RequestManager {
         })
         // get the response and update the current status code
         .then(async response => {
+            console.debug(" ... server answer: ", response);
             this.#status = response.status;
-            // Check if the status is not 200
-            if (response.status !== 200) {
-                // Return a JSON object with status and statusText
-                return {
-                    statusText: response.statusText
-                };
+            // Check if the status is not 200 and there is no error in the response
+            if (response.status !== 200 && !response.error) {
+                // Return a JSON object with statusText to indicate the error
+                response_data = { "error": response.statusText };
             } else {
-                // If status is 200, return the JSON response
+                // If status is 200 or there is an error, return the JSON response
                 response_data = await response.json();
             }
         })
         // handle error
         .catch(error => {
+            console.error(" ... server error: ", error);
             this.#status = error.status;
             response_data = error;
         })
