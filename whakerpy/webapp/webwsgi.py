@@ -79,15 +79,32 @@ class WSGIApplication(object):
 
     def __init__(self, default_path: str = "", default_filename: str = "index.html",
                  web_page_maker=WebSiteResponse, default_web_json: str = None):
+        """Initialize the WSGIApplication instance.
 
+        :param default_path: (str) Default root path for static or dynamic pages
+        :param default_filename: (str) Default filename to serve if none is provided
+        :param web_page_maker: (callable) A callable used to generate dynamic pages
+        :param default_web_json: (str) Path to the JSON file for dynamic page definitions
+
+        """
         self.__default_path = default_path
         self.__default_file = default_filename
         self.__dynamic_pages = (web_page_maker, os.path.join(self.__default_path, default_web_json))
         self._pages = dict()
 
-    # ---------------------------------------------------------------------------
+    # -----------------------------------------------------------------------
 
     def __call__(self, environ, start_response):
+        """Handle WSGI requests.
+
+        Process the incoming "environ" dictionary and respond using the given
+        start_response callable.
+
+        :param environ: (dict) WSGI environment dictionary with request data
+        :param start_response: (callable) Function to start the HTTP response
+        :return: (bytes|iterable) Response content to send back to the client
+
+        """
         if 'HTTP_ACCEPT' in environ:
             environ['Accept'] = environ['HTTP_ACCEPT']
 
@@ -126,16 +143,26 @@ class WSGIApplication(object):
 
         # send response to the client
         headers = [
-                ('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath)),
-                ('Cache-Control', 'max-age=0')   # Disable Varnish
-            ]
-        start_response(repr(status), headers)
-        return [content]
+            ('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath)),
+            ('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0')
+            # max-age=0 allows to disable Varnish
+        ]
 
-    # ---------------------------------------------------------------------------
+        # If content is an iterator, calculate the file size and add Content-Length
+        if callable(getattr(content, "__iter__", None)):
+            file_size = os.path.getsize(filepath)
+            headers.append(('Content-Length', str(file_size)))
+
+        start_response(repr(status), headers)
+        # return [content]
+        return content if callable(getattr(content, "__iter__", None)) else [content]
+
+    # -----------------------------------------------------------------------
 
     def __create_web_page(self, page_name: str) -> None:
         """Create page dynamically from the json config file.
+
+        :param page_name: (str) Name of the page to bake
 
         """
         web_data = self.__dynamic_pages[0]
@@ -152,7 +179,7 @@ class WSGIApplication(object):
             if page_name in data:
                 self._pages[page_name] = web_data(page_name)
 
-    # ---------------------------------------------------------------------------
+    # -----------------------------------------------------------------------
 
     def add_page(self, page_name: str, response: BaseResponseRecipe) -> bool:
         """Add a page to the list of available pages.
@@ -174,6 +201,14 @@ class WSGIApplication(object):
         return True
 
     # ---------------------------------------------------------------------------
+    # Overloads
+    # ---------------------------------------------------------------------------
 
-    def __contains__(self, item):
-        return item in self._pages
+    def __contains__(self, page_name: str) -> bool:
+        """Check if a page name exists in the application.
+
+        :param page_name: (str) Name of the page to check
+        :return: (bool) True if the page exists, False otherwise
+
+        """
+        return page_name in self._pages

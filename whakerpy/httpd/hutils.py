@@ -93,7 +93,7 @@ class HTTPDHandlerUtils:
     # PUBLIC METHODS
     # -----------------------------------------------------------------------
 
-    def static_content(self, filepath: str) -> tuple[bytes, HTTPDStatus]:
+    def static_content(self, filepath: str) -> tuple:
         """Return the content of a static file and update the corresponding status.
 
         This method checks the existence of the file and its permissions before
@@ -101,7 +101,7 @@ class HTTPDHandlerUtils:
         an appropriate HTTP status and message will be logged.
 
         :param filepath: (str) The path of the file to return.
-        :return: (tuple[bytes, HTTPDStatus]) A tuple containing the file content
+        :return: (tuple[bytes|iterator, HTTPDStatus]) A tuple containing the file content
                  in bytes and the corresponding HTTP status.
 
         """
@@ -129,7 +129,7 @@ class HTTPDHandlerUtils:
         # The requested filepath is a regular existing file: check permissions.
         try:
             content = self.__open_file_to_binary(filepath)
-            return content, HTTPDStatus(200)
+            return content, HTTPDStatus(200)   # bytes or iterator
         except Exception as e:
             status = HTTPDStatus(500)
             return status.to_html(encode=True, msg_error=str(e)), status
@@ -339,7 +339,7 @@ class HTTPDHandlerUtils:
         """Open and read the given file and transform the content to bytes value.
 
         :param filepath: (str) The path of the file to read
-        :return: (bytes) the file content in bytes format
+        :return: (bytes|iterator) the file content in bytes format
 
         """
         if self.__get_headers_value("Content-Type") is None:
@@ -348,18 +348,28 @@ class HTTPDHandlerUtils:
             file_type = self.__get_headers_value("Content-Type")
 
         if file_type is not None and (file_type.startswith("text/")
-                                      or file_type == "application/javascript" or file_type == "application/json"):
-
+                                      or file_type == "application/javascript"
+                                      or file_type == "application/json"):
             with codecs.open(filepath, "r", "utf-8") as fp:
                 content = bytes("", "utf-8")
-
                 for line in fp.readlines():
                     content += bytes(line, "utf-8")
-
                 return content
 
-        else:
+        # Binary file
+        sz = os.path.getsize(filepath)
+        if sz < 10*1024*1024:  # 10Mo
             return open(filepath, "rb").read()
+
+        # For large binary files, return an iterator to stream the content
+        def file_iterator():
+            with open(filepath, "rb") as fp:
+                chunk = fp.read(8192)  # Read 8 KB chunks
+                while chunk:
+                    yield chunk
+                    chunk = fp.read(8192)
+
+        return file_iterator()
 
     # -----------------------------------------------------------------------
 
