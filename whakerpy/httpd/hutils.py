@@ -147,6 +147,7 @@ class HTTPDHandlerUtils:
         :param msg: (str) The message to log regarding the error.
         :return: (tuple[str, HTTPDStatus]) A tuple containing the HTML error
                  message and the corresponding HTTP status.
+
         """
         status = HTTPDStatus(code)
         logging.error(f"{msg}: {filepath}")
@@ -302,6 +303,51 @@ class HTTPDHandlerUtils:
                             f"Got {status} instead.")
 
         return content, status
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def build_default_headers(filepath: str, content=None, browser_cache=False, varnish=False) -> list:
+        """Build HTTP response headers for the requested file.
+
+        This method generates the HTTP headers necessary for serving a file,
+        including its MIME type and cache-control directives.
+
+        :param filepath: (str) The absolute or relative path to the requested static file.
+        :param content: (bytes|iterator|None) The content of the requested file.
+        :param browser_cache: (bool) Whether the browser cache is enabled or not.
+                        If False, browser caching is explicitly disabled.
+        :param varnish: (bool) Indicates whether the server should enable Varnish cache.
+                        If False, server caching is explicitly disabled.
+        :return: (list) A list of tuples representing the HTTP response headers.
+
+        """
+        # Initialize cache-control header with default values to disable caching.
+        # no-cache: ensures that users always receive the most up-to-date version of the resource.
+        # no-store: prevents the browser (or caching mechanisms) from storing the resource at all.
+        # must-revalidate: tells the browser that once the resource becomes stale, it must not
+        #                  be used without revalidation with the server.
+        cache = list()
+        if browser_cache is False:
+            cache = ['no-cache, no-store, must-revalidate']
+
+        if varnish is False:
+            # Add a directive to explicitly set the maximum cache age to zero.
+            cache.append("max-age=0")
+
+        # Build the headers list with the MIME type and cache directives.
+        headers = [
+            ('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath)),
+            ('Cache-Control', cache)
+        ]
+
+        # If content is an iterator, calculate the file size and
+        # add Content-Length
+        if callable(getattr(content, "__iter__", None)):
+            file_size = os.path.getsize(filepath)
+            headers.append(('Content-Length', str(file_size)))
+
+        return headers
 
     # -----------------------------------------------------------------------
     # PRIVATE METHODS

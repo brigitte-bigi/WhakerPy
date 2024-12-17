@@ -108,10 +108,10 @@ class WSGIApplication(object):
         if 'HTTP_ACCEPT' in environ:
             environ['Accept'] = environ['HTTP_ACCEPT']
 
-        # Get the expected filename
+        # Resolve the requested file path and page name
         handler_utils = HTTPDHandlerUtils(environ, environ["PATH_INFO"], self.__default_file)
         filepath = self.__default_path + handler_utils.get_path()
-        # provide urls with several "/" instead of a single one
+        # Normalize paths with multiple slashes
         filepath = filepath.replace("//", "/")
         page_name = handler_utils.get_page_name()
 
@@ -119,65 +119,21 @@ class WSGIApplication(object):
         if os.path.exists(filepath) is True:
             content, status = handler_utils.static_content(filepath)
 
-        # If the requested file doesn't exist in the given default path (like the request.js)
+        # If the requested file doesn't exist in the given
+        # default path (like the request.js)
         elif os.path.isfile(handler_utils.get_path()[1:]) is True:
             content, status = handler_utils.static_content(handler_utils.get_path()[1:])
 
         # else, it's a dynamic page
         else:
-            # create dynamic page in web json (if given)
-            if self.__dynamic_pages[1] is not None and page_name not in self._pages:
-                self.__create_web_page(page_name)
+            content, status = self.__serve_dynamic_content(page_name, filepath, environ, handler_utils)
 
-            # if the page doesn't exist even after the dynamic creation, or wrong path
-            if page_name not in self._pages or filepath != f"{self.__default_path}/{page_name}":
-                status = HTTPDStatus(404)
-                content = status.to_html(encode=True, msg_error=f"Page not found : {filepath}")
-            else:
-                # read and parse data if it's a POST request, empty events if it's not
-                events, accept = handler_utils.process_post(environ['wsgi.input'])
-
-                # bakery the response
-                content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events,
-                                                           HTTPDHandlerUtils.has_to_return_data(accept))
-
-        # send response to the client
-        headers = [
-            ('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath)),
-            ('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0')
-            # max-age=0 allows to disable Varnish
-        ]
-
-        # If content is an iterator, calculate the file size and add Content-Length
-        if callable(getattr(content, "__iter__", None)):
-            file_size = os.path.getsize(filepath)
-            headers.append(('Content-Length', str(file_size)))
-
+        # Create the response headers
+        headers = HTTPDHandlerUtils.build_default_headers(filepath, content)
         start_response(repr(status), headers)
-        # return [content]
+
+        # Return bytes or iterator for chunks
         return content if callable(getattr(content, "__iter__", None)) else [content]
-
-    # -----------------------------------------------------------------------
-
-    def __create_web_page(self, page_name: str) -> None:
-        """Create page dynamically from the json config file.
-
-        :param page_name: (str) Name of the page to bake
-
-        """
-        web_data = self.__dynamic_pages[0]
-
-        if hasattr(web_data, 'bake_response'):
-            data = web_data(self.__dynamic_pages[1])
-            page = data.bake_response(page_name, default=self.__default_path)
-
-            if page is not None:
-                self._pages[page_name] = page
-
-        else:
-            data = WebSiteData(self.__dynamic_pages[1])
-            if page_name in data:
-                self._pages[page_name] = web_data(page_name)
 
     # -----------------------------------------------------------------------
 
@@ -199,6 +155,51 @@ class WSGIApplication(object):
 
         self._pages[page_name] = response
         return True
+
+    # -----------------------------------------------------------------------
+    # Private
+    # -----------------------------------------------------------------------
+
+    def __create_dynamic_page(self, page_name: str) -> None:
+        """Create page dynamically from the json config file.
+
+        :param page_name: (str) Name of the page to bake
+
+        """
+        web_data = self.__dynamic_pages[0]
+
+        if hasattr(web_data, 'bake_response'):
+            data = web_data(self.__dynamic_pages[1])
+            page = data.bake_response(page_name, default=self.__default_path)
+
+            if page is not None:
+                self._pages[page_name] = page
+
+        else:
+            data = WebSiteData(self.__dynamic_pages[1])
+            if page_name in data:
+                self._pages[page_name] = web_data(page_name)
+
+    # -----------------------------------------------------------------------
+
+    def __serve_dynamic_content(self, page_name: str, filepath: str, environ, handler_utils) -> tuple:
+        """Handle requests for dynamic content or return a 404 if not found."""
+        # Create dynamic page if necessary
+        if self.__dynamic_pages[1] is not None and page_name not in self._pages:
+            self.__create_dynamic_page(page_name)
+
+        # Return 404 if the page does not exist or the path is invalid
+        if page_name not in self._pages or filepath != f"{self.__default_path}/{page_name}":
+            status = HTTPDStatus(404)
+            content = status.to_html(encode=True, msg_error=f"Page not found : {filepath}")
+        else:
+            # Process dynamic content. Events are empty if POST request.
+            events, accept = handler_utils.process_post(environ['wsgi.input'])
+            content, status = HTTPDHandlerUtils.bakery(
+                self._pages, page_name, environ['PATH_INFO'], events,
+                HTTPDHandlerUtils.has_to_return_data(accept)
+            )
+        return content, status
 
     # ---------------------------------------------------------------------------
     # Overloads

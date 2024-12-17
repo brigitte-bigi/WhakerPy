@@ -75,12 +75,32 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
     """
 
+    def get_default_page(self, default: str = "index.html") -> str:
+        """Retrieve the server default page name.
+
+        This method first checks if the server has a callable 'default' method
+        to determine the default page name. If not, it falls back to the
+        provided default value.
+
+        :param default: (str) The fallback default page name, if no server-specific
+                               method is found. Defaults to "index.html".
+        :return: (str) The name of the default page.
+
+        """
+        # Check if the server has a callable 'default' method.
+        if hasattr(self.server, 'default') and callable(self.server.default):
+            return self.server.default()
+
+        # Fallback to the provided default page name.
+        return default
+
+    # -----------------------------------------------------------------------
+
     def _set_headers(self, status: int, mime_type: str = None) -> None:
         """Set the HTTPD response headers.
 
         :param status: (int) A response status.
         :param mime_type: (str) The mime type of the file response
-
         :raises: sppasHTTPDValueError
 
         """
@@ -116,15 +136,14 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         :param handler_utils: (HTTPDhandlerUtils)
         :param events: (dict) key=event name, value=event value
         :param mime_type: (str) The mime type of the file response
-
         :return: tuple(bytes, HTTPDStatus) the content of the response the httpd status
 
         """
-        # Server is not the custom one for SPPAS wapp.
+        # The server is not the custom one for a WhakerPy application.
         if hasattr(self.server, 'page_bakery') is False:
             return handler_utils.static_content(self.path[1:])
 
-        # get the response
+        # Get the response from any WhakerPy Bakery system
         content, status = self.server.page_bakery(handler_utils.get_page_name(), self.headers, events,
                                                   handler_utils.has_to_return_data(mime_type))
         return content, status
@@ -134,21 +153,25 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
     # -----------------------------------------------------------------------
 
     def do_HEAD(self) -> None:
-        """Prepare the response to a HEAD request."""
+        """Prepare the response to a HEAD request.
+
+        """
         logging.debug("HEAD -- requested: {}".format(self.path))
         self._set_headers(200)
 
     # -----------------------------------------------------------------------
 
     def do_GET(self) -> None:
-        """Prepare the response to a GET request."""
+        """Prepare the response to a GET request.
+
+        """
         logging.debug(" ---- DO GET -- requested: {}".format(self.path))
 
-        handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
+        handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.get_default_page())
         self.path = handler_utils.get_path()
         mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
 
-        # The client requested a static file
+        # The client requested a static file.
         # (must be done before checking mime type in case the client ask a html static file)
         if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
             content, status = handler_utils.static_content(self.path[1:])
@@ -157,24 +180,30 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         elif mime_type == "text/html":
             content, status = self._bakery(handler_utils, dict(), mime_type)
 
-        # Unknown we try to get a static file
         else:
+            # Unknown: try to get a static file
             content, status = handler_utils.static_content(self.path[1:])
 
+        # WhakerPy 1.1: content can be either ['bytes'] or iterator, depending
+        # on the requested file size
         self._response(content, status.code, mime_type)
 
     # -----------------------------------------------------------------------
 
     def do_POST(self) -> None:
-        """Prepare the response to a POST request."""
+        """Prepare the response to a POST request.
+
+        """
         logging.debug(" ----- DO POST -- requested: {}".format(self.path))
 
-        handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
+        handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.get_default_page())
         self.path = handler_utils.get_path()
 
         events, accept = handler_utils.process_post(self.rfile)
-
         content, status = self._bakery(handler_utils, events, accept)
+
+        # WhakerPy 1.1: content can be either ['bytes'] or iterator, depending
+        # on the requested file size
         self._response(content, status.code, accept)
 
     # -----------------------------------------------------------------------
@@ -183,19 +212,3 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         """Override. For a quiet handler pls!!!."""
         pass
 
-    # -----------------------------------------------------------------------
-    # PRIVATE METHODS
-    # -----------------------------------------------------------------------
-
-    def __get_default_page(self) -> str:
-        """Get the default page in case if the url doesn't specify any page.
-
-        :return: (str) the default page name
-
-        """
-        try:
-            default = self.server.default()
-        except AttributeError:  # Server is not the custom one for dynamic app.
-            default = "index.html"
-
-        return default
