@@ -46,11 +46,20 @@ html {
     margin-left: calc(var(--toc-width) + 1rem);
 }
 
-:root:not([data-theme=dark]), [data-theme=light] {
-    --nav-bg-color: rgb(30, 30, 60);
-    --nav-fg-color: rgb(230, 230, 230);
-    --footer-bg-color: rgb(30, 30, 60);
+
+.light {
+    --nav-bg-color: linear-gradient(to top, rgb(0, 100, 200) 0%, rgb(0, 60, 120) 30%, rgb(30, 30, 60) 90%);
+    --nav-fg-color: rgb(255, 221, 51);
+    --header-bg-color: rgb(30, 30, 60);
+    --footer-bg-color: rgb(0, 100, 200);
+    --footer-fg-color: rgb(255, 221, 51);
 }
+
+.dark {
+    --header-fg-color: rgb(255, 221, 51);
+    --header-bg-color: rgb(30, 30, 60);
+}
+
 
 /* too small titles ... make them bigger */
 h4 {

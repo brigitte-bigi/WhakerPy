@@ -114,17 +114,26 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
 
     # -----------------------------------------------------------------------
 
-    def _response(self, content: bytes, status: int, mime_type: str = None) -> None:
+    def _response(self, content, status: int, mime_type: str = None) -> None:
         """Make the appropriate HTTPD response.
 
-        :param content: (bytes) The HTML response content
-        :param status: (int) The HTTPD status code of the response
-        :param mime_type: (str) The mime type of the file response
+        :param content: (bytes|iterator) The HTML response content or an iterator
+                        yielding chunks of bytes.
+        :param status: (int) The HTTPD status code of the response.
+        :param mime_type: (str) The mime type of the file response.
 
         """
         self._set_headers(status, mime_type)
-        self.wfile.write(content)
 
+        if hasattr(content, '__iter__') and not isinstance(content, (bytes, str)):
+            # Write one chunk at a time
+            for chunk in content:
+                self.wfile.write(chunk)
+        else:
+            # Write the whole bytes content in once
+            self.wfile.write(content)
+
+        # Shutdown the server if status is 410.
         if status == 410:
             self.server.shutdown()
 

@@ -21,13 +21,14 @@
 
 ## Overview
 
-### Use case
+### Uses cases
 
 You want all users to get access to dynamic web pages via web browser. You then need to create a web application allowing creating HTML pages and communicating via HTTPD.
 WhakerPy is a Python library of such a tool.
 
-In fact, you may have already heard of Django — high-level, full-stack framework, anf Flash — a micro-framework. Both of them generate output in the form of content from the model presented and formatted based on a template file.
-The "WhakerPy" library does not offer views, templates or models! On the contrary, it offers a 100% pure-Python solution by creating HTML pages entirely dynamically, or with a static content. 
+In fact, you may have already heard of Django — high-level, full-stack framework, and Flash — a micro-framework. Both of them generate output in the form of content from the model presented and formatted based on a template file.
+The WhakerPy library does not offer views, templates or models! 
+On the contrary, **WhakerPy offers a 100% pure-Python solution** by creating HTML pages entirely dynamically, or with a static content. 
 
 WhakerPy is your solution if:
 - you're looking to design a relatively simple web app with a few static pages; 
@@ -88,10 +89,11 @@ Download the latest ".zip" from it's web page and unpack it, or clone the reposi
 4. "sample": a web application sample 
 
 ```bash
-> unzip WhakerPy-0.6.zip 
+> unzip WhakerPy-0.7.zip 
 > git clone https://git.code.sf.net/p/whakerpy/code whakerpy-code
 > python -m pip install .
 ```
+
 
 ## Quick Start
 
@@ -170,9 +172,10 @@ WhakerPy was initially developed within SPPAS <https://sppas.org>. It was extrac
 
 Other projects: 
 
-- the website <https://auto-cuedspeech.org>.
-- the website <https://sppas.org>.
-- the intranet of the Laboratoire Parole et Langage.
+- the website <https://auto-cuedspeech.org>
+- the website <https://sppas.org>
+- the 'setup' application of SPPAS
+- the intranet of the Laboratoire Parole et Langage
 - *contact the author if your project is based on WhakerPy*
 
 
@@ -208,7 +211,7 @@ Code coverage can be analyzed with unittest and coverage.
 Install them with the command: `python -m pip install ".[tests]"`.
 Then, perform the following steps:
 
-1. `coverage run -m unittest`
+1. `coverage run`
 2. `coverage report` to see a summary report into the terminal,
 or use this command to get the result in XML format: `coverage xml`
 
@@ -243,11 +246,11 @@ Signed-off-by: Random J Developer <random@developer.example.org>
 Send this file by e-mail to the author.
 
 
-## License/Copyright
+# License/Copyright
 
 See the accompanying `LICENSE` and `AUTHORS.md` files for the full list of contributors.
 
-Copyright (C) 2023-2024 [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>
+Copyright (C) 2023-2024 [Brigitte Bigi](https://sppas.org/bigi/), CNRS - <contact@sppas.org>
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify
@@ -262,3 +265,15 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+
+## How to cite WhakerPy
+
+By using WhakerPy, you are encouraged to mention it in your publications 
+or products, in accordance with the best practices of the AGPL license.
+
+Use the following reference to cite WhakerPy:
+
+> Brigitte Bigi. WhakerPy, a Python library to create dynamic HTML content and
+> web applications. Version 1.1. 2024. <https://hal.science/hal-04743687>
+
