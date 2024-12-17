@@ -37,6 +37,7 @@ import json
 import codecs
 import logging
 import mimetypes
+import types
 from io import BufferedReader
 from http.client import HTTPMessage
 from urllib.parse import parse_qsl
@@ -329,21 +330,22 @@ class HTTPDHandlerUtils:
         #                  be used without revalidation with the server.
         cache = list()
         if browser_cache is False:
-            cache = ['no-cache, no-store, must-revalidate']
+            cache.append("no-cache")
+            cache.append("no-store")
+            cache.append("must-revalidate")
 
         if varnish is False:
             # Add a directive to explicitly set the maximum cache age to zero.
             cache.append("max-age=0")
 
         # Build the headers list with the MIME type and cache directives.
-        headers = [
-            ('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath)),
-            ('Cache-Control', cache)
-        ]
+        headers = [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))]
+        if len(cache) > 0:
+            headers.append(('Cache-Control', ','.join(cache)))
 
         # If content is an iterator, calculate the file size and
         # add Content-Length
-        if callable(getattr(content, "__iter__", None)):
+        if isinstance(content, types.GeneratorType) is True:
             file_size = os.path.getsize(filepath)
             headers.append(('Content-Length', str(file_size)))
 
