@@ -35,6 +35,7 @@
 
 from __future__ import annotations
 import logging
+import types
 import http.server
 import os.path
 
@@ -125,7 +126,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         """
         self._set_headers(status, mime_type)
 
-        if hasattr(content, '__iter__') and not isinstance(content, (bytes, str)):
+        if isinstance(content, types.GeneratorType) is True:
             # Write one chunk at a time
             for chunk in content:
                 self.wfile.write(chunk)
@@ -184,11 +185,9 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         # (must be done before checking mime type in case the client ask a html static file)
         if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
             content, status = handler_utils.static_content(self.path[1:])
-
         # The client requested an HTML page. Response content is created by the server.
         elif mime_type == "text/html":
             content, status = self._bakery(handler_utils, dict(), mime_type)
-
         else:
             # Unknown: try to get a static file
             content, status = handler_utils.static_content(self.path[1:])

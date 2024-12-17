@@ -39,6 +39,7 @@ import logging
 import mimetypes
 import types
 from io import BufferedReader
+
 from http.client import HTTPMessage
 from urllib.parse import parse_qsl
 from urllib.parse import unquote
@@ -346,10 +347,32 @@ class HTTPDHandlerUtils:
         # If content is an iterator, calculate the file size and
         # add Content-Length
         if isinstance(content, types.GeneratorType) is True:
-            file_size = os.path.getsize(filepath)
-            headers.append(('Content-Length', str(file_size)))
+            content_length, content = HTTPDHandlerUtils.getsize_from_iterator(content)
+            headers.append(('Content-Length', str(content_length)))
 
         return headers
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def getsize_from_iterator(iterator):
+        """Calculate the total size of data from an iterator.
+
+        :param iterator: (iterable) The iterator to calculate the size of.
+
+        :return: (tuple)
+                - total_size (int): The total size in bytes.
+                - new_iterator (generator): A new iterator with the same content.
+        """
+        chunks = list(iterator)  # Consume the iterator
+        total_size = sum(len(chunk) for chunk in chunks)  # Calculate total size
+
+        # Create a new iterator from the consumed data
+        def recreate_iterator():
+            for chunk in chunks:
+                yield chunk
+
+        return total_size, recreate_iterator()
 
     # -----------------------------------------------------------------------
     # PRIVATE METHODS

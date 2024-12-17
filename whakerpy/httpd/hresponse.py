@@ -35,7 +35,6 @@ from __future__ import annotations
 import os
 import json
 
-from whakerpy.htmlmaker import BaseNode
 from whakerpy.htmlmaker import HTMLComment
 from whakerpy.htmlmaker import HTMLNode
 from whakerpy.htmlmaker import HTMLTree
@@ -43,7 +42,6 @@ from whakerpy.htmlmaker import HTMLTree
 from .hstatus import HTTPDStatus
 
 # ---------------------------------------------------------------------------
-
 
 JS_NOTIFY_EVENT = """
 function notify_event(action_btn) {
@@ -80,11 +78,8 @@ class BaseResponseRecipe:
 
     # -----------------------------------------------------------------------
 
-    def __init__(self, name: str = "Undefined", tree: BaseNode | None = None):
+    def __init__(self, name="Undefined", tree=None):
         """Create a new ResponseRecipe instance with a default response.
-
-        :param name: (str) Page name
-        :param tree: (BaseNode|None) Root HTML tree
 
         """
         # Define members with default values
@@ -117,7 +112,7 @@ class BaseResponseRecipe:
     def get_data(self) -> str | bytes:
         """Gets the current data to send to the client following this request.
 
-        :return: (str|bytes) The data in the string format or json depending on the type.
+        :return: (str) The data in the string format or json depending on the type.
 
         """
         if isinstance(self._data, dict):
@@ -133,9 +128,7 @@ class BaseResponseRecipe:
 
     def reset_data(self) -> None:
         """Clear json data of the response.
-
-        This function has to be called after each response send to the client
-        to avoid overflow problems.
+        This function has to be called after each response send to the client to avoid overflow problems.
 
         """
         self._data = dict()
