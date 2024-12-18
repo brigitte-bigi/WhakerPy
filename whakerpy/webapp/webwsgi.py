@@ -131,11 +131,14 @@ class WSGIApplication(object):
         else:
             content, status = self.__serve_dynamic_content(page_name, filepath, environ, handler_utils)
 
-        # Check if content is a generator (iterator)
+        # Check if content is a generator (created with 'yield' for large files)
         if isinstance(content, types.GeneratorType):
             headers = HTTPDHandlerUtils.build_default_headers(filepath, content, varnish=True)
             start_response(repr(status), headers)
+            # Either consume the iterator and return a large amount of bytes,
             return [c for c in content]
+            # or return the iterator (is this supported?)
+            # return content
 
         # Return bytes
         headers = HTTPDHandlerUtils.build_default_headers(filepath, content)
