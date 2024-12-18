@@ -89,7 +89,7 @@ Download the latest ".zip" from it's web page and unpack it, or clone the reposi
 4. "sample": a web application sample 
 
 ```bash
-> unzip WhakerPy-0.7.zip 
+> unzip WhakerPy-1.1.zip 
 > git clone https://git.code.sf.net/p/whakerpy/code whakerpy-code
 > python -m pip install .
 ```
