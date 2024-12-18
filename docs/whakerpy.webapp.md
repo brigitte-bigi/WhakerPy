@@ -502,32 +502,7 @@ def run(self) -> int:
 *Create the default application for an UWSGI server.*
 
 WSGI response is created from given "environ" parameters and communicated
-with start_response. The "environ" parameter is a dictionary. Here are
-examples of "environ" key/values:
-
-- 'REQUEST_METHOD': 'GET'
-- 'REQUEST_URI': '/information.html',
-- 'PATH_INFO': '/information.html',
-- 'QUERY_STRING': '',
-- 'SERVER_PROTOCOL': 'HTTP/1.1',
-- 'SCRIPT_NAME': '',
-- 'SERVER_NAME': 'macpro-1.home',
-- 'SERVER_PORT': '9090',
-- 'UWSGI_ROUTER': 'http',
-- 'REMOTE_ADDR': '127.0.0.1',
-- 'REMOTE_PORT': '26095',
-- 'HTTP_HOST': 'localhost:9090',
-- 'HTTP_USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0',
-- 'HTTP_ACCEPT': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-- 'HTTP_ACCEPT_LANGUAGE': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-- 'HTTP_ACCEPT_ENCODING': 'gzip, deflate, br',
-- 'HTTP_REFERER': 'http://localhost:9090/contributeurs.html',
-- 'HTTP_DNT': '1', 'HTTP_CONNECTION': 'keep-alive',
-- 'HTTP_UPGRADE_INSECURE_REQUESTS': '1',
-- 'HTTP_SEC_FETCH_DEST': 'document',
-- 'HTTP_SEC_FETCH_MODE': 'navigate',
-- 'HTTP_SEC_FETCH_SITE': 'same-origin',
-- 'HTTP_SEC_FETCH_USER': '?1',
+with start_response.
 
 
 ### Constructor
@@ -677,9 +652,13 @@ def __call__(self, environ, start_response):
         content, status = handler_utils.static_content(handler_utils.get_path()[1:])
     else:
         content, status = self.__serve_dynamic_content(page_name, filepath, environ, handler_utils)
+    if isinstance(content, types.GeneratorType):
+        headers = HTTPDHandlerUtils.build_default_headers(filepath, content, varnish=True)
+        start_response(repr(status), headers)
+        return [c for c in content]
     headers = HTTPDHandlerUtils.build_default_headers(filepath, content)
     start_response(repr(status), headers)
-    return content if callable(getattr(content, '__iter__', None)) else [content]
+    return [content]
 ```
 
 *Handle WSGI requests.*

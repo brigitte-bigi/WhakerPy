@@ -503,7 +503,7 @@ def _process_events(self, events: dict, **kwargs) -> bool:
         deprecated content (_invalidate) and re-generate a new one (_bake).
 
         :param events (dict): key=event_name, value=event_value
-        :return: None
+        :return: (bool)
 
         """
     self._status.code = 200
@@ -524,7 +524,7 @@ deprecated content (_invalidate) and re-generate a new one (_bake).
 
 ##### Returns
 
-- None
+- (*bool*)
 
 #### _invalidate
 
@@ -990,31 +990,6 @@ def _set_headers(self, status: int, mime_type: str=None) -> None:
 
 sppasHTTPDValueError
 
-#### _response_backup
-
-```python
-def _response_backup(self, content: bytes, status: int, mime_type: str=None) -> None:
-    """Make the appropriate HTTPD response.
-
-        :param content: (bytes) The HTML response content
-        :param status: (int) The HTTPD status code of the response
-        :param mime_type: (str) The mime type of the file response
-
-        """
-    self._set_headers(status, mime_type)
-    self.wfile.write(content)
-    if status == 410:
-        self.server.shutdown()
-```
-
-*Make the appropriate HTTPD response.*
-
-##### Parameters
-
-- **content**: (*bytes*) The HTML response content
-- **status**: (*int*) The HTTPD status code of the response
-- **mime_type**: (*str*) The mime type of the file response
-
 #### _response
 
 ```python
@@ -1028,7 +1003,7 @@ def _response(self, content, status: int, mime_type: str=None) -> None:
 
         """
     self._set_headers(status, mime_type)
-    if hasattr(content, '__iter__') and (not isinstance(content, (bytes, str))):
+    if isinstance(content, types.GeneratorType) is True:
         for chunk in content:
             self.wfile.write(chunk)
     else:
@@ -1405,13 +1380,17 @@ def build_default_headers(filepath: str, content=None, browser_cache=False, varn
         """
     cache = list()
     if browser_cache is False:
-        cache = ['no-cache, no-store, must-revalidate']
+        cache.append('no-cache')
+        cache.append('no-store')
+        cache.append('must-revalidate')
     if varnish is False:
         cache.append('max-age=0')
-    headers = [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath)), ('Cache-Control', cache)]
-    if callable(getattr(content, '__iter__', None)):
-        file_size = os.path.getsize(filepath)
-        headers.append(('Content-Length', str(file_size)))
+    headers = [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))]
+    if len(cache) > 0:
+        headers.append(('Cache-Control', ','.join(cache)))
+    if isinstance(content, types.GeneratorType) is True:
+        content_length, content = HTTPDHandlerUtils.getsize_from_iterator(content)
+        headers.append(('Content-Length', str(content_length)))
     return headers
 ```
 
@@ -1431,6 +1410,48 @@ including its MIME type and cache-control directives.
 ##### Returns
 
 - (*list*) A list of tuples representing the HTTP response headers.
+
+#### getsize_from_iterator
+
+```python
+@staticmethod
+def getsize_from_iterator(iterator):
+    """Calculate the total size of data from an iterator.
+
+        :param iterator: (iterable) The iterator to calculate the size of.
+
+        :return: (tuple)
+                - total_size (int): The total size in bytes.
+                - new_iterator (generator): A new iterator with the same content.
+        """
+    chunks = list(iterator)
+    total_size = sum((len(chunk) for chunk in chunks))
+
+    def recreate_iterator():
+        for chunk in chunks:
+            yield chunk
+    return (total_size, recreate_iterator())
+```
+
+*Calculate the total size of data from an iterator.*
+
+##### Parameters
+
+- **iterator**: (iterable) The iterator to calculate the size of.
+
+##### Returns
+
+- (*tuple*) - total_size (int): The total size in bytes. - new_iterator (generator): A new iterator with the same content.
+
+#### recreate_iterator
+
+```python
+def recreate_iterator():
+    for chunk in chunks:
+        yield chunk
+```
+
+
 
 #### file_iterator
 
