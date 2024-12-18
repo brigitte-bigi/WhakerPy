@@ -28,9 +28,37 @@
 
     -------------------------------------------------------------------------
 
+The "environ" parameter is a dictionary. Here are examples of "environ"
+key/values:
+
+- 'REQUEST_METHOD': 'GET'
+- 'REQUEST_URI': '/information.html',
+- 'PATH_INFO': '/information.html',
+- 'QUERY_STRING': '',
+- 'SERVER_PROTOCOL': 'HTTP/1.1',
+- 'SCRIPT_NAME': '',
+- 'SERVER_NAME': 'macpro-1.home',
+- 'SERVER_PORT': '9090',
+- 'UWSGI_ROUTER': 'http',
+- 'REMOTE_ADDR': '127.0.0.1',
+- 'REMOTE_PORT': '26095',
+- 'HTTP_HOST': 'localhost:9090',
+- 'HTTP_USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0',
+- 'HTTP_ACCEPT': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+- 'HTTP_ACCEPT_LANGUAGE': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+- 'HTTP_ACCEPT_ENCODING': 'gzip, deflate, br',
+- 'HTTP_REFERER': 'http://localhost:9090/contributeurs.html',
+- 'HTTP_DNT': '1', 'HTTP_CONNECTION': 'keep-alive',
+- 'HTTP_UPGRADE_INSECURE_REQUESTS': '1',
+- 'HTTP_SEC_FETCH_DEST': 'document',
+- 'HTTP_SEC_FETCH_MODE': 'navigate',
+- 'HTTP_SEC_FETCH_SITE': 'same-origin',
+- 'HTTP_SEC_FETCH_USER': '?1',
+
 """
 
 import os
+import types
 
 from ..httpd import HTTPDStatus
 from ..httpd import HTTPDHandlerUtils
@@ -48,53 +76,45 @@ class WSGIApplication(object):
     """Create the default application for an UWSGI server.
 
     WSGI response is created from given "environ" parameters and communicated
-    with start_response. The "environ" parameter is a dictionary. Here are
-    examples of "environ" key/values:
-
-    - 'REQUEST_METHOD': 'GET'
-    - 'REQUEST_URI': '/information.html',
-    - 'PATH_INFO': '/information.html',
-    - 'QUERY_STRING': '',
-    - 'SERVER_PROTOCOL': 'HTTP/1.1',
-    - 'SCRIPT_NAME': '',
-    - 'SERVER_NAME': 'macpro-1.home',
-    - 'SERVER_PORT': '9090',
-    - 'UWSGI_ROUTER': 'http',
-    - 'REMOTE_ADDR': '127.0.0.1',
-    - 'REMOTE_PORT': '26095',
-    - 'HTTP_HOST': 'localhost:9090',
-    - 'HTTP_USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0',
-    - 'HTTP_ACCEPT': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-    - 'HTTP_ACCEPT_LANGUAGE': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-    - 'HTTP_ACCEPT_ENCODING': 'gzip, deflate, br',
-    - 'HTTP_REFERER': 'http://localhost:9090/contributeurs.html',
-    - 'HTTP_DNT': '1', 'HTTP_CONNECTION': 'keep-alive',
-    - 'HTTP_UPGRADE_INSECURE_REQUESTS': '1',
-    - 'HTTP_SEC_FETCH_DEST': 'document',
-    - 'HTTP_SEC_FETCH_MODE': 'navigate',
-    - 'HTTP_SEC_FETCH_SITE': 'same-origin',
-    - 'HTTP_SEC_FETCH_USER': '?1',
+    with start_response.
 
     """
 
     def __init__(self, default_path: str = "", default_filename: str = "index.html",
                  web_page_maker=WebSiteResponse, default_web_json: str = None):
+        """Initialize the WSGIApplication instance.
 
+        :param default_path: (str) Default root path for static or dynamic pages
+        :param default_filename: (str) Default filename to serve if none is provided
+        :param web_page_maker: (callable) A callable used to generate dynamic pages
+        :param default_web_json: (str) Path to the JSON file for dynamic page definitions
+
+        """
         self.__default_path = default_path
         self.__default_file = default_filename
         self.__dynamic_pages = (web_page_maker, os.path.join(self.__default_path, default_web_json))
         self._pages = dict()
 
-    # ---------------------------------------------------------------------------
+    # -----------------------------------------------------------------------
 
     def __call__(self, environ, start_response):
+        """Handle WSGI requests.
+
+        Process the incoming "environ" dictionary and respond using the given
+        start_response callable.
+
+        :param environ: (dict) WSGI environment dictionary with request data
+        :param start_response: (callable) Function to start the HTTP response
+        :return: (bytes|iterable) Response content to send back to the client
+
+        """
         if 'HTTP_ACCEPT' in environ:
             environ['Accept'] = environ['HTTP_ACCEPT']
 
-        # Get the expected filename
+        # Resolve the requested file path and page name
         handler_utils = HTTPDHandlerUtils(environ, environ["PATH_INFO"], self.__default_file)
         filepath = self.__default_path + handler_utils.get_path()
-        # provide urls with several "/" instead of a single one
+        # Normalize paths with multiple slashes
         filepath = filepath.replace("//", "/")
         page_name = handler_utils.get_page_name()
 
@@ -102,57 +122,30 @@ class WSGIApplication(object):
         if os.path.exists(filepath) is True:
             content, status = handler_utils.static_content(filepath)
 
-        # If the requested file doesn't exist in the given default path (like the request.js)
+        # If the requested file doesn't exist in the given
+        # default path (like the request.js)
         elif os.path.isfile(handler_utils.get_path()[1:]) is True:
             content, status = handler_utils.static_content(handler_utils.get_path()[1:])
 
         # else, it's a dynamic page
         else:
-            # create dynamic page in web json (if given)
-            if self.__dynamic_pages[1] is not None and page_name not in self._pages:
-                self.__create_web_page(page_name)
+            content, status = self.__serve_dynamic_content(page_name, filepath, environ, handler_utils)
 
-            # if the page doesn't exist even after the dynamic creation, or wrong path
-            if page_name not in self._pages or filepath != f"{self.__default_path}/{page_name}":
-                status = HTTPDStatus(404)
-                content = status.to_html(encode=True, msg_error=f"Page not found : {filepath}")
-            else:
-                # read and parse data if it's a POST request, empty events if it's not
-                events, accept = handler_utils.process_post(environ['wsgi.input'])
+        # Check if content is a generator (created with 'yield' for large files)
+        if isinstance(content, types.GeneratorType):
+            headers = HTTPDHandlerUtils.build_default_headers(filepath, content, varnish=True)
+            start_response(repr(status), headers)
+            # Either consume the iterator and return a large amount of bytes,
+            return [c for c in content]
+            # or return the iterator (is this supported?)
+            # return content
 
-                # bakery the response
-                content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events,
-                                                           HTTPDHandlerUtils.has_to_return_data(accept))
-
-        # send response to the client
-        headers = [
-                ('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath)),
-                ('Cache-Control', 'max-age=0')   # Disable Varnish
-            ]
+        # Return bytes
+        headers = HTTPDHandlerUtils.build_default_headers(filepath, content)
         start_response(repr(status), headers)
         return [content]
 
-    # ---------------------------------------------------------------------------
-
-    def __create_web_page(self, page_name: str) -> None:
-        """Create page dynamically from the json config file.
-
-        """
-        web_data = self.__dynamic_pages[0]
-
-        if hasattr(web_data, 'bake_response'):
-            data = web_data(self.__dynamic_pages[1])
-            page = data.bake_response(page_name, default=self.__default_path)
-
-            if page is not None:
-                self._pages[page_name] = page
-
-        else:
-            data = WebSiteData(self.__dynamic_pages[1])
-            if page_name in data:
-                self._pages[page_name] = web_data(page_name)
-
-    # ---------------------------------------------------------------------------
+    # -----------------------------------------------------------------------
 
     def add_page(self, page_name: str, response: BaseResponseRecipe) -> bool:
         """Add a page to the list of available pages.
@@ -173,7 +166,60 @@ class WSGIApplication(object):
         self._pages[page_name] = response
         return True
 
+    # -----------------------------------------------------------------------
+    # Private
+    # -----------------------------------------------------------------------
+
+    def __create_dynamic_page(self, page_name: str) -> None:
+        """Create page dynamically from the json config file.
+
+        :param page_name: (str) Name of the page to bake
+
+        """
+        web_data = self.__dynamic_pages[0]
+
+        if hasattr(web_data, 'bake_response'):
+            data = web_data(self.__dynamic_pages[1])
+            page = data.bake_response(page_name, default=self.__default_path)
+
+            if page is not None:
+                self._pages[page_name] = page
+
+        else:
+            data = WebSiteData(self.__dynamic_pages[1])
+            if page_name in data:
+                self._pages[page_name] = web_data(page_name)
+
+    # -----------------------------------------------------------------------
+
+    def __serve_dynamic_content(self, page_name: str, filepath: str, environ, handler_utils) -> tuple:
+        """Handle requests for dynamic content or return a 404 if not found."""
+        # Create dynamic page if necessary
+        if self.__dynamic_pages[1] is not None and page_name not in self._pages:
+            self.__create_dynamic_page(page_name)
+
+        # Return 404 if the page does not exist or the path is invalid
+        if page_name not in self._pages or filepath != f"{self.__default_path}/{page_name}":
+            status = HTTPDStatus(404)
+            content = status.to_html(encode=True, msg_error=f"Page not found : {filepath}")
+        else:
+            # Process dynamic content. Events are empty if POST request.
+            events, accept = handler_utils.process_post(environ['wsgi.input'])
+            content, status = HTTPDHandlerUtils.bakery(
+                self._pages, page_name, environ['PATH_INFO'], events,
+                HTTPDHandlerUtils.has_to_return_data(accept)
+            )
+        return content, status
+
+    # ---------------------------------------------------------------------------
+    # Overloads
     # ---------------------------------------------------------------------------
 
-    def __contains__(self, item):
-        return item in self._pages
+    def __contains__(self, page_name: str) -> bool:
+        """Check if a page name exists in the application.
+
+        :param page_name: (str) Name of the page to check
+        :return: (bool) True if the page exists, False otherwise
+
+        """
+        return page_name in self._pages

@@ -37,7 +37,9 @@ import json
 import codecs
 import logging
 import mimetypes
+import types
 from io import BufferedReader
+
 from http.client import HTTPMessage
 from urllib.parse import parse_qsl
 from urllib.parse import unquote
@@ -93,7 +95,7 @@ class HTTPDHandlerUtils:
     # PUBLIC METHODS
     # -----------------------------------------------------------------------
 
-    def static_content(self, filepath: str) -> tuple[bytes, HTTPDStatus]:
+    def static_content(self, filepath: str) -> tuple:
         """Return the content of a static file and update the corresponding status.
 
         This method checks the existence of the file and its permissions before
@@ -101,7 +103,7 @@ class HTTPDHandlerUtils:
         an appropriate HTTP status and message will be logged.
 
         :param filepath: (str) The path of the file to return.
-        :return: (tuple[bytes, HTTPDStatus]) A tuple containing the file content
+        :return: (tuple[bytes|iterator, HTTPDStatus]) A tuple containing the file content
                  in bytes and the corresponding HTTP status.
 
         """
@@ -129,7 +131,7 @@ class HTTPDHandlerUtils:
         # The requested filepath is a regular existing file: check permissions.
         try:
             content = self.__open_file_to_binary(filepath)
-            return content, HTTPDStatus(200)
+            return content, HTTPDStatus(200)   # bytes or iterator
         except Exception as e:
             status = HTTPDStatus(500)
             return status.to_html(encode=True, msg_error=str(e)), status
@@ -147,6 +149,7 @@ class HTTPDHandlerUtils:
         :param msg: (str) The message to log regarding the error.
         :return: (tuple[str, HTTPDStatus]) A tuple containing the HTML error
                  message and the corresponding HTTP status.
+
         """
         status = HTTPDStatus(code)
         logging.error(f"{msg}: {filepath}")
@@ -304,6 +307,74 @@ class HTTPDHandlerUtils:
         return content, status
 
     # -----------------------------------------------------------------------
+
+    @staticmethod
+    def build_default_headers(filepath: str, content=None, browser_cache=False, varnish=False) -> list:
+        """Build HTTP response headers for the requested file.
+
+        This method generates the HTTP headers necessary for serving a file,
+        including its MIME type and cache-control directives.
+
+        :param filepath: (str) The absolute or relative path to the requested static file.
+        :param content: (bytes|iterator|None) The content of the requested file.
+        :param browser_cache: (bool) Whether the browser cache is enabled or not.
+                        If False, browser caching is explicitly disabled.
+        :param varnish: (bool) Indicates whether the server should enable Varnish cache.
+                        If False, server caching is explicitly disabled.
+        :return: (list) A list of tuples representing the HTTP response headers.
+
+        """
+        # Initialize cache-control header with default values to disable caching.
+        # no-cache: ensures that users always receive the most up-to-date version of the resource.
+        # no-store: prevents the browser (or caching mechanisms) from storing the resource at all.
+        # must-revalidate: tells the browser that once the resource becomes stale, it must not
+        #                  be used without revalidation with the server.
+        cache = list()
+        if browser_cache is False:
+            cache.append("no-cache")
+            cache.append("no-store")
+            cache.append("must-revalidate")
+
+        if varnish is False:
+            # Add a directive to explicitly set the maximum cache age to zero.
+            cache.append("max-age=0")
+
+        # Build the headers list with the MIME type and cache directives.
+        headers = [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))]
+        if len(cache) > 0:
+            headers.append(('Cache-Control', ','.join(cache)))
+
+        # If content is an iterator, calculate the file size and
+        # add Content-Length
+        if isinstance(content, types.GeneratorType) is True:
+            content_length, content = HTTPDHandlerUtils.getsize_from_iterator(content)
+            headers.append(('Content-Length', str(content_length)))
+
+        return headers
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def getsize_from_iterator(iterator):
+        """Calculate the total size of data from an iterator.
+
+        :param iterator: (iterable) The iterator to calculate the size of.
+
+        :return: (tuple)
+                - total_size (int): The total size in bytes.
+                - new_iterator (generator): A new iterator with the same content.
+        """
+        chunks = list(iterator)  # Consume the iterator
+        total_size = sum(len(chunk) for chunk in chunks)  # Calculate total size
+
+        # Create a new iterator from the consumed data
+        def recreate_iterator():
+            for chunk in chunks:
+                yield chunk
+
+        return total_size, recreate_iterator()
+
+    # -----------------------------------------------------------------------
     # PRIVATE METHODS
     # -----------------------------------------------------------------------
 
@@ -339,7 +410,7 @@ class HTTPDHandlerUtils:
         """Open and read the given file and transform the content to bytes value.
 
         :param filepath: (str) The path of the file to read
-        :return: (bytes) the file content in bytes format
+        :return: (bytes|iterator) the file content in bytes format
 
         """
         if self.__get_headers_value("Content-Type") is None:
@@ -348,18 +419,28 @@ class HTTPDHandlerUtils:
             file_type = self.__get_headers_value("Content-Type")
 
         if file_type is not None and (file_type.startswith("text/")
-                                      or file_type == "application/javascript" or file_type == "application/json"):
-
+                                      or file_type == "application/javascript"
+                                      or file_type == "application/json"):
             with codecs.open(filepath, "r", "utf-8") as fp:
                 content = bytes("", "utf-8")
-
                 for line in fp.readlines():
                     content += bytes(line, "utf-8")
-
                 return content
 
-        else:
+        # Binary file
+        sz = os.path.getsize(filepath)
+        if sz < 10*1024*1024:  # 10Mo
             return open(filepath, "rb").read()
+
+        # For large binary files, return an iterator to stream the content
+        def file_iterator():
+            with open(filepath, "rb") as fp:
+                chunk = fp.read(8192)  # Read 8 KB chunks
+                while chunk:
+                    yield chunk
+                    chunk = fp.read(8192)
+
+        return file_iterator()
 
     # -----------------------------------------------------------------------
 

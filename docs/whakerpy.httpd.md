@@ -503,7 +503,7 @@ def _process_events(self, events: dict, **kwargs) -> bool:
         deprecated content (_invalidate) and re-generate a new one (_bake).
 
         :param events (dict): key=event_name, value=event_value
-        :return: None
+        :return: (bool)
 
         """
     self._status.code = 200
@@ -524,7 +524,7 @@ deprecated content (_invalidate) and re-generate a new one (_bake).
 
 ##### Returns
 
-- None
+- (*bool*)
 
 #### _invalidate
 
@@ -853,24 +853,65 @@ def __init__(self, request, client_address, server):
 
 ### Public functions
 
+#### get_default_page
+
+```python
+def get_default_page(self, default: str='index.html') -> str:
+    """Retrieve the server default page name.
+
+        This method first checks if the server has a callable 'default' method
+        to determine the default page name. If not, it falls back to the
+        provided default value.
+
+        :param default: (str) The fallback default page name, if no server-specific
+                               method is found. Defaults to "index.html".
+        :return: (str) The name of the default page.
+
+        """
+    if hasattr(self.server, 'default') and callable(self.server.default):
+        return self.server.default()
+    return default
+```
+
+*Retrieve the server default page name.*
+
+This method first checks if the server has a callable 'default' method
+to determine the default page name. If not, it falls back to the
+provided default value.
+
+##### Parameters
+
+- **default**: (*str*) The fallback default page name, if no server-specific method is found. Defaults to "index.html".
+
+
+##### Returns
+
+- (*str*) The name of the default page.
+
 #### do_HEAD
 
 ```python
 def do_HEAD(self) -> None:
-    """Prepare the response to a HEAD request."""
+    """Prepare the response to a HEAD request.
+
+        """
     logging.debug('HEAD -- requested: {}'.format(self.path))
     self._set_headers(200)
 ```
 
 *Prepare the response to a HEAD request.*
 
+
+
 #### do_GET
 
 ```python
 def do_GET(self) -> None:
-    """Prepare the response to a GET request."""
+    """Prepare the response to a GET request.
+
+        """
     logging.debug(' ---- DO GET -- requested: {}'.format(self.path))
-    handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
+    handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.get_default_page())
     self.path = handler_utils.get_path()
     mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
     if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
@@ -884,13 +925,17 @@ def do_GET(self) -> None:
 
 *Prepare the response to a GET request.*
 
+
+
 #### do_POST
 
 ```python
 def do_POST(self) -> None:
-    """Prepare the response to a POST request."""
+    """Prepare the response to a POST request.
+
+        """
     logging.debug(' ----- DO POST -- requested: {}'.format(self.path))
-    handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.__get_default_page())
+    handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.get_default_page())
     self.path = handler_utils.get_path()
     events, accept = handler_utils.process_post(self.rfile)
     content, status = self._bakery(handler_utils, events, accept)
@@ -898,6 +943,8 @@ def do_POST(self) -> None:
 ```
 
 *Prepare the response to a POST request.*
+
+
 
 #### log_request
 
@@ -921,7 +968,6 @@ def _set_headers(self, status: int, mime_type: str=None) -> None:
 
         :param status: (int) A response status.
         :param mime_type: (str) The mime type of the file response
-
         :raises: sppasHTTPDValueError
 
         """
@@ -939,6 +985,7 @@ def _set_headers(self, status: int, mime_type: str=None) -> None:
 - **status**: (*int*) A response status.
 - **mime_type**: (*str*) The mime type of the file response
 
+
 ##### Raises
 
 sppasHTTPDValueError
@@ -946,16 +993,21 @@ sppasHTTPDValueError
 #### _response
 
 ```python
-def _response(self, content: bytes, status: int, mime_type: str=None) -> None:
+def _response(self, content, status: int, mime_type: str=None) -> None:
     """Make the appropriate HTTPD response.
 
-        :param content: (bytes) The HTML response content
-        :param status: (int) The HTTPD status code of the response
-        :param mime_type: (str) The mime type of the file response
+        :param content: (bytes|iterator) The HTML response content or an iterator
+                        yielding chunks of bytes.
+        :param status: (int) The HTTPD status code of the response.
+        :param mime_type: (str) The mime type of the file response.
 
         """
     self._set_headers(status, mime_type)
-    self.wfile.write(content)
+    if isinstance(content, types.GeneratorType) is True:
+        for chunk in content:
+            self.wfile.write(chunk)
+    else:
+        self.wfile.write(content)
     if status == 410:
         self.server.shutdown()
 ```
@@ -964,9 +1016,9 @@ def _response(self, content: bytes, status: int, mime_type: str=None) -> None:
 
 ##### Parameters
 
-- **content**: (*bytes*) The HTML response content
-- **status**: (*int*) The HTTPD status code of the response
-- **mime_type**: (*str*) The mime type of the file response
+- **content**: (*bytes*|iterator) The HTML response content or an iterator yielding chunks of bytes.
+- **status**: (*int*) The HTTPD status code of the response.
+- **mime_type**: (*str*) The mime type of the file response.
 
 #### _bakery
 
@@ -977,7 +1029,6 @@ def _bakery(self, handler_utils: HTTPDHandlerUtils, events: dict, mime_type: str
         :param handler_utils: (HTTPDhandlerUtils)
         :param events: (dict) key=event name, value=event value
         :param mime_type: (str) The mime type of the file response
-
         :return: tuple(bytes, HTTPDStatus) the content of the response the httpd status
 
         """
@@ -995,35 +1046,10 @@ def _bakery(self, handler_utils: HTTPDHandlerUtils, events: dict, mime_type: str
 - **events**: (*dict*) key=event name, value=event value
 - **mime_type**: (*str*) The mime type of the file response
 
+
 ##### Returns
 
 - tuple(*bytes*, HTTPDStatus) the content of the response the httpd status
-
-
-
-### Protected functions
-
-#### __get_default_page
-
-```python
-def __get_default_page(self) -> str:
-    """Get the default page in case if the url doesn't specify any page.
-
-        :return: (str) the default page name
-
-        """
-    try:
-        default = self.server.default()
-    except AttributeError:
-        default = 'index.html'
-    return default
-```
-
-*Get the default page in case if the url doesn't specify any page.*
-
-##### Returns
-
-- (*str*) the default page name
 
 
 
@@ -1101,7 +1127,7 @@ def get_page_name(self) -> str:
 #### static_content
 
 ```python
-def static_content(self, filepath: str) -> tuple[bytes, HTTPDStatus]:
+def static_content(self, filepath: str) -> tuple:
     """Return the content of a static file and update the corresponding status.
 
         This method checks the existence of the file and its permissions before
@@ -1109,7 +1135,7 @@ def static_content(self, filepath: str) -> tuple[bytes, HTTPDStatus]:
         an appropriate HTTP status and message will be logged.
 
         :param filepath: (str) The path of the file to return.
-        :return: (tuple[bytes, HTTPDStatus]) A tuple containing the file content
+        :return: (tuple[bytes|iterator, HTTPDStatus]) A tuple containing the file content
                  in bytes and the corresponding HTTP status.
 
         """
@@ -1145,7 +1171,7 @@ an appropriate HTTP status and message will be logged.
 
 ##### Returns
 
-- (*tuple*[*bytes*, HTTPDStatus]) A tuple containing the file content in bytes and the corresponding HTTP status.
+- (*tuple*[*bytes*|iterator, HTTPDStatus]) A tuple containing the file content in bytes and the corresponding HTTP status.
 
 #### process_post
 
@@ -1333,6 +1359,113 @@ def bakery(pages: dict, page_name: str, headers: dict, events: dict, has_to_retu
 
 - (*tuple*[*bytes*, HTTPDStatus]) The content to answer to the client and the status of the response
 
+#### build_default_headers
+
+```python
+@staticmethod
+def build_default_headers(filepath: str, content=None, browser_cache=False, varnish=False) -> list:
+    """Build HTTP response headers for the requested file.
+
+        This method generates the HTTP headers necessary for serving a file,
+        including its MIME type and cache-control directives.
+
+        :param filepath: (str) The absolute or relative path to the requested static file.
+        :param content: (bytes|iterator|None) The content of the requested file.
+        :param browser_cache: (bool) Whether the browser cache is enabled or not.
+                        If False, browser caching is explicitly disabled.
+        :param varnish: (bool) Indicates whether the server should enable Varnish cache.
+                        If False, server caching is explicitly disabled.
+        :return: (list) A list of tuples representing the HTTP response headers.
+
+        """
+    cache = list()
+    if browser_cache is False:
+        cache.append('no-cache')
+        cache.append('no-store')
+        cache.append('must-revalidate')
+    if varnish is False:
+        cache.append('max-age=0')
+    headers = [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))]
+    if len(cache) > 0:
+        headers.append(('Cache-Control', ','.join(cache)))
+    if isinstance(content, types.GeneratorType) is True:
+        content_length, content = HTTPDHandlerUtils.getsize_from_iterator(content)
+        headers.append(('Content-Length', str(content_length)))
+    return headers
+```
+
+*Build HTTP response headers for the requested file.*
+
+This method generates the HTTP headers necessary for serving a file,
+including its MIME type and cache-control directives.
+
+##### Parameters
+
+- **filepath**: (*str*) The absolute or relative path to the requested static file.
+- **content**: (*bytes*|iterator|None) The content of the requested file.
+- **browser_cache**: (*bool*) Whether the browser cache is enabled or not. If False, browser caching is explicitly disabled.
+- **varnish**: (*bool*) Indicates whether the server should enable Varnish cache. If False, server caching is explicitly disabled.
+
+
+##### Returns
+
+- (*list*) A list of tuples representing the HTTP response headers.
+
+#### getsize_from_iterator
+
+```python
+@staticmethod
+def getsize_from_iterator(iterator):
+    """Calculate the total size of data from an iterator.
+
+        :param iterator: (iterable) The iterator to calculate the size of.
+
+        :return: (tuple)
+                - total_size (int): The total size in bytes.
+                - new_iterator (generator): A new iterator with the same content.
+        """
+    chunks = list(iterator)
+    total_size = sum((len(chunk) for chunk in chunks))
+
+    def recreate_iterator():
+        for chunk in chunks:
+            yield chunk
+    return (total_size, recreate_iterator())
+```
+
+*Calculate the total size of data from an iterator.*
+
+##### Parameters
+
+- **iterator**: (iterable) The iterator to calculate the size of.
+
+##### Returns
+
+- (*tuple*) - total_size (int): The total size in bytes. - new_iterator (generator): A new iterator with the same content.
+
+#### recreate_iterator
+
+```python
+def recreate_iterator():
+    for chunk in chunks:
+        yield chunk
+```
+
+
+
+#### file_iterator
+
+```python
+def file_iterator():
+    with open(filepath, 'rb') as fp:
+        chunk = fp.read(8192)
+        while chunk:
+            yield chunk
+            chunk = fp.read(8192)
+```
+
+
+
 
 
 ### Protected functions
@@ -1351,6 +1484,7 @@ def __log_and_status(self, code: int, filepath: str, msg: str) -> tuple[bytes, H
         :param msg: (str) The message to log regarding the error.
         :return: (tuple[str, HTTPDStatus]) A tuple containing the HTML error
                  message and the corresponding HTTP status.
+
         """
     status = HTTPDStatus(code)
     logging.error(f'{msg}: {filepath}')
@@ -1416,7 +1550,7 @@ def __open_file_to_binary(self, filepath: str) -> bytes:
     """Open and read the given file and transform the content to bytes value.
 
         :param filepath: (str) The path of the file to read
-        :return: (bytes) the file content in bytes format
+        :return: (bytes|iterator) the file content in bytes format
 
         """
     if self.__get_headers_value('Content-Type') is None:
@@ -1429,8 +1563,17 @@ def __open_file_to_binary(self, filepath: str) -> bytes:
             for line in fp.readlines():
                 content += bytes(line, 'utf-8')
             return content
-    else:
+    sz = os.path.getsize(filepath)
+    if sz < 10 * 1024 * 1024:
         return open(filepath, 'rb').read()
+
+    def file_iterator():
+        with open(filepath, 'rb') as fp:
+            chunk = fp.read(8192)
+            while chunk:
+                yield chunk
+                chunk = fp.read(8192)
+    return file_iterator()
 ```
 
 *Open and read the given file and transform the content to bytes value.*
@@ -1442,7 +1585,7 @@ def __open_file_to_binary(self, filepath: str) -> bytes:
 
 ##### Returns
 
-- (*bytes*) the file content in bytes format
+- (*bytes*|iterator) the file content in bytes format
 
 #### __extract_body_content
 

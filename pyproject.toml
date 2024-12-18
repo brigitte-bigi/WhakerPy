@@ -6,7 +6,7 @@
 
 [project]
     name = "WhakerPy"
-    version = "1.0"
+    version = "1.1"
     authors = [{ name="Brigitte Bigi", email="contact@sppas.org" }]
     description = "Web HTML maker in Python - a light web application framework"
     readme = "README.md"
@@ -27,6 +27,7 @@
     "Homepage" = "https://sourceforge.net/projects/whakerpy/"
     "Documentation" = "https://whakerpy.sourceforge.io"
     "Pypi" = "https://pypi.org/project/whakerpy/"
+    "Repository" = "https://git.code.sf.net/p/whakerpy/code"
 
 # -------------------
 # Distrib builder
@@ -80,7 +81,7 @@
 
 [tool.coverage.run]
     source_pkgs = ["whakerpy"]
-    command_line = "-m pytest"
+    command_line = "-m unittest discover"
     omit = [
         "*/test*",
         "**/__init__.py"]

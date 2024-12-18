@@ -222,7 +222,7 @@ class BaseResponseRecipe:
         deprecated content (_invalidate) and re-generate a new one (_bake).
 
         :param events (dict): key=event_name, value=event_value
-        :return: None
+        :return: (bool)
 
         """
         self._status.code = 200

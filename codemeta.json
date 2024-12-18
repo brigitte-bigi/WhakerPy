@@ -1,15 +1,15 @@
 {
     "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
     "@type": "SoftwareSourceCode",
-    "codeRepository": "https://whakerpy.sf.net/",
+    "codeRepository": "https://git.code.sf.net/p/whakerpy/code",
     "contIntegration": "",
     "dateCreated": "2023-09-01",
     "datePublished": "2023-09-11",
-    "dateModified": "2024-10-20",
+    "dateModified": "2024-12-18",
     "downloadUrl": "https://sourceforge.net/projects/whakerpy/files/latest/download",
     "name": "WhakerPy",
-    "version": "0.9",
-    "description": "Whakerpy is a simple library useful to create dynamic HTML content; it's a light web application framework. Create and manipulate HTML from the power of Python.",
+    "version": "1.1",
+    "description": "Whakerpy is a library to create dynamic HTML content and web applications. Create and manipulate HTML from the power of Python.",
     "applicationCategory": "Computer Science",
     "releaseNotes": "",
     "referencePublication": "",
@@ -17,8 +17,9 @@
         "HTML",
         "dynamic",
         "web",
-        "front-end",
-        "HTTPD"
+        "back-end",
+        "HTTPD",
+        "wsgi"
     ],
     "programmingLanguage": [
         "Python"
@@ -37,7 +38,7 @@
             "email": "contact@sppas.org",
             "affiliation": {
                 "@type": "Organization",
-                "name": "Laboratoire Parole et Langage, CNRS, Aix Marseille Univ, Aix-en-Provence, France"
+                "name": "CNRS - Laboratoire Parole et Langage, Aix Marseille Univ, Aix-en-Provence, France"
             }
         }
     ]
