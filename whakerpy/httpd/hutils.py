@@ -429,7 +429,7 @@ class HTTPDHandlerUtils:
 
         # Binary file
         sz = os.path.getsize(filepath)
-        if sz < 10*1024*1024:  # 10Mo
+        if sz < 100*1024*1024:  # 100Mo
             return open(filepath, "rb").read()
 
         # For large binary files, return an iterator to stream the content
