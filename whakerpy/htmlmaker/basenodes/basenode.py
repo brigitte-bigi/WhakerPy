@@ -9,7 +9,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi
+    Copyright (C) 2023-2025 Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -102,10 +102,10 @@ class BaseNode(object):
         :return: (str) Cleaned string
 
         """
-        e = re.sub("[\s]+", r"", entry)
-        e = re.sub("[\t]+", r"", e)
-        e = re.sub("[\n]+", r"", e)
-        e = re.sub("[\r]+", r"", e)
+        e = re.sub("[\\s]+", r"", entry)
+        e = re.sub("[\\t]+", r"", e)
+        e = re.sub("[\\n]+", r"", e)
+        e = re.sub("[\\r]+", r"", e)
         if "\ufeff" in e:
             e = re.sub("\ufeff", r"", e)
         return e
