@@ -43,28 +43,6 @@ from .hstatus import HTTPDStatus
 
 # ---------------------------------------------------------------------------
 
-JS_NOTIFY_EVENT = """
-function notify_event(action_btn) {
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.style.display = "none";
-
-    const el = document.createElement("input");
-    el.name = action_btn.name + "_event";
-    el.id = action_btn.name + "_event";
-    el.value = action_btn.getAttribute("value")
-    el.type = "hidden"
-    form.appendChild(el);
-
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
-}
-
-"""
-
-# ---------------------------------------------------------------------------
-
 
 class BaseResponseRecipe:
     """Base class to create an HTML response content.
@@ -96,14 +74,9 @@ class BaseResponseRecipe:
 
         # Test if this tree can manage events (from buttons, forms, etc.)
         shead = self._htree.head.serialize()
-
-        if "notify_event" not in shead:
-            js = HTMLNode(self._htree.head.identifier, None, "script",
-                          value=JS_NOTIFY_EVENT)
-            self._htree.head.append_child(js)
-
         if "request.js" not in shead:
-            self._htree.head.script(src=os.path.join("whakerpy", "request.js"), script_type="application/javascript")
+            self._htree.head.script(src=os.path.join("whakerpy", "request.js"),
+                                    script_type="application/javascript")
 
         self.create()
 

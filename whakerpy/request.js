@@ -60,6 +60,24 @@ Basic URL Structure: <protocol>//<hostname>:<port>/<pathname><search><hash>
 
 */
 
+function notify_event(action_btn) {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.style.display = "none";
+
+    const el = document.createElement("input");
+    el.name = action_btn.name + "_event";
+    el.id = action_btn.name + "_event";
+    el.value = action_btn.getAttribute("value")
+    el.type = "hidden"
+    form.appendChild(el);
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+}
+
+
 class RequestManager {
 
     // FIELDS
