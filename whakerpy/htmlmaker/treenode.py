@@ -501,6 +501,32 @@ class HTMLTree(BaseNode):
         return img
 
     # -----------------------------------------------------------------------
+    # Convenient methods to add elements in the head
+    # -----------------------------------------------------------------------
+
+    def set_title(self, entry):
+        self.head.title(entry)
+
+    def add_meta(self, metadict):
+        self.head.meta(metadict)
+
+    def add_link(self, rel, href, link_type=None):
+        self.head.link(rel, href, link_type)
+
+    def add_css(self, filename):
+        self.head.css_from_file(filename)
+
+    def add_css_link(self, href):
+        self.head.link("stylesheet", href, link_type="text/css")
+
+    def add_script(self, script: str, script_type: str = "application/javascript"):
+        script = HTMLNode(self.head.identifier, None, "script", value=script, attributes={'type': script_type})
+        self.head.append_child(script)
+
+    def add_script_file(self, script: str, script_type: str = "application/javascript"):
+        self.head.script(script, script_type=script_type)
+
+    # -----------------------------------------------------------------------
     # Serialize HTML
     # -----------------------------------------------------------------------
 
