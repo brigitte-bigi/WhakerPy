@@ -72,13 +72,14 @@ class BaseResponseRecipe:
         else:
             self._htree = HTMLTree(self._name.replace(" ", "_"))
 
-        # Test if this tree can manage events (from buttons, forms, etc.)
-        shead = self._htree.head.serialize()
-        if "request.js" not in shead:
-            self._htree.head.script(src=os.path.join("whakerpy", "request.js"),
-                                    script_type="application/javascript")
-
+        # Fill-in the tree with nodes
         self.create()
+
+        # Test if this tree can manage events (from buttons, forms, etc.)
+        # shead = self._htree.head.serialize()
+        # if "request.js" not in shead:
+        #     self._htree.head.script(src=os.path.join("whakerpy", "request.js"),
+        #                             script_type="application/javascript")
 
     # -----------------------------------------------------------------------
 
