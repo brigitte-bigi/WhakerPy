@@ -32,6 +32,7 @@
 
 from __future__ import annotations
 import codecs
+import logging
 import os
 import json
 
@@ -59,10 +60,7 @@ class WebSiteData:
 
     """
 
-    # Default JSON file describing location of all body "main" sections
-    DEFAULT_CONFIG_FILE = "webapp.json"
-
-    def __init__(self, json_filename=DEFAULT_CONFIG_FILE):
+    def __init__(self, json_filename: str | None = None):
         """Create a WebSiteData instance.
 
         :param json_filename: (str) Configuration filename.
@@ -75,14 +73,20 @@ class WebSiteData:
 
         # Information of each page: filename, title, body main filename
         self._pages = dict()
-        with codecs.open(json_filename, "r", "utf-8") as json_file:
-            data = json.load(json_file)
-            self._main_path = data["pagespath"]
-            for key in data:
-                if key != "pagespath":
-                    self._pages[key] = data[key]
-                    if len(self._default) == 0:
-                        self._default = key
+
+        if json_filename is not None:
+            try:
+                with codecs.open(json_filename, "r", "utf-8") as json_file:
+                    data = json.load(json_file)
+                    self._main_path = data["pagespath"]
+                    for key in data:
+                        if key != "pagespath":
+                            self._pages[key] = data[key]
+                            if len(self._default) == 0:
+                                self._default = key
+            except FileNotFoundError:
+                logging.error(f"WebSiteData JSON configuration file not found:"
+                              f" {json_filename}")
 
     # -----------------------------------------------------------------------
 
