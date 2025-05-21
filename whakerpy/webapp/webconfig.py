@@ -116,6 +116,13 @@ class WebSiteData:
 
     # -----------------------------------------------------------------------
 
+    @staticmethod
+    def name() -> str:
+        """To be overridden. Return a short name of the application."""
+        return "NoName"
+
+    # -----------------------------------------------------------------------
+
     def get_default_page(self) -> str:
         """Return the name of the default page."""
         return self._default
