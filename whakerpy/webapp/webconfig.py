@@ -38,26 +38,35 @@ import json
 
 from ..htmlmaker import HTMLTree
 from ..httpd import BaseResponseRecipe
+
 from .webresponse import WebSiteResponse
 
 # ---------------------------------------------------------------------------
 
 
 class WebSiteData:
-    """Storage class of a webapp configuration, extracted from a JSON file.
+    """Storage class for a web application configuration extracted from a JSON file.
 
-    For each dynamic page of a webapp, this class contains the filename of
-    the page - the one of the URL, its title and the local filename of its
-    body->main content.
+    This class supports the creation of semi-dynamic HTML pages. Each page entry in the JSON
+    is rendered using the same ResponseReceipe instance, with only the 'body->main' content
+    loaded from a static file.
 
-    Below is an example of a page description in the JSON parsed file:
+    For each semi-dynamic page, this class stores:
+      - the page name (used in the URL),
+      - the page title,
+      - the local filename of the main body content.
+
+    Example entry in the JSON file:
         "index.html": {
-        "title": "Home",
-        "main": "index.htm",
-        "header": true,
-        "footer": true
+            "title": "Home",
+            "main": "index.htm",
+            "header": true,
+            "footer": true
         }
 
+    The 'bake_response' method can return a ResponseReceipe for any page—either semi-dynamic
+    or fully dynamic. Note that '__contains__' only checks semi-dynamic pages, while 'is_page'
+    identifies any page that can be baked.
     """
 
     def __init__(self, json_filename: str | None = None):
@@ -73,26 +82,39 @@ class WebSiteData:
 
         # Information of each page: filename, title, body main filename
         self._pages = dict()
+        section = self.__get_json_whakerpy_section(json_filename)
 
-        if json_filename is not None:
-            try:
-                with codecs.open(json_filename, "r", "utf-8") as json_file:
-                    data = json.load(json_file)
-                    self._main_path = data["pagespath"]
-                    for key in data:
-                        if key != "pagespath":
-                            self._pages[key] = data[key]
-                            if len(self._default) == 0:
-                                self._default = key
-            except FileNotFoundError:
-                logging.error(f"WebSiteData JSON configuration file not found:"
-                              f" {json_filename}")
+        for raw_name, info in section.items():
+            # Web-page names are always lowered
+            name = raw_name.lower()
+            if name == "pagespath":
+                continue
+
+            # Store mapping: URL page → info dict
+            self._pages[name] = info
+
+            # First non-default page
+            if self._default == "":
+                self._default = name
 
     # -----------------------------------------------------------------------
 
     def get_default_page(self) -> str:
         """Return the name of the default page."""
         return self._default
+
+    # -----------------------------------------------------------------------
+
+    def is_page(self, page_name: str) -> bool:
+        """To be overridden. Return true if the given page name can be baked.
+
+        :param page_name: The name of the page to check.
+        :return: (bool) True if the given page name can be baked.
+
+        """
+        if page_name in self._pages:
+            return True
+        return False
 
     # -----------------------------------------------------------------------
 
@@ -188,6 +210,44 @@ class WebSiteData:
 
         """
         raise NotImplementedError
+
+    # -----------------------------------------------------------------------
+    # Private
+    # -----------------------------------------------------------------------
+
+    def __get_json_whakerpy_section(self, filename):
+        """Return the configuration section related to WhakerPy.
+
+        - Look for a top‐level "WhakerPy" key (new format).
+        - Otherwise use the full JSON (old format) and issue a deprecation warning.
+
+        :param filename: path to JSON configuration file
+        :return: dict with keys "pagespath", "<page>.html", …
+        :raises: FileNotFoundError: if the file cannot be opened
+        :raises: OSError: on other I/O errors reading the file
+        :raises: json.JSONDecodeError: if the file is not valid JSON
+        :raises: ValueError: if the required "pagespath" key is missing
+
+        """
+        # may raise FileNotFoundError / OSError here
+        with codecs.open(filename, "r", "utf-8") as f:
+            _full_data = json.load(f)  # may raise JSONDecodeError
+
+        if "WhakerPy" in _full_data:
+            _section = _full_data["WhakerPy"]
+        else:
+            logging.warning(
+                "DeprecationWarning: starting with WhakerPy 1.2 you must wrap your config "
+                "in a top-level 'WhakerPy' key."
+            )
+            _section = _full_data
+
+        if "pagespath" not in _section:
+            raise ValueError(
+                f"{filename!r} missing required 'pagespath' in WhakerPy section"
+            )
+
+        return _section
 
     # -----------------------------------------------------------------------
     # Overloads
