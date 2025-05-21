@@ -67,6 +67,7 @@ class WebSiteData:
     The 'bake_response' method can return a ResponseReceipe for any page—either semi-dynamic
     or fully dynamic. Note that '__contains__' only checks semi-dynamic pages, while 'is_page'
     identifies any page that can be baked.
+
     """
 
     def __init__(self, json_filename: str | None = None):
@@ -82,20 +83,36 @@ class WebSiteData:
 
         # Information of each page: filename, title, body main filename
         self._pages = dict()
-        section = self.__get_json_whakerpy_section(json_filename)
 
-        for raw_name, info in section.items():
-            # Web-page names are always lowered
-            name = raw_name.lower()
-            if name == "pagespath":
-                continue
+        if json_filename is not None:
+            section = self.__get_json_whakerpy_section(json_filename)
 
-            # Store mapping: URL page → info dict
-            self._pages[name] = info
+            for raw_name, info in section.items():
+                # Web-page names are always lowered
+                name = raw_name.lower()
+                if name == "pagespath":
+                    continue
 
-            # First non-default page
-            if self._default == "":
-                self._default = name
+                # Store mapping: URL page → info dict
+                self._pages[name] = info
+
+                # First non-default page
+                if self._default == "":
+                    self._default = name
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def description() -> str:
+        """To be overridden. Return a short description of the website."""
+        return "No description provided."
+
+    # ---------------------------------------------------------------------------
+
+    @staticmethod
+    def icon() -> str:
+        """To be overridden. Return the path of the favicon of the website."""
+        return ""
 
     # -----------------------------------------------------------------------
 
