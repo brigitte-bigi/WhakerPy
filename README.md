@@ -189,8 +189,9 @@ The universal wheel is created with: `python -m build`
 
 ## Make the documentation
 
+The documentation requires Whakerexa-0.7 <https://whakerexa.sf.net>. Download and unzip it into the "docs" folder.
+
 The API documentation is available in the `docs` folder. Click the file `index.html` to browse throw the documented classes.
-The documentation requires Whakerexa <https://whakerexa.sf.net>, which is already available into the "docs" folder of the distributed ".zip" archive of WhakerPy. If not, download and unzip it into the "docs" folder.
 
 To re-generate the documentation, install the required external program, then launch the doc generator:
 ```bash
