@@ -6,20 +6,20 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
             <title>WhakerPy doc</title>
             <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/wexa.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/book.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.7/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.7/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.7/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.7/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.7/wexa_statics/css/code.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
 
-            <script src="./Whakerexa-0.3/wexa_statics/js/purejs-tools/OnLoadManager.js"  type="application/javascript"></script>
-            <script src="./Whakerexa-0.3/wexa_statics/js/book.js" type="application/javascript"></script>
+            <script src="./Whakerexa-0.7/wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
+            <script src="./Whakerexa-0.7/wexa_statics/js/whakerpy/request.js" type="text/javascript"></script>
+            <script src="./Whakerexa-0.7/wexa_statics/js/accessibility.js" type="text/javascript"></script>
+            <script src="./Whakerexa-0.7/wexa_statics/js/book.js" type="application/javascript"></script>
             <script type="application/javascript">
                 OnLoadManager.addLoadFunction(() => {
                     let book = new Book("main-content");
-                    book.delete_html_tags("h1")
-                    book.add_html_tags("h5")
                     book.fill_table(false);
                 });
             </script>
@@ -28,17 +28,32 @@
        <body class="light">
         <header>
 
-                <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
                 Go to main content
-                </a>
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button role="menuitem" class="print-off" onclick="accessibility_manager.switch_contrast_scheme()" aria-label="Change contrast">
+                            <img class="nav-item-img" src="./Whakerexa-0.7/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="print-off" role="menuitem" onclick="accessibility_manager.switch_color_scheme()" aria-label="Change theme color" >
+                            <img class="nav-item-img" src="./Whakerexa-0.7/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         
-        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
-        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
+    <h1>WhakerPy 1.2</h1>
+        <p><img class="small-logo" src="./statics/WhakerPy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 0.6</h1>
-    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
-        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
+    <h1>WhakerPy 1.2</h1>
+    <img class="small-logo center" src="./statics/WhakerPy.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
     <ul>
 <li><a role="button" tabindex="0" href="whakerpy.htmlmaker.html"> &crarr; Prev. Module</a></li>
 <li><a role="button" tabindex="0" href="HTTPDHandler.html"> &uarr; Prev. Class</a></li>
@@ -49,35 +64,23 @@
     <h2>Table of Contents</h2>
     <ul id="toc"></ul>
     <hr>
-    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">Clamming</a></small></p>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
 </nav>
-    <main id="main-content" class="toc-shift">
-    <div id="toc-content">
-    <h1>WhakerPy 0.6</h1>
-    <section id="#whakerpy.httpd">    <h2>Module whakerpy.httpd</h2>
+    <main id="main-content">
+    <section id="#whakerpy.httpd">    <h1>Module whakerpy.httpd</h1>
 <section id="#HTTPDHandlerUtils">
-<h3>Class HTTPDHandlerUtils</h3>
+<h2>Class HTTPDHandlerUtils</h2>
 
 <section>
-<h4 id="#constructor_HTTPDHandlerUtils">Constructor</h4>
+<h3 id="#constructor_HTTPDHandlerUtils">Constructor</h3>
     <article class="docstring">
 <p>Instantiate class, filter the path for getters method and get the headers data</p>
 
-
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
 <li><strong>headers</strong>: (HTTPMessage|<em>dict</em>) the headers of the request</li>
-</ul>
-
-<ul>
 <li><strong>path</strong>: (<em>str</em>) the brut path get by the request</li>
-</ul>
-
-<ul>
 <li><strong>default_page</strong>: (<em>str</em>) optional parameter, default page when the page doesn't specify it</li>
 </ul>
 
@@ -88,7 +91,7 @@
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="n">HTTPMessage</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_page</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="n">HTTPMessage</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_page</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiate class, filter the path for getters method and get the headers data</span>
 
 <span class="sd">    :param headers: (HTTPMessage|dict) the headers of the request</span>
@@ -96,12 +99,12 @@ View Source
 <span class="sd">    :param default_page: (str) optional parameter, default page when the page doesn&#39;t specify it</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__page_name</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">filter_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">default_page</span><span class="p">)</span>
+    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__page_name</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">filter_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">default_page</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__headers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">HTTPMessage</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">HTTPMessage</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__headers</span> <span class="o">=</span> <span class="n">headers</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The headers parameter has to be a dictionary or HTTPMessage class !&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The headers parameter has to be a dictionary or HTTPMessage class!&#39;</span><span class="p">)</span>
 </code></pre></div>
 
     </details>
@@ -109,18 +112,13 @@ View Source
 
 </section>
 <section>
-<h4 id="#public_fct_HTTPDHandlerUtils">Public functions</h4>
-<section>
-<h5>get_path</h5>
+<h3 id="#public_fct_HTTPDHandlerUtils">Public functions</h3>
+<h4>get_path</h4>
 
     <article class="docstring">
 <p><em>Get the path of the request after filtered true path in constructor.</em></p>
 
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
 <li>(<em>str</em>) the path</li>
@@ -133,7 +131,7 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the path of the request after filtered true path in constructor.</span>
 
 <span class="sd">        :return: (str) the path</span>
@@ -145,18 +143,12 @@ View Source
     </details>
 
 
-</section>
-<section>
-<h5>get_page_name</h5>
+<h4>get_page_name</h4>
 
     <article class="docstring">
 <p><em>Get the name of the page after filtered path in constructor.</em></p>
 
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
 <li>(<em>str</em>) the page name ask by the request</li>
@@ -169,7 +161,7 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_page_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_page_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the name of the page after filtered path in constructor.</span>
 
 <span class="sd">        :return: (str) the page name ask by the request</span>
@@ -181,33 +173,25 @@ View Source
     </details>
 
 
-</section>
-<section>
-<h5>static_content</h5>
+<h4>static_content</h4>
 
     <article class="docstring">
-<p><em>Return the file content and update the corresponding status.</em></p>
+<p><em>Return the content of a static file and update the corresponding status.</em></p>
 
+<p>This method checks the existence of the file and its permissions before
+returning its content. If the file does not exist or is a directory,
+an appropriate HTTP status and message will be logged.</p>
 
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
-<li><strong>filepath</strong>: (<em>str</em>) The path of the file to return</li>
+<li><strong>filepath</strong>: (<em>str</em>) The path of the file to return.</li>
 </ul>
 
-
-
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
-<li>(<em>tuple</em>[<em>bytes</em>, <em>int</em>]) The file content</li>
+<li>(<em>tuple</em>[<em>bytes</em>|iterator, HTTPDStatus]) A tuple containing the file content in bytes and the corresponding HTTP status.</li>
 </ul>
 
     </article>
@@ -217,19 +201,29 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">static_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">HTTPDStatus</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the file content and update the corresponding status.</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">static_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the content of a static file and update the corresponding status.</span>
 
-<span class="sd">        :param filepath: (str) The path of the file to return</span>
-<span class="sd">        :return: (tuple[bytes, int]) The file content</span>
+<span class="sd">        This method checks the existence of the file and its permissions before</span>
+<span class="sd">        returning its content. If the file does not exist or is a directory,</span>
+<span class="sd">        an appropriate HTTP status and message will be logged.</span>
+
+<span class="sd">        :param filepath: (str) The path of the file to return.</span>
+<span class="sd">        :return: (tuple[bytes|iterator, HTTPDStatus]) A tuple containing the file content</span>
+<span class="sd">                 in bytes and the corresponding HTTP status.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;File not found : </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">status</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__log_and_status</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;File not found&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">403</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;The path give access to a folder : </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">status</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__log_and_status</span><span class="p">(</span><span class="mi">403</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;Folder access is not granted&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">UnixPermissions</span><span class="p">()</span>
+        <span class="n">checker</span> <span class="o">=</span> <span class="n">FileAccessChecker</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">checker</span><span class="o">.</span><span class="n">read_allowed</span><span class="p">(</span><span class="n">who</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">group</span><span class="si">}</span><span class="s1">&amp;</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">others</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__log_and_status</span><span class="p">(</span><span class="mi">403</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;Attempted access to non-allowed file&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">EnvironmentError</span><span class="p">:</span>
+        <span class="k">pass</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__open_file_to_binary</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">200</span><span class="p">))</span>
@@ -241,30 +235,18 @@ View Source
     </details>
 
 
-</section>
-<section>
-<h5>process_post</h5>
+<h4>process_post</h4>
 
     <article class="docstring">
 <p><em>Process the request body to return events and accept mime type.</em></p>
 
-
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
 <li><strong>body</strong>: (BufferedReader) The body buffer of the request (rfile)</li>
 </ul>
 
-
-
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
 <li>(<em>dict</em>, <em>str</em>) the body and accept mime type</li>
@@ -277,49 +259,42 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">process_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">BufferedReader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">process_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">BufferedReader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the request body to return events and accept mime type.</span>
 
 <span class="sd">        :param body: (BufferedReader) The body buffer of the request (rfile)</span>
 <span class="sd">        :return: (dict, str) the body and accept mime type</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;REQUEST_METHOD&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">dict</span><span class="p">(),</span> <span class="s1">&#39;text/html&#39;</span><span class="p">)</span>
-    <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extract_body_content</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
-    <span class="n">accept_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_headers_value</span><span class="p">(</span><span class="s1">&#39;Accept&#39;</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s1">&#39;text/html&#39;</span> <span class="ow">in</span> <span class="n">accept_type</span><span class="p">:</span>
-        <span class="n">accept_type</span> <span class="o">=</span> <span class="s1">&#39;text/html&#39;</span>
+    <span class="n">html_mime</span> <span class="o">=</span> <span class="s1">&#39;text/html&#39;</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">accept_type</span> <span class="o">=</span> <span class="n">html_mime</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;REQUEST_METHOD&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extract_body_content</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+        <span class="n">accept_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_headers_value</span><span class="p">(</span><span class="s1">&#39;Accept&#39;</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">html_mime</span> <span class="ow">in</span> <span class="n">accept_type</span><span class="p">:</span>
+            <span class="n">accept_type</span> <span class="o">=</span> <span class="n">html_mime</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_headers_value</span><span class="p">(</span><span class="s1">&#39;X-Auth-Token&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">events</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Bearer &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">accept_type</span><span class="p">)</span>
 </code></pre></div>
 
     </details>
 
 
-</section>
-<section>
-<h5>get_mime_type</h5>
+<h4>get_mime_type</h4>
 
     <article class="docstring">
 <p><em>Return the mime type of given file name or path.</em></p>
 
-
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
 <li><strong>filename</strong>: (<em>str</em>) The name or path of the file</li>
 </ul>
 
-
-
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
 <li>(<em>str</em>) The mime type of the file or 'unknown' if we can't find the type</li>
@@ -333,14 +308,14 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">get_mime_type</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_mime_type</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the mime type of given file name or path.</span>
 
 <span class="sd">        :param filename: (str) The name or path of the file</span>
 <span class="sd">        :return: (str) The mime type of the file or &#39;unknown&#39; if we can&#39;t find the type</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="n">mime_type</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">mime_type</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mime_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;unknown&#39;</span>
     <span class="k">else</span><span class="p">:</span>
@@ -350,34 +325,19 @@ View Source
     </details>
 
 
-</section>
-<section>
-<h5>filter_path</h5>
+<h4>filter_path</h4>
 
     <article class="docstring">
 <p><em>Parse the path to return the correct filename and page name.</em></p>
 
-
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
 <li><strong>path</strong>: (<em>str</em>) The path obtain from the request or environ</li>
-</ul>
-
-<ul>
 <li><strong>default_path</strong>: (<em>str</em>) The default path to add if the path ends with '/'</li>
 </ul>
 
-
-
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
 <li>(<em>tuple</em>[<em>str</em>, <em>str</em>]) the requested filename and the requested page name</li>
@@ -391,7 +351,7 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">filter_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse the path to return the correct filename and page name.</span>
 
 <span class="sd">        :param path: (str) The path obtain from the request or environ</span>
@@ -399,13 +359,14 @@ View Source
 <span class="sd">        :return: (tuple[str, str]) the requested filename and the requested page name</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">unquote</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="s1">&#39;?&#39;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="p">[:</span><span class="n">path</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">)]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;/</span><span class="si">{</span><span class="n">default_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">default_path</span><span class="p">)</span>
     <span class="n">filepath</span> <span class="o">=</span> <span class="n">path</span>
     <span class="n">page_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">extension</span><span class="p">)</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">page_name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">page_name</span> <span class="o">=</span> <span class="n">default_path</span>
         <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
@@ -416,33 +377,24 @@ View Source
     </details>
 
 
-</section>
-<section>
-<h5>has_to_return_data</h5>
+<h4>has_to_return_data</h4>
 
     <article class="docstring">
-<p><em>Boolean expression to know if the server has to respond data or a HTML page.</em></p>
+<p><em>Determine the type of the server return: True for data.</em></p>
 
+<p>Determine if the server should return data (e.g., JSON, image, video,
+etc.) instead of an HTML page based on the 'Accept' header's MIME type.</p>
 
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
-<li><strong>accept_type</strong>: (<em>str</em>) The mime type of the 'Accept' header request</li>
+<li><strong>accept_type</strong>: (<em>str</em>) The MIME type of the 'Accept' header request</li>
 </ul>
 
-
-
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
-<li>(<em>bool</em>) True if we have to return data, False if we have to return html content</li>
+<li>(<em>bool</em>) True if the server should return data, False if HTML content is expected</li>
 </ul>
 
     </article>
@@ -453,55 +405,42 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">has_to_return_data</span><span class="p">(</span><span class="n">accept_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Boolean expression to know if the server has to respond data or a HTML page.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">has_to_return_data</span><span class="p">(</span><span class="n">accept_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine the type of the server return: True for data.</span>
 
-<span class="sd">        :param accept_type: (str) The mime type of the &#39;Accept&#39; header request</span>
-<span class="sd">        :return: (bool) True if we have to return data, False if we have to return html content</span>
+<span class="sd">        Determine if the server should return data (e.g., JSON, image, video,</span>
+<span class="sd">        etc.) instead of an HTML page based on the &#39;Accept&#39; header&#39;s MIME type.</span>
+
+<span class="sd">        :param accept_type: (str) The MIME type of the &#39;Accept&#39; header request</span>
+<span class="sd">        :return: (bool) True if the server should return data, False if HTML content is expected</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">accept_type</span> <span class="o">==</span> <span class="s1">&#39;application/json&#39;</span> <span class="ow">or</span> <span class="n">accept_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;image/&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">accept_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;video/&#39;</span><span class="p">)</span>
+    <span class="n">data_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span> <span class="s1">&#39;image/&#39;</span><span class="p">,</span> <span class="s1">&#39;video/&#39;</span><span class="p">,</span> <span class="s1">&#39;audio/&#39;</span><span class="p">,</span> <span class="s1">&#39;application/ogg&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data_types</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">accept_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
 </code></pre></div>
 
     </details>
 
 
-</section>
-<section>
-<h5>bakery</h5>
+<h4>bakery</h4>
 
     <article class="docstring">
 <p><em>Process received events and bake the given page.</em></p>
 
-
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
 <li><strong>pages</strong>: (<em>dict</em>) A dictionary with key=page_name and value=ResponseRecipe</li>
-</ul>
-
-<ul>
 <li><strong>page_name</strong>: (<em>str</em>) The current page name</li>
-</ul>
-
-<ul>
+<li><strong>headers</strong>: (<em>dict</em>) The headers of the http request</li>
 <li><strong>events</strong>: (<em>dict</em>) The events extract from the request (only for POST request, send empty dict for GET)</li>
-</ul>
-
-<ul>
 <li><strong>has<em>to</em>return_data</strong>: (<em>bool</em>) False by default, Boolean to know if we have to return the html page or data</li>
 </ul>
 
-
-
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
 <li>(<em>tuple</em>[<em>bytes</em>, HTTPDStatus]) The content to answer to the client and the status of the response</li>
@@ -515,11 +454,12 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">bakery</span><span class="p">(</span><span class="n">pages</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">has_to_return_data</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">HTTPDStatus</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">bakery</span><span class="p">(</span><span class="n">pages</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">has_to_return_data</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">HTTPDStatus</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process received events and bake the given page.</span>
 
 <span class="sd">        :param pages: (dict) A dictionary with key=page_name and value=ResponseRecipe</span>
 <span class="sd">        :param page_name: (str) The current page name</span>
+<span class="sd">        :param headers: (dict) The headers of the http request</span>
 <span class="sd">        :param events: (dict) The events extract from the request (only for POST request, send empty dict for GET)</span>
 <span class="sd">        :param has_to_return_data: (bool) False by default, Boolean to know if we have to return the html page or data</span>
 <span class="sd">        :return: (tuple[bytes, HTTPDStatus]) The content to answer to the client and the status of the response</span>
@@ -528,55 +468,233 @@ View Source
     <span class="n">response</span> <span class="o">=</span> <span class="n">pages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">page_name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">response</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Page not found : </span><span class="si">{</span><span class="n">page_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">status</span><span class="p">)</span>
-    <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">bake</span><span class="p">(</span><span class="n">events</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">has_to_return_data</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Page not found: </span><span class="si">{</span><span class="n">page_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">status</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">bake</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">has_to_return_data</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="n">content</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
         <span class="n">response</span><span class="o">.</span><span class="n">reset_data</span><span class="p">()</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The status has to be an instance of HTTPDStatus (or int). Got: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The status has to be an instance of HTTPDStatus or int.Got </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s1"> instead.&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
 </code></pre></div>
 
     </details>
 
 
-</section>
+<h4>build_default_headers</h4>
+
+    <article class="docstring">
+<p><em>Build HTTP response headers for the requested file.</em></p>
+
+<p>This method generates the HTTP headers necessary for serving a file,
+including its MIME type and cache-control directives.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>filepath</strong>: (<em>str</em>) The absolute or relative path to the requested static file.</li>
+<li><strong>content</strong>: (<em>bytes</em>|iterator|None) The content of the requested file.</li>
+<li><strong>browser_cache</strong>: (<em>bool</em>) Whether the browser cache is enabled or not. If False, browser caching is explicitly disabled.</li>
+<li><strong>varnish</strong>: (<em>bool</em>) Indicates whether the server should enable Varnish cache. If False, server caching is explicitly disabled.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>list</em>) A list of tuples representing the HTTP response headers.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_default_headers</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">browser_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">varnish</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build HTTP response headers for the requested file.</span>
+
+<span class="sd">        This method generates the HTTP headers necessary for serving a file,</span>
+<span class="sd">        including its MIME type and cache-control directives.</span>
+
+<span class="sd">        :param filepath: (str) The absolute or relative path to the requested static file.</span>
+<span class="sd">        :param content: (bytes|iterator|None) The content of the requested file.</span>
+<span class="sd">        :param browser_cache: (bool) Whether the browser cache is enabled or not.</span>
+<span class="sd">                        If False, browser caching is explicitly disabled.</span>
+<span class="sd">        :param varnish: (bool) Indicates whether the server should enable Varnish cache.</span>
+<span class="sd">                        If False, server caching is explicitly disabled.</span>
+<span class="sd">        :return: (list) A list of tuples representing the HTTP response headers.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">browser_cache</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;no-cache&#39;</span><span class="p">)</span>
+        <span class="n">cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;no-store&#39;</span><span class="p">)</span>
+        <span class="n">cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;must-revalidate&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">varnish</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;max-age=0&#39;</span><span class="p">)</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">get_mime_type</span><span class="p">(</span><span class="n">filepath</span><span class="p">))]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cache</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">headers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;Cache-Control&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cache</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">GeneratorType</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">content_length</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">getsize_from_iterator</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="n">headers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">content_length</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">headers</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>getsize_from_iterator</h4>
+
+    <article class="docstring">
+<p><em>Calculate the total size of data from an iterator.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>iterator</strong>: (iterable) The iterator to calculate the size of.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>tuple</em>) - total<em>size (int): The total size in bytes. - new</em>iterator (generator): A new iterator with the same content.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">getsize_from_iterator</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the total size of data from an iterator.</span>
+
+<span class="sd">        :param iterator: (iterable) The iterator to calculate the size of.</span>
+
+<span class="sd">        :return: (tuple)</span>
+<span class="sd">                - total_size (int): The total size in bytes.</span>
+<span class="sd">                - new_iterator (generator): A new iterator with the same content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">chunks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+    <span class="n">total_size</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">recreate_iterator</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">chunk</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">total_size</span><span class="p">,</span> <span class="n">recreate_iterator</span><span class="p">())</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>recreate_iterator</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recreate_iterator</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">chunk</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>file_iterator</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">file_iterator</span><span class="p">():</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="n">chunk</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">chunk</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">chunk</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
 </section>
 <section>
-<h4 id="#protected_fct_HTTPDHandlerUtils">Protected functions</h4>
-<section>
-<h5>__get_headers_value</h5>
+<h3 id="#protected_fct_HTTPDHandlerUtils">Protected functions</h3>
+<h4>__log_and_status</h4>
+
+    <article class="docstring">
+<p><em>Log the error message and return the corresponding HTTP status.</em></p>
+
+<p>This method logs the provided message along with the file path and
+returns an HTML error message with the appropriate HTTP status.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>code</strong>: (<em>int</em>) The HTTP status code to return.</li>
+<li><strong>filepath</strong>: (<em>str</em>) The path of the file related to the error.</li>
+<li><strong>msg</strong>: (<em>str</em>) The message to log regarding the error.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>tuple</em>[<em>str</em>, HTTPDStatus]) A tuple containing the HTML error message and the corresponding HTTP status.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__log_and_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">HTTPDStatus</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log the error message and return the corresponding HTTP status.</span>
+
+<span class="sd">        This method logs the provided message along with the file path and</span>
+<span class="sd">        returns an HTML error message with the appropriate HTTP status.</span>
+
+<span class="sd">        :param code: (int) The HTTP status code to return.</span>
+<span class="sd">        :param filepath: (str) The path of the file related to the error.</span>
+<span class="sd">        :param msg: (str) The message to log regarding the error.</span>
+<span class="sd">        :return: (tuple[str, HTTPDStatus]) A tuple containing the HTML error</span>
+<span class="sd">                 message and the corresponding HTTP status.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="n">msg</span><span class="p">),</span> <span class="n">status</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__get_headers_value</h4>
 
     <article class="docstring">
 <p><em>Get headers value for a given key, try different keys format depending on server (httpd or wsgi).</em></p>
 
-
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
 <li><strong>key</strong>: (<em>str</em>) the header key</li>
-</ul>
-
-<ul>
 <li><strong>default_value</strong>: (<em>object</em>) optional parameter, value returned if the header doesn't contain the key</li>
 </ul>
 
-
-
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
 <li>(<em>object</em>) the value in the header or the default value</li>
@@ -589,7 +707,7 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__get_headers_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_value</span><span class="p">:</span> <span class="nb">object</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__get_headers_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default_value</span><span class="p">:</span> <span class="nb">object</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get headers value for a given key, try different keys format depending on server (httpd or wsgi).</span>
 
 <span class="sd">        :param key: (str) the header key</span>
@@ -602,43 +720,31 @@ View Source
         <span class="n">new_key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
         <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">new_key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">default_value</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">value</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">value</span>
+            <span class="n">new_key</span> <span class="o">=</span> <span class="s1">&#39;HTTP_&#39;</span> <span class="o">+</span> <span class="n">new_key</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">new_key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">default_value</span>
+    <span class="k">return</span> <span class="n">value</span>
 </code></pre></div>
 
     </details>
 
 
-</section>
-<section>
-<h5>__open_file_to_binary</h5>
+<h4>__open_file_to_binary</h4>
 
     <article class="docstring">
 <p><em>Open and read the given file and transform the content to bytes value.</em></p>
 
-
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
 <li><strong>filepath</strong>: (<em>str</em>) The path of the file to read</li>
 </ul>
 
-
-
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
-<li>(<em>bytes</em>) the file content in bytes format</li>
+<li>(<em>bytes</em>|iterator) the file content in bytes format</li>
 </ul>
 
     </article>
@@ -648,11 +754,11 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__open_file_to_binary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__open_file_to_binary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open and read the given file and transform the content to bytes value.</span>
 
 <span class="sd">        :param filepath: (str) The path of the file to read</span>
-<span class="sd">        :return: (bytes) the file content in bytes format</span>
+<span class="sd">        :return: (bytes|iterator) the file content in bytes format</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_headers_value</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -665,37 +771,34 @@ View Source
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
                 <span class="n">content</span> <span class="o">+=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">content</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="n">sz</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sz</span> <span class="o">&lt;</span> <span class="mi">100</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">file_iterator</span><span class="p">():</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+            <span class="k">while</span> <span class="n">chunk</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">chunk</span>
+                <span class="n">chunk</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_iterator</span><span class="p">()</span>
 </code></pre></div>
 
     </details>
 
 
-</section>
-<section>
-<h5>__extract_body_content</h5>
+<h4>__extract_body_content</h4>
 
     <article class="docstring">
 <p><em>Read and parse the body content of a POST request.</em></p>
 
-
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
 <li><strong>content</strong>: (Binary <em>object</em>) the body of the POST request</li>
 </ul>
 
-
-
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
 <li>(<em>dict</em>) the dictionary that contains the events to process, or an empty dictionary if there is an error.</li>
@@ -708,7 +811,7 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__extract_body_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__extract_body_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read and parse the body content of a POST request.</span>
 
 <span class="sd">        :param content: (Binary object) the body of the POST request</span>
@@ -726,6 +829,7 @@ View Source
     <span class="k">try</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">UnicodeError</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Not an utf-8 content.&#39;</span><span class="p">)</span>
         <span class="k">pass</span>
     <span class="k">if</span> <span class="n">content_type</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">content_length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -735,48 +839,36 @@ View Source
         <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Can&#39;t decode JSON posted data : </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="s1">&#39;multipart/form-data; boundary=&#39;</span> <span class="ow">in</span> <span class="n">content_type</span><span class="p">:</span>
-        <span class="n">filename</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_binary_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;upload_file&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;mime_type&#39;</span><span class="p">:</span> <span class="n">mime_type</span><span class="p">,</span> <span class="s1">&#39;file_content&#39;</span><span class="p">:</span> <span class="n">content</span><span class="p">}}</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">parse_qsl</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">keep_blank_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">strict_parsing</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
     <span class="k">if</span> <span class="s1">&#39;upload_file&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;POST -- data: upload_file[</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;upload_file&#39;</span><span class="p">][</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;POST -- data: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; -- upload_file[</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;upload_file&#39;</span><span class="p">][</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span>
 </code></pre></div>
 
     </details>
 
 
-</section>
-<section>
-<h5>__extract_form_data_file</h5>
+<h4>__extract_form_data_file</h4>
 
     <article class="docstring">
 <p><em>Extract the body of a "formdata request" to upload a file.</em></p>
 
+<p>Use this function with an utf-8 file content.</p>
 
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
 <li><strong>content_type</strong>: (<em>str</em>) The content type in the header of the request</li>
-</ul>
-
-<ul>
 <li><strong>data</strong>: (<em>str</em> | <em>bytes</em>) the body of the request in bytes or string format</li>
 </ul>
 
-
-
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
 <li><strong>(tuple[str, str, str]) the data extracted</strong>: filename, fime mime type and file content</li>
@@ -790,48 +882,230 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">__extract_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__extract_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the body of a &quot;formdata request&quot; to upload a file.</span>
+
+<span class="sd">        Use this function with an utf-8 file content.</span>
 
 <span class="sd">        :param content_type: (str) The content type in the header of the request</span>
 <span class="sd">        :param data: (str | bytes) the body of the request in bytes or string format</span>
 <span class="sd">        :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">end_line</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">n&#39;</span>
-        <span class="n">carriage_return</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">r&#39;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">end_line</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="n">carriage_return</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span>
-    <span class="n">start_index_filename</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;filename=&quot;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;filename=&quot;&#39;</span><span class="p">)</span>
-    <span class="n">end_index_filename</span> <span class="o">=</span> <span class="n">start_index_filename</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="n">start_index_filename</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">start_index_filename</span><span class="p">:</span><span class="n">end_index_filename</span><span class="p">]</span>
+    <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">end_index_filename</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_filename</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">end_index_filename</span><span class="p">:]</span>
-    <span class="n">start_index_type</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;Content-Type: &#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;Content-Type: &#39;</span><span class="p">)</span>
-    <span class="n">end_index_type</span> <span class="o">=</span> <span class="n">start_index_type</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="n">start_index_type</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">end_line</span><span class="p">)</span>
-    <span class="n">mime_type</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">start_index_type</span><span class="p">:</span><span class="n">end_index_type</span><span class="p">]</span>
-    <span class="n">mime_type</span> <span class="o">=</span> <span class="n">mime_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">carriage_return</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">mimetype</span><span class="p">,</span> <span class="n">end_index_type</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_mimetype</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">end_index_type</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
-    <span class="n">start_boundary</span> <span class="o">=</span> <span class="n">content_type</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;boundary=&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;boundary=&#39;</span><span class="p">)</span>
-    <span class="n">boundary</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span> <span class="o">+</span> <span class="n">content_type</span><span class="p">[</span><span class="n">start_boundary</span><span class="p">:]</span> <span class="o">+</span> <span class="s1">&#39;--&#39;</span>
-    <span class="n">start_content</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">end_line</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">boundary</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_boundary</span><span class="p">(</span><span class="n">content_type</span><span class="p">)</span>
+    <span class="n">start_content</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">end_content</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">start_content</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">boundary</span><span class="p">)</span>
     <span class="n">content</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">start_content</span><span class="p">:</span><span class="n">end_content</span><span class="p">]</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mimetype</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__extract_binary_form_data_file</h4>
+
+    <article class="docstring">
+<p><em>Extract the body of a "formdata request" to upload a file.</em></p>
+
+<p>Use this function with a binary file content.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>content_type</strong>: (<em>str</em>) The content type in the header of the request</li>
+<li><strong>data</strong>: (<em>str</em> | <em>bytes</em>) the body of the request in bytes or string format</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li><strong>(tuple[str, str, str]) the data extracted</strong>: filename, fime mime type and file content</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__extract_binary_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the body of a &quot;formdata request&quot; to upload a file.</span>
+
+<span class="sd">        Use this function with a binary file content.</span>
+
+<span class="sd">        :param content_type: (str) The content type in the header of the request</span>
+<span class="sd">        :param data: (str | bytes) the body of the request in bytes or string format</span>
+<span class="sd">        :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">file_content_begin</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">content_type_pass</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">127</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">file_content_begin</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">content_type_pass</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">prefix</span><span class="p">[</span><span class="n">index</span><span class="p">:]</span> <span class="ow">or</span> <span class="s1">&#39;</span><span class="se">\r\n\r\n</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">prefix</span><span class="p">[</span><span class="n">index</span><span class="p">:]:</span>
+                <span class="n">file_content_begin</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">content_type_pass</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="s1">&#39;Content-Type&#39;</span> <span class="ow">in</span> <span class="n">prefix</span><span class="p">:</span>
+            <span class="n">content_type_pass</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">reversed_boundary</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_boundary</span><span class="p">(</span><span class="n">content_type</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">file_content_end</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">postfix</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">file_content_begin</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">reversed_boundary</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">postfix</span><span class="p">:</span>
+            <span class="n">postfix</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">file_content_end</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">break</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">file_content_begin</span><span class="p">:</span><span class="n">file_content_end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_filename</span><span class="p">(</span><span class="n">prefix</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mimetype</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_mimetype</span><span class="p">(</span><span class="n">prefix</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mimetype</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__extract_form_data_filename</h4>
+
+    <article class="docstring">
+<p><em>Extract the filename from the form data uploaded file.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) the body or a part received from the request.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>tuple</em>[<em>str</em>, <em>str</em>, <em>str</em>]) the filename and the index where the filename value ends.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__extract_form_data_filename</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the filename from the form data uploaded file.</span>
+
+<span class="sd">        :param text: (str) the body or a part received from the request.</span>
+<span class="sd">        :return: (tuple[str, str, str]) the filename and the index where the filename value ends.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">start_index_filename</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;filename=&quot;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;filename=&quot;&#39;</span><span class="p">)</span>
+    <span class="n">end_index_filename</span> <span class="o">=</span> <span class="n">start_index_filename</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="n">start_index_filename</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">start_index_filename</span><span class="p">:</span><span class="n">end_index_filename</span><span class="p">],</span> <span class="n">end_index_filename</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__extract_form_data_mimetype</h4>
+
+    <article class="docstring">
+<p><em>Extract the mimetype from the form data uploaded file.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>text</strong>: (<em>str</em>) the body or a part received from the request.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>tuple</em>[<em>str</em>, <em>str</em>, <em>str</em>]) the mimetype and the index where the mimetype value ends.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__extract_form_data_mimetype</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the mimetype from the form data uploaded file.</span>
+
+<span class="sd">        :param text: (str) the body or a part received from the request.</span>
+<span class="sd">        :return: (tuple[str, str, str]) the mimetype and the index where the mimetype value ends.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">start_index_type</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;Content-Type: &#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;Content-Type: &#39;</span><span class="p">)</span>
+    <span class="n">end_index_type</span> <span class="o">=</span> <span class="n">start_index_type</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="n">start_index_type</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">mimetype</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">start_index_type</span><span class="p">:</span><span class="n">end_index_type</span><span class="p">]</span>
+    <span class="n">mimetype</span> <span class="o">=</span> <span class="n">mimetype</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">mimetype</span><span class="p">,</span> <span class="n">end_index_type</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__extract_form_data_boundary</h4>
+
+    <article class="docstring">
+<p><em>Extract the boundary from the form data content type which delimited the uploaded file content.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>content_type</strong>: (<em>str</em>) the content type in the header of the received request.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>tuple</em>[<em>str</em>, <em>str</em>, <em>str</em>]) the boundary.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__extract_form_data_boundary</span><span class="p">(</span><span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the boundary from the form data content type which delimited the uploaded file content.</span>
+
+<span class="sd">        :param content_type: (str) the content type in the header of the received request.</span>
+<span class="sd">        :return: (tuple[str, str, str]) the boundary.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">start_boundary</span> <span class="o">=</span> <span class="n">content_type</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;boundary=&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="s1">&#39;boundary=&#39;</span><span class="p">)</span>
+    <span class="n">boundary</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span> <span class="o">+</span> <span class="n">content_type</span><span class="p">[</span><span class="n">start_boundary</span><span class="p">:]</span> <span class="o">+</span> <span class="s1">&#39;--&#39;</span>
+    <span class="k">return</span> <span class="n">boundary</span>
 </code></pre></div>
 
     </details>
 
 
 </section>
-</section>
-</section>    </section>    </div>
-    </main>
+</section>    </section>    </main>
     
             <footer>
-                <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+                <p class="copyright">Copyright (C) 2023-2025 Brigitte Bigi, CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
             </footer>
         
 </body>

@@ -6,20 +6,20 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
             <title>WhakerPy doc</title>
             <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/wexa.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/book.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-0.3/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.7/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.7/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.7/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.7/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-0.7/wexa_statics/css/code.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
 
-            <script src="./Whakerexa-0.3/wexa_statics/js/purejs-tools/OnLoadManager.js"  type="application/javascript"></script>
-            <script src="./Whakerexa-0.3/wexa_statics/js/book.js" type="application/javascript"></script>
+            <script src="./Whakerexa-0.7/wexa_statics/js/purejs-tools/OnLoadManager.js" type="application/javascript"></script>
+            <script src="./Whakerexa-0.7/wexa_statics/js/whakerpy/request.js" type="text/javascript"></script>
+            <script src="./Whakerexa-0.7/wexa_statics/js/accessibility.js" type="text/javascript"></script>
+            <script src="./Whakerexa-0.7/wexa_statics/js/book.js" type="application/javascript"></script>
             <script type="application/javascript">
                 OnLoadManager.addLoadFunction(() => {
                     let book = new Book("main-content");
-                    book.delete_html_tags("h1")
-                    book.add_html_tags("h5")
                     book.fill_table(false);
                 });
             </script>
@@ -28,17 +28,32 @@
        <body class="light">
         <header>
 
-                <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
                 Go to main content
-                </a>
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button role="menuitem" class="print-off" onclick="accessibility_manager.switch_contrast_scheme()" aria-label="Change contrast">
+                            <img class="nav-item-img" src="./Whakerexa-0.7/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="print-off" role="menuitem" onclick="accessibility_manager.switch_color_scheme()" aria-label="Change theme color" >
+                            <img class="nav-item-img" src="./Whakerexa-0.7/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         
-        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
-        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
+    <h1>WhakerPy 1.2</h1>
+        <p><img class="small-logo" src="./statics/WhakerPy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 0.6</h1>
-    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
-        <p><a class="external-link" href="https://whakerpy.sf.net">https://whakerpy.sf.net</a></p>
+    <h1>WhakerPy 1.2</h1>
+    <img class="small-logo center" src="./statics/WhakerPy.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
     <ul>
 <li><a role="button" tabindex="0" href="whakerpy.httpd.html"> &crarr; Prev. Module</a></li>
 <li><a role="button" tabindex="0" href="WebSiteApplication.html"> &uarr; Prev. Class</a></li>
@@ -49,131 +64,53 @@
     <h2>Table of Contents</h2>
     <ul id="toc"></ul>
     <hr>
-    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">Clamming</a></small></p>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
 </nav>
-    <main id="main-content" class="toc-shift">
-    <div id="toc-content">
-    <h1>WhakerPy 0.6</h1>
-    <section id="#whakerpy.webapp">    <h2>Module whakerpy.webapp</h2>
+    <main id="main-content">
+    <section id="#whakerpy.webapp">    <h1>Module whakerpy.webapp</h1>
 <section id="#WSGIApplication">
-<h3>Class WSGIApplication</h3>
+<h2>Class WSGIApplication</h2>
 
 <section>
-<h4 id="#description_WSGIApplication">Description</h4>
+<h3 id="#description_WSGIApplication">Description</h3>
     <article class="docstring">
 <p><em>Create the default application for an UWSGI server.</em></p>
 
-
-
-<p>WSGI response is created from given "environ" parameters and communicated</p>
-
-<p>with start_response. The "environ" parameter is a dictionary. Here are</p>
-
-<p>examples of "environ" key/values:</p>
-
-
-
-<ul>
-<li>'REQUEST_METHOD': 'GET'</li>
-</ul>
-
-<ul>
-<li>'REQUEST_URI': '/information.html',</li>
-</ul>
-
-<ul>
-<li>'PATH_INFO': '/information.html',</li>
-</ul>
-
-<ul>
-<li>'QUERY_STRING': '',</li>
-</ul>
-
-<ul>
-<li>'SERVER_PROTOCOL': 'HTTP/1.1',</li>
-</ul>
-
-<ul>
-<li>'SCRIPT_NAME': '',</li>
-</ul>
-
-<ul>
-<li>'SERVER_NAME': 'macpro-1.home',</li>
-</ul>
-
-<ul>
-<li>'SERVER_PORT': '9090',</li>
-</ul>
-
-<ul>
-<li>'UWSGI_ROUTER': 'http',</li>
-</ul>
-
-<ul>
-<li>'REMOTE_ADDR': '127.0.0.1',</li>
-</ul>
-
-<ul>
-<li>'REMOTE_PORT': '26095',</li>
-</ul>
-
-<ul>
-<li>'HTTP_HOST': 'localhost:9090',</li>
-</ul>
-
-<ul>
-<li>'HTTP<em>USER</em>AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0',</li>
-</ul>
-
-<ul>
-<li>'HTTP_ACCEPT': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,<em>/</em>;q=0.8',</li>
-</ul>
-
-<ul>
-<li>'HTTP<em>ACCEPT</em>LANGUAGE': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',</li>
-</ul>
-
-<ul>
-<li>'HTTP<em>ACCEPT</em>ENCODING': 'gzip, deflate, br',</li>
-</ul>
-
-<ul>
-<li>'HTTP_REFERER': 'http://localhost:9090/contributeurs.html',</li>
-</ul>
-
-<ul>
-<li>'HTTP<em>DNT': '1', 'HTTP</em>CONNECTION': 'keep-alive',</li>
-</ul>
-
-<ul>
-<li>'HTTP<em>UPGRADE</em>INSECURE_REQUESTS': '1',</li>
-</ul>
-
-<ul>
-<li>'HTTP<em>SEC</em>FETCH_DEST': 'document',</li>
-</ul>
-
-<ul>
-<li>'HTTP<em>SEC</em>FETCH_MODE': 'navigate',</li>
-</ul>
-
-<ul>
-<li>'HTTP<em>SEC</em>FETCH_SITE': 'same-origin',</li>
-</ul>
-
-<ul>
-<li>'HTTP<em>SEC</em>FETCH_USER': '?1',</li>
-</ul>
+<p>WSGI response is created from given "environ" parameters and communicated
+with start_response.</p>
 
     </article>
 </section>
 <section>
-<h4 id="#constructor_WSGIApplication">Constructor</h4>
+<h3 id="#constructor_WSGIApplication">Constructor</h3>
+    <article class="docstring">
+<p><em>Initialize the WSGIApplication instance.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>default_path</strong>: (<em>str</em>) Default root path for static or dynamic pages</li>
+<li><strong>default_filename</strong>: (<em>str</em>) Default filename to serve if none is provided</li>
+<li><strong>web<em>page</em>maker</strong>: (callable) A callable used to generate dynamic pages</li>
+<li><strong>default<em>web</em>json</strong>: (<em>str</em>) Path to the JSON file for dynamic page definitions</li>
+</ul>
+
+    </article>
+
+
     <details>
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">default_filename</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">web_page_maker</span><span class="o">=</span><span class="n">WebSiteResponse</span><span class="p">,</span> <span class="n">default_web_json</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">default_filename</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">web_page_maker</span><span class="o">=</span><span class="n">WebSiteResponse</span><span class="p">,</span> <span class="n">default_web_json</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the WSGIApplication instance.</span>
+
+<span class="sd">    :param default_path: (str) Default root path for static or dynamic pages</span>
+<span class="sd">    :param default_filename: (str) Default filename to serve if none is provided</span>
+<span class="sd">    :param web_page_maker: (callable) A callable used to generate dynamic pages</span>
+<span class="sd">    :param default_web_json: (str) Path to the JSON file for dynamic page definitions</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span> <span class="o">=</span> <span class="n">default_path</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__default_file</span> <span class="o">=</span> <span class="n">default_filename</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span> <span class="o">=</span> <span class="p">(</span><span class="n">web_page_maker</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span><span class="p">,</span> <span class="n">default_web_json</span><span class="p">))</span>
@@ -185,35 +122,25 @@ View Source
 
 </section>
 <section>
-<h4 id="#public_fct_WSGIApplication">Public functions</h4>
-<section>
-<h5>add_page</h5>
+<h3 id="#public_fct_WSGIApplication">Public functions</h3>
+<h4>add_page</h4>
 
     <article class="docstring">
 <p><em>Add a page to the list of available pages.</em></p>
 
+<p>False is returned if the page already exists or the response has a wrong type.</p>
 
-
-<h6>Parameters</h6>
-
-
+<h5>Parameters</h5>
 
 <ul>
 <li><strong>page_name</strong>: (<em>str</em>) the name of the page</li>
-</ul>
-
-<ul>
 <li><strong>response</strong>: (BaseResponseRecipe) the response object of the page (has to inherited of BaseResponseRecipe)</li>
 </ul>
 
-
-
-<h6>Returns</h6>
-
-
+<h5>Returns</h5>
 
 <ul>
-<li>(<em>bool</em>) True if we successfully added the page or False else (if the page already exists or the response has a wrong type)</li>
+<li>(<em>bool</em>) True if we successfully added the page</li>
 </ul>
 
     </article>
@@ -223,14 +150,14 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">add_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">BaseResponseRecipe</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">BaseResponseRecipe</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a page to the list of available pages.</span>
+
+<span class="sd">        False is returned if the page already exists or the response has a wrong type.</span>
 
 <span class="sd">        :param page_name: (str) the name of the page</span>
 <span class="sd">        :param response: (BaseResponseRecipe) the response object of the page (has to inherited of BaseResponseRecipe)</span>
-
 <span class="sd">        :return: (bool) True if we successfully added the page</span>
-<span class="sd">                        or False else (if the page already exists or the response has a wrong type)</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -245,18 +172,17 @@ View Source
 
 
 </section>
-</section>
 <section>
-<h4 id="#protected_fct_WSGIApplication">Protected functions</h4>
-<section>
-<h5>__create_web_page</h5>
+<h3 id="#protected_fct_WSGIApplication">Protected functions</h3>
+<h4>__create_dynamic_page</h4>
 
     <article class="docstring">
 <p><em>Create page dynamically from the json config file.</em></p>
-<h6>Parameters</h6>
+
+<h5>Parameters</h5>
 
 <ul>
-<li><strong>page_name</strong></li>
+<li><strong>page_name</strong>: (<em>str</em>) Name of the page to bake</li>
 </ul>
 
     </article>
@@ -266,8 +192,12 @@ View Source
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">__create_web_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create page dynamically from the json config file.&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__create_dynamic_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create page dynamically from the json config file.</span>
+
+<span class="sd">        :param page_name: (str) Name of the page to bake</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
     <span class="n">web_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">web_data</span><span class="p">,</span> <span class="s1">&#39;bake_response&#39;</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">web_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -283,50 +213,150 @@ View Source
     </details>
 
 
-</section>
-</section>
-<section>
-<h4 id="#overloads_{:s}">Overloads</h4>
-<section>
-<h5>__call__</h5>
+<h4>__serve_dynamic_content</h4>
+
+    <article class="docstring">
+<p><em>Handle requests for dynamic content or return a 404 if not found.</em></p>
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>page_name</strong></li>
+<li><strong>filepath</strong></li>
+<li><strong>environ</strong></li>
+<li><strong>handler_utils</strong></li>
+</ul>
+
+    </article>
+
 
     <details>
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">&#39;HTTP_ACCEPT&#39;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
-        <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;Accept&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HTTP_ACCEPT&#39;</span><span class="p">]</span>
-    <span class="n">handler_utils</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_file</span><span class="p">)</span>
-    <span class="n">filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span> <span class="o">+</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span>
-    <span class="n">page_name</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">get_page_name</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__serve_dynamic_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">handler_utils</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle requests for dynamic content or return a 404 if not found.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">page_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__create_dynamic_page</span><span class="p">(</span><span class="n">page_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">page_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span> <span class="ow">or</span> <span class="n">filepath</span> <span class="o">!=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">page_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Page not found : </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">page_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__create_web_page</span><span class="p">(</span><span class="n">page_name</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">page_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span> <span class="ow">or</span> <span class="n">filepath</span> <span class="o">!=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">page_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span>
-            <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
-            <span class="n">start_response</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">status</span><span class="p">),</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
-            <span class="k">return</span> <span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Page not found : </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">events</span><span class="p">,</span> <span class="n">accept</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">process_post</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;wsgi.input&#39;</span><span class="p">])</span>
-        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">bakery</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">,</span> <span class="n">page_name</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">has_to_return_data</span><span class="p">(</span><span class="n">accept</span><span class="p">))</span>
-    <span class="n">start_response</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">status</span><span class="p">),</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">get_mime_type</span><span class="p">(</span><span class="n">filepath</span><span class="p">))])</span>
-    <span class="k">return</span> <span class="n">content</span>
+        <span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">accept</span><span class="p">)</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">process_post</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;wsgi.input&#39;</span><span class="p">])</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">bakery</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">,</span> <span class="n">page_name</span><span class="p">,</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="p">],</span> <span class="n">events</span><span class="p">,</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">has_to_return_data</span><span class="p">(</span><span class="n">accept</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
 </code></pre></div>
 
     </details>
 
 
 </section>
+<section>
+<h3 id="#overloads_WSGIApplication">Overloads</h3>
+<h4>__call__</h4>
+
+    <article class="docstring">
+<p><em>Handle WSGI requests.</em></p>
+
+<p>Process the incoming "environ" dictionary and respond using the given
+start_response callable.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>environ</strong>: (<em>dict</em>) WSGI environment dictionary with request data</li>
+<li><strong>start_response</strong>: (callable) Function to start the HTTP response</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>bytes</em>|iterable) Response content to send back to the client</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle WSGI requests.</span>
+
+<span class="sd">        Process the incoming &quot;environ&quot; dictionary and respond using the given</span>
+<span class="sd">        start_response callable.</span>
+
+<span class="sd">        :param environ: (dict) WSGI environment dictionary with request data</span>
+<span class="sd">        :param start_response: (callable) Function to start the HTTP response</span>
+<span class="sd">        :return: (bytes|iterable) Response content to send back to the client</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;HTTP_ACCEPT&#39;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
+        <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;Accept&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HTTP_ACCEPT&#39;</span><span class="p">]</span>
+    <span class="n">handler_utils</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_file</span><span class="p">)</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span> <span class="o">+</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="n">page_name</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">get_page_name</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__serve_dynamic_content</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">handler_utils</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">GeneratorType</span><span class="p">):</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">build_default_headers</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">varnish</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">start_response</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">status</span><span class="p">),</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">content</span><span class="p">]</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">build_default_headers</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+    <span class="n">start_response</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">status</span><span class="p">),</span> <span class="n">headers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">content</span><span class="p">]</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__contains__</h4>
+
+    <article class="docstring">
+<p><em>Check if a page name exists in the application.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>page_name</strong>: (<em>str</em>) Name of the page to check</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>bool</em>) True if the page exists, False otherwise</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if a page name exists in the application.</span>
+
+<span class="sd">        :param page_name: (str) Name of the page to check</span>
+<span class="sd">        :return: (bool) True if the page exists, False otherwise</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span>
+</code></pre></div>
+
+    </details>
+
+
 </section>
-</section>    </section>    </div>
-    </main>
+</section>    </section>    </main>
     
             <footer>
-                <p class="copyright">Copyright (C) 2023-2024 Brigitte Bigi, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+                <p class="copyright">Copyright (C) 2023-2025 Brigitte Bigi, CNRS - Laboratoire Parole et Langage, Aix-en-Provence, France</p>
             </footer>
         
 </body>

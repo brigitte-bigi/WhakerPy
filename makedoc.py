@@ -57,7 +57,7 @@ opts_export.title = 'WhakerPy doc'
 opts_export.statics = './statics'
 # ... the favicon and icon are files in the statics folder
 opts_export.favicon = 'whakerpy32x32.ico'
-opts_export.icon = 'whakerpy.png'
+opts_export.icon = 'WhakerPy.png'
 # ... the theme corresponds to a statics/<theme>.css file or "light" or "dark"
 opts_export.theme = 'light'
 # ... path to 'wexa_statics' folder, relatively to "docs"
