@@ -98,7 +98,7 @@ class TestHTTPDHandler(unittest.TestCase):
         paths = [
             ("hello.txt", "text/plain"), ("style.css", "text/css"), ("index.html", "text/html"),
             # ("data.json", "application/json"), ("app.js", "application/javascript"),
-            ("data.json", "application/json"), ("app.js", "text/javascript"),
+            ("data.json", "application/json"), ("app.js", "application/javascript"),
             ("logo.png", "image/png"), ("video.mp4", "video/mp4")
         ]
 

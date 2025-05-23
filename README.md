@@ -250,7 +250,7 @@ Send this file by e-mail to the author.
 
 See the accompanying `LICENSE` and `AUTHORS.md` files for the full list of contributors.
 
-Copyright (C) 2023-2024 [Brigitte Bigi](https://sppas.org/bigi/), CNRS - <contact@sppas.org>
+Copyright (C) 2023-2025 [Brigitte Bigi](https://sppas.org/bigi/), CNRS - <contact@sppas.org>
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify
@@ -277,3 +277,4 @@ Use the following reference to cite WhakerPy:
 > Brigitte Bigi. WhakerPy, a Python library to create dynamic HTML content and
 > web applications. Version 1.1. 2024. <https://hal.science/hal-04743687>
 
+Version 1.2 is released, so this reference has to be updated.

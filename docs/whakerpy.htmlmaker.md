@@ -999,9 +999,9 @@ def full_strip(entry):
 
         """
     e = re.sub('[\\s]+', '', entry)
-    e = re.sub('[\t]+', '', e)
-    e = re.sub('[\n]+', '', e)
-    e = re.sub('[\r]+', '', e)
+    e = re.sub('[\\t]+', '', e)
+    e = re.sub('[\\n]+', '', e)
+    e = re.sub('[\\r]+', '', e)
     if '\ufeff' in e:
         e = re.sub('\ufeff', '', e)
     return e
@@ -2582,6 +2582,70 @@ def image(self, src: str, alt_text: str, identifier: str=None, class_name: str=N
 ##### Returns
 
 - (HTMLNode) The image node created
+
+#### set_title
+
+```python
+def set_title(self, entry):
+    self.head.title(entry)
+```
+
+
+
+#### add_meta
+
+```python
+def add_meta(self, metadict):
+    self.head.meta(metadict)
+```
+
+
+
+#### add_link
+
+```python
+def add_link(self, rel, href, link_type=None):
+    self.head.link(rel, href, link_type)
+```
+
+
+
+#### add_css
+
+```python
+def add_css(self, filename):
+    self.head.css_from_file(filename)
+```
+
+
+
+#### add_css_link
+
+```python
+def add_css_link(self, href):
+    self.head.link('stylesheet', href, link_type='text/css')
+```
+
+
+
+#### add_script
+
+```python
+def add_script(self, script: str, script_type: str='application/javascript'):
+    script = HTMLNode(self.head.identifier, None, 'script', value=script, attributes={'type': script_type})
+    self.head.append_child(script)
+```
+
+
+
+#### add_script_file
+
+```python
+def add_script_file(self, script: str, script_type: str='application/javascript'):
+    self.head.script(script, script_type=script_type)
+```
+
+
 
 #### serialize_element
 
