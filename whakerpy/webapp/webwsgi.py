@@ -1,6 +1,7 @@
 """
 :filename: whakerpy.webapp.webwsgi.py
-:author: Brigitte Bigi, Florian Lopitaux
+:author: Brigitte Bigi
+:contributor: Florian Lopitaux
 :contact: contact@sppas.org
 :summary: Create a HTTPD localhost server.
 
@@ -119,6 +120,7 @@ class WSGIApplication(object):
         page_name = handler_utils.get_page_name()
 
         # If the requested file is a static one
+        use_cache = True
         if os.path.exists(filepath) is True:
             content, status = handler_utils.static_content(filepath)
 
@@ -130,10 +132,12 @@ class WSGIApplication(object):
         # else, it's a dynamic page
         else:
             content, status = self.__serve_dynamic_content(page_name, filepath, environ, handler_utils)
+            use_cache = False
 
         # Check if content is a generator (created with 'yield' for large files)
         if isinstance(content, types.GeneratorType):
-            headers = HTTPDHandlerUtils.build_default_headers(filepath, content, varnish=True)
+            headers = HTTPDHandlerUtils.build_default_headers(
+                filepath, content, browser_cache=use_cache, varnish=use_cache)
             start_response(repr(status), headers)
             # Either consume the iterator and return a large amount of bytes,
             return [c for c in content]
@@ -141,7 +145,8 @@ class WSGIApplication(object):
             # return content
 
         # Return bytes
-        headers = HTTPDHandlerUtils.build_default_headers(filepath, content)
+        headers = HTTPDHandlerUtils.build_default_headers(
+            filepath, content, browser_cache=use_cache, varnish=use_cache)
         start_response(repr(status), headers)
         return [content]
 

@@ -1,6 +1,7 @@
 """
 :filename: whakerpy.webapp.webresponse.py
-:author: Mathias Cazals, Brigitte Bigi
+:author: Brigitte Bigi
+:contributor: Mathias Cazals
 :contact: contact@sppas.org
 :summary: Create a generic HTTPD response for a web server.
 

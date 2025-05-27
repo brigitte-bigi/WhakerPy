@@ -1,7 +1,8 @@
 # -*- coding: UTF-8 -*-
 """
 :filename: whakerpy.httpd.hutils.py
-:author: Florian Lopitaux, Brigitte Bigi
+:author: Brigitte Bigi
+:contributor: Florian Lopitaux
 :contact: contact@sppas.org
 :summary: Class to help to manage http request for httpd or wsgi application.
 
@@ -343,6 +344,8 @@ class HTTPDHandlerUtils:
         headers = [('Content-Type', HTTPDHandlerUtils.get_mime_type(filepath))]
         if len(cache) > 0:
             headers.append(('Cache-Control', ','.join(cache)))
+            headers.append(('Pragma', 'no-cache'))
+            headers.append(('Expires', '0'))
 
         # If content is an iterator, calculate the file size and
         # add Content-Length

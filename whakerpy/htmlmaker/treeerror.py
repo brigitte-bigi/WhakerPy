@@ -1,7 +1,8 @@
 # -*- coding: UTF-8 -*-
 """
 :filename: whakerpy.htmlmaker.treeerror.py
-:author: Brigitte Bigi, Florian Lopitaux
+:author: Brigitte Bigi
+:contributor: Florian Lopitaux
 :contact: contact@sppas.org
 :summary: Root of the tree to store HTML elements and serialize into a string.
 
