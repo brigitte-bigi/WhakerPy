@@ -86,19 +86,19 @@ class WebSiteData:
 
         if json_filename is not None:
             section = self.__get_json_whakerpy_section(json_filename)
-
             for raw_name, info in section.items():
                 # Web-page names are always lowered
                 name = raw_name.lower()
                 if name == "pagespath":
-                    continue
-
-                # Store mapping: URL page → info dict
-                self._pages[name] = info
-
-                # First non-default page
-                if self._default == "":
-                    self._default = name
+                    self._main_path = info
+                else:
+                    # Store mapping: URL page → info dict
+                    self._pages[name] = info
+                    # First non-default page
+                    if self._default == "":
+                        self._default = name
+        else:
+            logging.debug("WebSiteData with NO given JSON config filename.")
 
     # -----------------------------------------------------------------------
 
