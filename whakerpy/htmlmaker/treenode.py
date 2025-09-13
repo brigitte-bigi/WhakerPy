@@ -514,7 +514,9 @@ class HTMLTree(BaseNode):
         self.head.link(rel, href, link_type)
 
     def add_css(self, filename):
-        self.head.css_from_file(filename)
+        with open(filename) as f:
+            content = f.readlines()
+        self.head.css("\n".join(content))
 
     def add_css_link(self, href):
         self.head.link("stylesheet", href, link_type="text/css")
