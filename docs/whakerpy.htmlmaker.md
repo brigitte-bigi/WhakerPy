@@ -2614,7 +2614,9 @@ def add_link(self, rel, href, link_type=None):
 
 ```python
 def add_css(self, filename):
-    self.head.css_from_file(filename)
+    with open(filename) as f:
+        content = f.readlines()
+    self.head.css('\n'.join(content))
 ```
 
 
@@ -2850,4 +2852,4 @@ def __init__(self, status, msg_error: str=None):
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.8 ~
+~ Created using [Clamming](https://clamming.sf.net) version 1.9 ~

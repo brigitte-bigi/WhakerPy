@@ -61,7 +61,7 @@ opts_export.icon = 'WhakerPy.png'
 # ... the theme corresponds to a statics/<theme>.css file or "light" or "dark"
 opts_export.theme = 'light'
 # ... path to 'wexa_statics' folder, relatively to "docs"
-opts_export.wexa_statics = "./Whakerexa-0.7/wexa_statics"
+opts_export.wexa_statics = "./Whakerexa-0.8/wexa_statics"
 
 
 # -------------------------------------------------
