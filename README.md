@@ -161,14 +161,20 @@ Let's view the result in your favorite web browser:
 
 ### Create a web application frontend with dynamic HTML content
 
-For a quick start, see the file `sample.py` in the repo. It shows a very simple solution to create a server that can handle dynamic content. This content is created from a custom `BaseResponseRecipe()` object, available in the file `samples/response.py`. The response is the interface between a local back-end python application and the web front-end.
+For a quick start, see the file `sample.py` in the repo. It shows a very simple 
+solution to create a server that can handle dynamic content. This content is 
+created from a custom `BaseResponseRecipe()` object, available in the file 
+`sample/response.py`. The response is the interface between a local back-end 
+python application and the web front-end.
 
-For a more complex example of an already in-used application web frontend, see: <https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py>.
+For a more complex example of an already in-used application web frontend, see: 
+<https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py>.
 
 
 ## Projects using WhakerPy
 
-WhakerPy was initially developed within SPPAS <https://sppas.org>. It was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on `whakerpy` API.
+WhakerPy was initially developed within SPPAS <https://sppas.org>. 
+It was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on `whakerpy` API.
 
 Other projects: 
 
@@ -189,14 +195,27 @@ The universal wheel is created with: `python -m build`
 
 ## Make the documentation
 
-The documentation requires Whakerexa-0.7 <https://whakerexa.sf.net>. Download and unzip it into the "docs" folder.
+The documentation requires Whakerexa-1.0 <https://whakerexa.sf.net>. 
+Download and unzip it into the "docs" folder.
 
-The API documentation is available in the `docs` folder. Click the file `index.html` to browse throw the documented classes.
+The API documentation is available inlie at <https://whakerpy.sourceforge.io>.
 
-To re-generate the documentation, install the required external program, then launch the doc generator:
+
+To generate the documentation locally, install the required external program, then launch the doc generator:
 ```bash
 >python -m pip install ".[docs]"
 >python makedoc.py
+```
+
+Then, open it with an HTTP Server, like for example:
+
+```bash
+# Install the required external libraries:
+python3 -m pip install pycryptodome --break-system-packages
+python3 -m pip install uwsgi
+# Launch the HTTP service:
+cd docs
+uwsgi --http :9090 --wsgi-file uwsgi.py
 ```
 
 
@@ -251,7 +270,7 @@ Send this file by e-mail to the author.
 
 See the accompanying `LICENSE` and `AUTHORS.md` files for the full list of contributors.
 
-Copyright (C) 2023-2025 [Brigitte Bigi](https://sppas.org/bigi/), CNRS - <contact@sppas.org>
+Copyright (C) 2023-2025 [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>, CNRS,
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify
@@ -276,6 +295,6 @@ or products, in accordance with the best practices of the AGPL license.
 Use the following reference to cite WhakerPy:
 
 > Brigitte Bigi. WhakerPy, a Python library to create dynamic HTML content and
-> web applications. Version 1.1. 2024. <https://hal.science/hal-04743687>
+> web applications. Version 1.5. 2024. <https://hal.science/hal-04743687>
 
-Version 1.2 is released, so this reference has to be updated.
+Version 1.5 is released, so this reference has to be updated.

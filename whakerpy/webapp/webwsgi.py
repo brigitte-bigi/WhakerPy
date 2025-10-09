@@ -9,7 +9,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi
+    Copyright (C) 2023-2024 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -124,8 +124,7 @@ class WSGIApplication(object):
         if os.path.exists(filepath) is True:
             content, status = handler_utils.static_content(filepath)
 
-        # If the requested file doesn't exist in the given
-        # default path (like the request.js)
+        # If the requested file doesn't exist in the given default path
         elif os.path.isfile(handler_utils.get_path()[1:]) is True:
             content, status = handler_utils.static_content(handler_utils.get_path()[1:])
 

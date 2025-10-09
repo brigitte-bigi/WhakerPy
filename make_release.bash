@@ -15,7 +15,7 @@ PACKAGE_NAME=`pwd`/${PROGRAM_NAME}-${PROGRAM_VERSION}.zip
 echo "Create release for WhakerPy-"$PROGRAM_VERSION
 
 echo "Create documentation"
-  python3 makedoc.py
+.venv/bin/python makedoc.py
 
 echo "Delete any __pycache__ folder"
   for pycache in `find . -name "__pycache__"`;
@@ -27,7 +27,7 @@ echo "Delete log files"
   rm *.log
 
 echo "Create 'zip' archive" $PACKAGE_NAME
-  zip -q -r $PACKAGE_NAME pyproject.toml *.py *.md LICENSE whakerpy samples tests docs
+  zip -q -r $PACKAGE_NAME whakerpy sample tests docs codemeta.json pyproject.toml *.py *.md
   if [ "$?" != 0 ]; then
       echo -e "${RED}No package created!${NC}"
       popd
@@ -38,7 +38,7 @@ echo "Create 'zip' archive" $PACKAGE_NAME
   fi
 
 echo "Create wheel"
-  python3 -m build
+.venv/bin/python -m build
 
 # transfert to pypi.org:
 # .venv/bin/twine upload -r pypi dist/whakerpy-1.X-py3-none-any.whl

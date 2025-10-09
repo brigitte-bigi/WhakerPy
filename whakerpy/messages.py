@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
-:filename: whakerpy.message.py
+:filename: whakerpy.messages.py
 :author: Brigitte Bigi
 :contact: contact@sppas.org
 :summary: Manage the messages of the application in SPPAS style.
@@ -9,7 +9,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi
+    Copyright (C) 2023-2025 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify

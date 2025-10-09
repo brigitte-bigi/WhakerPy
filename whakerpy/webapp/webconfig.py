@@ -261,8 +261,8 @@ class WebSiteData:
             _section = _full_data["WhakerPy"]
         else:
             logging.warning(
-                "DeprecationWarning: starting with WhakerPy 1.2 you must wrap your config "
-                "in a top-level 'WhakerPy' key."
+                "DeprecationWarning: starting with WhakerPy 1.2 you must wrap your "
+                "config in a top-level 'WhakerPy' key of the JSON config file."
             )
             _section = _full_data
 

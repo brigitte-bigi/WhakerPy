@@ -17,8 +17,8 @@ from whakerpy.httpd import BaseHTTPDServer
 from whakerpy.webapp import WSGIApplication
 from whakerpy.webapp import WebSiteData
 from whakerpy.webapp import WebSiteApplication
-from samples.response import SampleAppResponse
-from samples.response import SampleWebResponse
+from sample.response import SampleAppResponse
+from sample.response import SampleWebResponse
 
 # Enable debug level
 logging.getLogger().setLevel(0)
@@ -48,9 +48,9 @@ class AppServer(BaseHTTPDServer):
         self._default = app_bakery.page()
 
         # Extract the config data of the sample webapp from a JSON file
-        data = WebSiteData(os.path.join("samples", "webapp.json"))
+        data = WebSiteData(os.path.join("sample", "webapp.json"))
         # Create the dynamic tree for each page described in data
-        self._pages.update(data.create_pages(web_response=SampleWebResponse, default_path="samples"))
+        self._pages.update(data.create_pages(web_response=SampleWebResponse, default_path="sample"))
 
 # ---------------------------------------------------------------------------
 
@@ -87,7 +87,7 @@ else:
     # or GET, or ... method.
     # uwsgi --http :9090 --wsgi-file sample.py
     app = WSGIApplication(
-        default_path="samples",
+        default_path="sample",
         default_filename="whakerpy.html",
         web_page_maker=SampleWebData,
         default_web_json="webapp.json"

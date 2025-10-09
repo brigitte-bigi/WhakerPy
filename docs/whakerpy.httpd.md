@@ -909,11 +909,11 @@ def do_GET(self) -> None:
     self.path = handler_utils.get_path()
     mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
     if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
-        content, status = handler_utils.static_content(self.path[1:])
+        (content, status) = handler_utils.static_content(self.path[1:])
     elif mime_type == 'text/html':
-        content, status = self._bakery(handler_utils, dict(), mime_type)
+        (content, status) = self._bakery(handler_utils, dict(), mime_type)
     else:
-        content, status = handler_utils.static_content(self.path[1:])
+        (content, status) = handler_utils.static_content(self.path[1:])
     self._response(content, status.code, mime_type)
 ```
 
@@ -931,8 +931,8 @@ def do_POST(self) -> None:
     logging.debug(' ----- DO POST -- requested: {}'.format(self.path))
     handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.get_default_page())
     self.path = handler_utils.get_path()
-    events, accept = handler_utils.process_post(self.rfile)
-    content, status = self._bakery(handler_utils, events, accept)
+    (events, accept) = handler_utils.process_post(self.rfile)
+    (content, status) = self._bakery(handler_utils, events, accept)
     self._response(content, status.code, accept)
 ```
 
@@ -1028,7 +1028,7 @@ def _bakery(self, handler_utils: HTTPDHandlerUtils, events: dict, mime_type: str
         """
     if hasattr(self.server, 'page_bakery') is False:
         return handler_utils.static_content(self.path[1:])
-    content, status = self.server.page_bakery(handler_utils.get_page_name(), self.headers, events, handler_utils.has_to_return_data(mime_type))
+    (content, status) = self.server.page_bakery(handler_utils.get_page_name(), self.headers, events, handler_utils.has_to_return_data(mime_type))
     return (content, status)
 ```
 
@@ -1062,7 +1062,7 @@ def __init__(self, headers: HTTPMessage | dict, path: str, default_page: str='in
     :param default_page: (str) optional parameter, default page when the page doesn't specify it
 
     """
-    self.__path, self.__page_name = HTTPDHandlerUtils.filter_path(path, default_page)
+    (self.__path, self.__page_name) = HTTPDHandlerUtils.filter_path(path, default_page)
     self.__headers = dict()
     if isinstance(headers, HTTPMessage) is True or isinstance(headers, dict) is True:
         self.__headers = headers
@@ -1213,7 +1213,7 @@ def get_mime_type(filename: str) -> str:
         :return: (str) The mime type of the file or 'unknown' if we can't find the type
 
         """
-    mime_type, _ = mimetypes.guess_type(filename)
+    (mime_type, _) = mimetypes.guess_type(filename)
     if mime_type is None:
         return 'unknown'
     else:
@@ -1250,7 +1250,7 @@ def filter_path(path: str, default_path: str='index.html') -> tuple[str, str]:
         return (f'/{default_path}', default_path)
     filepath = path
     page_name = os.path.basename(path)
-    _, extension = os.path.splitext(path)
+    (_, extension) = os.path.splitext(path)
     if len(page_name) == 0 or len(extension) == 0:
         page_name = default_path
         if filepath.endswith('/'):
@@ -1385,7 +1385,7 @@ def build_default_headers(filepath: str, content=None, browser_cache=False, varn
         headers.append(('Pragma', 'no-cache'))
         headers.append(('Expires', '0'))
     if isinstance(content, types.GeneratorType) is True:
-        content_length, content = HTTPDHandlerUtils.getsize_from_iterator(content)
+        (content_length, content) = HTTPDHandlerUtils.getsize_from_iterator(content)
         headers.append(('Content-Length', str(content_length)))
     return headers
 ```
@@ -1615,14 +1615,14 @@ def __extract_body_content(self, content) -> dict:
             logging.error(f"Can't decode JSON posted data : {data}")
     elif 'multipart/form-data; boundary=' in content_type:
         if isinstance(data, bytes) is True:
-            filename, mime_type, content = HTTPDHandlerUtils.__extract_binary_form_data_file(content_type, data)
+            (filename, mime_type, content) = HTTPDHandlerUtils.__extract_binary_form_data_file(content_type, data)
         else:
-            filename, mime_type, content = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
+            (filename, mime_type, content) = HTTPDHandlerUtils.__extract_form_data_file(content_type, data)
         data = {'upload_file': {'filename': filename, 'mime_type': mime_type, 'file_content': content}}
     else:
         data = dict(parse_qsl(data, keep_blank_values=True, strict_parsing=False))
     if 'upload_file' in data:
-        logging.debug(f' -- upload_file[{data['upload_file']['filename']}]')
+        logging.debug(f" -- upload_file[{data['upload_file']['filename']}]")
     return data
 ```
 
@@ -1651,9 +1651,9 @@ def __extract_form_data_file(content_type: str, data: str) -> tuple[str, str, st
         :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content
 
         """
-    filename, end_index_filename = HTTPDHandlerUtils.__extract_form_data_filename(data)
+    (filename, end_index_filename) = HTTPDHandlerUtils.__extract_form_data_filename(data)
     data = data[end_index_filename:]
-    mimetype, end_index_type = HTTPDHandlerUtils.__extract_form_data_mimetype(data)
+    (mimetype, end_index_type) = HTTPDHandlerUtils.__extract_form_data_mimetype(data)
     data = data[end_index_type + 1:]
     boundary = HTTPDHandlerUtils.__extract_form_data_boundary(content_type)
     start_content = data.index('\n') + 1
@@ -1946,4 +1946,4 @@ take the events into account when baking the HTML page content.
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.9 ~
+~ Created using [Clamming](https://clamming.sf.net) version 2.0 ~

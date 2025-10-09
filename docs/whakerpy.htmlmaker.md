@@ -1621,7 +1621,7 @@ def append_child(self, node) -> None:
     """Append a child node.
 
         :param node: (Node)
-        :raise: NodeChildTagError: if invalid child tag (not in HEAD_TAGS list)
+        :raises: NodeChildTagError: if invalid child tag (not in HEAD_TAGS list)
 
         """
     if node.tag not in HEAD_TAGS:
@@ -2852,4 +2852,4 @@ def __init__(self, status, msg_error: str=None):
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.9 ~
+~ Created using [Clamming](https://clamming.sf.net) version 2.0 ~

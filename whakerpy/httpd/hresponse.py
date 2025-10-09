@@ -9,7 +9,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi
+    Copyright (C) 2023-2024 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -74,12 +74,6 @@ class BaseResponseRecipe:
 
         # Fill-in the tree with nodes
         self.create()
-
-        # Test if this tree can manage events (from buttons, forms, etc.)
-        # shead = self._htree.head.serialize()
-        # if "request.js" not in shead:
-        #     self._htree.head.script(src=os.path.join("whakerpy", "request.js"),
-        #                             script_type="application/javascript")
 
     # -----------------------------------------------------------------------
 

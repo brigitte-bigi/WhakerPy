@@ -8,7 +8,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi
+    Copyright (C) 2023-2025 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -96,10 +96,14 @@ class TestHTTPDHandler(unittest.TestCase):
 
         # basic files
         paths = [
-            ("hello.txt", "text/plain"), ("style.css", "text/css"), ("index.html", "text/html"),
-            # ("data.json", "application/json"), ("app.js", "application/javascript"),
-            ("data.json", "application/json"), ("app.js", "application/javascript"),
-            ("logo.png", "image/png"), ("video.mp4", "video/mp4")
+            ("hello.txt", "text/plain"),
+            ("style.css", "text/css"),
+            ("index.html", "text/html"),
+            ("data.json", "application/json"),
+            ("app.js", "text/javascript"),
+            #("app.js", "application/javascript"),
+            ("logo.png", "image/png"),
+            ("video.mp4", "video/mp4")
         ]
 
         for file, correct_type in paths:

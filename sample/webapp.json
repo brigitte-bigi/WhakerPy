@@ -1,0 +1,17 @@
+{
+  "WhakerPy": {
+    "pagespath": "body_main",
+    "other.html": {
+      "title": "Other",
+      "main": "other.htm",
+      "header": true,
+      "footer": true
+    },
+    "any.html": {
+      "title": "Any",
+      "main": "any.htm",
+      "header": true,
+      "footer": true
+    }
+  }
+}

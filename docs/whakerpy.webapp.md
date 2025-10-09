@@ -46,7 +46,7 @@ def __init__(self, json_filename: str | None=None):
     self._pages = dict()
     if json_filename is not None:
         section = self.__get_json_whakerpy_section(json_filename)
-        for raw_name, info in section.items():
+        for (raw_name, info) in section.items():
             name = raw_name.lower()
             if name == 'pagespath':
                 self._main_path = info
@@ -333,7 +333,7 @@ def __get_json_whakerpy_section(self, filename):
     if 'WhakerPy' in _full_data:
         _section = _full_data['WhakerPy']
     else:
-        logging.warning("DeprecationWarning: starting with WhakerPy 1.2 you must wrap your config in a top-level 'WhakerPy' key.")
+        logging.warning("DeprecationWarning: starting with WhakerPy 1.2 you must wrap your config in a top-level 'WhakerPy' key of the JSON config file.")
         _section = _full_data
     if 'pagespath' not in _section:
         raise ValueError(f"{filename!r} missing required 'pagespath' in WhakerPy section")
@@ -742,8 +742,8 @@ def __serve_dynamic_content(self, page_name: str, filepath: str, environ, handle
         status = HTTPDStatus(404)
         content = status.to_html(encode=True, msg_error=f'Page not found : {filepath}')
     else:
-        events, accept = handler_utils.process_post(environ['wsgi.input'])
-        content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events, HTTPDHandlerUtils.has_to_return_data(accept))
+        (events, accept) = handler_utils.process_post(environ['wsgi.input'])
+        (content, status) = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events, HTTPDHandlerUtils.has_to_return_data(accept))
     return (content, status)
 ```
 
@@ -775,11 +775,11 @@ def __call__(self, environ, start_response):
     page_name = handler_utils.get_page_name()
     use_cache = True
     if os.path.exists(filepath) is True:
-        content, status = handler_utils.static_content(filepath)
+        (content, status) = handler_utils.static_content(filepath)
     elif os.path.isfile(handler_utils.get_path()[1:]) is True:
-        content, status = handler_utils.static_content(handler_utils.get_path()[1:])
+        (content, status) = handler_utils.static_content(handler_utils.get_path()[1:])
     else:
-        content, status = self.__serve_dynamic_content(page_name, filepath, environ, handler_utils)
+        (content, status) = self.__serve_dynamic_content(page_name, filepath, environ, handler_utils)
         use_cache = False
     if isinstance(content, types.GeneratorType):
         headers = HTTPDHandlerUtils.build_default_headers(filepath, content, browser_cache=use_cache, varnish=use_cache)
@@ -833,4 +833,4 @@ def __contains__(self, page_name: str) -> bool:
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 1.9 ~
+~ Created using [Clamming](https://clamming.sf.net) version 2.0 ~

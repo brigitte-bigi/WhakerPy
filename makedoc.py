@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*-
 # makedoc.py
-# Summary: Create the documentation of WhakerPy, using ClammingPy 1.7+ library.
+# Summary: Create the documentation of WhakerPy, using ClammingPy 2.0+ library.
 # Usage: python makedoc.py
 #
 # This file is part of WhakerPy tool.
-# Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+# Copyright (C) 2023-2025 Brigitte Bigi, CNRS
 # Laboratoire Parole et Langage, Aix-en-Provence, France.
 #
 # Use of this software is governed by the GNU Affero Public License, version 3.
@@ -57,11 +57,11 @@ opts_export.title = 'WhakerPy doc'
 opts_export.statics = './statics'
 # ... the favicon and icon are files in the statics folder
 opts_export.favicon = 'whakerpy32x32.ico'
-opts_export.icon = 'WhakerPy.png'
+opts_export.icon = 'whakerpy.png'
 # ... the theme corresponds to a statics/<theme>.css file or "light" or "dark"
 opts_export.theme = 'light'
 # ... path to 'wexa_statics' folder, relatively to "docs"
-opts_export.wexa_statics = "./Whakerexa-0.8/wexa_statics"
+opts_export.wexa_statics = "./Whakerexa-1.0/wexa_statics"
 
 
 # -------------------------------------------------

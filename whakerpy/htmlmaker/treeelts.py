@@ -9,7 +9,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi
+    Copyright (C) 2023-2025 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -60,7 +60,7 @@ class HTMLHeadNode(HTMLNode):
         """Append a child node.
 
         :param node: (Node)
-        :raise: NodeChildTagError: if invalid child tag (not in HEAD_TAGS list)
+        :raises: NodeChildTagError: if invalid child tag (not in HEAD_TAGS list)
 
         """
         if node.tag not in HEAD_TAGS:
