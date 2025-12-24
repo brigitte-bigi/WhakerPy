@@ -72,7 +72,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         - 403: Forbidden
         - 404: Not Found
         - 410: Gone
-        - 418: I'm not a teapot
+        - 418: I'm a teapot
 
     """
 
@@ -181,20 +181,25 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         self.path = handler_utils.get_path()
         mime_type = HTTPDHandlerUtils.get_mime_type(self.path)
 
-        # The client requested a static file.
-        # (must be done before checking mime type in case the client ask a html static file)
-        if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
-            content, status = handler_utils.static_content(self.path[1:])
-        # The client requested an HTML page. Response content is created by the server.
-        elif mime_type == "text/html":
-            content, status = self._bakery(handler_utils, dict(), mime_type)
+        # Blacklisted path
+        if hasattr(self.server, "match_blacklist") and self.server.match_blacklist(self.path):
+            content, status = HTTPDHandlerUtils.blacklisted_page_answer()
+            self._response(content, status.code)
         else:
-            # Unknown: try to get a static file
-            content, status = handler_utils.static_content(self.path[1:])
 
-        # WhakerPy 1.1: content can be either ['bytes'] or iterator, depending
-        # on the requested file size
-        self._response(content, status.code, mime_type)
+            # The client requested a static file.
+            # (must be done before checking mime type in case the client ask a html static file)
+            if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
+                content, status = handler_utils.static_content(self.path[1:])
+            # The client requested an HTML page. Response content is created by the server.
+            elif mime_type == "text/html":
+                content, status = self._bakery(handler_utils, dict(), mime_type)
+            else:
+                # Unknown: try to get a static file
+                content, status = handler_utils.static_content(self.path[1:])
+
+            # content can be either ['bytes'] or iterator, depending on the requested file size
+            self._response(content, status.code, mime_type)
 
     # -----------------------------------------------------------------------
 
@@ -207,12 +212,18 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         handler_utils = HTTPDHandlerUtils(self.headers, self.path, self.get_default_page())
         self.path = handler_utils.get_path()
 
-        events, accept = handler_utils.process_post(self.rfile)
-        content, status = self._bakery(handler_utils, events, accept)
+        # Blacklisted path
+        if hasattr(self.server, "match_blacklist") and self.server.match_blacklist(self.path):
+            content, status = HTTPDHandlerUtils.blacklisted_page_answer()
+            self._response(content, status.code)
+        else:
 
-        # WhakerPy 1.1: content can be either ['bytes'] or iterator, depending
-        # on the requested file size
-        self._response(content, status.code, accept)
+            events, accept = handler_utils.process_post(self.rfile)
+            content, status = self._bakery(handler_utils, events, accept)
+
+            # WhakerPy 1.1: content can be either ['bytes'] or iterator, depending
+            # on the requested file size
+            self._response(content, status.code, accept)
 
     # -----------------------------------------------------------------------
 

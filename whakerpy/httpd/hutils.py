@@ -191,6 +191,21 @@ class HTTPDHandlerUtils:
     # -----------------------------------------------------------------------
 
     @staticmethod
+    def blacklisted_page_answer() -> tuple:
+        """Create the response with 418 status code.
+
+        :return: (tuple) Response content and status to send back to the client
+
+        """
+        status = HTTPDStatus(418)
+        content = status.to_html(encode=True,
+                                 msg_error="I'm a teapot. If you are not a robot, "
+                                           "send an e-mail to the administrator.")
+        return content, status
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
     def get_mime_type(filename: str) -> str:
         """Return the mime type of given file name or path.
 

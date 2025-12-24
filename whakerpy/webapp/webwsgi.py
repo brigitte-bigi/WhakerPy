@@ -9,7 +9,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+    Copyright (C) 2023-2025 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -60,10 +60,12 @@ key/values:
 
 import os
 import types
+import logging
 
 from ..httpd import HTTPDStatus
 from ..httpd import HTTPDHandlerUtils
 from ..httpd import BaseResponseRecipe
+from ..httpd import Blacklist
 
 from .webconfig import WebSiteData
 from .webresponse import WebSiteResponse
@@ -79,6 +81,8 @@ class WSGIApplication(object):
     WSGI response is created from given "environ" parameters and communicated
     with start_response.
 
+    This class checks if the request comes from a blacklisted URL ASAP.
+
     """
 
     def __init__(self, default_path: str = "", default_filename: str = "index.html",
@@ -93,8 +97,12 @@ class WSGIApplication(object):
         """
         self.__default_path = default_path
         self.__default_file = default_filename
+        self.__blacklist = Blacklist()
         self.__dynamic_pages = (web_page_maker, os.path.join(self.__default_path, default_web_json))
         self._pages = dict()
+
+        if default_web_json is not None:
+            self.__blacklist.load(self.__dynamic_pages[1], json_key='Blacklist')
 
     # -----------------------------------------------------------------------
 
@@ -112,12 +120,23 @@ class WSGIApplication(object):
         if 'HTTP_ACCEPT' in environ:
             environ['Accept'] = environ['HTTP_ACCEPT']
 
-        # Resolve the requested file path and page name
         handler_utils = HTTPDHandlerUtils(environ, environ["PATH_INFO"], self.__default_file)
+
+        # Resolve the requested file path and page name
+        requested_path = handler_utils.get_path()
         filepath = self.__default_path + handler_utils.get_path()
         # Normalize paths with multiple slashes
         filepath = filepath.replace("//", "/")
         page_name = handler_utils.get_page_name()
+
+        # Check immediately for a blacklisted URL
+        user_agent = environ.get('HTTP_USER_AGENT', '')
+        if self.__blacklist.match(requested_path) is True or self.__blacklist.match(user_agent) is True:
+            logging.warning(f"Blacklisted agent {user_agent} and/or url {requested_path}.")
+            content, status = HTTPDHandlerUtils.blacklisted_page_answer()
+            headers = HTTPDHandlerUtils.build_default_headers(filepath, content, browser_cache=False, varnish=False)
+            start_response(repr(status), headers)
+            return [content]
 
         # If the requested file is a static one
         use_cache = True
@@ -205,7 +224,7 @@ class WSGIApplication(object):
         # Return 404 if the page does not exist or the path is invalid
         if page_name not in self._pages or filepath != f"{self.__default_path}/{page_name}":
             status = HTTPDStatus(404)
-            content = status.to_html(encode=True, msg_error=f"Page not found : {filepath}")
+            content = status.to_html(encode=True, msg_error=f"Page not found: {filepath}")
         else:
             # Process dynamic content. Events are empty if POST request.
             events, accept = handler_utils.process_post(environ['wsgi.input'])

@@ -296,5 +296,3 @@ Use the following reference to cite WhakerPy:
 
 > Brigitte Bigi. WhakerPy, a Python library to create dynamic HTML content and
 > web applications. Version 1.5. 2024. <https://hal.science/hal-04743687>
-
-Version 1.5 is released, so this reference has to be updated.

@@ -40,6 +40,7 @@ from .hutils import HTTPDHandlerUtils
 from .handler import HTTPDHandler
 from .hserver import BaseHTTPDServer
 from .hresponse import BaseResponseRecipe
+from .hblacklist import Blacklist
 
 __all__ = (
     "UnixPermissions",
@@ -49,5 +50,6 @@ __all__ = (
     "HTTPDValueError",
     "HTTPDHandler",
     "HTTPDHandlerUtils",
-    "BaseHTTPDServer"
+    "BaseHTTPDServer",
+    "Blacklist"
 )

@@ -13,5 +13,9 @@
       "header": true,
       "footer": true
     }
-  }
+  },
+  "Blacklist": [
+    "semrush.com/bot.html",
+    "SemrushBot"
+  ]
 }

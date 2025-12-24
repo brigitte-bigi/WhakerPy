@@ -9,7 +9,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+    Copyright (C) 2023-2025 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@
 import http.server
 
 from .hutils import HTTPDHandlerUtils
+from .hblacklist import Blacklist
 
 # ---------------------------------------------------------------------------
 
@@ -48,6 +49,17 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
      >>> s = BaseHTTPDServer(server_address, app_handler)
      >>> s.create_pages()
 
+    This server stores:
+    - dynamic pages ("_pages") used by the bakery system,
+    - the default page name ("_default"),
+    - a persistent blacklist of URL paths ("_blacklist") used by HTTPDHandler
+      to reject abusive requests as early as possible.
+
+    Blacklist file format:
+    - one URL path per line (example: /bot.html)
+    - empty lines are ignored
+    - lines starting with '#' are ignored
+
     """
 
     def __init__(self, *args, **kwargs):
@@ -58,9 +70,35 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
         self._pages = dict()
         self._default = "index.html"
 
+        # Persistent set of URL paths to reject early in the handler.
+        self._blacklist = Blacklist()
+        if "blacklist" in kwargs:
+            self._blacklist.load(kwargs["blacklist"])
+
+    # -----------------------------------------------------------------------
+
+    def match_blacklist(self, url: str) -> bool:
+        """Return True if the given URL path matches the blacklist.
+
+        The matching rules are:
+            - exact match
+            - parent path match (prefix, by path segments)
+
+        The URL can include a query string; it is ignored.
+
+        :param url: (str) URL path, like '/bot.html' or '/admin/page.html'.
+        :raises: TypeError: if url is not a string.
+        :return: (bool) True if blacklisted, False otherwise.
+
+        """
+        return self._blacklist.match(url)
+
+    # -----------------------------------------------------------------------
+    # The pages this server is serving
     # -----------------------------------------------------------------------
 
     def default(self):
+        """Return the default page name, used when a URL ends with '/'."""
         return self._default
 
     # -----------------------------------------------------------------------
