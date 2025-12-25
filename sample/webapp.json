@@ -1,21 +1,34 @@
 {
   "WhakerPy": {
     "pagespath": "body_main",
-    "other.html": {
-      "title": "Other",
-      "main": "other.htm",
-      "header": true,
-      "footer": true
+    "pages" : {
+      "other.html": {
+        "title": "Other",
+        "main": "other.htm",
+        "header": true,
+        "footer": true
+      },
+      "any.html": {
+        "title": "Any",
+        "main": "any.htm",
+        "header": true,
+        "footer": true
+      }
     },
-    "any.html": {
-      "title": "Any",
-      "main": "any.htm",
-      "header": true,
-      "footer": true
+    "blacklist": [
+      "semrush.com/bot.html",
+      "SemrushBot"
+    ],
+    "signed_url": {
+      "secret": "CHANGE_ME",
+      "ttl": 120,
+      "protect": [
+        {
+          "prefix": "/sample_",
+          "suffix": ".html"
+        }
+      ],
+      "query_keys": { "ts": "ts", "sig": "sig" }
     }
-  },
-  "Blacklist": [
-    "semrush.com/bot.html",
-    "SemrushBot"
-  ]
+  }
 }

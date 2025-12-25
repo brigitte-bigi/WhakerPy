@@ -47,8 +47,10 @@ class TestWebSiteData(unittest.TestCase):
         self.old_fd, self.old_path = tempfile.mkstemp(suffix='.json')
         old_data = {
             "pagespath": "html",
-            "index.html": {"title": "Home", "main": "index.htm", "header": True, "footer": False},
-            "about.html": {"title": "About", "main": "about.htm", "header": False, "footer": True}
+            "pages": {
+                "index.html": {"title": "Home", "main": "index.htm", "header": True, "footer": False},
+                "about.html": {"title": "About", "main": "about.htm", "header": False, "footer": True}
+            }
         }
         with os.fdopen(self.old_fd, 'w', encoding='utf-8') as f:
             json.dump(old_data, f)

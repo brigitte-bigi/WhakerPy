@@ -86,17 +86,17 @@ class WebSiteData:
 
         if json_filename is not None:
             section = self.__get_json_whakerpy_section(json_filename)
-            for raw_name, info in section.items():
+            self._main_path = section["pagespath"]
+
+            # Get all pages names and infos in a "pages" dictionary
+            for raw_name, info in section["pages"].items():
                 # Web-page names are always lowered
                 name = raw_name.lower()
-                if name == "pagespath":
-                    self._main_path = info
-                else:
-                    # Store mapping: URL page → info dict
-                    self._pages[name] = info
-                    # First non-default page
-                    if self._default == "":
-                        self._default = name
+                # Store mapping: URL page → info dict
+                self._pages[name] = info
+                # First non-default page
+                if self._default == "":
+                    self._default = name
         else:
             logging.debug("WebSiteData with NO given JSON config filename.")
 
@@ -257,18 +257,21 @@ class WebSiteData:
         with codecs.open(filename, "r", "utf-8") as f:
             _full_data = json.load(f)  # may raise JSONDecodeError
 
-        if "WhakerPy" in _full_data:
-            _section = _full_data["WhakerPy"]
-        else:
-            logging.warning(
-                "DeprecationWarning: starting with WhakerPy 1.2 you must wrap your "
-                "config in a top-level 'WhakerPy' key of the JSON config file."
+        if "WhakerPy" not in _full_data:
+            # Introduced in WhakerPy 1.2
+            raise ValueError(
+                f"{filename!r} is missing the required 'WhakerPy' section."
             )
-            _section = _full_data
+        _section = _full_data["WhakerPy"]
 
+        if "pages" not in _section:
+            # Introduced in WhakerPy 2.0
+            raise ValueError(
+                f"{filename!r} is missing the required 'pages' section in 'WhakerPy' section"
+            )
         if "pagespath" not in _section:
             raise ValueError(
-                f"{filename!r} missing required 'pagespath' in WhakerPy section"
+                f"{filename!r} is missing the required 'pagespath' section in 'WhakerPy' section"
             )
 
         return _section

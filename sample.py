@@ -84,8 +84,9 @@ else:
 
     # The WSGI server is searching for an "application(environ, start_response)"
     # function. It is invoked every time a request is received by either POST,
-    # or GET, or ... method.
-    # uwsgi --http :9090 --wsgi-file sample.py
+    # or GET, or ... method. Example of use:
+    # > python -m pip install uwsgi
+    # > uwsgi --http :9090 --wsgi-file sample.py
     app = WSGIApplication(
         default_path="sample",
         default_filename="whakerpy.html",

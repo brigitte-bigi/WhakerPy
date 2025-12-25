@@ -41,6 +41,7 @@ from .handler import HTTPDHandler
 from .hserver import BaseHTTPDServer
 from .hresponse import BaseResponseRecipe
 from .hblacklist import Blacklist
+from .hsignedurl import SignedURL
 
 __all__ = (
     "UnixPermissions",
@@ -51,5 +52,6 @@ __all__ = (
     "HTTPDHandler",
     "HTTPDHandlerUtils",
     "BaseHTTPDServer",
-    "Blacklist"
+    "Blacklist",
+    "SignedURL"
 )
