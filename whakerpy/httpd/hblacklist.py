@@ -32,6 +32,7 @@
 from __future__ import annotations
 import os
 import json
+import logging
 
 # ---------------------------------------------------------------------------
 
@@ -63,7 +64,7 @@ class Blacklist:
 
     # -----------------------------------------------------------------------
 
-    def load(self, filepath: str, json_key: str = "Blacklist") -> int:
+    def load(self, filepath: str, json_key: str = "blacklist") -> int:
         """Load blacklist entries from a file.
 
         If filepath ends with '.json', entries are loaded from the given json_key.
@@ -143,11 +144,20 @@ class Blacklist:
     def __load_json(self, filepath: str, json_key: str) -> int:
         with open(filepath, "r", encoding="utf-8") as fp:
             try:
-                data = json.load(fp)
+                _full_data = json.load(fp)
             except json.JSONDecodeError as e:
                 raise ValueError(f"Invalid JSON file: {filepath}") from e
 
-        items = data.get(json_key, [])
+        # Search for the WhakerPy section in the JSON config file.
+        if "WhakerPy" not in _full_data:
+            # Introduced in WhakerPy 1.2
+            raise ValueError(
+                f"{filepath!r} is missing the required 'WhakerPy' section."
+            )
+        _section = _full_data["WhakerPy"]
+
+        # Then search for the "blacklist" section in the "WhakerPy" section.
+        items = _section.get(json_key, [])
         if isinstance(items, list) is False:
             raise ValueError(f"JSON key '{json_key}' must be a list.")
 
@@ -155,6 +165,7 @@ class Blacklist:
         for it in items:
             if isinstance(it, str) is True and len(it) > 0:
                 out.add(it)
+                logging.info("Blacklisted entry '" + it + "'")
 
         self.__blacklist = out
         return len(out)
