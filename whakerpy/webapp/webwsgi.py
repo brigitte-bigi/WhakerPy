@@ -66,6 +66,7 @@ from ..httpd import HTTPDStatus
 from ..httpd import HTTPDHandlerUtils
 from ..httpd import BaseResponseRecipe
 from ..httpd import Blacklist
+from ..httpd.hsignedurl import SignedURL
 
 from .webconfig import WebSiteData
 from .webresponse import WebSiteResponse
@@ -102,7 +103,7 @@ class WSGIApplication(object):
         self._pages = dict()
 
         if default_web_json is not None:
-            self.__blacklist.load(self.__dynamic_pages[1], json_key='Blacklist')
+            self.__blacklist.load(self.__dynamic_pages[1], json_key='blacklist')
 
     # -----------------------------------------------------------------------
 

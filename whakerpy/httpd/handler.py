@@ -41,6 +41,7 @@ import os.path
 
 from .hstatus import HTTPDStatus
 from .hutils import HTTPDHandlerUtils
+from .hsignedurl import SignedURL
 
 # ---------------------------------------------------------------------------
 
