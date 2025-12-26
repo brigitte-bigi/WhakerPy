@@ -301,7 +301,7 @@ class WSGIApplication(object):
             return None, None, None
 
         content, status = HTTPDHandlerUtils.signed_url_page_answer()
-        headers = handler_utils.build_default_headers(
+        headers = HTTPDHandlerUtils.build_default_headers(
             filepath, content, browser_cache=False, varnish=False
         )
         return content, status, headers

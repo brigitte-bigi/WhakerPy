@@ -228,50 +228,6 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         self._response(content, status.code, mime_type)
 
     # -----------------------------------------------------------------------
-    def do_POST(self) -> None:
-        """Prepare the response to a POST request.
-
-        This method:
-        - extracts the query string (before path normalization),
-        - applies blacklist (if enabled),
-        - applies signed URL verification (if enabled),
-        - reads POST body and generates the HTML response.
-
-        """
-        logging.debug(" ----- DO POST -- requested: {}".format(self.path))
-
-        # Keep the raw request path because HTTPDHandlerUtils.get_path() removes "?..."
-        raw_path = self.path
-
-        # Extract the query string (everything after '?'), or empty string if none.
-        query_string = ""
-        if "?" in raw_path:
-            query_string = raw_path.split("?", 1)[1]
-
-        # Normalize path and prepare utilities (this will drop the query part from the path).
-        handler_utils = HTTPDHandlerUtils(self.headers, raw_path, self.get_default_page())
-        self.path = handler_utils.get_path()
-
-        # 1) Blacklist (early reject, then return).
-        if hasattr(self.server, "match_blacklist") and self.server.match_blacklist(self.path) is True:
-            content, status = HTTPDHandlerUtils.blacklisted_page_answer()
-            self._response(content, status.code, "text/html")
-            return
-
-        # 2) Signed URL (early reject, then return).
-        if hasattr(self.server, "verify_signed_url") and self.server.verify_signed_url(self.path,
-                                                                                       query_string) is False:
-            content, status = HTTPDHandlerUtils.signed_url_page_answer()
-            self._response(content, status.code, "text/html")
-            return
-
-        # 3) Process POST body and build the dynamic page.
-        events, accept = handler_utils.process_post(self.rfile)
-        content, status = self._bakery(handler_utils, events, accept)
-
-        self._response(content, status.code, "text/html")
-
-    # -----------------------------------------------------------------------
 
     def do_POST(self) -> None:
         """Prepare the response to a POST request.
