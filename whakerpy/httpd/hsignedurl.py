@@ -70,6 +70,59 @@ class SignedURL:
 
     # -----------------------------------------------------------------------
 
+    def configure(self, config: dict, json_key: str = "signed_url") -> dict:
+        """Configure the signed URLs.
+
+        :param config: (dict) Configuration dictionary.
+        :param json_key: (str) Key of the signed URLs list in dict.
+        :raises: TypeError: invalid argument type.
+        :raises: ValueError: dict content is invalid, or json_key is not a str.
+        :return: (dict) Loaded settings: {"ttl": int, "protect": list}.
+
+        """
+        # "signed_url" section must be a dict: it contains secret/ttl/protect/query_keys.
+        _cfg = config.get(json_key, None)
+
+        # If missing: SignedURL disabled => reset and return empty config.
+        if _cfg is None:
+            self.__secret = None
+            self.__ts_key = ""
+            self.__sig_key = ""
+            return {"ttl": None, "protect": []}
+
+        if isinstance(_cfg, dict) is False:
+            raise TypeError(f"JSON key '{json_key}' must be a dict.")
+
+        # Extract data
+        # ------------
+        # Required values.
+        _secret = _cfg.get("secret", "")
+        self.check_non_empty_string(_secret)
+        _ttl_seconds = _cfg.get("ttl")
+        self.check_ttl_seconds(_ttl_seconds)
+        _protect = _cfg.get("protect")
+        if isinstance(_protect, (list, tuple)) is False:
+            raise ValueError("signed_url.protect must be a list.")
+
+        # Optional: override query parameter names for ts/sig.
+        _query_keys = _cfg.get("query_keys", {})
+        if isinstance(_query_keys, dict) is False:
+            raise ValueError("signed_url.query_keys must be a dict.")
+        ts_key = _query_keys.get("ts", self.__ts_key)
+        self.check_non_empty_string(ts_key)
+        sig_key = _query_keys.get("sig", self.__sig_key)
+        self.check_non_empty_string(sig_key)
+
+        # Apply config to this instance (stateless: only updates local fields).
+        self.__secret = _secret.encode("utf-8")
+        self.__ts_key = ts_key
+        self.__sig_key = sig_key
+
+        # Return non-secret settings for the caller (guard/application).
+        return {"ttl": _ttl_seconds, "protect": _protect}
+
+    # -----------------------------------------------------------------------
+
     def load(self, filepath: str, json_key: str = "signed_url") -> dict:
         """Load signed URL configuration entries from a file.
 
@@ -79,7 +132,7 @@ class SignedURL:
         :param json_key: (str) Key of the signed URLs dict in JSON files.
         :raises: TypeError: invalid argument type.
         :raises: IOError: file does not exist.
-        :raises: ValueError: JSON content is invalid, or json_key is not a dict.
+        :raises: ValueError: JSON content is invalid, or json_key is not a str.
         :return: (dict) Loaded settings: {"ttl": int, "protect": list}.
 
         """
@@ -287,46 +340,7 @@ class SignedURL:
         if isinstance(_section, dict) is False:
             raise TypeError("JSON key 'WhakerPy' must be a dict.")
 
-        # "signed_url" section must be a dict: it contains secret/ttl/protect/query_keys.
-        _cfg = _section.get(json_key, None)
-
-        # If missing: SignedURL disabled => reset and return empty config.
-        if _cfg is None:
-            self.__secret = None
-            self.__ts_key = ""
-            self.__sig_key = ""
-            return {"ttl": None, "protect": []}
-
-        if isinstance(_cfg, dict) is False:
-            raise TypeError(f"JSON key '{json_key}' must be a dict.")
-
-        # Extract data
-        # ------------
-        # Required values.
-        _secret = _cfg.get("secret", "")
-        self.check_non_empty_string(_secret)
-        _ttl_seconds = _cfg.get("ttl")
-        self.check_ttl_seconds(_ttl_seconds)
-        _protect = _cfg.get("protect")
-        if isinstance(_protect, (list, tuple)) is False:
-            raise ValueError("signed_url.protect must be a list.")
-
-        # Optional: override query parameter names for ts/sig.
-        _query_keys = _cfg.get("query_keys", {})
-        if isinstance(_query_keys, dict) is False:
-            raise ValueError("signed_url.query_keys must be a dict.")
-        ts_key = _query_keys.get("ts", self.__ts_key)
-        self.check_non_empty_string(ts_key)
-        sig_key = _query_keys.get("sig", self.__sig_key)
-        self.check_non_empty_string(sig_key)
-
-        # Apply config to this instance (stateless: only updates local fields).
-        self.__secret = _secret.encode("utf-8")
-        self.__ts_key = ts_key
-        self.__sig_key = sig_key
-
-        # Return non-secret settings for the caller (guard/application).
-        return {"ttl": _ttl_seconds, "protect": _protect}
+        return self.configure(_section)
 
     # -----------------------------------------------------------------------
 

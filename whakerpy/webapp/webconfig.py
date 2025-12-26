@@ -38,7 +38,6 @@ import json
 
 from ..htmlmaker import HTMLTree
 from ..httpd import BaseResponseRecipe
-from ..httpd import SignedURL
 
 from .webresponse import WebSiteResponse
 
@@ -85,9 +84,10 @@ class WebSiteData:
         self._description = ""
         # Information of each page: filename, title, body main filename
         self._pages = dict()
-        # SignedURL are disabled (ttl=None, protect=[]) by default
-        self.__signed_url = SignedURL()
-        self.__signed_url_cfg = {"ttl": None, "protect": []}
+
+        # Stored sections of the configuration -- if any
+        self.signed_url = None
+        self.blacklist = None
 
         # Load configuration from a JSON file
         if json_filename is not None:
@@ -104,14 +104,10 @@ class WebSiteData:
                 if self._default == "":
                     self._default = name
 
-            # Load optional SignedURL configuration.
-            # If missing or invalid, SignedURL stays disabled (ttl=None, protect=[]).
-            try:
-                self.__signed_url_cfg = self.__signed_url.load(json_filename, json_key="signed_url")
-                logging.debug(" >>>>>>> WebSiteData loaded signed URLs configuration successfully.")
-            except:
-                self.__signed_url_cfg = {"ttl": None, "protect": []}
-                logging.debug(" >>>>>>> WebSiteData failed to load signed URLs configuration.")
+            if "blacklist" in section:
+                self.blacklist = section["blacklist"]
+            if "signed_url" in section:
+                self.signed_url = section["signed_url"]
 
         else:
             logging.debug("WebSiteData with NO given JSON config filename.")
@@ -240,7 +236,6 @@ class WebSiteData:
         :param web_response: (BaseResponseRecipe) the class to used to create the pages,
                             WebSiteResponse class used by default
         :param default_path: (str) None by default, the default path for all pages
-
         :return: (dict) a dictionary with key = page name and value = the response object
 
         """
@@ -252,33 +247,6 @@ class WebSiteData:
             pages[page_name] = web_response(page_path, tree)
 
         return pages
-
-    # -----------------------------------------------------------------------
-
-    def href(self, path: str) -> str:
-        """Return a link to the given path.
-
-        If signed URLs are enabled, this method returns a signed URL.
-        Otherwise, it returns the path unchanged.
-
-        :param path: (str) URL path, like '/sample_123.html'.
-        :return: (str) A URL (signed or unchanged).
-
-        """
-        if type(path) is not str:
-            raise TypeError("WebSiteData href path must be a string.")
-        if len(path) == 0:
-            raise ValueError("WebSiteData href path must not be empty.")
-
-        ttl_seconds = self.__signed_url_cfg.get("ttl", None)
-        if ttl_seconds is None:
-            return path
-
-        protect = self.__signed_url_cfg.get("protect", [])
-        if self.__signed_url.match_protect(path, protect) is False:
-            return path
-
-        return self.__signed_url.sign(path, ttl_seconds)
 
     # -----------------------------------------------------------------------
 
@@ -298,7 +266,8 @@ class WebSiteData:
     # Private
     # -----------------------------------------------------------------------
 
-    def __get_json_whakerpy_section(self, filename):
+    @staticmethod
+    def __get_json_whakerpy_section(filename: str):
         """Return the configuration section related to WhakerPy.
 
         - Look for a top‐level "WhakerPy" key (new format).

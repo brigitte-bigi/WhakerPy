@@ -34,8 +34,7 @@
 import http.server
 
 from .hutils import HTTPDHandlerUtils
-from .hblacklist import Blacklist
-from .hsignedurl import SignedURL
+from .hpolicy import HTTPDPolicy
 
 # ---------------------------------------------------------------------------
 
@@ -70,73 +69,30 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
         super(BaseHTTPDServer, self).__init__(*args, **kwargs)
         self._pages = dict()
         self._default = "index.html"
-
-        # Persistent set of URL paths to reject early in the handler.
-        self._blacklist = Blacklist()
-        if "blacklist" in kwargs:
-            self._blacklist.load(kwargs["blacklist"])
-
-        # Signed URLs
-        self._signed_url = SignedURL()
-        self.__signed_url_cfg = {"ttl": None, "protect": []}
-        if "signed_url" in kwargs:
-            self.__signed_url_cfg = self._signed_url.load(kwargs["signed_url"])
+        self._policy = HTTPDPolicy()
+        self._policy.configure({
+            "blacklist": kwargs.get("blacklist", None),
+            "signed_url": kwargs.get("signed_url", None)
+        })
 
     # -----------------------------------------------------------------------
 
-    def match_blacklist(self, url: str) -> bool:
-        """Return True if the given URL path matches the blacklist.
+    def policy_check(self, path: str, query_string: str, headers) -> tuple:
+        """Check the request against policies and return decision and response.
 
-        The matching rules are:
-            - exact match
-            - parent path match (prefix, by path segments)
+        Returned values are:
+            - allowed: (bool) True if request is accepted
+            - content: (bytes|None) HTML bytes if rejected, otherwise None
+            - status: (HTTPDStatus|None) Status if rejected, otherwise None
+            - mime_type: (str|None) Mime if rejected, otherwise None
 
-        The URL can include a query string; it is ignored.
-
-        :param url: (str) URL path, like '/bot.html' or '/admin/page.html'.
-        :raises: TypeError: if url is not a string.
-        :return: (bool) True if blacklisted, False otherwise.
-
-        """
-        return self._blacklist.match(url)
-
-    # -----------------------------------------------------------------------
-
-    def match_protect(self, path: str, protect: list) -> bool:
-        """Return True if the given path must be protected by a signed URL.
-
-        Protection rules are defined as a list of dict:
-            {"prefix": "...", "suffix": "..."}
-
-        :param path: (str) URL path (with or without leading slash).
-        :param protect: (list) Protection rules.
-        :return: (bool)
+        :param path: (str) Normalized URL path (without query).
+        :param query_string: (str) Raw query string (without '?').
+        :param headers: (Any) Request headers or environ. Must support ".get(...)".
+        :return: (tuple) (allowed, content, status, mime_type)
 
         """
-        return self._signed_url.match_protect(path, protect)
-
-    # -----------------------------------------------------------------------
-
-    def verify_signed_url(self, path: str, query_string: str) -> bool:
-        """Return True if the request is allowed regarding signed URLs.
-
-        If ttl is None, signed URLs are disabled.
-        If the path is not protected, allow.
-        If protected, verify signature and TTL.
-
-        :param path: (str) URL path (with or without leading slash).
-        :param query_string: (str) Raw query string (example: 'ts=...&sig=...').
-
-        """
-        ttl = self.__signed_url_cfg.get("ttl", None)
-        if ttl is None:
-            return True
-
-        protect = self.__signed_url_cfg.get("protect", [])
-        if self.match_protect(path, protect) is False:
-            return True
-
-        return self._signed_url.verify(path, query_string, ttl)
+        return self._policy.check(path, query_string, headers)
 
     # -----------------------------------------------------------------------
     # The pages this server is serving

@@ -60,13 +60,11 @@ key/values:
 
 import os
 import types
-import logging
 
 from ..httpd import HTTPDStatus
 from ..httpd import HTTPDHandlerUtils
 from ..httpd import BaseResponseRecipe
-from ..httpd import Blacklist
-from ..httpd.hsignedurl import SignedURL
+from ..httpd import HTTPDPolicy
 
 from .webconfig import WebSiteData
 from .webresponse import WebSiteResponse
@@ -98,25 +96,24 @@ class WSGIApplication(object):
         """
         self.__default_path = default_path
         self.__default_file = default_filename
-        self.__blacklist = Blacklist()
-        self.__signed_url = SignedURL()
-        self.__signed_url_cfg = {"ttl": None, "protect": []}
+        self.__policy = HTTPDPolicy()
 
         web_json_path = None
         if default_web_json is not None:
             web_json_path = os.path.join(self.__default_path, default_web_json)
         self.__dynamic_pages = (web_page_maker, web_json_path)
+        if hasattr(self.__dynamic_pages[0], 'bake_response'):
+            self.__web_site_data = self.__dynamic_pages[0](self.__dynamic_pages[1])
+        else:
+            self.__web_site_data = WebSiteData(self.__dynamic_pages[1])
         self._pages = dict()
 
         if default_web_json is not None:
-            try:
-                self.__blacklist.load(self.__dynamic_pages[1], json_key='blacklist')
-            except Exception as e:
-                logging.error(f"Blacklist disabled: {e}")
-            try:
-                self.__signed_url_cfg = self.__signed_url.load(self.__dynamic_pages[1], json_key='signed_url')
-            except Exception as e:
-                logging.error(f"Signed URLs disabled: {e}")
+            self.__policy.configure(
+                {
+                "blacklist": self.__web_site_data.blacklist,
+                "signed_url": self.__web_site_data.signed_url
+                })
 
     # -----------------------------------------------------------------------
 
@@ -143,16 +140,8 @@ class WSGIApplication(object):
         filepath = filepath.replace("//", "/")
         page_name = handler_utils.get_page_name()
 
-        # Check immediately for a blacklisted URL
-        content, status, headers = self.__reject_blacklist(requested_path, environ, filepath)
+        content = self.__check_policy_compliance(requested_path, filepath, environ, start_response)
         if content is not None:
-            start_response(repr(status), headers)
-            return [content]
-
-        # Check for a signed URL
-        content, status, headers = self.__reject_unsigned(environ, handler_utils, filepath, requested_path)
-        if content is not None:
-            start_response(repr(status), headers)
             return [content]
 
         # If the requested file is a static one
@@ -219,15 +208,11 @@ class WSGIApplication(object):
         web_data = self.__dynamic_pages[0]
 
         if hasattr(web_data, 'bake_response'):
-            data = web_data(self.__dynamic_pages[1])
-            page = data.bake_response(page_name, default=self.__default_path)
-
+            page = self.__web_site_data.bake_response(page_name, default=self.__default_path)
             if page is not None:
                 self._pages[page_name] = page
-
         else:
-            data = WebSiteData(self.__dynamic_pages[1])
-            if page_name in data:
+            if page_name in self.__web_site_data:
                 self._pages[page_name] = web_data(page_name)
 
     # -----------------------------------------------------------------------
@@ -253,58 +238,19 @@ class WSGIApplication(object):
 
     # ---------------------------------------------------------------------------
 
-    def __reject_blacklist(self, requested_path: str, environ: dict, filepath: str):
-        """Reject requests matching blacklist rules.
-
-        :param environ: (dict) WSGI environment.
-        :param filepath: (str) Resolved file path (used for headers).
-        :return: (tuple) (content, status, headers) or (None, None, None).
-
-        """
-        user_agent = environ.get("HTTP_USER_AGENT", "")
-
-        if self.__blacklist.match(requested_path) is True or self.__blacklist.match(user_agent) is True:
-            logging.warning(f"Blacklisted agent {user_agent} and/or url {requested_path}.")
-            content, status = HTTPDHandlerUtils.blacklisted_page_answer()
+    def __check_policy_compliance(self, requested_path: str, filepath: str, environ: dict, start_response):
+        query = environ.get("QUERY_STRING", "")
+        allowed, content, status, mime = self.__policy.check(requested_path, query, environ)
+        if allowed is False:
             headers = HTTPDHandlerUtils.build_default_headers(
-                filepath, content, browser_cache=False, varnish=False
+                filepath,
+                content,
+                browser_cache=False,
+                varnish=False
             )
-            return content, status, headers
-
-        return None, None, None
-
-    # ---------------------------------------------------------------------------
-
-    def __reject_unsigned(self, environ: dict, handler_utils, filepath: str, requested_path: str):
-        """Reject requests that require a signed URL but do not verify.
-
-        If signed URLs are disabled (ttl is None), do not reject.
-
-        :param environ: (dict) WSGI environment.
-        :param handler_utils: (HTTPDHandlerUtils) Built from environ.
-        :param filepath: (str) Resolved file path (used for headers).
-        :param requested_path: (str) URL path without query.
-        :return: (tuple) (content, status, headers) or (None, None, None).
-
-        """
-        ttl_seconds = self.__signed_url_cfg.get("ttl", None)
-        protect = self.__signed_url_cfg.get("protect", [])
-
-        if ttl_seconds is None:
-            return None, None, None
-
-        if self.__signed_url.match_protect(requested_path, protect) is False:
-            return None, None, None
-
-        query_string = environ.get("QUERY_STRING", "")
-        if self.__signed_url.verify(requested_path, query_string, ttl_seconds) is True:
-            return None, None, None
-
-        content, status = HTTPDHandlerUtils.signed_url_page_answer()
-        headers = HTTPDHandlerUtils.build_default_headers(
-            filepath, content, browser_cache=False, varnish=False
-        )
-        return content, status, headers
+            start_response(repr(status), headers)
+            return content
+        return None
 
     # ---------------------------------------------------------------------------
     # Overloads

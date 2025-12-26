@@ -32,8 +32,6 @@
 
 from __future__ import annotations
 
-from typing import Any
-
 from .hblacklist import Blacklist
 from .hsignedurl import SignedURL
 from .hutils import HTTPDHandlerUtils
@@ -57,7 +55,9 @@ class HTTPDPolicy:
         """Create the policy with default (disabled) configuration.
         
         """
+        # Persistent set of URL paths to reject early in the handler.
         self.__blacklist = Blacklist()
+        # Signed URLs
         self.__signed_url = SignedURL()
 
         self.__blacklist_enabled = False
@@ -81,29 +81,29 @@ class HTTPDPolicy:
             raise TypeError("HTTPDPolicy.configure: config must be a dict.")
 
         self.__blacklist_enabled = False
-        if "blacklist" in config:
-            self.__blacklist.load(config["blacklist"])
+        if "blacklist" in config and config["blacklist"] is not None:
+            self.__blacklist.configure(config, "blacklist")
             self.__blacklist_enabled = True
 
         self.__signed_url_cfg = {"ttl": None, "protect": []}
-        if "signed_url" in config:
-            self.__signed_url_cfg = self.__signed_url.load(config["signed_url"])
+        if "signed_url" in config and config["signed_url"] is not None:
+            self.__signed_url_cfg = self.__signed_url.configure(config, "signed_url")
 
     # -----------------------------------------------------------------------
 
-    def check(self, path: str, query_string: str, headers: Any) -> tuple:
+    def check(self, path: str, query_string: str, headers) -> tuple:
         """Check the request against policies and return decision and response.
 
-        :param path: (str) Normalized URL path (without query).
-        :param query_string: (str) Raw query string (without '?').
-        :param headers: (Any) Request headers or environ. Must support ".get(...)".
-        :return: (tuple)
-            (allowed, content, status, mime_type)
-
+        Returned values are:
             - allowed: (bool) True if request is accepted
             - content: (bytes|None) HTML bytes if rejected, otherwise None
             - status: (HTTPDStatus|None) Status if rejected, otherwise None
             - mime_type: (str|None) Mime if rejected, otherwise None
+
+        :param path: (str) Normalized URL path (without query).
+        :param query_string: (str) Raw query string (without '?').
+        :param headers: (Any) Request headers or environ. Must support ".get(...)".
+        :return: (tuple) (allowed, content, status, mime_type)
 
         """
         if type(path) is not str:
@@ -134,7 +134,7 @@ class HTTPDPolicy:
     # Private
     # -----------------------------------------------------------------------
 
-    def _get_user_agent(self, headers: Any) -> str:
+    def _get_user_agent(self, headers) -> str:
         """Extract User-Agent from headers/environ.
 
         :param headers: (Any) Object or dict supporting get().

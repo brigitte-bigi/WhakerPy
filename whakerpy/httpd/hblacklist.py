@@ -64,6 +64,51 @@ class Blacklist:
 
     # -----------------------------------------------------------------------
 
+    def configure(self, config: dict, json_key: str = "blacklist") -> int:
+        """Configure the blacklist.
+
+        :param config: (dict) Configuration dictionary.
+        :param json_key: (str) Key of the blacklist list in JSON files.
+        :return: (int) Number of blacklisted URLs.
+
+        """
+        items = config.get(json_key, [])
+        if isinstance(items, list) is False:
+            raise TypeError(f"JSON key '{json_key}' must be a list.")
+
+        out: set[str] = set()
+        for it in items:
+            if isinstance(it, str) is True and len(it) > 0:
+                out.add(it)
+                logging.info("Blacklisted entry '" + it + "'")
+
+        self.__blacklist = out
+        return len(out)
+
+    # -----------------------------------------------------------------------
+
+    def match(self, value: str) -> bool:
+        """Return True if a blacklist entry is found inside the given string.
+
+        This method is intended for headers like User-Agent.
+        Each blacklist entry is a plain string token.
+        Matching rule: substring search.
+
+        :param value: (str) A string to test (example: a User-Agent header).
+        :return: (bool) True if blacklisted, False otherwise.
+
+        """
+        if type(value) is not str:
+            raise TypeError("Value must be a string.")
+
+        for entry in self.__blacklist:
+            if entry in value:
+                return True
+
+        return False
+
+    # -----------------------------------------------------------------------
+
     def load(self, filepath: str, json_key: str = "blacklist") -> int:
         """Load blacklist entries from a file.
 
@@ -87,28 +132,6 @@ class Blacklist:
             return self.__load_json(filepath, json_key)
 
         return self.__load_text(filepath)
-
-    # -----------------------------------------------------------------------
-
-    def match(self, value: str) -> bool:
-        """Return True if a blacklist entry is found inside the given string.
-
-        This method is intended for headers like User-Agent.
-        Each blacklist entry is a plain string token.
-        Matching rule: substring search.
-
-        :param value: (str) A string to test (example: a User-Agent header).
-        :return: (bool) True if blacklisted, False otherwise.
-
-        """
-        if type(value) is not str:
-            raise TypeError("Value must be a string.")
-
-        for entry in self.__blacklist:
-            if entry in value:
-                return True
-
-        return False
 
     # -----------------------------------------------------------------------
     # Overloads
@@ -158,16 +181,4 @@ class Blacklist:
         if isinstance(_section, dict) is False:
             raise TypeError("JSON key 'WhakerPy' must be a dict.")
 
-        # Then search for the "blacklist" section in the "WhakerPy" section.
-        items = _section.get(json_key, [])
-        if isinstance(items, list) is False:
-            raise TypeError(f"JSON key '{json_key}' must be a list.")
-
-        out: set[str] = set()
-        for it in items:
-            if isinstance(it, str) is True and len(it) > 0:
-                out.add(it)
-                logging.info("Blacklisted entry '" + it + "'")
-
-        self.__blacklist = out
-        return len(out)
+        return self.configure(_section)
