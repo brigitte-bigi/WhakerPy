@@ -35,6 +35,8 @@ from __future__ import annotations
 import hashlib
 import hmac
 import time
+import os
+import json
 from urllib.parse import parse_qs
 
 # ---------------------------------------------------------------------------
@@ -58,28 +60,72 @@ class SignedURL:
 
     """
 
-    def __init__(self, secret: str, ts_key: str = "ts", sig_key: str = "sig"):
+    def __init__(self):
         """Create the SignedURL helper.
 
-        :param secret: (str) Secret used to sign URLs. Must remain private.
-        :param ts_key: (str) Query parameter name for the timestamp.
-        :param sig_key: (str) Query parameter name for the signature.
+        """
+        self.__secret = None
+        self.__ts_key = ""
+        self.__sig_key = ""
+
+    # -----------------------------------------------------------------------
+
+    def load(self, filepath: str, json_key: str = "signed_url") -> dict:
+        """Load signed URL configuration entries from a file.
+
+        Entries are loaded from the given json_key.
+
+        :param filepath: (str) Path of the file.
+        :param json_key: (str) Key of the signed URLs dict in JSON files.
+        :raises: TypeError: invalid argument type.
+        :raises: IOError: file does not exist.
+        :raises: ValueError: JSON content is invalid, or json_key is not a dict.
+        :return: (dict) Loaded settings: {"ttl": int, "protect": list}.
 
         """
-        if type(secret) is not str:
-            raise TypeError("SignedURL secret must be a string.")
-        if len(secret) == 0:
-            raise ValueError("SignedURL secret must not be empty.")
-        if type(ts_key) is not str:
-            raise TypeError("SignedURL ts_key must be a string.")
-        if type(sig_key) is not str:
-            raise TypeError("SignedURL sig_key must be a string.")
-        if len(ts_key) == 0 or len(sig_key) == 0:
-            raise ValueError("SignedURL keys must not be empty.")
+        self.check_non_empty_string(filepath)
+        self.check_non_empty_string(json_key)
+        if os.path.exists(filepath) is False:
+            raise IOError(f"SignedURL configuration file {filepath} does not exist.")
 
-        self.__secret = secret.encode("utf-8")
-        self.__ts_key = ts_key
-        self.__sig_key = sig_key
+        # Delegate JSON parsing/validation to a single private method.
+        # It updates __secret/__ts_key/__sig_key and returns ttl/protect.
+        return self.__load_json(filepath, json_key)
+
+    # -----------------------------------------------------------------------
+
+    def match_protect(self, path: str, protect: list) -> bool:
+        """Return True if the given path must be protected by a signed URL.
+
+        Protection rules are defined as a list of dict:
+            {"prefix": "...", "suffix": "..."}
+
+        :param path: (str) URL path (with or without leading slash).
+        :param protect: (list) Protection rules.
+        :return: (bool)
+
+        """
+        if type(path) is not str:
+            raise TypeError("SignedURL path must be a string.")
+        if isinstance(protect, (list, tuple)) is False:
+            raise TypeError("SignedURL protect must be a list.")
+
+        normalized_path = self.__normalize_path(path)
+
+        for rule in protect:
+            if isinstance(rule, dict) is False:
+                continue
+
+            prefix = rule.get("prefix", "")
+            suffix = rule.get("suffix", "")
+
+            if type(prefix) is not str or type(suffix) is not str:
+                continue
+
+            if normalized_path.startswith(prefix) and normalized_path.endswith(suffix):
+                return True
+
+        return False
 
     # -----------------------------------------------------------------------
 
@@ -88,15 +134,16 @@ class SignedURL:
 
         :param path: (str) URL path (example: 'text_123.html').
         :param ttl_seconds: (int) Lifetime in seconds. The timestamp is "now".
+        :raises: TypeError: invalid argument type.
+        :raises: ValueError: invalid argument value.
         :return: (str) Signed URL (path + query).
 
         """
-        if type(path) is not str:
-            raise TypeError("SignedURL path must be a string.")
-        if type(ttl_seconds) is not int:
-            raise TypeError("SignedURL ttl_seconds must be an int.")
-        if ttl_seconds <= 0:
-            raise ValueError("SignedURL ttl_seconds must be > 0.")
+        if self.__secret is None:
+            raise ValueError("SignedURL is not configured (secret is missing).")
+
+        self.check_non_empty_string(path)
+        self.check_ttl_seconds(ttl_seconds)
 
         normalized_path = self.__normalize_path(path)
         now_ts = int(time.time())
@@ -119,14 +166,14 @@ class SignedURL:
         :return: (bool) True if valid, False otherwise.
 
         """
+        if self.__secret is None:
+            raise ValueError("SignedURL is not configured (secret is missing).")
+
         if type(path) is not str:
             raise TypeError("SignedURL path must be a string.")
         if type(query_string) is not str:
             raise TypeError("SignedURL query_string must be a string.")
-        if type(ttl_seconds) is not int:
-            raise TypeError("SignedURL ttl_seconds must be an int.")
-        if ttl_seconds <= 0:
-            raise ValueError("SignedURL ttl_seconds must be > 0.")
+        self.check_ttl_seconds(ttl_seconds)
 
         normalized_path = self.__normalize_path(path)
 
@@ -157,10 +204,14 @@ class SignedURL:
             p = p.replace("//", "/")
         return p
 
+    # -----------------------------------------------------------------------
+
     def __hmac_signature(self, path: str, unix_ts: int) -> str:
         payload = "{:s}\n{:d}".format(path, unix_ts).encode("utf-8")
         digest = hmac.new(self.__secret, payload, hashlib.sha256).hexdigest()
         return digest
+
+    # -----------------------------------------------------------------------
 
     def __extract_ts_sig(self, query_string: str) -> tuple[int | None, str | None]:
         if len(query_string) == 0:
@@ -193,3 +244,105 @@ class SignedURL:
             return None, None
 
         return ts_value, sig_raw
+
+    # -----------------------------------------------------------------------
+
+    def __load_json(self, filepath: str, json_key: str) -> dict:
+        """Load signed URL configuration from a JSON file.
+
+        It reads config values and updates this instance fields.
+        Expected JSON structure:
+            {
+                "WhakerPy": {
+                    "signed_url": {
+                        "secret": "...",
+                        "ttl": 3600,
+                        "protect": [...],
+                        "query_keys": {"ts": "ts", "sig": "sig"}
+                    }
+                }
+            }
+
+        :param filepath:
+        :param json_key:
+        :raises: ValueError:
+        :raises: KeyError:
+        :raises: TypeError:
+        :return: (dict)   {"ttl": <int>, "protect": <list>}
+
+        """
+        with open(filepath, "r", encoding="utf-8") as fp:
+            try:
+                _full_data = json.load(fp)
+            except json.JSONDecodeError as e:
+                raise ValueError(f"Invalid JSON file: {filepath}") from e
+
+        # "WhakerPy" top-level section is mandatory for all WhakerPy web configs.
+        if "WhakerPy" not in _full_data:
+            # Introduced in WhakerPy 1.2
+            raise KeyError(
+                f"{filepath!r} is missing the required 'WhakerPy' section."
+            )
+        _section = _full_data["WhakerPy"]
+        if isinstance(_section, dict) is False:
+            raise TypeError("JSON key 'WhakerPy' must be a dict.")
+
+        # "signed_url" section must be a dict: it contains secret/ttl/protect/query_keys.
+        _cfg = _section.get(json_key, None)
+
+        # If missing: SignedURL disabled => reset and return empty config.
+        if _cfg is None:
+            self.__secret = None
+            self.__ts_key = ""
+            self.__sig_key = ""
+            return {"ttl": None, "protect": []}
+
+        if isinstance(_cfg, dict) is False:
+            raise TypeError(f"JSON key '{json_key}' must be a dict.")
+
+        # Extract data
+        # ------------
+        # Required values.
+        _secret = _cfg.get("secret", "")
+        self.check_non_empty_string(_secret)
+        _ttl_seconds = _cfg.get("ttl")
+        self.check_ttl_seconds(_ttl_seconds)
+        _protect = _cfg.get("protect")
+        if isinstance(_protect, (list, tuple)) is False:
+            raise ValueError("signed_url.protect must be a list.")
+
+        # Optional: override query parameter names for ts/sig.
+        _query_keys = _cfg.get("query_keys", {})
+        if isinstance(_query_keys, dict) is False:
+            raise ValueError("signed_url.query_keys must be a dict.")
+        ts_key = _query_keys.get("ts", self.__ts_key)
+        self.check_non_empty_string(ts_key)
+        sig_key = _query_keys.get("sig", self.__sig_key)
+        self.check_non_empty_string(sig_key)
+
+        # Apply config to this instance (stateless: only updates local fields).
+        self.__secret = _secret.encode("utf-8")
+        self.__ts_key = ts_key
+        self.__sig_key = sig_key
+
+        # Return non-secret settings for the caller (guard/application).
+        return {"ttl": _ttl_seconds, "protect": _protect}
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def check_ttl_seconds(value: int):
+        if type(value) is not int:
+            raise TypeError("SignedURL ttl_seconds must be an int.")
+        if value <= 0:
+            raise ValueError("SignedURL ttl_seconds must be > 0.")
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def check_non_empty_string(value: str):
+        if type(value) is not str:
+            raise TypeError(f"Given '{value}' must be a string.")
+        if len(value) == 0:
+            raise ValueError(f"Given '{value}' must be non-empty.")
+

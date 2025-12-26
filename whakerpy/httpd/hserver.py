@@ -35,6 +35,8 @@ import http.server
 
 from .hutils import HTTPDHandlerUtils
 from .hblacklist import Blacklist
+from .. import SignedURL
+
 
 # ---------------------------------------------------------------------------
 
@@ -75,6 +77,12 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
         if "blacklist" in kwargs:
             self._blacklist.load(kwargs["blacklist"])
 
+        # Signed URLs
+        self._signed_url = SignedURL()
+        self.__signed_url_cfg = {"ttl": None, "protect": []}
+        if "signed_url" in kwargs:
+            self.__signed_url_cfg = self._signed_url.load(kwargs["signed_url"])
+
     # -----------------------------------------------------------------------
 
     def match_blacklist(self, url: str) -> bool:
@@ -92,6 +100,21 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
 
         """
         return self._blacklist.match(url)
+
+    # -----------------------------------------------------------------------
+
+    def match_protect(self, path: str, protect: list) -> bool:
+        """Return True if the given path must be protected by a signed URL.
+
+        Protection rules are defined as a list of dict:
+            {"prefix": "...", "suffix": "..."}
+
+        :param path: (str) URL path (with or without leading slash).
+        :param protect: (list) Protection rules.
+        :return: (bool)
+
+        """
+        return self._signed_url.match_protect(path, protect)
 
     # -----------------------------------------------------------------------
     # The pages this server is serving

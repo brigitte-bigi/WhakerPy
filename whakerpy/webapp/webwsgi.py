@@ -99,11 +99,24 @@ class WSGIApplication(object):
         self.__default_path = default_path
         self.__default_file = default_filename
         self.__blacklist = Blacklist()
-        self.__dynamic_pages = (web_page_maker, os.path.join(self.__default_path, default_web_json))
+        self.__signed_url = SignedURL()
+        self.__signed_url_cfg = {"ttl": None, "protect": []}
+
+        web_json_path = None
+        if default_web_json is not None:
+            web_json_path = os.path.join(self.__default_path, default_web_json)
+        self.__dynamic_pages = (web_page_maker, web_json_path)
         self._pages = dict()
 
         if default_web_json is not None:
-            self.__blacklist.load(self.__dynamic_pages[1], json_key='blacklist')
+            try:
+                self.__blacklist.load(self.__dynamic_pages[1], json_key='blacklist')
+            except Exception as e:
+                logging.error(f"Blacklist disabled: {e}")
+            try:
+                self.__signed_url_cfg = self.__signed_url.load(self.__dynamic_pages[1], json_key='signed_url')
+            except Exception as e:
+                logging.error(f"Signed URLs disabled: {e}")
 
     # -----------------------------------------------------------------------
 
@@ -131,11 +144,14 @@ class WSGIApplication(object):
         page_name = handler_utils.get_page_name()
 
         # Check immediately for a blacklisted URL
-        user_agent = environ.get('HTTP_USER_AGENT', '')
-        if self.__blacklist.match(requested_path) is True or self.__blacklist.match(user_agent) is True:
-            logging.warning(f"Blacklisted agent {user_agent} and/or url {requested_path}.")
-            content, status = HTTPDHandlerUtils.blacklisted_page_answer()
-            headers = HTTPDHandlerUtils.build_default_headers(filepath, content, browser_cache=False, varnish=False)
+        content, status, headers = self.__reject_blacklist(requested_path, environ, filepath)
+        if content is not None:
+            start_response(repr(status), headers)
+            return [content]
+
+        # Check for a signed URL
+        content, status, headers = self.__reject_unsigned(environ, handler_utils, filepath, requested_path)
+        if content is not None:
             start_response(repr(status), headers)
             return [content]
 
@@ -234,6 +250,62 @@ class WSGIApplication(object):
                 HTTPDHandlerUtils.has_to_return_data(accept)
             )
         return content, status
+
+    # ---------------------------------------------------------------------------
+
+    def __reject_blacklist(self, requested_path: str, environ: dict, filepath: str):
+        """Reject requests matching blacklist rules.
+
+        :param environ: (dict) WSGI environment.
+        :param filepath: (str) Resolved file path (used for headers).
+        :return: (tuple) (content, status, headers) or (None, None, None).
+
+        """
+        user_agent = environ.get("HTTP_USER_AGENT", "")
+
+        if self.__blacklist.match(requested_path) is True or self.__blacklist.match(user_agent) is True:
+            logging.warning(f"Blacklisted agent {user_agent} and/or url {requested_path}.")
+            content, status = HTTPDHandlerUtils.blacklisted_page_answer()
+            headers = HTTPDHandlerUtils.build_default_headers(
+                filepath, content, browser_cache=False, varnish=False
+            )
+            return content, status, headers
+
+        return None, None, None
+
+    # ---------------------------------------------------------------------------
+
+    def __reject_unsigned(self, environ: dict, handler_utils, filepath: str, requested_path: str):
+        """Reject requests that require a signed URL but do not verify.
+
+        If signed URLs are disabled (ttl is None), do not reject.
+
+        :param environ: (dict) WSGI environment.
+        :param handler_utils: (HTTPDHandlerUtils) Built from environ.
+        :param filepath: (str) Resolved file path (used for headers).
+        :param requested_path: (str) URL path without query.
+        :return: (tuple) (content, status, headers) or (None, None, None).
+
+        """
+        ttl_seconds = self.__signed_url_cfg.get("ttl", None)
+        protect = self.__signed_url_cfg.get("protect", [])
+
+        if ttl_seconds is None:
+            return None, None, None
+
+        if self.__signed_url.match_protect(requested_path, protect) is False:
+            return None, None, None
+
+        query_string = environ.get("QUERY_STRING", "")
+        if self.__signed_url.verify(requested_path, query_string, ttl_seconds) is True:
+            return None, None, None
+
+        status = HTTPDStatus(404)
+        content = status.to_html(encode=True, msg_error="This page URL is invalid or has expired.")
+        headers = handler_utils.build_default_headers(
+            filepath, content, browser_cache=False, varnish=False
+        )
+        return content, status, headers
 
     # ---------------------------------------------------------------------------
     # Overloads

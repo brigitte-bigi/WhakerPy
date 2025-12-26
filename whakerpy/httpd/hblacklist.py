@@ -151,15 +151,17 @@ class Blacklist:
         # Search for the WhakerPy section in the JSON config file.
         if "WhakerPy" not in _full_data:
             # Introduced in WhakerPy 1.2
-            raise ValueError(
+            raise KeyError(
                 f"{filepath!r} is missing the required 'WhakerPy' section."
             )
         _section = _full_data["WhakerPy"]
+        if isinstance(_section, dict) is False:
+            raise TypeError("JSON key 'WhakerPy' must be a dict.")
 
         # Then search for the "blacklist" section in the "WhakerPy" section.
         items = _section.get(json_key, [])
         if isinstance(items, list) is False:
-            raise ValueError(f"JSON key '{json_key}' must be a list.")
+            raise TypeError(f"JSON key '{json_key}' must be a list.")
 
         out: set[str] = set()
         for it in items:

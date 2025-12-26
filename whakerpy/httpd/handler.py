@@ -71,7 +71,7 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
         - 200: OK
         - 205: Reset Content
         - 403: Forbidden
-        - 404: Not Found
+        - 404: Not Found -- also used for "expired"
         - 410: Gone
         - 418: I'm a teapot
 
