@@ -35,8 +35,7 @@ import http.server
 
 from .hutils import HTTPDHandlerUtils
 from .hblacklist import Blacklist
-from .. import SignedURL
-
+from .hsignedurl import SignedURL
 
 # ---------------------------------------------------------------------------
 
@@ -115,6 +114,29 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
 
         """
         return self._signed_url.match_protect(path, protect)
+
+    # -----------------------------------------------------------------------
+
+    def verify_signed_url(self, path: str, query_string: str) -> bool:
+        """Return True if the request is allowed regarding signed URLs.
+
+        If ttl is None, signed URLs are disabled.
+        If the path is not protected, allow.
+        If protected, verify signature and TTL.
+
+        :param path: (str) URL path (with or without leading slash).
+        :param query_string: (str) Raw query string (example: 'ts=...&sig=...').
+
+        """
+        ttl = self.__signed_url_cfg.get("ttl", None)
+        if ttl is None:
+            return True
+
+        protect = self.__signed_url_cfg.get("protect", [])
+        if self.match_protect(path, protect) is False:
+            return True
+
+        return self._signed_url.verify(path, query_string, ttl)
 
     # -----------------------------------------------------------------------
     # The pages this server is serving

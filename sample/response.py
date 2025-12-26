@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
-:filename: response.py
+:filename: sample/response.py
 :author: Brigitte Bigi
 :contributor: Florian Lopitaux
 :contact: contact@sppas.org
@@ -10,7 +10,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+    Copyright (C) 2023-2025 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,8 @@ from whakerpy.htmlmaker import HTMLButtonNode
 from whakerpy.htmlmaker import HTMLNavNode
 from whakerpy.httpd import HTTPDStatus
 from whakerpy.httpd import BaseResponseRecipe   # useful for an application
-from whakerpy.webapp import WebSiteResponse    # useful for a webapp
+from whakerpy.webapp import WebSiteResponse     # useful for a webapp
+from whakerpy.httpd import SignedURL
 
 # ---------------------------------------------------------------------------
 
@@ -110,6 +111,13 @@ class SampleNavNode(HTMLNavNode):
             a.set_value(href)
             li.append_child(a)
             ul.append_child(li)
+
+        p = HTMLNode(self.identifier, "p_url", "p",
+                     value="Example of signed URL: ")
+        a = HTMLNode(p.identifier, None, "a", attributes={"href": "sample_123.html", "role": "button"})
+        a.set_value("sample_123.html")
+        p.append_child(a)
+        self.append_child(p)
 
 # ---------------------------------------------------------------------------
 

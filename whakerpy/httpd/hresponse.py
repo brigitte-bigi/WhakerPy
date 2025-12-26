@@ -48,23 +48,38 @@ class BaseResponseRecipe:
     """Base class to create an HTML response content.
 
     """
+    _name = ""
 
-    @staticmethod
-    def page() -> str:
-        """Return the HTML page name. To be overridden."""
-        return "undefined.html"
-
-    # -----------------------------------------------------------------------
-
-    def __init__(self, name="Undefined", tree=None):
+    def __init__(self, name="Undefined", tree=None, **kwargs):
         """Create a new ResponseRecipe instance with a default response.
+
+        :param name: (str) Filename of the body main content or name of the page.
+        :param tree: (HTMLTree|None)
+
+        Optional arguments:
+            - title: (str) The title of the page
+            - description: (str) The description of the page (160 characters max)
 
         """
         # Define members with default values
         self._name = name
+        if name is not None:
+            self._page_name = os.path.basename(name)
+        else:
+            self._name = "undefined"
+            self._page_name = ""
+
         self._status = HTTPDStatus()
         # Data to communicate with client (javascript side)
         self._data = dict()
+
+        # Optional members
+        self._title = ""
+        self._description = ""
+        if "title" in kwargs:
+            self._title = kwargs["title"]
+        if "description" in kwargs:
+            self._description = kwargs["description"]
 
         # Define workers: the HTML bakery
         if tree is not None and isinstance(tree, HTMLTree):
@@ -74,6 +89,27 @@ class BaseResponseRecipe:
 
         # Fill-in the tree with nodes
         self.create()
+
+    # ---------------------------------------------------------------------------
+    # PUBLIC STATIC METHODS
+    # ---------------------------------------------------------------------------
+
+    @classmethod
+    def page(cls):
+        """Return the current HTML body->main filename or an empty string."""
+        return cls._name
+
+    # -----------------------------------------------------------------------
+    # Getters
+    # -----------------------------------------------------------------------
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def status(self) -> HTTPDStatus:
+        return self._status
 
     # -----------------------------------------------------------------------
 
@@ -102,16 +138,22 @@ class BaseResponseRecipe:
         self._data = dict()
 
     # -----------------------------------------------------------------------
-    # Getters
+
+    def get_pagename(self) -> str:
+        """Return the name of the HTML page as seen in the URL."""
+        return self._page_name
+
     # -----------------------------------------------------------------------
 
-    @property
-    def name(self) -> str:
-        return self._name
+    def set_pagename(self, page_name: str):
+        """Set the name of this page as seen in the url.
 
-    @property
-    def status(self) -> HTTPDStatus:
-        return self._status
+        :param page_name: (str) Name of the HTML page.
+
+        """
+        if type(page_name) is not str:
+            raise TypeError("Page name must be a string.")
+        self._page_name = page_name
 
     # -----------------------------------------------------------------------
     # Convenient methods to add HTML nodes in the body part of the tree

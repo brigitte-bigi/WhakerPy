@@ -38,6 +38,7 @@ import json
 
 from ..htmlmaker import HTMLTree
 from ..httpd import BaseResponseRecipe
+from ..httpd import SignedURL
 
 from .webresponse import WebSiteResponse
 
@@ -80,10 +81,15 @@ class WebSiteData:
         self._main_path = ""
         # Filename of the default page
         self._default = ""
-
+        # Short description
+        self._description = ""
         # Information of each page: filename, title, body main filename
         self._pages = dict()
+        # SignedURL are disabled (ttl=None, protect=[]) by default
+        self.__signed_url = SignedURL()
+        self.__signed_url_cfg = {"ttl": None, "protect": []}
 
+        # Load configuration from a JSON file
         if json_filename is not None:
             section = self.__get_json_whakerpy_section(json_filename)
             self._main_path = section["pagespath"]
@@ -97,6 +103,16 @@ class WebSiteData:
                 # First non-default page
                 if self._default == "":
                     self._default = name
+
+            # Load optional SignedURL configuration.
+            # If missing or invalid, SignedURL stays disabled (ttl=None, protect=[]).
+            try:
+                self.__signed_url_cfg = self.__signed_url.load(json_filename, json_key="signed_url")
+                logging.debug(" >>>>>>> WebSiteData loaded signed URLs configuration successfully.")
+            except:
+                self.__signed_url_cfg = {"ttl": None, "protect": []}
+                logging.debug(" >>>>>>> WebSiteData failed to load signed URLs configuration.")
+
         else:
             logging.debug("WebSiteData with NO given JSON config filename.")
 
@@ -172,6 +188,22 @@ class WebSiteData:
 
     # -----------------------------------------------------------------------
 
+    def short_description(self, page: str) -> str:
+        """Return the short description of a given page.
+
+        :param page: (str) Name of an HTML page
+        :return: (str) Filled or empty description (less than 160 characters)
+
+        """
+        if page in self._pages:
+            if "description" in self._pages[page]:
+                d = self._pages[page]["description"].strip()
+                return d[:160]
+
+        return ""
+
+    # -----------------------------------------------------------------------
+
     def has_header(self, page: str) -> bool:
         """Return True if the given page should have the header.
 
@@ -220,6 +252,33 @@ class WebSiteData:
             pages[page_name] = web_response(page_path, tree)
 
         return pages
+
+    # -----------------------------------------------------------------------
+
+    def href(self, path: str) -> str:
+        """Return a link to the given path.
+
+        If signed URLs are enabled, this method returns a signed URL.
+        Otherwise, it returns the path unchanged.
+
+        :param path: (str) URL path, like '/sample_123.html'.
+        :return: (str) A URL (signed or unchanged).
+
+        """
+        if type(path) is not str:
+            raise TypeError("WebSiteData href path must be a string.")
+        if len(path) == 0:
+            raise ValueError("WebSiteData href path must not be empty.")
+
+        ttl_seconds = self.__signed_url_cfg.get("ttl", None)
+        if ttl_seconds is None:
+            return path
+
+        protect = self.__signed_url_cfg.get("protect", [])
+        if self.__signed_url.match_protect(path, protect) is False:
+            return path
+
+        return self.__signed_url.sign(path, ttl_seconds)
 
     # -----------------------------------------------------------------------
 

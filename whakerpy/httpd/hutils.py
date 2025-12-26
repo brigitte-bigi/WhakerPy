@@ -206,6 +206,20 @@ class HTTPDHandlerUtils:
     # -----------------------------------------------------------------------
 
     @staticmethod
+    def signed_url_page_answer() -> tuple:
+        """Create the response with 404 status code for an expired signed URL.
+
+        :return: (tuple) Response content and status to send back to the client
+
+        """
+        status = HTTPDStatus(404)
+        content = status.to_html(encode=True,
+                                 msg_error="This page URL is invalid or has expired.")
+        return content, status
+
+    # -----------------------------------------------------------------------
+
+    @staticmethod
     def get_mime_type(filename: str) -> str:
         """Return the mime type of given file name or path.
 
