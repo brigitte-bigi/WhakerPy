@@ -218,7 +218,15 @@ class WSGIApplication(object):
     # -----------------------------------------------------------------------
 
     def __serve_dynamic_content(self, page_name: str, filepath: str, environ, handler_utils) -> tuple:
-        """Handle requests for dynamic content or return a 404 if not found."""
+        """Handle requests for dynamic content or return a 404 if not found.
+
+        :param page_name: (str) Name of the page to bake
+        :param filepath: (str) Path to the file to bake
+        :param environ: (dict) WSGI environment dictionary with request data
+        :param handler_utils: (HTTPDHandlerUtils) Handler utils
+        :return: (tuple) Return content and status code
+
+        """
         # Create dynamic page if necessary
         if self.__dynamic_pages[1] is not None and page_name not in self._pages:
             self.__create_dynamic_page(page_name)
@@ -230,10 +238,16 @@ class WSGIApplication(object):
         else:
             # Process dynamic content. Events are empty if POST request.
             events, accept = handler_utils.process_post(environ['wsgi.input'])
+            has_to_return_data = HTTPDHandlerUtils.has_to_return_data(accept)
             content, status = HTTPDHandlerUtils.bakery(
-                self._pages, page_name, environ['PATH_INFO'], events,
-                HTTPDHandlerUtils.has_to_return_data(accept)
+                self._pages,
+                page_name,
+                environ['PATH_INFO'],
+                events,
+                has_to_return_data
             )
+            if has_to_return_data is False:
+                content = self.__policy.finalize_html(content)
         return content, status
 
     # ---------------------------------------------------------------------------

@@ -47,18 +47,15 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
 
      :Example:
      >>> s = BaseHTTPDServer(server_address, app_handler)
-     >>> s.create_pages()
+     >>> s.configure(app="AppName", blacklist=["SomeBot"])
 
     This server stores:
     - dynamic pages ("_pages") used by the bakery system,
     - the default page name ("_default"),
-    - a persistent blacklist of URL paths ("_blacklist") used by HTTPDHandler
-      to reject abusive requests as early as possible.
-
-    Blacklist file format:
-    - one URL path per line (example: /bot.html)
-    - empty lines are ignored
-    - lines starting with '#' are ignored
+    - an optional HTTP policy with:
+        1. a persistent blacklist of URL paths used by HTTPDHandler
+          to reject abusive requests as early as possible.
+        2. a set of signed URLs
 
     """
 
@@ -70,10 +67,29 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
         self._pages = dict()
         self._default = "index.html"
         self._policy = HTTPDPolicy()
+
+    # -----------------------------------------------------------------------
+
+    def configure(self, **kwargs) -> None:
+        """Configure the server.
+
+        1. Configure policy....
+        2. Add bakeries for dynamic HTML pages : The created pages are instances
+        of the BaseResponseRecipe class.
+
+        Optional keys in config dict:
+            - "app": application name
+            - "blacklist": list of blacklisted URL paths
+            - "signed_url": signed URL path
+
+        :param kwargs: (dict) Configuration dictionary.
+
+        """
         self._policy.configure({
-            "blacklist": kwargs.get("blacklist", None),
-            "signed_url": kwargs.get("signed_url", None)
-        })
+                "blacklist": kwargs.get("blacklist", None),
+                "signed_url": kwargs.get("signed_url", None)
+                })
+        self._create_pages(**kwargs)
 
     # -----------------------------------------------------------------------
 
@@ -104,7 +120,38 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
 
     # -----------------------------------------------------------------------
 
-    def create_pages(self, app: str = "app"):
+    def page_bakery(self,
+                    page_name: str,
+                    headers: dict,
+                    events: dict,
+                    has_to_return_data: bool = False) -> tuple:
+        """Return the page content and response status.
+
+        This method bakes a page and optionally finalizes outgoing HTML.
+
+        :param page_name: (str) Requested page name.
+        :param headers: (dict) HTTP request headers.
+        :param events: (dict) Event values (POST).
+        :param has_to_return_data: (bool) True if returning data, False if returning HTML.
+        :return: (tuple) (content, status)
+
+        """
+        content, status = HTTPDHandlerUtils.bakery(
+            self._pages,
+            page_name,
+            headers,
+            events,
+            has_to_return_data
+        )
+
+        if has_to_return_data is False:
+            content = self._policy.finalize_html(content)
+
+        return content, status
+
+    # -----------------------------------------------------------------------
+
+    def _create_pages(self, **kwargs):
         """To be overridden. Add bakeries for dynamic HTML pages.
 
         The created pages are instances of the BaseResponseRecipe class.
@@ -117,25 +164,5 @@ class BaseHTTPDServer(http.server.ThreadingHTTPServer):
         elif app == "test":
             self._pages["test.html"] = BaseResponseRecipe("test.html", HTMLTree("test"))
 
-        :param app: (str) Any string definition for custom use
-
         """
         raise NotImplementedError
-
-    # -----------------------------------------------------------------------
-
-    def page_bakery(self, page_name: str, headers: dict, events: dict, has_to_return_data: bool = False) -> tuple:
-        """Return the page content and response status.
-
-        This method should be invoked after a POST request in order to
-        take the events into account when baking the HTML page content.
-
-        :param page_name: (str) Requested page name
-        :param headers: (dict) The headers ot the http request
-        :param events: (dict) key=event name, value=event value
-        :param has_to_return_data: (bool) False by default - Boolean to know if the server return data or html page
-
-        :return: tuple(bytes, HTTPDStatus)
-
-        """
-        return HTTPDHandlerUtils.bakery(self._pages, page_name, headers, events, has_to_return_data)

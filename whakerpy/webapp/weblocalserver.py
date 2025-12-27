@@ -39,7 +39,7 @@ from whakerpy.httpd import HTTPDHandler
 # ---------------------------------------------------------------------------
 
 
-class WebSiteApplication(object):
+class WebSiteApplication:
     """Create and run a webapp applications.
 
     Allows to create a server and a response system in order to use HTTPD
@@ -49,7 +49,7 @@ class WebSiteApplication(object):
 
     """
 
-    def __init__(self, server_cls):
+    def __init__(self, server_cls, **kwargs):
         """HTTPD Server initialization.
 
         Create the application for a Web Front-End based on HTTPD protocol.
@@ -58,11 +58,10 @@ class WebSiteApplication(object):
         self.__location = "localhost"
         httpd_port = random.randrange(80, 99)
         self.__port = httpd_port + (httpd_port*100)
-        self.__server = None
         server_address = (self.__location, self.__port)
 
         self.__server = server_cls(server_address, HTTPDHandler)
-        self.__server.create_pages()
+        self.__server.configure(**kwargs)
 
     # -----------------------------------------------------------------------
 

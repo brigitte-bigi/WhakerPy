@@ -31,6 +31,11 @@
 """
 
 from __future__ import annotations
+import re
+from urllib.parse import urlsplit
+from urllib.parse import urlunsplit
+from urllib.parse import parse_qsl
+from urllib.parse import urlencode
 
 from .hblacklist import Blacklist
 from .hsignedurl import SignedURL
@@ -129,6 +134,105 @@ class HTTPDPolicy:
                     return False, content, status, "text/html"
 
         return True, None, None, None
+
+    # -----------------------------------------------------------------------
+
+    def finalize_html(self, content: bytes) -> bytes:
+        """Finalize an outgoing HTML page.
+
+        This method applies outbound policies that must not be implemented
+        inside Response classes.
+
+        Current behavior:
+        - If signed URLs are enabled, sign protected links found in:
+          - href="..."
+          - action="..."
+
+        :param content: (bytes) HTML content.
+        :return: (bytes) Updated HTML content.
+
+        """
+        if isinstance(content, (bytes, bytearray)) is False:
+            raise TypeError("HTTPDPolicy.finalize_html: content must be bytes.")
+
+        ttl_seconds = self.__signed_url_cfg.get("ttl", None)
+        if ttl_seconds is None:
+            return content
+
+        protect = self.__signed_url_cfg.get("protect", [])
+        if isinstance(protect, list) is False or len(protect) == 0:
+            return content
+
+        html = content.decode("utf-8", errors="replace")
+
+        def _should_skip(value: str) -> bool:
+            if len(value) == 0:
+                return True
+            v = value.lower()
+            if v.startswith("#"):
+                return True
+            if v.startswith("http://") or v.startswith("https://"):
+                return True
+            if v.startswith("mailto:"):
+                return True
+            if v.startswith("javascript:"):
+                return True
+            if v.startswith("data:"):
+                return True
+            return False
+
+        def _is_already_signed(query: str) -> bool:
+            if len(query) == 0:
+                return False
+            q = ("&" + query).lower()
+            return ("&ts=" in q) and ("&sig=" in q)
+
+        def _sign_value(value: str) -> str:
+            if _should_skip(value) is True:
+                return value
+
+            parts = urlsplit(value)
+            path = parts.path
+            if self.__signed_url.match_protect(path, protect) is False:
+                return value
+
+            if _is_already_signed(parts.query) is True:
+                return value
+
+            extra_params = []
+            if len(parts.query) > 0:
+                for k, v in parse_qsl(parts.query, keep_blank_values=True):
+                    if k in ("ts", "sig"):
+                        continue
+                    extra_params.append((k, v))
+
+            signed = self.__signed_url.sign(path, ttl_seconds)
+            signed_parts = urlsplit(signed)
+
+            final_query = signed_parts.query
+            if len(extra_params) > 0:
+                extra = urlencode(extra_params, doseq=True)
+                if len(final_query) > 0:
+                    final_query = final_query + "&" + extra
+                else:
+                    final_query = extra
+
+            return urlunsplit((
+                signed_parts.scheme or parts.scheme,
+                signed_parts.netloc or parts.netloc,
+                signed_parts.path,
+                final_query,
+                parts.fragment
+            ))
+
+        def _repl(m):
+            attr = m.group(1)
+            quote = m.group(2)
+            val = m.group(3)
+            return attr + "=" + quote + _sign_value(val) + quote
+
+        html = re.sub(r'(href|action)\s*=\s*([\'"])(.*?)\2', _repl, html, flags=re.IGNORECASE)
+        return html.encode("utf-8")
 
     # -----------------------------------------------------------------------
     # Private

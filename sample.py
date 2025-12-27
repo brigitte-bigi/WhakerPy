@@ -26,15 +26,13 @@ logging.getLogger().setLevel(0)
 # ---------------------------------------------------------------------------
 
 
-class AppServer(BaseHTTPDServer):
+class SampleServer(BaseHTTPDServer):
     """A custom HTTPD server for `sample` web front-end.
 
     """
 
-    def create_pages(self, app: str = "app"):
+    def _create_pages(self, **kwargs):
         """Override. Add bakeries for dynamic HTML pages of this app.
-
-        :param app: (str) Un-used parameter.
 
         """
         logging.debug("HTTPD server initialization...")
@@ -47,17 +45,26 @@ class AppServer(BaseHTTPDServer):
         self._pages[app_bakery.page()] = app_bakery
         self._default = app_bakery.page()
 
-        # Extract the config data of the sample webapp from a JSON file
-        data = WebSiteData(os.path.join("sample", "webapp.json"))
         # Create the dynamic tree for each page described in data
-        self._pages.update(data.create_pages(web_response=SampleWebResponse, default_path="sample"))
+        self._pages.update(
+            web_site_data.create_pages(web_response=SampleWebResponse, default_path="sample")
+        )
 
 # ---------------------------------------------------------------------------
 
 
 if __name__ == "__main__":
+    # Extract the config data of the sample webapp from a JSON file
+    web_site_data = WebSiteData(os.path.join("sample", "webapp.json"))
+
     # Launch a local web server and handler
-    app = WebSiteApplication(AppServer)
+    app = WebSiteApplication(
+        SampleServer,
+        app="Sample",
+        website_data=web_site_data,
+        blacklist=web_site_data.blacklist,
+        signed_url=web_site_data.signed_url
+    )
     url = app.client_url()
     webbrowser.open_new_tab(url)
     logging.info(url)
