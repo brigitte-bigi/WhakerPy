@@ -170,6 +170,7 @@ HTML_GLOBAL_ATTR = (
     "tabindex",
     "title",
     "translate",
+    "aria-*"
 )
 
 HTML_VISIBLE_ATTR = (

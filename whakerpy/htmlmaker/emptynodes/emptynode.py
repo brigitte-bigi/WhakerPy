@@ -116,6 +116,7 @@ class BaseTagNode(BaseNode):
 
         if key not in HTML_GLOBAL_ATTR and \
                 key.startswith("data-") is False and \
+                key.startswith("aria-") is False and \
                 key not in HTML_VISIBLE_ATTR and \
                 key not in HTML_TAG_ATTR.keys() and \
                 key not in ARIA_TAG_ATTR.keys():
