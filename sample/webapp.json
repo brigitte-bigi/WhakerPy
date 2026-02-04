@@ -18,6 +18,7 @@
       "sample_123.html": {
         "title": "SignedURL 123",
         "main": "sample_123.htm",
+        "description": "the sample 123 has this description for the HEAD meta tag.",
         "header": true,
         "footer": true
       },

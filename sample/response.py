@@ -43,7 +43,6 @@ from whakerpy.htmlmaker import HTMLNavNode
 from whakerpy.httpd import HTTPDStatus
 from whakerpy.httpd import BaseResponseRecipe   # useful for an application
 from whakerpy.webapp import WebSiteResponse     # useful for a webapp
-from whakerpy.httpd import SignedURL
 
 # ---------------------------------------------------------------------------
 
@@ -135,14 +134,21 @@ class SampleWebResponse(WebSiteResponse):
         """
         self._htree.set_body_nav(SampleNavNode(self._htree.body_main.identifier))
         self._htree.head.script(src="sample/request.js", script_type="application/javascript")
+        if len(self._description) > 0:
+            self._htree.head.meta({"description": self._description})
 
 # ---------------------------------------------------------------------------
 
 
 class SampleAppResponse(BaseResponseRecipe):
 
-    def __init__(self):
-        super(SampleAppResponse, self).__init__(name="WhakerPy Test1")
+    def __init__(self, **kwargs):
+        super(SampleAppResponse, self).__init__(name="WhakerPy Test1", **kwargs)
+
+        if "description" in kwargs:
+            self._description = kwargs["description"]
+        else:
+            self._description = ""
 
         # Define this HTMLTree identifier
         self._htree.add_html_attribute("id", "whakerpy")
@@ -153,9 +159,9 @@ class SampleAppResponse(BaseResponseRecipe):
 
     # -----------------------------------------------------------------------
 
-    @staticmethod
-    def page() -> str:
-        """Return the HTML page name."""
+    @classmethod
+    def page(cls):
+        """Return the current HTML body->main filename or an empty string."""
         return "whakerpy.html"
 
     # -----------------------------------------------------------------------
@@ -172,16 +178,20 @@ class SampleAppResponse(BaseResponseRecipe):
         # Define this page title
         self._htree.head.title(self._name)
         self._htree.head.script(src="sample/request.js", script_type="application/javascript")
+        if len(self._description) > 0:
+            self._htree.head.meta({"description": self._description})
 
         # Add elements in the header
-        _h1 = HTMLNode(self._htree.body_header.identifier, None, "h1", value="Test of WhakerPy")
+        _h1 = HTMLNode(self._htree.body_header.identifier, None, "h1",
+                       value="Test of WhakerPy")
         self._htree.body_header.append_child(_h1)
 
         # Replace the existing empty nav
         self._htree.set_body_nav(SampleNavNode(self._htree.body_main.identifier))
 
         # Add an element in the footer
-        _p = HTMLNode(self._htree.body_footer.identifier, None, "p", value="Copyleft 2023-2025 WhakerPy")
+        _p = HTMLNode(self._htree.body_footer.identifier, None, "p",
+                      value="Copyleft 2023-2026 WhakerPy")
         self._htree.body_footer.append_child(_p)
 
         # The javascript

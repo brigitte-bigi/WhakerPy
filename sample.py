@@ -83,9 +83,11 @@ else:
                 # we already create this response during the WSGI class instantiation just below this class, so we never
                 # pass this condition because when we request the whakerpy.html page the method is not called
                 # since the page is already created.
-                return SampleAppResponse()
+                return SampleAppResponse(description=self.short_description(page_name))
+
             elif page_name in self._pages:
                 return SampleWebResponse(os.path.join(default, self.filename(page_name)))
+
             else:
                 return None
 
