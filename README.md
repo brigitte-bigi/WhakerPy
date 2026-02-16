@@ -11,7 +11,7 @@
        
    a Python library to create dynamic HTML content and web applications
 
-              Copyright (C) 2023-2025 Brigitte Bigi, CNRS
+              Copyright (C) 2023-2026 Brigitte Bigi, CNRS
          Laboratoire Parole et Langage, Aix-en-Provence, France
          
 -----------------------------------------------------------------------------                                                              
@@ -174,7 +174,8 @@ For a more complex example of an already in-used application web frontend, see:
 ## Projects using WhakerPy
 
 WhakerPy was initially developed within SPPAS <https://sppas.org>. 
-It was extracted from its original software by the author to lead its own life as standalone package. The "setup" of SPPAS is entirely based on `whakerpy` API.
+It was extracted from its original software by the author to lead its own life as standalone package. 
+The "setup" of SPPAS is entirely based on `whakerpy` API.
 
 Other projects: 
 
@@ -195,27 +196,14 @@ The universal wheel is created with: `python -m build`
 
 ## Make the documentation
 
-The documentation requires Whakerexa-1.0 <https://whakerexa.sf.net>. 
+The documentation requires Whakerexa-2.1 <https://whakerexa.sourceforge.io>. 
 Download and unzip it into the "docs" folder.
 
-The API documentation is available inlie at <https://whakerpy.sourceforge.io>.
-
-
-To generate the documentation locally, install the required external program, then launch the doc generator:
+To generate the documentation locally, install the required external program, 
+then launch the doc generator:
 ```bash
 >python -m pip install ".[docs]"
 >python makedoc.py
-```
-
-Then, open it with an HTTP Server, like for example:
-
-```bash
-# Install the required external libraries:
-python3 -m pip install pycryptodome --break-system-packages
-python3 -m pip install uwsgi
-# Launch the HTTP service:
-cd docs
-uwsgi --http :9090 --wsgi-file uwsgi.py
 ```
 
 
@@ -270,7 +258,7 @@ Send this file by e-mail to the author.
 
 See the accompanying `LICENSE` and `AUTHORS.md` files for the full list of contributors.
 
-Copyright (C) 2023-2025 [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>, CNRS,
+Copyright (C) 2023-2026 [Brigitte Bigi](https://sppas.org/bigi/) - <contact@sppas.org>, CNRS,
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify

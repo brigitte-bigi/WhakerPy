@@ -611,7 +611,7 @@ def check_attribute(self, key: str) -> str:
         key = str(key)
     except Exception:
         raise NodeAttributeError(key)
-    if key not in HTML_GLOBAL_ATTR and key.startswith('data-') is False:
+    if key not in HTML_GLOBAL_ATTR and key.startswith('data-') is False and (key.startswith('aria-') is False):
         raise NodeAttributeError(key)
     return key
 ```
@@ -1250,7 +1250,7 @@ def check_attribute(self, key) -> str:
         key = key.lower()
     except Exception:
         raise NodeAttributeError(key)
-    if key not in HTML_GLOBAL_ATTR and key.startswith('data-') is False and (key not in HTML_VISIBLE_ATTR) and (key not in HTML_TAG_ATTR.keys()) and (key not in ARIA_TAG_ATTR.keys()):
+    if key not in HTML_GLOBAL_ATTR and key.startswith('data-') is False and (key.startswith('aria-') is False) and (key not in HTML_VISIBLE_ATTR) and (key not in HTML_TAG_ATTR.keys()) and (key not in ARIA_TAG_ATTR.keys()):
         raise NodeAttributeError(key)
     return key
 ```
@@ -2852,4 +2852,4 @@ def __init__(self, status, msg_error: str=None):
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 2.0 ~
+~ Created using [Clamming](https://clamming.sf.net) version 2.1 ~

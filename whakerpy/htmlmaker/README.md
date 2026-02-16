@@ -10,7 +10,7 @@
        
    a Python library to create dynamic HTML content and web applications
 
-               Copyright (C) 2023-2024 Brigitte Bigi, CNRS, 
+               Copyright (C) 2023-2026 Brigitte Bigi, CNRS, 
          Laboratoire Parole et Langage, Aix-en-Provence, France
          
 -----------------------------------------------------------------------------                                                              

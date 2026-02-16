@@ -330,10 +330,11 @@ HTML_TAG_ATTR = {
 }
 
 ARIA_TAG_ATTR = {
-    "role": ("none", "generic", "contentinfo", "banner"),
+    "role": ("none", "generic", "contentinfo", "banner", "presentation"),
     "aria-labelledby": None,
     "aria-label": None,
-    "aria-pressed": ("true", "false")
+    "aria-pressed": ("true", "false"),
+    "aria-hidden": ("true", "false")
 }
 
 # List of accepted child tags in an HTML header.

@@ -43,17 +43,22 @@ def __init__(self, json_filename: str | None=None):
     """
     self._main_path = ''
     self._default = ''
+    self._description = ''
     self._pages = dict()
+    self.signed_url = None
+    self.blacklist = None
     if json_filename is not None:
         section = self.__get_json_whakerpy_section(json_filename)
-        for (raw_name, info) in section.items():
+        self._main_path = section['pagespath']
+        for raw_name, info in section['pages'].items():
             name = raw_name.lower()
-            if name == 'pagespath':
-                self._main_path = info
-            else:
-                self._pages[name] = info
-                if self._default == '':
-                    self._default = name
+            self._pages[name] = info
+            if self._default == '':
+                self._default = name
+        if 'blacklist' in section:
+            self.blacklist = section['blacklist']
+        if 'signed_url' in section:
+            self.signed_url = section['signed_url']
     else:
         logging.debug('WebSiteData with NO given JSON config filename.')
 ```
@@ -191,6 +196,34 @@ def title(self, page: str) -> str:
 
 - (*str*)
 
+#### short_description
+
+```python
+def short_description(self, page: str) -> str:
+    """Return the short description of a given page.
+
+        :param page: (str) Name of an HTML page
+        :return: (str) Filled or empty description (less than 160 characters)
+
+        """
+    if page in self._pages:
+        if 'description' in self._pages[page]:
+            d = self._pages[page]['description'].strip()
+            return d[:160]
+    return ''
+```
+
+*Return the short description of a given page.*
+
+##### Parameters
+
+- **page**: (*str*) Name of an HTML page
+
+
+##### Returns
+
+- (*str*) Filled or empty description (less than 160 characters)
+
 #### has_header
 
 ```python
@@ -254,7 +287,6 @@ def create_pages(self, web_response=WebSiteResponse, default_path: str='') -> di
         :param web_response: (BaseResponseRecipe) the class to used to create the pages,
                             WebSiteResponse class used by default
         :param default_path: (str) None by default, the default path for all pages
-
         :return: (dict) a dictionary with key = page name and value = the response object
 
         """
@@ -272,6 +304,7 @@ def create_pages(self, web_response=WebSiteResponse, default_path: str='') -> di
 
 - **web_response**: (BaseResponseRecipe) the class to used to create the pages, WebSiteResponse class used by default
 - **default_path**: (*str*) None by default, the default path for all pages
+
 
 ##### Returns
 
@@ -314,7 +347,8 @@ To be overridden by subclasses.
 #### __get_json_whakerpy_section
 
 ```python
-def __get_json_whakerpy_section(self, filename):
+@staticmethod
+def __get_json_whakerpy_section(filename: str):
     """Return the configuration section related to WhakerPy.
 
         - Look for a top‐level "WhakerPy" key (new format).
@@ -330,13 +364,13 @@ def __get_json_whakerpy_section(self, filename):
         """
     with codecs.open(filename, 'r', 'utf-8') as f:
         _full_data = json.load(f)
-    if 'WhakerPy' in _full_data:
-        _section = _full_data['WhakerPy']
-    else:
-        logging.warning("DeprecationWarning: starting with WhakerPy 1.2 you must wrap your config in a top-level 'WhakerPy' key of the JSON config file.")
-        _section = _full_data
+    if 'WhakerPy' not in _full_data:
+        raise ValueError(f"{filename!r} is missing the required 'WhakerPy' section.")
+    _section = _full_data['WhakerPy']
+    if 'pages' not in _section:
+        raise ValueError(f"{filename!r} is missing the required 'pages' section in 'WhakerPy' section")
     if 'pagespath' not in _section:
-        raise ValueError(f"{filename!r} missing required 'pagespath' in WhakerPy section")
+        raise ValueError(f"{filename!r} is missing the required 'pagespath' section in 'WhakerPy' section")
     return _section
 ```
 
@@ -565,7 +599,7 @@ The localhost port is randomly assigned.
 #### __init__
 
 ```python
-def __init__(self, server_cls):
+def __init__(self, server_cls, **kwargs):
     """HTTPD Server initialization.
 
     Create the application for a Web Front-End based on HTTPD protocol.
@@ -574,10 +608,9 @@ def __init__(self, server_cls):
     self.__location = 'localhost'
     httpd_port = random.randrange(80, 99)
     self.__port = httpd_port + httpd_port * 100
-    self.__server = None
     server_address = (self.__location, self.__port)
     self.__server = server_cls(server_address, HTTPDHandler)
-    self.__server.create_pages()
+    self.__server.configure(**kwargs)
 ```
 
 *HTTPD Server initialization.*
@@ -631,6 +664,8 @@ def run(self) -> int:
 WSGI response is created from given "environ" parameters and communicated
 with start_response.
 
+This class checks if the request comes from a blacklisted URL ASAP.
+
 
 ### Constructor
 
@@ -648,8 +683,18 @@ def __init__(self, default_path: str='', default_filename: str='index.html', web
     """
     self.__default_path = default_path
     self.__default_file = default_filename
-    self.__dynamic_pages = (web_page_maker, os.path.join(self.__default_path, default_web_json))
+    self.__policy = HTTPDPolicy()
+    web_json_path = None
+    if default_web_json is not None:
+        web_json_path = os.path.join(self.__default_path, default_web_json)
+    self.__dynamic_pages = (web_page_maker, web_json_path)
+    if hasattr(self.__dynamic_pages[0], 'bake_response'):
+        self.__web_site_data = self.__dynamic_pages[0](self.__dynamic_pages[1])
+    else:
+        self.__web_site_data = WebSiteData(self.__dynamic_pages[1])
     self._pages = dict()
+    if default_web_json is not None:
+        self.__policy.configure({'blacklist': self.__web_site_data.blacklist, 'signed_url': self.__web_site_data.signed_url})
 ```
 
 *Initialize the WSGIApplication instance.*
@@ -715,14 +760,11 @@ def __create_dynamic_page(self, page_name: str) -> None:
         """
     web_data = self.__dynamic_pages[0]
     if hasattr(web_data, 'bake_response'):
-        data = web_data(self.__dynamic_pages[1])
-        page = data.bake_response(page_name, default=self.__default_path)
+        page = self.__web_site_data.bake_response(page_name, default=self.__default_path)
         if page is not None:
             self._pages[page_name] = page
-    else:
-        data = WebSiteData(self.__dynamic_pages[1])
-        if page_name in data:
-            self._pages[page_name] = web_data(page_name)
+    elif page_name in self.__web_site_data:
+        self._pages[page_name] = web_data(page_name)
 ```
 
 *Create page dynamically from the json config file.*
@@ -735,19 +777,57 @@ def __create_dynamic_page(self, page_name: str) -> None:
 
 ```python
 def __serve_dynamic_content(self, page_name: str, filepath: str, environ, handler_utils) -> tuple:
-    """Handle requests for dynamic content or return a 404 if not found."""
+    """Handle requests for dynamic content or return a 404 if not found.
+
+        :param page_name: (str) Name of the page to bake
+        :param filepath: (str) Path to the file to bake
+        :param environ: (dict) WSGI environment dictionary with request data
+        :param handler_utils: (HTTPDHandlerUtils) Handler utils
+        :return: (tuple) Return content and status code
+
+        """
     if self.__dynamic_pages[1] is not None and page_name not in self._pages:
         self.__create_dynamic_page(page_name)
     if page_name not in self._pages or filepath != f'{self.__default_path}/{page_name}':
         status = HTTPDStatus(404)
-        content = status.to_html(encode=True, msg_error=f'Page not found : {filepath}')
+        content = status.to_html(encode=True, msg_error=f'Page not found: {filepath}')
     else:
-        (events, accept) = handler_utils.process_post(environ['wsgi.input'])
-        (content, status) = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events, HTTPDHandlerUtils.has_to_return_data(accept))
+        events, accept = handler_utils.process_post(environ['wsgi.input'])
+        has_to_return_data = HTTPDHandlerUtils.has_to_return_data(accept)
+        content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events, has_to_return_data)
+        if has_to_return_data is False:
+            content = self.__policy.finalize_html(content)
     return (content, status)
 ```
 
 *Handle requests for dynamic content or return a 404 if not found.*
+
+##### Parameters
+
+- **page_name**: (*str*) Name of the page to bake
+- **filepath**: (*str*) Path to the file to bake
+- **environ**: (*dict*) WSGI environment dictionary with request data
+- **handler_utils**: (HTTPDHandlerUtils) Handler utils
+
+
+##### Returns
+
+- (*tuple*) Return content and status code
+
+#### __check_policy_compliance
+
+```python
+def __check_policy_compliance(self, requested_path: str, filepath: str, environ: dict, start_response):
+    query = environ.get('QUERY_STRING', '')
+    allowed, content, status, mime = self.__policy.check(requested_path, query, environ)
+    if allowed is False:
+        headers = HTTPDHandlerUtils.build_default_headers(filepath, content, browser_cache=False, varnish=False)
+        start_response(repr(status), headers)
+        return content
+    return None
+```
+
+
 
 
 
@@ -770,16 +850,20 @@ def __call__(self, environ, start_response):
     if 'HTTP_ACCEPT' in environ:
         environ['Accept'] = environ['HTTP_ACCEPT']
     handler_utils = HTTPDHandlerUtils(environ, environ['PATH_INFO'], self.__default_file)
+    requested_path = handler_utils.get_path()
     filepath = self.__default_path + handler_utils.get_path()
     filepath = filepath.replace('//', '/')
     page_name = handler_utils.get_page_name()
+    content = self.__check_policy_compliance(requested_path, filepath, environ, start_response)
+    if content is not None:
+        return [content]
     use_cache = True
     if os.path.exists(filepath) is True:
-        (content, status) = handler_utils.static_content(filepath)
+        content, status = handler_utils.static_content(filepath)
     elif os.path.isfile(handler_utils.get_path()[1:]) is True:
-        (content, status) = handler_utils.static_content(handler_utils.get_path()[1:])
+        content, status = handler_utils.static_content(handler_utils.get_path()[1:])
     else:
-        (content, status) = self.__serve_dynamic_content(page_name, filepath, environ, handler_utils)
+        content, status = self.__serve_dynamic_content(page_name, filepath, environ, handler_utils)
         use_cache = False
     if isinstance(content, types.GeneratorType):
         headers = HTTPDHandlerUtils.build_default_headers(filepath, content, browser_cache=use_cache, varnish=use_cache)
@@ -833,4 +917,4 @@ def __contains__(self, page_name: str) -> bool:
 
 
 
-~ Created using [Clamming](https://clamming.sf.net) version 2.0 ~
+~ Created using [Clamming](https://clamming.sf.net) version 2.1 ~

@@ -100,8 +100,8 @@ class TestHTTPDHandler(unittest.TestCase):
             ("style.css", "text/css"),
             ("index.html", "text/html"),
             ("data.json", "application/json"),
-            ("app.js", "text/javascript"),
-            #("app.js", "application/javascript"),
+            #("app.js", "text/javascript"),
+            ("app.js", "application/javascript"),
             ("logo.png", "image/png"),
             ("video.mp4", "video/mp4")
         ]

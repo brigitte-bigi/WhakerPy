@@ -2,13 +2,13 @@
 :filename: statics/clamming.css
 :author: Brigitte Bigi
 :contact: contact@sppas.org
-:summary: Style to be used for WhakerPy documentations.
+:summary: Style to be used for ClammingPy documentations.
 
 .. _This file is part of ClammingPy: https://clamming.sf.net
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+    Copyright (C) 2023-2024 Brigitte Bigi
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     Use of this software is governed by the GNU Public License, version 3.
@@ -46,20 +46,11 @@ html {
     margin-left: calc(var(--toc-width) + 1rem);
 }
 
-
 .light {
-    --nav-bg-color: linear-gradient(to top, rgb(0, 100, 200) 0%, rgb(0, 60, 120) 30%, rgb(30, 30, 60) 90%);
-    --nav-fg-color: rgb(255, 221, 51);
-    --header-bg-color: rgb(30, 30, 60);
-    --footer-bg-color: rgb(0, 100, 200);
-    --footer-fg-color: rgb(255, 221, 51);
+    --nav-bg-color: rgb(30, 30, 60);
+    --nav-fg-color: rgb(230, 230, 230);
+    --footer-bg-color: rgb(30, 30, 60);
 }
-
-.dark {
-    --header-fg-color: rgb(255, 221, 51);
-    --header-bg-color: rgb(30, 30, 60);
-}
-
 
 /* too small titles ... make them bigger */
 h4 {
@@ -80,7 +71,6 @@ h4 {
     margin-top: calc(2 * var(--typography-spacing-vertical));
     color: #0066BB;  /* Name.function in code.css */
 }
-
 
 /* =======================================================================
                               OTHER DEFINITIONS
