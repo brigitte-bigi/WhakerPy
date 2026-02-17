@@ -50,7 +50,7 @@ packages.append(whakerpy.webapp)
 # Options for HTML exportation
 opts_export = clamming.ExportOptions()
 opts_export.software = 'WhakerPy ' + whakerpy.__version__
-opts_export.url = 'https://sourceforge.net/projects/whakerpy/'
+opts_export.url = 'https://github.com/brigitte-bigi/WhakerPy/'
 opts_export.copyright = whakerpy.__copyright__
 opts_export.title = 'WhakerPy doc'
 # ... statics is the relative path to a folder with custom CSS, JS, etc.
