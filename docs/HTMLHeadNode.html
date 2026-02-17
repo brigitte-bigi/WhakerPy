@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>WhakerPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python Class Documentation of HTMLHeadNode. Convenient class to represent the head node of an HTML tree." />
+
+            <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>WhakerPy 2.0</h1>
+        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 2.0</h1>
+    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="HTMLNode.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="HTMLHeaderNode.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="whakerpy.httpd.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#whakerpy.htmlmaker">    <h1>Module whakerpy.htmlmaker</h1>
+<section id="#HTMLHeadNode">
+<h2>Class HTMLHeadNode</h2>
+
+<section>
+<h3 id="#description_HTMLHeadNode">Description</h3>
+    <article class="docstring">
+<p><em>Convenient class to represent the head node of an HTML tree.</em></p>
+
+<p>Children of a "head" node are limited to the ones of HEAD_TAGS list.</p>
+
+    </article>
+</section>
+<section>
+<h3 id="#constructor_HTMLHeadNode">Constructor</h3>
+    <article class="docstring">
+<p><em>Create the head node.</em></p>
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>parent</strong></li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the head node.&quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">HTMLHeadNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="s1">&#39;head&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#public_fct_HTMLHeadNode">Public functions</h3>
+<h4>append_child</h4>
+
+    <article class="docstring">
+<p><em>Append a child node.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>node</strong>: (Node)</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>NodeChildTagError</em>: if invalid child tag (not in HEAD_TAGS list)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">append_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append a child node.</span>
+
+<span class="sd">        :param node: (Node)</span>
+<span class="sd">        :raises: NodeChildTagError: if invalid child tag (not in HEAD_TAGS list)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">HEAD_TAGS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">NodeChildTagError</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span>
+    <span class="n">HTMLNode</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>insert_child</h4>
+
+    <article class="docstring">
+<p><em>Insert a child node at the given index.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>pos</strong>: (<em>int</em>) Index position</li>
+<li><strong>node</strong>: (Node)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">insert_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Insert a child node at the given index.</span>
+
+<span class="sd">        :param pos: (int) Index position</span>
+<span class="sd">        :param node: (Node)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">HEAD_TAGS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">NodeChildTagError</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span>
+    <span class="n">HTMLNode</span><span class="o">.</span><span class="n">insert_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>title</h4>
+
+    <article class="docstring">
+<p><em>Set the title to the header.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>title</strong>: (<em>str</em>) The page title (expected short!)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the title to the header.</span>
+
+<span class="sd">        :param title: (str) The page title (expected short!)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">identifier</span> <span class="o">==</span> <span class="s1">&#39;title&#39;</span><span class="p">:</span>
+            <span class="n">child</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+            <span class="k">break</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>meta</h4>
+
+    <article class="docstring">
+<p><em>Append a new meta tag to the header.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>metadict</strong>: (<em>dict</em>)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">meta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append a new meta tag to the header.</span>
+
+<span class="sd">        :param metadict: (dict)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Expected a dict.&#39;</span><span class="p">)</span>
+    <span class="n">child_node</span> <span class="o">=</span> <span class="n">EmptyNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;meta&#39;</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="n">metadict</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_node</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>link</h4>
+
+    <article class="docstring">
+<p><em>Add a link tag to the header.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>rel</strong>: (<em>str</em>)</li>
+<li><strong>href</strong>: (<em>str</em>) Path and/or name of the link reference</li>
+<li><strong>link_type</strong>: (<em>str</em>) Mimetype of the link file</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">href</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">link_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a link tag to the header.</span>
+
+<span class="sd">        :param rel: (str)</span>
+<span class="sd">        :param href: (str) Path and/or name of the link reference</span>
+<span class="sd">        :param link_type: (str) Mimetype of the link file</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">&#39;rel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rel</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">href</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">href</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isalpha</span><span class="p">():</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="n">href</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">href</span>
+    <span class="k">if</span> <span class="n">link_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">link_type</span>
+    <span class="n">child_node</span> <span class="o">=</span> <span class="n">EmptyNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;link&#39;</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_node</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>script</h4>
+
+    <article class="docstring">
+<p><em>Add a meta tag to the header.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>src</strong>: (<em>str</em>) Script source file or Script content</li>
+<li><strong>script_type</strong>: (<em>str</em>) Script type or None if script content</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">script_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a meta tag to the header.</span>
+
+<span class="sd">        :param src: (str) Script source file or Script content</span>
+<span class="sd">        :param script_type: (str) Script type or None if script content</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">script_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">script_type</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">src</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isalpha</span><span class="p">():</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="n">src</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">src</span>
+        <span class="n">child_node</span> <span class="o">=</span> <span class="n">HTMLNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_node</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">child_node</span> <span class="o">=</span> <span class="n">HTMLNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">src</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_node</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>css</h4>
+
+    <article class="docstring">
+<p><em>Append css style content.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>script_content</strong>: (<em>str</em>) CSS content</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">css</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">css_content</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append css style content.</span>
+
+<span class="sd">        :param script_content: (str) CSS content</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">child_node</span> <span class="o">=</span> <span class="n">HTMLNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;style&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">css_content</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child_node</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+</section>    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

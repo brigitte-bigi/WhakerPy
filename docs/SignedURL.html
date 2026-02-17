@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>WhakerPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python Class Documentation of SignedURL. Sign and verify ephemeral URLs." />
+
+            <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>WhakerPy 2.0</h1>
+        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 2.0</h1>
+    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" href="whakerpy.htmlmaker.html"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="Blacklist.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="HTTPDPolicy.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="whakerpy.webapp.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#whakerpy.httpd">    <h1>Module whakerpy.httpd</h1>
+<section id="#SignedURL">
+<h2>Class SignedURL</h2>
+
+<section>
+<h3 id="#description_SignedURL">Description</h3>
+    <article class="docstring">
+<p><em>Sign and verify ephemeral URLs.</em></p>
+
+<p>A signed URL is:
+<path>?<ts_key>=<unix_ts>&amp;<sig_key>=<signature></p>
+
+<p>The signature is HMAC-SHA256 on:
+path + "\n" + unix_ts</p>
+
+<p>No cookie. No server-side storage. Python standard library only.</p>
+
+<h5>Example</h5>
+
+<div class="highlight"><pre><span></span><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">signer</span> <span class="o">=</span> <span class="n">SignedURL</span><span class="p">(</span><span class="n">secret</span><span class="o">=</span><span class="s1">&#39;YOUR_PRIVATE_SECRET&#39;</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="n">signer</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="s1">&#39;/text_12345.html&#39;</span><span class="p">,</span> <span class="n">ttl_seconds</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">signer</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="s1">&#39;/text_12345.html&#39;</span><span class="p">,</span> <span class="n">query_string</span><span class="p">,</span> <span class="n">ttl_seconds</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
+</code></pre></div>
+
+    </article>
+</section>
+<section>
+<h3 id="#constructor_SignedURL">Constructor</h3>
+    <article class="docstring">
+<p><em>Create the SignedURL helper.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the SignedURL helper.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__secret</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__ts_key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__sig_key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#public_fct_SignedURL">Public functions</h3>
+<h4>configure</h4>
+
+    <article class="docstring">
+<p><em>Configure the signed URLs.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>config</strong>: (<em>dict</em>) Configuration dictionary.</li>
+<li><strong>json_key</strong>: (<em>str</em>) Key of the signed URLs list in dict.</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: invalid argument type.</li>
+<li><em>ValueError</em>: dict content is invalid, or json_key is not a str.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li><strong>(dict) Loaded settings</strong>: {"ttl": int, "protect": list}.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">json_key</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;signed_url&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure the signed URLs.</span>
+
+<span class="sd">        :param config: (dict) Configuration dictionary.</span>
+<span class="sd">        :param json_key: (str) Key of the signed URLs list in dict.</span>
+<span class="sd">        :raises: TypeError: invalid argument type.</span>
+<span class="sd">        :raises: ValueError: dict content is invalid, or json_key is not a str.</span>
+<span class="sd">        :return: (dict) Loaded settings: {&quot;ttl&quot;: int, &quot;protect&quot;: list}.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">_cfg</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">json_key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_cfg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__secret</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ts_key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__sig_key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;ttl&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;protect&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_cfg</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;JSON key &#39;</span><span class="si">{</span><span class="n">json_key</span><span class="si">}</span><span class="s2">&#39; must be a dict.&quot;</span><span class="p">)</span>
+    <span class="n">_secret</span> <span class="o">=</span> <span class="n">_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;secret&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">check_non_empty_string</span><span class="p">(</span><span class="n">_secret</span><span class="p">)</span>
+    <span class="n">_ttl_seconds</span> <span class="o">=</span> <span class="n">_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ttl&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">check_ttl_seconds</span><span class="p">(</span><span class="n">_ttl_seconds</span><span class="p">)</span>
+    <span class="n">_protect</span> <span class="o">=</span> <span class="n">_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;protect&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_protect</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;signed_url.protect must be a list.&#39;</span><span class="p">)</span>
+    <span class="n">_query_keys</span> <span class="o">=</span> <span class="n">_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;query_keys&#39;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_query_keys</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;signed_url.query_keys must be a dict.&#39;</span><span class="p">)</span>
+    <span class="n">ts_key</span> <span class="o">=</span> <span class="n">_query_keys</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ts&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ts_key</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">check_non_empty_string</span><span class="p">(</span><span class="n">ts_key</span><span class="p">)</span>
+    <span class="n">sig_key</span> <span class="o">=</span> <span class="n">_query_keys</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sig&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sig_key</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">check_non_empty_string</span><span class="p">(</span><span class="n">sig_key</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__secret</span> <span class="o">=</span> <span class="n">_secret</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__ts_key</span> <span class="o">=</span> <span class="n">ts_key</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__sig_key</span> <span class="o">=</span> <span class="n">sig_key</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;ttl&#39;</span><span class="p">:</span> <span class="n">_ttl_seconds</span><span class="p">,</span> <span class="s1">&#39;protect&#39;</span><span class="p">:</span> <span class="n">_protect</span><span class="p">}</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>load</h4>
+
+    <article class="docstring">
+<p><em>Load signed URL configuration entries from a file.</em></p>
+
+<p>Entries are loaded from the given json_key.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>filepath</strong>: (<em>str</em>) Path of the file.</li>
+<li><strong>json_key</strong>: (<em>str</em>) Key of the signed URLs dict in JSON files.</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: invalid argument type.</li>
+<li><em>IOError</em>: file does not exist.</li>
+<li><em>ValueError</em>: JSON content is invalid, or json_key is not a str.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li><strong>(dict) Loaded settings</strong>: {"ttl": int, "protect": list}.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">json_key</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;signed_url&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load signed URL configuration entries from a file.</span>
+
+<span class="sd">        Entries are loaded from the given json_key.</span>
+
+<span class="sd">        :param filepath: (str) Path of the file.</span>
+<span class="sd">        :param json_key: (str) Key of the signed URLs dict in JSON files.</span>
+<span class="sd">        :raises: TypeError: invalid argument type.</span>
+<span class="sd">        :raises: IOError: file does not exist.</span>
+<span class="sd">        :raises: ValueError: JSON content is invalid, or json_key is not a str.</span>
+<span class="sd">        :return: (dict) Loaded settings: {&quot;ttl&quot;: int, &quot;protect&quot;: list}.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">check_non_empty_string</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">check_non_empty_string</span><span class="p">(</span><span class="n">json_key</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;SignedURL configuration file </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1"> does not exist.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__load_json</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">json_key</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>match_protect</h4>
+
+    <article class="docstring">
+<p><em>Return True if the given path must be protected by a signed URL.</em></p>
+
+<p>Protection rules are defined as a list of dict:
+{"prefix": "...", "suffix": "..."}</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>path</strong>: (<em>str</em>) URL path (with or without leading slash).</li>
+<li><strong>protect</strong>: (<em>list</em>) Protection rules.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>bool</em>)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">match_protect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">protect</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the given path must be protected by a signed URL.</span>
+
+<span class="sd">        Protection rules are defined as a list of dict:</span>
+<span class="sd">            {&quot;prefix&quot;: &quot;...&quot;, &quot;suffix&quot;: &quot;...&quot;}</span>
+
+<span class="sd">        :param path: (str) URL path (with or without leading slash).</span>
+<span class="sd">        :param protect: (list) Protection rules.</span>
+<span class="sd">        :return: (bool)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;SignedURL path must be a string.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">protect</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;SignedURL protect must be a list.&#39;</span><span class="p">)</span>
+    <span class="n">normalized_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__normalize_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">protect</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;suffix&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">normalized_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="ow">and</span> <span class="n">normalized_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">suffix</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>sign</h4>
+
+    <article class="docstring">
+<p><em>Return a signed URL for the given path.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>path</strong>: (<em>str</em>) URL path (example: 'text_123.html').</li>
+<li><strong>ttl_seconds</strong>: (<em>int</em>) Lifetime in seconds. The timestamp is "now".</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>TypeError</em>: invalid argument type.</li>
+<li><em>ValueError</em>: invalid argument value.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) Signed URL (path + query).</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ttl_seconds</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a signed URL for the given path.</span>
+
+<span class="sd">        :param path: (str) URL path (example: &#39;text_123.html&#39;).</span>
+<span class="sd">        :param ttl_seconds: (int) Lifetime in seconds. The timestamp is &quot;now&quot;.</span>
+<span class="sd">        :raises: TypeError: invalid argument type.</span>
+<span class="sd">        :raises: ValueError: invalid argument value.</span>
+<span class="sd">        :return: (str) Signed URL (path + query).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__secret</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;SignedURL is not configured (secret is missing).&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">check_non_empty_string</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">check_ttl_seconds</span><span class="p">(</span><span class="n">ttl_seconds</span><span class="p">)</span>
+    <span class="n">normalized_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__normalize_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">now_ts</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+    <span class="n">signature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hmac_signature</span><span class="p">(</span><span class="n">normalized_path</span><span class="p">,</span> <span class="n">now_ts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:s}</span><span class="s1">?</span><span class="si">{:s}</span><span class="s1">=</span><span class="si">{:d}</span><span class="s1">&amp;</span><span class="si">{:s}</span><span class="s1">=</span><span class="si">{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">normalized_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ts_key</span><span class="p">,</span> <span class="n">now_ts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sig_key</span><span class="p">,</span> <span class="n">signature</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>verify</h4>
+
+    <article class="docstring">
+<p><em>Verify that (path, query_string) contains a valid signature.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>path</strong>: (<em>str</em>) URL path without query (example: '/text_123.html').</li>
+<li><strong>query_string</strong>: (<em>str</em>) Raw query string (example: 'ts=...&amp;sig=...').</li>
+<li><strong>ttl_seconds</strong>: (<em>int</em>) Accepted lifetime in seconds.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>bool</em>) True if valid, False otherwise.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ttl_seconds</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify that (path, query_string) contains a valid signature.</span>
+
+<span class="sd">        :param path: (str) URL path without query (example: &#39;/text_123.html&#39;).</span>
+<span class="sd">        :param query_string: (str) Raw query string (example: &#39;ts=...&amp;sig=...&#39;).</span>
+<span class="sd">        :param ttl_seconds: (int) Accepted lifetime in seconds.</span>
+<span class="sd">        :return: (bool) True if valid, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__secret</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;SignedURL is not configured (secret is missing).&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;SignedURL path must be a string.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;SignedURL query_string must be a string.&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">check_ttl_seconds</span><span class="p">(</span><span class="n">ttl_seconds</span><span class="p">)</span>
+    <span class="n">normalized_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__normalize_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">ts_value</span><span class="p">,</span> <span class="n">sig_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extract_ts_sig</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ts_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">sig_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">now_ts</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">ts_value</span> <span class="o">&gt;</span> <span class="n">now_ts</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">now_ts</span> <span class="o">-</span> <span class="n">ts_value</span> <span class="o">&gt;</span> <span class="n">ttl_seconds</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">expected_sig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hmac_signature</span><span class="p">(</span><span class="n">normalized_path</span><span class="p">,</span> <span class="n">ts_value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hmac</span><span class="o">.</span><span class="n">compare_digest</span><span class="p">(</span><span class="n">expected_sig</span><span class="p">,</span> <span class="n">sig_value</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>check_ttl_seconds</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_ttl_seconds</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;SignedURL ttl_seconds must be an int.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;SignedURL ttl_seconds must be &gt; 0.&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>check_non_empty_string</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_non_empty_string</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Given &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39; must be a string.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Given &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39; must be non-empty.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#protected_fct_SignedURL">Protected functions</h3>
+<h4>__normalize_path</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__normalize_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">path</span>
+    <span class="k">if</span> <span class="s1">&#39;?&#39;</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">p</span>
+    <span class="k">while</span> <span class="s1">&#39;//&#39;</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__hmac_signature</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__hmac_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unix_ts</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:s}</span><span class="se">\n</span><span class="si">{:d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">unix_ts</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">digest</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__secret</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">digest</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__extract_ts_sig</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__extract_ts_sig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">qs</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">query_string</span><span class="p">,</span> <span class="n">keep_blank_values</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ts_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">qs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sig_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">qs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">ts_list</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ts_key</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">sig_list</span> <span class="o">=</span> <span class="n">qs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sig_key</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ts_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">ts_raw</span> <span class="o">=</span> <span class="n">ts_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">sig_raw</span> <span class="o">=</span> <span class="n">sig_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ts_value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ts_raw</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">sig_raw</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_raw</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">ts_value</span><span class="p">,</span> <span class="n">sig_raw</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__load_json</h4>
+
+    <article class="docstring">
+<p><em>Load signed URL configuration from a JSON file.</em></p>
+
+<p>It reads config values and updates this instance fields.
+Expected JSON structure:
+{
+"WhakerPy": {
+"signed<em>url": {
+"secret": "...",
+"ttl": 3600,
+"protect": [...],
+"query</em>keys": {"ts": "ts", "sig": "sig"}
+}
+}
+}</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>filepath</strong></li>
+<li><strong>json_key</strong></li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>ValueError</em></li>
+<li><em>KeyError</em></li>
+<li><em>TypeError</em></li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li><strong>(dict)   {"ttl"</strong>: <int>, "protect": <list>}</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__load_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">json_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load signed URL configuration from a JSON file.</span>
+
+<span class="sd">        It reads config values and updates this instance fields.</span>
+<span class="sd">        Expected JSON structure:</span>
+<span class="sd">            {</span>
+<span class="sd">                &quot;WhakerPy&quot;: {</span>
+<span class="sd">                    &quot;signed_url&quot;: {</span>
+<span class="sd">                        &quot;secret&quot;: &quot;...&quot;,</span>
+<span class="sd">                        &quot;ttl&quot;: 3600,</span>
+<span class="sd">                        &quot;protect&quot;: [...],</span>
+<span class="sd">                        &quot;query_keys&quot;: {&quot;ts&quot;: &quot;ts&quot;, &quot;sig&quot;: &quot;sig&quot;}</span>
+<span class="sd">                    }</span>
+<span class="sd">                }</span>
+<span class="sd">            }</span>
+
+<span class="sd">        :param filepath:</span>
+<span class="sd">        :param json_key:</span>
+<span class="sd">        :raises: ValueError:</span>
+<span class="sd">        :raises: KeyError:</span>
+<span class="sd">        :raises: TypeError:</span>
+<span class="sd">        :return: (dict)   {&quot;ttl&quot;: &lt;int&gt;, &quot;protect&quot;: &lt;list&gt;}</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_full_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid JSON file: </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+    <span class="k">if</span> <span class="s1">&#39;WhakerPy&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_full_data</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filepath</span><span class="si">!r}</span><span class="s2"> is missing the required &#39;WhakerPy&#39; section.&quot;</span><span class="p">)</span>
+    <span class="n">_section</span> <span class="o">=</span> <span class="n">_full_data</span><span class="p">[</span><span class="s1">&#39;WhakerPy&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_section</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;JSON key &#39;WhakerPy&#39; must be a dict.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">_section</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+</section>    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

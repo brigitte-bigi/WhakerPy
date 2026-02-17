@@ -2,26 +2,45 @@
 <html>
 
         <head>
+            
+            <title>WhakerPy doc</title>
+
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-            <title>WhakerPy doc</title>
+            <meta name="description" content="Python Class Documentation of WSGIApplication. Create the default application for an UWSGI server." />
+
             <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-1.0/wexa_statics/css/wexa.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-1.0/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-1.0/wexa_statics/css/book.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-1.0/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-1.0/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
 
-            <script src="./Whakerexa-1.0/wexa_statics/js/wexa.js" type="module"></script>
-            <script src="./Whakerexa-1.0/wexa_statics/js/whakerpy/request.js" type="text/javascript"></script>
-            <script src="./Whakerexa-1.0/wexa_statics/js/book.js" type="application/javascript"></script>
-            <script type="module">
-                window.Wexa.OnLoadManager.addLoadFunction(() => {
-                    let book = new Book("main-content");
-                    book.fill_table(false);
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
                 });
+              };
+            
+              document.head.appendChild(s);
+            })();
             </script>
+
        </head>
        
        <body class="light">
@@ -33,24 +52,24 @@
             <nav>
                 <ul>
                     <li>
-                        <button role="menuitem" class="print-off" onclick="AccessibilityManager.switch_contrast_scheme()" aria-label="Change contrast">
-                            <img class="nav-item-img" src="./Whakerexa-1.0/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
                         </button>
                     </li>
                     <li>
-                        <button class="print-off" role="menuitem" onclick="AccessibilityManager.switch_color_scheme()" aria-label="Change theme color" >
-                            <img class="nav-item-img" src="./Whakerexa-1.0/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
                         </button>
                     </li>
                 </ul>
             </nav>
         
-    <h1>WhakerPy 1.5</h1>
+    <h1>WhakerPy 2.0</h1>
         <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 1.5</h1>
+    <h1>WhakerPy 2.0</h1>
     <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
     <ul>
@@ -77,6 +96,8 @@
 
 <p>WSGI response is created from given "environ" parameters and communicated
 with start_response.</p>
+
+<p>This class checks if the request comes from a blacklisted URL ASAP.</p>
 
     </article>
 </section>
@@ -112,8 +133,18 @@ View Source
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span> <span class="o">=</span> <span class="n">default_path</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__default_file</span> <span class="o">=</span> <span class="n">default_filename</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span> <span class="o">=</span> <span class="p">(</span><span class="n">web_page_maker</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span><span class="p">,</span> <span class="n">default_web_json</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__policy</span> <span class="o">=</span> <span class="n">HTTPDPolicy</span><span class="p">()</span>
+    <span class="n">web_json_path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">default_web_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">web_json_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span><span class="p">,</span> <span class="n">default_web_json</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span> <span class="o">=</span> <span class="p">(</span><span class="n">web_page_maker</span><span class="p">,</span> <span class="n">web_json_path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;bake_response&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__web_site_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__web_site_data</span> <span class="o">=</span> <span class="n">WebSiteData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">default_web_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="o">.</span><span class="n">configure</span><span class="p">({</span><span class="s1">&#39;blacklist&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__web_site_data</span><span class="o">.</span><span class="n">blacklist</span><span class="p">,</span> <span class="s1">&#39;signed_url&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__web_site_data</span><span class="o">.</span><span class="n">signed_url</span><span class="p">})</span>
 </code></pre></div>
 
     </details>
@@ -199,14 +230,11 @@ View Source
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="n">web_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">web_data</span><span class="p">,</span> <span class="s1">&#39;bake_response&#39;</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">web_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">page</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">bake_response</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span><span class="p">)</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__web_site_data</span><span class="o">.</span><span class="n">bake_response</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">page</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">WebSiteData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">web_data</span><span class="p">(</span><span class="n">page_name</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__web_site_data</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">web_data</span><span class="p">(</span><span class="n">page_name</span><span class="p">)</span>
 </code></pre></div>
 
     </details>
@@ -216,13 +244,20 @@ View Source
 
     <article class="docstring">
 <p><em>Handle requests for dynamic content or return a 404 if not found.</em></p>
+
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>page_name</strong></li>
-<li><strong>filepath</strong></li>
-<li><strong>environ</strong></li>
-<li><strong>handler_utils</strong></li>
+<li><strong>page_name</strong>: (<em>str</em>) Name of the page to bake</li>
+<li><strong>filepath</strong>: (<em>str</em>) Path to the file to bake</li>
+<li><strong>environ</strong>: (<em>dict</em>) WSGI environment dictionary with request data</li>
+<li><strong>handler_utils</strong>: (HTTPDHandlerUtils) Handler utils</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>tuple</em>) Return content and status code</li>
 </ul>
 
     </article>
@@ -233,16 +268,46 @@ View Source
 View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__serve_dynamic_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">handler_utils</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle requests for dynamic content or return a 404 if not found.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle requests for dynamic content or return a 404 if not found.</span>
+
+<span class="sd">        :param page_name: (str) Name of the page to bake</span>
+<span class="sd">        :param filepath: (str) Path to the file to bake</span>
+<span class="sd">        :param environ: (dict) WSGI environment dictionary with request data</span>
+<span class="sd">        :param handler_utils: (HTTPDHandlerUtils) Handler utils</span>
+<span class="sd">        :return: (tuple) Return content and status code</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dynamic_pages</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">page_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__create_dynamic_page</span><span class="p">(</span><span class="n">page_name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">page_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span> <span class="ow">or</span> <span class="n">filepath</span> <span class="o">!=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">page_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Page not found : </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Page not found: </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">accept</span><span class="p">)</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">process_post</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;wsgi.input&#39;</span><span class="p">])</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">bakery</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">,</span> <span class="n">page_name</span><span class="p">,</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="p">],</span> <span class="n">events</span><span class="p">,</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">has_to_return_data</span><span class="p">(</span><span class="n">accept</span><span class="p">))</span>
+        <span class="n">events</span><span class="p">,</span> <span class="n">accept</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">process_post</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;wsgi.input&#39;</span><span class="p">])</span>
+        <span class="n">has_to_return_data</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">has_to_return_data</span><span class="p">(</span><span class="n">accept</span><span class="p">)</span>
+        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">bakery</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">,</span> <span class="n">page_name</span><span class="p">,</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="p">],</span> <span class="n">events</span><span class="p">,</span> <span class="n">has_to_return_data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">has_to_return_data</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="o">.</span><span class="n">finalize_html</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__check_policy_compliance</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__check_policy_compliance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requested_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">environ</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;QUERY_STRING&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">allowed</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">mime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__policy</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">requested_path</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">environ</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">allowed</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">build_default_headers</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">browser_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">varnish</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">start_response</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">status</span><span class="p">),</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">content</span>
+    <span class="k">return</span> <span class="kc">None</span>
 </code></pre></div>
 
     </details>
@@ -293,16 +358,20 @@ View Source
     <span class="k">if</span> <span class="s1">&#39;HTTP_ACCEPT&#39;</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">:</span>
         <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;Accept&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HTTP_ACCEPT&#39;</span><span class="p">]</span>
     <span class="n">handler_utils</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_file</span><span class="p">)</span>
+    <span class="n">requested_path</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span>
     <span class="n">filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__default_path</span> <span class="o">+</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span>
     <span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;//&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
     <span class="n">page_name</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">get_page_name</span><span class="p">()</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__check_policy_compliance</span><span class="p">(</span><span class="n">requested_path</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">content</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">content</span><span class="p">]</span>
     <span class="n">use_cache</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__serve_dynamic_content</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">handler_utils</span><span class="p">)</span>
+        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__serve_dynamic_content</span><span class="p">(</span><span class="n">page_name</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">handler_utils</span><span class="p">)</span>
         <span class="n">use_cache</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">GeneratorType</span><span class="p">):</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">build_default_headers</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">browser_cache</span><span class="o">=</span><span class="n">use_cache</span><span class="p">,</span> <span class="n">varnish</span><span class="o">=</span><span class="n">use_cache</span><span class="p">)</span>
@@ -357,7 +426,7 @@ View Source
 </section>    </section>    </main>
     
             <footer>
-                <p class="copyright">Copyright (C) 2023-2025 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+                <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
             </footer>
         
 </body>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>WhakerPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python Class Documentation of HTTPDHandler. Web-based application HTTPD handler." />
+
+            <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>WhakerPy 2.0</h1>
+        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 2.0</h1>
+    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" href="whakerpy.htmlmaker.html"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="HTTPDValueError.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="HTTPDHandlerUtils.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="whakerpy.webapp.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#whakerpy.httpd">    <h1>Module whakerpy.httpd</h1>
+<section id="#HTTPDHandler">
+<h2>Class HTTPDHandler</h2>
+
+<section>
+<h3 id="#description_HTTPDHandler">Description</h3>
+    <article class="docstring">
+<p><em>Web-based application HTTPD handler.</em></p>
+
+<p>This class is used to handle the HTTP requests that arrive at the server.</p>
+
+<p>This class is instantiated by the server each time a request is received
+and then a response is created. This is an HTTPD handler for any Web-based
+application server. It parses the request and the headers, then call a
+specific method depending on the request type.</p>
+
+<p>In this handler, HTML pages are supposed to not be static. Instead,
+they are serialized from an HTMLTree instance -- so not read from disk.
+The server contains the page's bakery, the handler is then asking the
+server page's bakery to get the html content and response status.</p>
+
+<p>The parent server is supposed to have all the pages as members in a
+dictionary, i.e. it's a sppasBaseHTTPDServer. Each page has a bakery
+to create the response content. However, this handler can also be used
+with any other http.server.ThreadingHTTPServer.</p>
+
+<p>The currently supported HTTPD responses status are:</p>
+
+<ul>
+<li>200: OK</li>
+<li>205: Reset Content</li>
+<li>403: Forbidden</li>
+<li>404: Not Found -- also used for "expired"</li>
+<li>410: Gone</li>
+<li>418: I'm a teapot</li>
+</ul>
+
+    </article>
+</section>
+<section>
+<h3 id="#constructor_HTTPDHandler">Constructor</h3>
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">client_address</span><span class="p">,</span> <span class="n">server</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">client_address</span> <span class="o">=</span> <span class="n">client_address</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">server</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handle</span><span class="p">()</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#public_fct_HTTPDHandler">Public functions</h3>
+<h4>get_default_page</h4>
+
+    <article class="docstring">
+<p><em>Retrieve the server default page name.</em></p>
+
+<p>This method first checks if the server has a callable 'default' method
+to determine the default page name. If not, it falls back to the
+provided default value.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>default</strong>: (<em>str</em>) The fallback default page name, if no server-specific method is found. Defaults to "index.html".</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) The name of the default page.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_default_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve the server default page name.</span>
+
+<span class="sd">        This method first checks if the server has a callable &#39;default&#39; method</span>
+<span class="sd">        to determine the default page name. If not, it falls back to the</span>
+<span class="sd">        provided default value.</span>
+
+<span class="sd">        :param default: (str) The fallback default page name, if no server-specific</span>
+<span class="sd">                               method is found. Defaults to &quot;index.html&quot;.</span>
+<span class="sd">        :return: (str) The name of the default page.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">default</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">default</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">default</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>do_HEAD</h4>
+
+    <article class="docstring">
+<p><em>Prepare the response to a HEAD request.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">do_HEAD</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a HEAD request.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;HEAD -- requested: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_set_headers</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>do_GET</h4>
+
+    <article class="docstring">
+<p><em>Prepare the response to a GET request.</em></p>
+
+<p>This method:
+- extracts the query string (before path normalization),
+- applies blacklist (if enabled),
+- applies signed URL verification (if enabled),
+- serves static files or generated HTML pages.</p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">do_GET</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a GET request.</span>
+
+<span class="sd">        This method:</span>
+<span class="sd">        - extracts the query string (before path normalization),</span>
+<span class="sd">        - applies blacklist (if enabled),</span>
+<span class="sd">        - applies signed URL verification (if enabled),</span>
+<span class="sd">        - serves static files or generated HTML pages.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39; ---- DO GET -- requested: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+    <span class="n">raw_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+    <span class="n">query_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;?&#39;</span> <span class="ow">in</span> <span class="n">raw_path</span><span class="p">:</span>
+        <span class="n">query_string</span> <span class="o">=</span> <span class="n">raw_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">handler_utils</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">raw_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_default_page</span><span class="p">())</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span>
+    <span class="n">mime_type</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">get_mime_type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">allowed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="s1">&#39;policy_check&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">allowed</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">mime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">policy_check</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">query_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">allowed</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">())</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">elif</span> <span class="n">mime_type</span> <span class="o">==</span> <span class="s1">&#39;text/html&#39;</span><span class="p">:</span>
+            <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">handler_utils</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(),</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mime_type</span> <span class="o">=</span> <span class="n">mime</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>do_POST</h4>
+
+    <article class="docstring">
+<p><em>Prepare the response to a POST request.</em></p>
+
+<p>This method:
+- extracts the query string (before path normalization),
+- applies blacklist (if enabled),
+- applies signed URL verification (if enabled),
+- reads POST body and generates the HTML response.</p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">do_POST</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the response to a POST request.</span>
+
+<span class="sd">        This method:</span>
+<span class="sd">        - extracts the query string (before path normalization),</span>
+<span class="sd">        - applies blacklist (if enabled),</span>
+<span class="sd">        - applies signed URL verification (if enabled),</span>
+<span class="sd">        - reads POST body and generates the HTML response.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39; ----- DO POST -- requested: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+    <span class="n">raw_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+    <span class="n">query_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;?&#39;</span> <span class="ow">in</span> <span class="n">raw_path</span><span class="p">:</span>
+        <span class="n">query_string</span> <span class="o">=</span> <span class="n">raw_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">handler_utils</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">raw_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_default_page</span><span class="p">())</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span>
+    <span class="n">allowed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="s1">&#39;policy_check&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">allowed</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">mime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">policy_check</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">query_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">allowed</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">events</span><span class="p">,</span> <span class="n">accept</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">process_post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="p">)</span>
+        <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">handler_utils</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">accept</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>log_request</h4>
+
+    <article class="docstring">
+<p><em>Override. For a quiet handler pls!!!.</em></p>
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>code</strong></li>
+<li><strong>size</strong></li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">log_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. For a quiet handler pls!!!.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#private_fct_HTTPDHandler">Private functions</h3>
+<h4>_set_headers</h4>
+
+    <article class="docstring">
+<p><em>Set the HTTPD response headers.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>status</strong>: (<em>int</em>) A response status.</li>
+<li><strong>mime_type</strong>: (<em>str</em>) The mime type of the file response</li>
+</ul>
+
+<h5>Raises</h5>
+
+<p>sppasHTTPDValueError</p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_set_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the HTTPD response headers.</span>
+
+<span class="sd">        :param status: (int) A response status.</span>
+<span class="sd">        :param mime_type: (str) The mime type of the file response</span>
+<span class="sd">        :raises: sppasHTTPDValueError</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mime_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_response</h4>
+
+    <article class="docstring">
+<p><em>Make the appropriate HTTPD response.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>content</strong>: (<em>bytes</em>|iterator) The HTML response content or an iterator yielding chunks of bytes.</li>
+<li><strong>status</strong>: (<em>int</em>) The HTTPD status code of the response.</li>
+<li><strong>mime_type</strong>: (<em>str</em>) The mime type of the file response.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make the appropriate HTTPD response.</span>
+
+<span class="sd">        :param content: (bytes|iterator) The HTML response content or an iterator</span>
+<span class="sd">                        yielding chunks of bytes.</span>
+<span class="sd">        :param status: (int) The HTTPD status code of the response.</span>
+<span class="sd">        :param mime_type: (str) The mime type of the file response.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_set_headers</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">GeneratorType</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">410</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_bakery</h4>
+
+    <article class="docstring">
+<p><em>Process the events and return the html page content or json data and status.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>handler_utils</strong>: (HTTPDhandlerUtils)</li>
+<li><strong>events</strong>: (<em>dict</em>) key=event name, value=event value</li>
+<li><strong>mime_type</strong>: (<em>str</em>) The mime type of the file response</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>tuple(<em>bytes</em>, HTTPDStatus) the content of the response the httpd status</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_bakery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handler_utils</span><span class="p">:</span> <span class="n">HTTPDHandlerUtils</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the events and return the html page content or json data and status.</span>
+
+<span class="sd">        :param handler_utils: (HTTPDhandlerUtils)</span>
+<span class="sd">        :param events: (dict) key=event name, value=event value</span>
+<span class="sd">        :param mime_type: (str) The mime type of the file response</span>
+<span class="sd">        :return: tuple(bytes, HTTPDStatus) the content of the response the httpd status</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="s1">&#39;page_bakery&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">page_bakery</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_page_name</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">has_to_return_data</span><span class="p">(</span><span class="n">mime_type</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+</section>    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

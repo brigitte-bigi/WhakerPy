@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>WhakerPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python Class Documentation of WebSiteResponse. Create an HTML response content." />
+
+            <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>WhakerPy 2.0</h1>
+        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 2.0</h1>
+    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" href="whakerpy.httpd.html"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="WebSiteData.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="WebSiteApplication.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#whakerpy.webapp">    <h1>Module whakerpy.webapp</h1>
+<section id="#WebSiteResponse">
+<h2>Class WebSiteResponse</h2>
+
+<section>
+<h3 id="#description_WebSiteResponse">Description</h3>
+    <article class="docstring">
+<p><em>Create an HTML response content.</em></p>
+
+<p>Can be used when all pages of a webapp are sharing the same header, nav
+and footer. Then, <strong>only one tree</strong> is created for all pages, and its
+body->main is changed depending on the requested page.</p>
+
+    </article>
+</section>
+<section>
+<h3 id="#constructor_WebSiteResponse">Constructor</h3>
+    <article class="docstring">
+<p><em>Create a HTTPD Response instance with a default response.</em></p>
+
+<p>Useful when creating dynamically the HTML Tree for a webapp.
+The "main" part of the body is re-created every time bake() is invoked.
+Here, it's loaded from a static file.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>name</strong>: (<em>str</em>) Filename of the body main content.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">tree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a HTTPD Response instance with a default response.</span>
+
+<span class="sd">    Useful when creating dynamically the HTML Tree for a webapp.</span>
+<span class="sd">    The &quot;main&quot; part of the body is re-created every time bake() is invoked.</span>
+<span class="sd">    Here, it&#39;s loaded from a static file.</span>
+
+<span class="sd">    :param name: (str) Filename of the body main content.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">WebSiteResponse</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">tree</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_bake</span><span class="p">()</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#public_fct_WebSiteResponse">Public functions</h3>
+<h4>page</h4>
+
+    <article class="docstring">
+<p><em>Override. Return the current HTML page name.</em></p>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) Name of the file containing the body->main.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">page</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Override. Return the current HTML page name.</span>
+
+<span class="sd">        :return: (str) Name of the file containing the body-&gt;main.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#private_fct_WebSiteResponse">Private functions</h3>
+<h4>_process_events</h4>
+
+    <article class="docstring">
+<p><em>Process the given events.</em></p>
+
+<p>The given event name must match a function of the event's manager.
+Processing an event may change the content of the tree. In that case,
+the <code>dirty</code> method must be turned into True: it will invalidate the
+deprecated content (<em>invalidate) and re-generate a new one (</em>bake).</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>events (dict)</strong>: key=event<em>name, value=event</em>value</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>bool</em>)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_process_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the given events.</span>
+
+<span class="sd">        The given event name must match a function of the event&#39;s manager.</span>
+<span class="sd">        Processing an event may change the content of the tree. In that case,</span>
+<span class="sd">        the `dirty` method must be turned into True: it will invalidate the</span>
+<span class="sd">        deprecated content (_invalidate) and re-generate a new one (_bake).</span>
+
+<span class="sd">        :param events (dict): key=event_name, value=event_value</span>
+<span class="sd">        :return: (bool)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_status</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="k">return</span> <span class="kc">True</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_invalidate</h4>
+
+    <article class="docstring">
+<p><em>Remove all children nodes of the body "main".</em></p>
+
+<p>Delete the body main content and nothing else.</p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_invalidate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove all children nodes of the body &quot;main&quot;.</span>
+
+<span class="sd">        Delete the body main content and nothing else.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span><span class="o">.</span><span class="n">body_main</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">clear_children</span><span class="p">()</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>_bake</h4>
+
+    <article class="docstring">
+<p><em>Create the dynamic page content in HTML.</em></p>
+
+<p>Load the body->main content from a file and add it to the tree.</p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_bake</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the dynamic page content in HTML.</span>
+
+<span class="sd">        Load the body-&gt;main content from a file and add it to the tree.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39; -&gt; Set </span><span class="si">{:s}</span><span class="s1"> content to the body-&gt;main&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span><span class="o">.</span><span class="n">get_body_main</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_htree</span><span class="o">.</span><span class="n">body_main</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+</section>    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

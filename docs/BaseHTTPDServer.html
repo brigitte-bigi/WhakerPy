@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>WhakerPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python Class Documentation of BaseHTTPDServer. A base class for any custom HTTPD server." />
+
+            <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>WhakerPy 2.0</h1>
+        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 2.0</h1>
+    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" href="whakerpy.htmlmaker.html"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="HTTPDHandlerUtils.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="Blacklist.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="whakerpy.webapp.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#whakerpy.httpd">    <h1>Module whakerpy.httpd</h1>
+<section id="#BaseHTTPDServer">
+<h2>Class BaseHTTPDServer</h2>
+
+<section>
+<h3 id="#description_BaseHTTPDServer">Description</h3>
+    <article class="docstring">
+<p><em>A base class for any custom HTTPD server.</em></p>
+
+<p>It adds a dictionary of the HTML page's bakery this server can handle
+and the name of the default page.</p>
+
+<h5>Example</h5>
+
+<div class="highlight"><pre><span></span><code> <span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">BaseHTTPDServer</span><span class="p">(</span><span class="n">server_address</span><span class="p">,</span> <span class="n">app_handler</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s2">&quot;AppName&quot;</span><span class="p">,</span> <span class="n">blacklist</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;SomeBot&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<p>This server stores:
+- dynamic pages ("<em>pages") used by the bakery system,
+- the default page name ("</em>default"),
+- an optional HTTP policy with:
+1. a persistent blacklist of URL paths used by HTTPDHandler
+to reject abusive requests as early as possible.
+2. a set of signed URLs</p>
+
+    </article>
+</section>
+<section>
+<h3 id="#constructor_BaseHTTPDServer">Constructor</h3>
+    <article class="docstring">
+<p><em>Create the server instance and add custom members.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the server instance and add custom members.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">BaseHTTPDServer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_default</span> <span class="o">=</span> <span class="s1">&#39;index.html&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_policy</span> <span class="o">=</span> <span class="n">HTTPDPolicy</span><span class="p">()</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#public_fct_BaseHTTPDServer">Public functions</h3>
+<h4>configure</h4>
+
+    <article class="docstring">
+<p><em>Configure the server.</em></p>
+
+<ol>
+<li>Configure policy....</li>
+<li>Add bakeries for dynamic HTML pages : The created pages are instances
+of the BaseResponseRecipe class.</li>
+</ol>
+
+<p>Optional keys in config dict:
+- "app": application name
+- "blacklist": list of blacklisted URL paths
+- "signed_url": signed URL path</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>kwargs</strong>: (<em>dict</em>) Configuration dictionary.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure the server.</span>
+
+<span class="sd">        1. Configure policy....</span>
+<span class="sd">        2. Add bakeries for dynamic HTML pages : The created pages are instances</span>
+<span class="sd">        of the BaseResponseRecipe class.</span>
+
+<span class="sd">        Optional keys in config dict:</span>
+<span class="sd">            - &quot;app&quot;: application name</span>
+<span class="sd">            - &quot;blacklist&quot;: list of blacklisted URL paths</span>
+<span class="sd">            - &quot;signed_url&quot;: signed URL path</span>
+
+<span class="sd">        :param kwargs: (dict) Configuration dictionary.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_policy</span><span class="o">.</span><span class="n">configure</span><span class="p">({</span><span class="s1">&#39;blacklist&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;blacklist&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="s1">&#39;signed_url&#39;</span><span class="p">:</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;signed_url&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)})</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_create_pages</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>policy_check</h4>
+
+    <article class="docstring">
+<p><em>Check the request against policies and return decision and response.</em></p>
+
+<p>Returned values are:
+- allowed: (bool) True if request is accepted
+- content: (bytes|None) HTML bytes if rejected, otherwise None
+- status: (HTTPDStatus|None) Status if rejected, otherwise None
+- mime_type: (str|None) Mime if rejected, otherwise None</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>path</strong>: (<em>str</em>) Normalized URL path (without query).</li>
+<li><strong>query_string</strong>: (<em>str</em>) Raw query string (without '?').</li>
+<li><strong>headers</strong>: (Any) Request headers or environ. Must support ".get(...)".</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>tuple</em>) (allowed, content, status, mime_type)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">policy_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the request against policies and return decision and response.</span>
+
+<span class="sd">        Returned values are:</span>
+<span class="sd">            - allowed: (bool) True if request is accepted</span>
+<span class="sd">            - content: (bytes|None) HTML bytes if rejected, otherwise None</span>
+<span class="sd">            - status: (HTTPDStatus|None) Status if rejected, otherwise None</span>
+<span class="sd">            - mime_type: (str|None) Mime if rejected, otherwise None</span>
+
+<span class="sd">        :param path: (str) Normalized URL path (without query).</span>
+<span class="sd">        :param query_string: (str) Raw query string (without &#39;?&#39;).</span>
+<span class="sd">        :param headers: (Any) Request headers or environ. Must support &quot;.get(...)&quot;.</span>
+<span class="sd">        :return: (tuple) (allowed, content, status, mime_type)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_policy</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">query_string</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>default</h4>
+
+    <article class="docstring">
+<p><em>Return the default page name, used when a URL ends with '/'.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the default page name, used when a URL ends with &#39;/&#39;.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>page_bakery</h4>
+
+    <article class="docstring">
+<p><em>Return the page content and response status.</em></p>
+
+<p>This method bakes a page and optionally finalizes outgoing HTML.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>page_name</strong>: (<em>str</em>) Requested page name.</li>
+<li><strong>headers</strong>: (<em>dict</em>) HTTP request headers.</li>
+<li><strong>events</strong>: (<em>dict</em>) Event values (POST).</li>
+<li><strong>has<em>to</em>return_data</strong>: (<em>bool</em>) True if returning data, False if returning HTML.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>tuple</em>) (content, status)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">page_bakery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">has_to_return_data</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the page content and response status.</span>
+
+<span class="sd">        This method bakes a page and optionally finalizes outgoing HTML.</span>
+
+<span class="sd">        :param page_name: (str) Requested page name.</span>
+<span class="sd">        :param headers: (dict) HTTP request headers.</span>
+<span class="sd">        :param events: (dict) Event values (POST).</span>
+<span class="sd">        :param has_to_return_data: (bool) True if returning data, False if returning HTML.</span>
+<span class="sd">        :return: (tuple) (content, status)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">bakery</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">,</span> <span class="n">page_name</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">has_to_return_data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">has_to_return_data</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_policy</span><span class="o">.</span><span class="n">finalize_html</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#private_fct_BaseHTTPDServer">Private functions</h3>
+<h4>_create_pages</h4>
+
+    <article class="docstring">
+<p><em>To be overridden. Add bakeries for dynamic HTML pages.</em></p>
+
+<p>The created pages are instances of the BaseResponseRecipe class.
+Below is an example on how to override this method:</p>
+
+<h5>Example</h5>
+
+<div class="highlight"><pre><span></span><code> <span class="o">&gt;</span> <span class="k">if</span> <span class="n">app</span> <span class="o">==</span> <span class="s2">&quot;main&quot;</span><span class="p">:</span>
+ <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="s2">&quot;index.html&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BaseResponseRecipe</span><span class="p">(</span><span class="s2">&quot;index.html&quot;</span><span class="p">,</span> <span class="n">HTMLTree</span><span class="p">(</span><span class="s2">&quot;Index&quot;</span><span class="p">))</span>
+ <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="s2">&quot;foo.html&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WebResponseRecipe</span><span class="p">(</span><span class="s2">&quot;foo.html&quot;</span><span class="p">,</span> <span class="n">HTMLTree</span><span class="p">(</span><span class="s2">&quot;Foo&quot;</span><span class="p">))</span>
+ <span class="o">&gt;</span> <span class="k">elif</span> <span class="n">app</span> <span class="o">==</span> <span class="s2">&quot;test&quot;</span><span class="p">:</span>
+ <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="s2">&quot;test.html&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BaseResponseRecipe</span><span class="p">(</span><span class="s2">&quot;test.html&quot;</span><span class="p">,</span> <span class="n">HTMLTree</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">_create_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;To be overridden. Add bakeries for dynamic HTML pages.</span>
+
+<span class="sd">        The created pages are instances of the BaseResponseRecipe class.</span>
+<span class="sd">        Below is an example on how to override this method:</span>
+
+<span class="sd">        :example:</span>
+<span class="sd">        if app == &quot;main&quot;:</span>
+<span class="sd">            self._pages[&quot;index.html&quot;] = BaseResponseRecipe(&quot;index.html&quot;, HTMLTree(&quot;Index&quot;))</span>
+<span class="sd">            self._pages[&quot;foo.html&quot;] = WebResponseRecipe(&quot;foo.html&quot;, HTMLTree(&quot;Foo&quot;))</span>
+<span class="sd">        elif app == &quot;test&quot;:</span>
+<span class="sd">            self._pages[&quot;test.html&quot;] = BaseResponseRecipe(&quot;test.html&quot;, HTMLTree(&quot;test&quot;))</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+</section>    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

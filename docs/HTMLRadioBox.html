@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>WhakerPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python Class Documentation of HTMLRadioBox. Represent a form with one or several input of radio type." />
+
+            <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>WhakerPy 2.0</h1>
+        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 2.0</h1>
+    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" href="HTMLInputText.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="HTMLButtonNode.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="whakerpy.httpd.html"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#whakerpy.htmlmaker">    <h1>Module whakerpy.htmlmaker</h1>
+<section id="#HTMLRadioBox">
+<h2>Class HTMLRadioBox</h2>
+
+<section>
+<h3 id="#description_HTMLRadioBox">Description</h3>
+    <article class="docstring">
+<p><em>Represent a form with one or several input of radio type.</em></p>
+
+    </article>
+</section>
+<section>
+<h3 id="#constructor_HTMLRadioBox">Constructor</h3>
+    <article class="docstring">
+<p><em>Create a form node.</em></p>
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>parent</strong></li>
+<li><strong>identifier</strong></li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a form node.&quot;&quot;&quot;</span>
+    <span class="n">attributes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;POST&#39;</span>
+    <span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">identifier</span>
+    <span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">identifier</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">HTMLRadioBox</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="n">attributes</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#public_fct_HTMLRadioBox">Public functions</h3>
+<h4>append_input</h4>
+
+    <article class="docstring">
+<p><em>Append a label tag with an input and a span.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>class_name</strong>: (<em>str</em>) Used for both the CSS class of the label and the name of the input</li>
+<li><strong>value</strong>: (<em>str</em>) input value</li>
+<li><strong>text</strong>: (<em>str</em>) span tag content</li>
+<li><strong>checked</strong>: (<em>bool</em>)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">append_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">checked</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append a label tag with an input and a span.</span>
+
+<span class="sd">        :param class_name: (str) Used for both the CSS class of the label and the name of the input</span>
+<span class="sd">        :param value: (str) input value</span>
+<span class="sd">        :param text: (str) span tag content</span>
+<span class="sd">        :param checked: (bool)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">label_attributes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">label_attributes</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;button&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">class_name</span><span class="p">:</span>
+        <span class="n">label_attributes</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;button &#39;</span> <span class="o">+</span> <span class="n">class_name</span>
+    <span class="k">if</span> <span class="n">checked</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">label_attributes</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39; checked&#39;</span>
+    <span class="n">label_node</span> <span class="o">=</span> <span class="n">HTMLNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="n">label_attributes</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="n">label_node</span><span class="p">)</span>
+    <span class="n">input_attributes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">input_attributes</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;radio&#39;</span>
+    <span class="n">input_attributes</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">class_name</span>
+    <span class="n">input_attributes</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">if</span> <span class="n">checked</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">input_attributes</span><span class="p">[</span><span class="s1">&#39;checked&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">input_node</span> <span class="o">=</span> <span class="n">BaseTagNode</span><span class="p">(</span><span class="n">label_node</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="n">input_attributes</span><span class="p">)</span>
+    <span class="n">label_node</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="n">input_node</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">span_node</span> <span class="o">=</span> <span class="n">HTMLNode</span><span class="p">(</span><span class="n">label_node</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;span&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">span_node</span> <span class="o">=</span> <span class="n">HTMLNode</span><span class="p">(</span><span class="n">label_node</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;span&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">label_node</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="n">span_node</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+</section>    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

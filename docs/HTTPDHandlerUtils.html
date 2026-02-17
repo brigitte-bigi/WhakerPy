@@ -2,26 +2,45 @@
 <html>
 
         <head>
+            
+            <title>WhakerPy doc</title>
+
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-            <title>WhakerPy doc</title>
+            <meta name="description" content="Python Class Documentation of HTTPDHandlerUtils. " />
+
             <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
-            <link rel="stylesheet" href="./Whakerexa-1.0/wexa_statics/css/wexa.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-1.0/wexa_statics/css/layout.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-1.0/wexa_statics/css/book.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-1.0/wexa_statics/css/menu.css" type="text/css" />
-            <link rel="stylesheet" href="./Whakerexa-1.0/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
             <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
 
-            <script src="./Whakerexa-1.0/wexa_statics/js/wexa.js" type="module"></script>
-            <script src="./Whakerexa-1.0/wexa_statics/js/whakerpy/request.js" type="text/javascript"></script>
-            <script src="./Whakerexa-1.0/wexa_statics/js/book.js" type="application/javascript"></script>
-            <script type="module">
-                window.Wexa.OnLoadManager.addLoadFunction(() => {
-                    let book = new Book("main-content");
-                    book.fill_table(false);
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
                 });
+              };
+            
+              document.head.appendChild(s);
+            })();
             </script>
+
        </head>
        
        <body class="light">
@@ -33,24 +52,24 @@
             <nav>
                 <ul>
                     <li>
-                        <button role="menuitem" class="print-off" onclick="AccessibilityManager.switch_contrast_scheme()" aria-label="Change contrast">
-                            <img class="nav-item-img" src="./Whakerexa-1.0/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
                         </button>
                     </li>
                     <li>
-                        <button class="print-off" role="menuitem" onclick="AccessibilityManager.switch_color_scheme()" aria-label="Change theme color" >
-                            <img class="nav-item-img" src="./Whakerexa-1.0/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
                         </button>
                     </li>
                 </ul>
             </nav>
         
-    <h1>WhakerPy 1.5</h1>
+    <h1>WhakerPy 2.0</h1>
         <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 1.5</h1>
+    <h1>WhakerPy 2.0</h1>
     <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
     <ul>
@@ -98,7 +117,7 @@ View Source
 <span class="sd">    :param default_page: (str) optional parameter, default page when the page doesn&#39;t specify it</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__page_name</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">filter_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">default_page</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__page_name</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">filter_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">default_page</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">__headers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">HTTPMessage</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__headers</span> <span class="o">=</span> <span class="n">headers</span>
@@ -282,6 +301,72 @@ View Source
     </details>
 
 
+<h4>blacklisted_page_answer</h4>
+
+    <article class="docstring">
+<p><em>Create the response with 418 status code.</em></p>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>tuple</em>) Response content and status to send back to the client</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">blacklisted_page_answer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the response with 418 status code.</span>
+
+<span class="sd">        :return: (tuple) Response content and status to send back to the client</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">418</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="s2">&quot;I&#39;m a teapot. If you are not a robot, send an e-mail to the administrator.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>signed_url_page_answer</h4>
+
+    <article class="docstring">
+<p><em>Create the response with 404 status code for an expired signed URL.</em></p>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>tuple</em>) Response content and status to send back to the client</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">signed_url_page_answer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the response with 404 status code for an expired signed URL.</span>
+
+<span class="sd">        :return: (tuple) Response content and status to send back to the client</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="s1">&#39;This page URL is invalid or has expired.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
 <h4>get_mime_type</h4>
 
     <article class="docstring">
@@ -314,7 +399,7 @@ View Source
 <span class="sd">        :return: (str) The mime type of the file or &#39;unknown&#39; if we can&#39;t find the type</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="p">(</span><span class="n">mime_type</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">mime_type</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mime_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;unknown&#39;</span>
     <span class="k">else</span><span class="p">:</span>
@@ -365,7 +450,7 @@ View Source
         <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;/</span><span class="si">{</span><span class="n">default_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">default_path</span><span class="p">)</span>
     <span class="n">filepath</span> <span class="o">=</span> <span class="n">path</span>
     <span class="n">page_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">extension</span><span class="p">)</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">page_name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">page_name</span> <span class="o">=</span> <span class="n">default_path</span>
         <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
@@ -544,7 +629,7 @@ View Source
         <span class="n">headers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;Pragma&#39;</span><span class="p">,</span> <span class="s1">&#39;no-cache&#39;</span><span class="p">))</span>
         <span class="n">headers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;Expires&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">GeneratorType</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">content_length</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">getsize_from_iterator</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="n">content_length</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">getsize_from_iterator</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
         <span class="n">headers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">content_length</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">headers</span>
 </code></pre></div>
@@ -841,14 +926,14 @@ View Source
             <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Can&#39;t decode JSON posted data : </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="s1">&#39;multipart/form-data; boundary=&#39;</span> <span class="ow">in</span> <span class="n">content_type</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_binary_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">filename</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_binary_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="n">filename</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_file</span><span class="p">(</span><span class="n">content_type</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;upload_file&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;mime_type&#39;</span><span class="p">:</span> <span class="n">mime_type</span><span class="p">,</span> <span class="s1">&#39;file_content&#39;</span><span class="p">:</span> <span class="n">content</span><span class="p">}}</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">parse_qsl</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">keep_blank_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">strict_parsing</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
     <span class="k">if</span> <span class="s1">&#39;upload_file&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; -- upload_file[</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;upload_file&#39;</span><span class="p">][</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; -- upload_file[</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;upload_file&#39;</span><span class="p">][</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span>
 </code></pre></div>
 
@@ -893,9 +978,9 @@ View Source
 <span class="sd">        :return: (tuple[str, str, str]) the data extracted : filename, fime mime type and file content</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">end_index_filename</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_filename</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">filename</span><span class="p">,</span> <span class="n">end_index_filename</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_filename</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">end_index_filename</span><span class="p">:]</span>
-    <span class="p">(</span><span class="n">mimetype</span><span class="p">,</span> <span class="n">end_index_type</span><span class="p">)</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_mimetype</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">mimetype</span><span class="p">,</span> <span class="n">end_index_type</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_mimetype</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">end_index_type</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
     <span class="n">boundary</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">__extract_form_data_boundary</span><span class="p">(</span><span class="n">content_type</span><span class="p">)</span>
     <span class="n">start_content</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
@@ -1106,7 +1191,7 @@ View Source
 </section>    </section>    </main>
     
             <footer>
-                <p class="copyright">Copyright (C) 2023-2025 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+                <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
             </footer>
         
 </body>

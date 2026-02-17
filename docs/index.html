@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>WhakerPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="Python class documentation" />
+
+            <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>WhakerPy 2.0</h1>
+        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 2.0</h1>
+    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="readme">
+
+
+<pre>
+
+-----------------------------------------------------------------------------                                                           
+
+ ██╗    ██╗ ██╗  ██╗  █████╗  ██╗  ██╗ ███████╗ ██████╗  ██████╗ ██╗   ██╗
+ ██║    ██║ ██║  ██║ ██╔══██╗ ██║ ██╔╝ ██╔════╝ ██╔══██╗ ██╔══██╗╚██╗ ██╔╝
+ ██║ █╗ ██║ ███████║ ███████║ █████╔╝  █████╗   ██████╔╝ ██████╔╝ ╚████╔╝ 
+ ██║███╗██║ ██╔══██║ ██╔══██║ ██╔═██╗  ██╔══╝   ██╔══██╗ ██╔═══╝   ╚██╔╝  
+ ╚███╔███╔╝ ██║  ██║ ██║  ██║ ██║  ██╗ ███████╗ ██║  ██║ ██║        ██║   
+  ╚══╝╚══╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝        ╚═╝   
+       
+   a Python library to create dynamic HTML content and web applications
+
+              Copyright (C) 2023-2026 Brigitte Bigi, CNRS
+         Laboratoire Parole et Langage, Aix-en-Provence, France
+         
+-----------------------------------------------------------------------------                                                              
+</pre>
+<h1>WhakerPy</h1>
+
+<h2>Overview</h2>
+
+<h3>Uses cases</h3>
+
+<p>You want all users to get access to dynamic web pages via web browser. You then need to create a web application allowing creating HTML pages and communicating via HTTPD.
+WhakerPy is a Python library of such a tool.</p>
+
+<p>In fact, you may have already heard of Django — high-level, full-stack framework, and Flash — a micro-framework. Both of them generate output in the form of content from the model presented and formatted based on a template file.
+The WhakerPy library does not offer views, templates or models! 
+On the contrary, <strong>WhakerPy offers a 100% pure-Python solution</strong> by creating HTML pages entirely dynamically, or with a static content. </p>
+
+<p>WhakerPy is your solution if:
+- you're looking to design a relatively simple web app with a few static pages; 
+- and/or you want a full control on dynamic HTML creation content;
+- <strong>you want to build a web app with nothing but Python</strong>.</p>
+
+<h3>Features</h3>
+
+<p>WhakerPy is a Python, free, open source, self-hosted library to create dynamic HTML content and web applications. It offers more flexibility than a framework: it's a library!
+WhakerPy is then a collection of packages and modules that help developers to create static or dynamic web content without having to worry about the details involved. </p>
+
+<ul>
+<li>Build powerful web apps with all the flexibility of Python: building a web app with WhakerPy is as simple as coding with Python </li>
+<li>Create HTML pages dynamically: create a tree with nodes and serialize the tree into a string</li>
+<li>Can save as static HTML files</li>
+<li>Create a web-frontend with its HTTPD response "bakery" system</li>
+<li>Run locally with its HTTPD server</li>
+<li>Run locally or remotely with its WSGI application</li>
+</ul>
+
+<h3>Main advantages</h3>
+
+<blockquote>
+  <p>Creating and manipulating HTML from the power of Python!</p>
+</blockquote>
+
+<ul>
+<li>easy to learn, consistent, simple syntax</li>
+<li>flexible and easy usage</li>
+<li>open-source: easily add new features and functionalities </li>
+<li>easily customizable: it's a pure python library in Object-Oriented Programming</li>
+<li>portable: can be hosted on any web server - as soon as python is available, or used locally</li>
+<li>it is distributed as a single folder module and has no dependencies other than the Python Standard Library.</li>
+</ul>
+
+<h2>Get and install WhakerPy</h2>
+
+<p>Get it from its repository <a href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a> or from Pypi <a href="https://pypi.org/project/whakerpy/">https://pypi.org/project/whakerpy/</a>, and get documentation <a href="https://whakerpy.sourceforge.io">https://whakerpy.sourceforge.io</a>.</p>
+
+<h3>Install from pypi.org:</h3>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">WhakerPy</span>
+</code></pre></div>
+
+<h3>Install from its wheel package:</h3>
+
+<p>Download the wheel file (WhakerPy-xxx.whl) from it's web page and install it in your python environment with:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">dist</span><span class="o">/&lt;</span><span class="n">WhakerPy</span><span class="o">-</span><span class="n">xxx</span><span class="o">.</span><span class="n">whl</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<h3>From its repo:</h3>
+
+<p>Download the latest ".zip" from it's web page and unpack it, or clone the repository with <code>git</code>. WhakerPy package includes the following folders and files:</p>
+
+<ol>
+<li>"whakerpy": the source code package</li>
+<li>"docs": the documentation of <code>whakerpy</code> library in HTML and Markdown</li>
+<li>"tests": the tests of the source code</li>
+<li>"sample": a web application sample </li>
+</ol>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="n">unzip</span> <span class="n">WhakerPy</span><span class="o">-</span><span class="mf">1.1</span><span class="o">.</span><span class="n">zip</span> 
+<span class="o">&gt;</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">git</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">sf</span><span class="o">.</span><span class="n">net</span><span class="o">/</span><span class="n">p</span><span class="o">/</span><span class="n">whakerpy</span><span class="o">/</span><span class="n">code</span> <span class="n">whakerpy</span><span class="o">-</span><span class="n">code</span>
+<span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</code></pre></div>
+
+<h2>Quick Start</h2>
+
+<h3>Create a dynamic HTML tree</h3>
+
+<p>Open a Python interpreter and type or paste the following:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">whakerpy.htmlmaker</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTMLTree</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span><span class="w"> </span><span class="nn">whakerpy.htmlmaker</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTMLNode</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">htree</span> <span class="o">=</span> <span class="n">HTMLTree</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">node</span> <span class="o">=</span> <span class="n">HTMLNode</span><span class="p">(</span><span class="n">htree</span><span class="o">.</span><span class="n">body_main</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;h1&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;this is a title&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">htree</span><span class="o">.</span><span class="n">body_main</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Render and print the HTML:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">htree</span><span class="o">.</span><span class="n">serialize</span><span class="p">())</span>
+</code></pre></div>
+
+<p>and the result is:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="err">!</span><span class="n">DOCTYPE</span> <span class="n">html</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+   <span class="o">&lt;</span><span class="n">head</span><span class="o">&gt;</span>    <span class="o">&lt;/</span><span class="n">head</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="n">main</span><span class="o">&gt;</span>
+     <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span>
+         <span class="n">this</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">title</span>
+     <span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+ <span class="o">&lt;/</span><span class="n">main</span><span class="o">&gt;</span>
+
+<span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">html</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p>Add some styling and others:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">htree</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;WhakerPy&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">htree</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">meta</span><span class="p">({</span><span class="s2">&quot;charset&quot;</span><span class="p">:</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">})</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">htree</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">rel</span><span class="o">=</span><span class="s2">&quot;icon&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;/static/favicon.ico&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">htree</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">rel</span><span class="o">=</span><span class="s2">&quot;stylesheet&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;nice.css&quot;</span><span class="p">,</span> <span class="n">link_type</span><span class="o">=</span><span class="s2">&quot;text/css&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Add page copyright in the footer:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">copyreg</span> <span class="o">=</span> <span class="n">HTMLNode</span><span class="p">(</span><span class="n">htree</span><span class="o">.</span><span class="n">body_footer</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="s2">&quot;copyright&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">,</span>
+<span class="o">&gt;&gt;&gt;</span>                    <span class="n">attributes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;copyright&quot;</span><span class="p">,</span> <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">},</span>
+<span class="o">&gt;&gt;&gt;</span>                    <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Copyright &amp;copy; 2023 My Self&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">htree</span><span class="o">.</span><span class="n">body_footer</span><span class="o">.</span><span class="n">append_child</span><span class="p">(</span><span class="n">copyreg</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Let's view the result in your favorite web browser:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span><span class="w"> </span><span class="nn">webbrowser</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">file_whakerpy</span> <span class="o">=</span> <span class="n">htree</span><span class="o">.</span><span class="n">serialize_to_file</span><span class="p">(</span><span class="s1">&#39;file.html&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">webbrowser</span><span class="o">.</span><span class="n">open_new_tab</span><span class="p">(</span><span class="n">file_whakerpy</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>Create a web application frontend with dynamic HTML content</h3>
+
+<p>For a quick start, see the file <code>sample.py</code> in the repo. It shows a very simple 
+solution to create a server that can handle dynamic content. This content is 
+created from a custom <code>BaseResponseRecipe()</code> object, available in the file 
+<code>sample/response.py</code>. The response is the interface between a local back-end 
+python application and the web front-end.</p>
+
+<p>For a more complex example of an already in-used application web frontend, see: 
+<a href="https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py">https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py</a>.</p>
+
+<h2>Projects using WhakerPy</h2>
+
+<p>WhakerPy was initially developed within SPPAS <a href="https://sppas.org">https://sppas.org</a>. 
+It was extracted from its original software by the author to lead its own life as standalone package. 
+The "setup" of SPPAS is entirely based on <code>whakerpy</code> API.</p>
+
+<p>Other projects: </p>
+
+<ul>
+<li>the website <a href="https://auto-cuedspeech.org">https://auto-cuedspeech.org</a></li>
+<li>the website <a href="https://sppas.org">https://sppas.org</a></li>
+<li>the 'setup' application of SPPAS</li>
+<li>the intranet of the Laboratoire Parole et Langage</li>
+<li><em>contact the author if your project is based on WhakerPy</em></li>
+</ul>
+
+<h1>The developer's corner</h1>
+
+<h2>Create a wheel</h2>
+
+<p>WhakerPy is no system dependent. Information to build its wheel are stored into the file <code>pyproject.toml</code>.
+The universal wheel is created with: <code>python -m build</code></p>
+
+<h2>Make the documentation</h2>
+
+<p>The documentation requires Whakerexa-2.1 <a href="https://whakerexa.sourceforge.io">https://whakerexa.sourceforge.io</a>. 
+Download and unzip it into the "docs" folder.</p>
+
+<p>To generate the documentation locally, install the required external program, 
+then launch the doc generator:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="s2">&quot;.[docs]&quot;</span>
+<span class="o">&gt;</span><span class="n">python</span> <span class="n">makedoc</span><span class="o">.</span><span class="n">py</span>
+</code></pre></div>
+
+<h2>Test/Analyze source code</h2>
+
+<p>Install the optional dependencies with:</p>
+
+<div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="s2">&quot;.[tests]&quot;</span>
+</code></pre></div>
+
+<p>Code coverage can be analyzed with unittest and coverage. 
+Install them with the command: <code>python -m pip install ".[tests]"</code>.
+Then, perform the following steps:</p>
+
+<ol>
+<li><code>coverage run</code></li>
+<li><code>coverage report</code> to see a summary report into the terminal,
+or use this command to get the result in XML format: <code>coverage xml</code></li>
+</ol>
+
+<p>The whakerpy package can be analyzed with SonarQube by following these steps:</p>
+
+<ol>
+<li>Download and install Docker</li>
+<li>Download and install SonarQube: <code>docker pull sonarqube:latest</code></li>
+<li>Start the SonarQube server: 
+<code>docker run --stop-timeout 3600 -d --name sonarqube -p 9000:9000 sonarqube:latest</code>
+Log in to http://localhost:9000. Both login and password are "admin".<br />
+Add the python plugin and restart server.</li>
+<li>Click "Add project" with name "WhakerPy", and provide it a token</li>
+<li>Download sonar-scanner client. On macOS its: <code>brew install sonar-scanner</code>.</li>
+<li>Launch: <code>sonar-scanner -Dsonar.token="paste the token here"</code></li>
+<li>See results in the opened URL. You may not forget that it's an <em>automatic</em> code analyzer, 
+not an <em>intelligent</em> one.</li>
+</ol>
+
+<h2>Help / How to contribute</h2>
+
+<p>If you want to report a bug, please send an e-mail to the author.
+Any and all constructive comments are welcome.</p>
+
+<p>If you plan to contribute to the code, please read carefully and agree both the 
+code of conduct and the code style guide.
+If you are contributing code or documentation to the WhakerPy project, you are 
+agreeing to the DCO certificate <a href="http://developercertificate.org">http://developercertificate.org</a>. 
+Copy/paste the DCO, then you just add a line saying:</p>
+
+<pre>
+
+Signed-off-by: Random J Developer <random@developer.example.org>
+</pre>
+<p>Send this file by e-mail to the author.</p>
+
+<h1>License/Copyright</h1>
+
+<p>See the accompanying <code>LICENSE</code> and <code>AUTHORS.md</code> files for the full list of contributors.</p>
+
+<p>Copyright (C) 2023-2026 <a href="https://sppas.org/bigi/">Brigitte Bigi</a> - <a href="m&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#x63;&#x6f;&#110;&#116;&#x61;&#99;&#x74;&#64;&#115;p&#x70;&#x61;&#x73;&#46;&#x6f;&#114;g">&#x63;&#x6f;&#110;&#116;&#x61;&#99;&#x74;&#64;&#115;p&#x70;&#x61;&#x73;&#46;&#x6f;&#114;g</a>, CNRS,
+Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
+
+<h2>How to cite WhakerPy</h2>
+
+<p>By using WhakerPy, you are encouraged to mention it in your publications 
+or products, in accordance with the best practices of the AGPL license.</p>
+
+<p>Use the following reference to cite WhakerPy:</p>
+
+<blockquote>
+  <p>Brigitte Bigi. WhakerPy, a Python library to create dynamic HTML content and
+  web applications. Version 1.5. 2024. <a href="https://hal.science/hal-04743687">https://hal.science/hal-04743687</a></p>
+</blockquote>
+    </section>
+<h1>List of packages:</h1>
+      <h2>whakerpy.htmlmaker</h2>
+      <p><a href='whakerpy.htmlmaker.html'>Get documentation</a></p>
+      <h2>whakerpy.httpd</h2>
+      <p><a href='whakerpy.httpd.html'>Get documentation</a></p>
+      <h2>whakerpy.webapp</h2>
+      <p><a href='whakerpy.webapp.html'>Get documentation</a></p>
+    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

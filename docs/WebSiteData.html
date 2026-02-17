@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html>
+
+        <head>
+            
+            <title>WhakerPy doc</title>
+
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+            <meta name="description" content="WebSiteData. Storage class for a web application configuration extracted from a JSON file." />
+
+            <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/layout.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/book.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/menu.css" type="text/css" />
+            <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/code.css" type="text/css" />
+            <link rel="stylesheet" href="./statics/clamming.css" type="text/css" />
+
+            <!-- Whakerexa JS loader: ES6 modules on http(s), bundle on file:// -->
+            <script>
+            (function () {
+              const usingFile = (window.location.protocol === 'file:');
+              const s = document.createElement('script');
+            
+              if (usingFile) {
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.bundle.js';
+              } else {
+                s.type = 'module';
+                s.src = './Whakerexa-2.1/wexa_statics/js/wexa.js';
+              }
+            
+              s.onload = function () {
+                window.Wexa.onload.addLoadFunction(function () {
+                  const book = new window.Wexa.Book("main-content");
+                  book.fill_table(false);
+                });
+              };
+            
+              document.head.appendChild(s);
+            })();
+            </script>
+
+       </head>
+       
+       <body class="light">
+        <header>
+
+            <a role="button" class="skip" href="#main-content" aria-label="Go to main content">
+                Go to main content
+            </a>
+            <nav>
+                <ul>
+                    <li>
+                        <button id="btn-contrast" role="menuitem" class="print-off" onclick="window.Wexa.accessibility.switch_contrast_scheme()" aria-label="Contrast">
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/contrast_switcher.jpg" alt="Contrast" id="img-contrast"/>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="btn-theme" class="print-off" role="menuitem" onclick="window.Wexa.accessibility.switch_color_scheme()" aria-label="Theme" >
+                            <img class="nav-item-img" src="./Whakerexa-2.1/wexa_statics/icons/theme_switcher.png" alt="Theme" id="img-theme"/>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        
+    <h1>WhakerPy 2.0</h1>
+        <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    </header>
+    <nav id="nav-book" class="side-nav">
+    <h1>WhakerPy 2.0</h1>
+    <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
+        <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
+    <ul>
+<li><a role="button" tabindex="0" href="whakerpy.httpd.html"> &crarr; Prev. Module</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
+<li><a role="button" tabindex="0" href="WebSiteResponse.html"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" aria-disabled="true"> &rdsh; Next Module</a></li>
+    </ul>
+    <h2>Table of Contents</h2>
+    <ul id="toc"></ul>
+    <hr>
+    <p><small>Automatically created</small></p><p><small>by <a class="external-link" href="https://clamming.sf.net">ClammingPy</a></small></p>
+</nav>
+    <main id="main-content">
+    <section id="#whakerpy.webapp">    <h1>Module whakerpy.webapp</h1>
+<section id="#WebSiteData">
+<h2>Class WebSiteData</h2>
+
+<section>
+<h3 id="#description_WebSiteData">Description</h3>
+    <article class="docstring">
+<p><em>Storage class for a web application configuration extracted from a JSON file.</em></p>
+
+<p>This class supports the creation of semi-dynamic HTML pages. Each page entry in the JSON
+is rendered using the same ResponseReceipe instance, with only the 'body->main' content
+loaded from a static file.</p>
+
+<p>For each semi-dynamic page, this class stores:
+- the page name (used in the URL),
+- the page title,
+- the local filename of the main body content.</p>
+
+<p>Example entry in the JSON file:
+"index.html": {
+"title": "Home",
+"main": "index.htm",
+"header": true,
+"footer": true
+}</p>
+
+<p>The 'bake<em>response' method can return a ResponseReceipe for any page—either semi-dynamic
+or fully dynamic. Note that '<strong>contains</strong>' only checks semi-dynamic pages, while 'is</em>page'
+identifies any page that can be baked.</p>
+
+    </article>
+</section>
+<section>
+<h3 id="#constructor_WebSiteData">Constructor</h3>
+    <article class="docstring">
+<p><em>Create a WebSiteData instance.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>json_filename</strong>: (<em>str</em>) Configuration filename.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a WebSiteData instance.</span>
+
+<span class="sd">    :param json_filename: (str) Configuration filename.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_main_path</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_default</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">signed_url</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">blacklist</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">json_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">section</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_json_whakerpy_section</span><span class="p">(</span><span class="n">json_filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_main_path</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s1">&#39;pagespath&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">raw_name</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">section</span><span class="p">[</span><span class="s1">&#39;pages&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">raw_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_default</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="s1">&#39;blacklist&#39;</span> <span class="ow">in</span> <span class="n">section</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">blacklist</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s1">&#39;blacklist&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;signed_url&#39;</span> <span class="ow">in</span> <span class="n">section</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signed_url</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="s1">&#39;signed_url&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;WebSiteData with NO given JSON config filename.&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#public_fct_WebSiteData">Public functions</h3>
+<h4>description</h4>
+
+    <article class="docstring">
+<p><em>To be overridden. Return a short description of the website.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">description</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;To be overridden. Return a short description of the website.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;No description provided.&#39;</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>icon</h4>
+
+    <article class="docstring">
+<p><em>To be overridden. Return the path of the favicon of the website.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">icon</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;To be overridden. Return the path of the favicon of the website.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>name</h4>
+
+    <article class="docstring">
+<p><em>To be overridden. Return a short name of the application.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;To be overridden. Return a short name of the application.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;NoName&#39;</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>get_default_page</h4>
+
+    <article class="docstring">
+<p><em>Return the name of the default page.</em></p>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_default_page</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the name of the default page.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>is_page</h4>
+
+    <article class="docstring">
+<p><em>To be overridden. Return true if the given page name can be baked.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>page_name</strong>: The name of the page to check.</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>bool</em>) True if the given page name can be baked.</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;To be overridden. Return true if the given page name can be baked.</span>
+
+<span class="sd">        :param page_name: The name of the page to check.</span>
+<span class="sd">        :return: (bool) True if the given page name can be baked.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>filename</h4>
+
+    <article class="docstring">
+<p><em>Return the filename of a given page.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>page</strong>: (<em>str</em>) Name of an HTML page</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the filename of a given page.</span>
+
+<span class="sd">        :param page: (str) Name of an HTML page</span>
+<span class="sd">        :return: (str)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">page</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="n">main_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page</span><span class="p">][</span><span class="s1">&#39;main&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_main_path</span><span class="p">,</span> <span class="n">main_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>title</h4>
+
+    <article class="docstring">
+<p><em>Return the title of a given page.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>page</strong>: (<em>str</em>) Name of an HTML page</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the title of a given page.</span>
+
+<span class="sd">        :param page: (str) Name of an HTML page</span>
+<span class="sd">        :return: (str)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">page</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;title&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page</span><span class="p">][</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>short_description</h4>
+
+    <article class="docstring">
+<p><em>Return the short description of a given page.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>page</strong>: (<em>str</em>) Name of an HTML page</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>str</em>) Filled or empty description (less than 160 characters)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">short_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the short description of a given page.</span>
+
+<span class="sd">        :param page: (str) Name of an HTML page</span>
+<span class="sd">        :return: (str) Filled or empty description (less than 160 characters)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">page</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;description&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page</span><span class="p">]:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page</span><span class="p">][</span><span class="s1">&#39;description&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">d</span><span class="p">[:</span><span class="mi">160</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>has_header</h4>
+
+    <article class="docstring">
+<p><em>Return True if the given page should have the header.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>page</strong>: (<em>str</em>) Name of an HTML page</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>bool</em>)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">has_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the given page should have the header.</span>
+
+<span class="sd">        :param page: (str) Name of an HTML page</span>
+<span class="sd">        :return: (bool)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">page</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;header&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page</span><span class="p">][</span><span class="s1">&#39;header&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>has_footer</h4>
+
+    <article class="docstring">
+<p><em>Return True if the given page should have the footer.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>page</strong>: (<em>str</em>) Name of an HTML page</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>bool</em>)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">has_footer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the given page should have the footer.</span>
+
+<span class="sd">        :param page: (str) Name of an HTML page</span>
+<span class="sd">        :return: (bool)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">page</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;footer&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">[</span><span class="n">page</span><span class="p">][</span><span class="s1">&#39;footer&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>create_pages</h4>
+
+    <article class="docstring">
+<p><em>Instantiate all pages response from the json.</em></p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>web_response</strong>: (BaseResponseRecipe) the class to used to create the pages, WebSiteResponse class used by default</li>
+<li><strong>default_path</strong>: (<em>str</em>) None by default, the default path for all pages</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>dict</em>) a dictionary with key = page name and value = the response object</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_pages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">web_response</span><span class="o">=</span><span class="n">WebSiteResponse</span><span class="p">,</span> <span class="n">default_path</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Instantiate all pages response from the json.</span>
+
+<span class="sd">        :param web_response: (BaseResponseRecipe) the class to used to create the pages,</span>
+<span class="sd">                            WebSiteResponse class used by default</span>
+<span class="sd">        :param default_path: (str) None by default, the default path for all pages</span>
+<span class="sd">        :return: (dict) a dictionary with key = page name and value = the response object</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">pages</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">HTMLTree</span><span class="p">(</span><span class="s1">&#39;sample&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">page_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="n">page_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">default_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">(</span><span class="n">page_name</span><span class="p">))</span>
+        <span class="n">pages</span><span class="p">[</span><span class="n">page_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">web_response</span><span class="p">(</span><span class="n">page_path</span><span class="p">,</span> <span class="n">tree</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pages</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>bake_response</h4>
+
+    <article class="docstring">
+<p><em>Return the bakery system to create the page dynamically.</em></p>
+
+<p>To be overridden by subclasses.</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>page_name</strong>: (<em>str</em>) Name of an HTML page</li>
+<li><strong>default</strong>: (<em>str</em>) The default path</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(BaseResponseRecipe)</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">bake_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseResponseRecipe</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the bakery system to create the page dynamically.</span>
+
+<span class="sd">        To be overridden by subclasses.</span>
+
+<span class="sd">        :param page_name: (str) Name of an HTML page</span>
+<span class="sd">        :param default: (str) The default path</span>
+<span class="sd">        :return: (BaseResponseRecipe)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#protected_fct_WebSiteData">Protected functions</h3>
+<h4>__get_json_whakerpy_section</h4>
+
+    <article class="docstring">
+<p><em>Return the configuration section related to WhakerPy.</em></p>
+
+<ul>
+<li>Look for a top‐level "WhakerPy" key (new format).</li>
+<li>Otherwise use the full JSON (old format) and issue a deprecation warning.</li>
+</ul>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>filename</strong>: path to JSON configuration file</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>dict with keys "pagespath", "<page>.html", …</li>
+</ul>
+
+<h5>Raises</h5>
+
+<ul>
+<li><em>FileNotFoundError</em>: if the file cannot be opened</li>
+<li><em>OSError</em>: on other I/O errors reading the file</li>
+<li><em>json.JSONDecodeError</em>: if the file is not valid JSON</li>
+<li><em>ValueError</em>: if the required "pagespath" key is missing</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">__get_json_whakerpy_section</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the configuration section related to WhakerPy.</span>
+
+<span class="sd">        - Look for a top‐level &quot;WhakerPy&quot; key (new format).</span>
+<span class="sd">        - Otherwise use the full JSON (old format) and issue a deprecation warning.</span>
+
+<span class="sd">        :param filename: path to JSON configuration file</span>
+<span class="sd">        :return: dict with keys &quot;pagespath&quot;, &quot;&lt;page&gt;.html&quot;, …</span>
+<span class="sd">        :raises: FileNotFoundError: if the file cannot be opened</span>
+<span class="sd">        :raises: OSError: on other I/O errors reading the file</span>
+<span class="sd">        :raises: json.JSONDecodeError: if the file is not valid JSON</span>
+<span class="sd">        :raises: ValueError: if the required &quot;pagespath&quot; key is missing</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">_full_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;WhakerPy&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_full_data</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">!r}</span><span class="s2"> is missing the required &#39;WhakerPy&#39; section.&quot;</span><span class="p">)</span>
+    <span class="n">_section</span> <span class="o">=</span> <span class="n">_full_data</span><span class="p">[</span><span class="s1">&#39;WhakerPy&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">&#39;pages&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_section</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">!r}</span><span class="s2"> is missing the required &#39;pages&#39; section in &#39;WhakerPy&#39; section&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;pagespath&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_section</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">!r}</span><span class="s2"> is missing the required &#39;pagespath&#39; section in &#39;WhakerPy&#39; section&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_section</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+<section>
+<h3 id="#overloads_WebSiteData">Overloads</h3>
+<h4>__format__</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__format__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__format__</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__iter__</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">a</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__len__</h4>
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pages</span><span class="p">)</span>
+</code></pre></div>
+
+    </details>
+
+
+<h4>__contains__</h4>
+
+    <article class="docstring">
+<p><em>Value is a page name.</em></p>
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>value</strong></li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Value is a page name.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pages</span>
+</code></pre></div>
+
+    </details>
+
+
+</section>
+</section>    </section>    </main>
+    
+            <footer>
+                <p class="copyright">Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage, Aix-en-Provence, France</p>
+            </footer>
+        
+</body>
+</html>

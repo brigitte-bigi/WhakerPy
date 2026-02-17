@@ -7,7 +7,7 @@
 
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-            <meta name="description" content="Python Class Documentation of HTMLTreeError. " />
+            <meta name="description" content="Python Class Documentation of HTMLMainNode. Convenient class to represent the main node of an HTML tree." />
 
             <link rel="logo icon" href="./statics/whakerpy32x32.ico" />
             <link rel="stylesheet" href="./Whakerexa-2.1/wexa_statics/css/wexa.css" type="text/css" />
@@ -74,9 +74,9 @@
         <p><a class="external-link" href="https://sourceforge.net/projects/whakerpy/">https://sourceforge.net/projects/whakerpy/</a></p>
     <ul>
 <li><a role="button" tabindex="0" aria-disabled="true"> &crarr; Prev. Module</a></li>
-<li><a role="button" tabindex="0" href="HTMLTree.html"> &uarr; Prev. Class</a></li>
+<li><a role="button" tabindex="0" href="HTMLNavNode.html"> &uarr; Prev. Class</a></li>
 <li><a role="button" tabindex="0" href="index.html"> &#8962; Index</a></li>
-<li><a role="button" tabindex="0" aria-disabled="true"> &darr; Next Class</a></li>
+<li><a role="button" tabindex="0" href="HTMLFooterNode.html"> &darr; Next Class</a></li>
 <li><a role="button" tabindex="0" href="whakerpy.httpd.html"> &rdsh; Next Module</a></li>
     </ul>
     <h2>Table of Contents</h2>
@@ -86,19 +86,24 @@
 </nav>
     <main id="main-content">
     <section id="#whakerpy.htmlmaker">    <h1>Module whakerpy.htmlmaker</h1>
-<section id="#HTMLTreeError">
-<h2>Class HTMLTreeError</h2>
+<section id="#HTMLMainNode">
+<h2>Class HTMLMainNode</h2>
 
 <section>
-<h3 id="#constructor_HTMLTreeError">Constructor</h3>
+<h3 id="#description_HTMLMainNode">Description</h3>
     <article class="docstring">
-<p><em>Create an HTML Tree for status error response.</em></p>
+<p><em>Convenient class to represent the main node of an HTML tree.</em></p>
 
+    </article>
+</section>
+<section>
+<h3 id="#constructor_HTMLMainNode">Constructor</h3>
+    <article class="docstring">
+<p><em>Create the main node.</em></p>
 <h5>Parameters</h5>
 
 <ul>
-<li><strong>status</strong>: (HTTPDStatus) The status of the response. (DO NOT typing it for circular import problem)</li>
-<li><strong>msg_error</strong>: (<em>str</em>) Optional parameter, error message to display in the page for more information</li>
+<li><strong>parent</strong></li>
 </ul>
 
     </article>
@@ -108,21 +113,9 @@
     <summary>
 View Source
     </summary>
-<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">msg_error</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an HTML Tree for status error response.</span>
-
-<span class="sd">    :param status: (HTTPDStatus) The status of the response. (DO NOT typing it for circular import problem)</span>
-<span class="sd">    :param msg_error: (str) Optional parameter, error message to display in the page for more information</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s1"> : </span><span class="si">{</span><span class="n">status</span><span class="o">.</span><span class="n">HTTPD_STATUS</span><span class="p">[</span><span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
-    <span class="nb">super</span><span class="p">(</span><span class="n">HTMLTreeError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;tree_</span><span class="si">{</span><span class="n">status</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-    <span class="n">h1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">)</span>
-    <span class="n">h1</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">msg_error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">html_error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">)</span>
-        <span class="n">html_error</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">msg_error</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the main node.&quot;&quot;&quot;</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">HTMLMainNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s1">&#39;body_main&#39;</span><span class="p">,</span> <span class="s1">&#39;main&#39;</span><span class="p">)</span>
 </code></pre></div>
 
     </details>
