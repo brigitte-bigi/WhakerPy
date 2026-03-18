@@ -9,7 +9,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+    Copyright (C) 2023-2026 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ from ..hconsts import HTML_TAG_ATTR
 from ..hconsts import HTML_GLOBAL_ATTR
 from ..hconsts import HTML_VISIBLE_ATTR
 from ..hconsts import ARIA_TAG_ATTR
+from ..hconsts import HTML_ELT_ATT
 
 # ---------------------------------------------------------------------------
 
@@ -114,13 +115,17 @@ class BaseTagNode(BaseNode):
         except Exception:
             raise NodeAttributeError(key)
 
-        if key not in HTML_GLOBAL_ATTR and \
-                key.startswith("data-") is False and \
-                key.startswith("aria-") is False and \
-                key not in HTML_VISIBLE_ATTR and \
-                key not in HTML_TAG_ATTR.keys() and \
-                key not in ARIA_TAG_ATTR.keys():
-            raise NodeAttributeError(key)
+        if self.__tag == "html":
+            if key not in HTML_ELT_ATT:
+                raise NodeAttributeError(key)
+        else:
+            if key not in HTML_GLOBAL_ATTR and \
+                    key.startswith("data-") is False and \
+                    key.startswith("aria-") is False and \
+                    key not in HTML_VISIBLE_ATTR and \
+                    key not in HTML_TAG_ATTR.keys() and \
+                    key not in ARIA_TAG_ATTR.keys():
+                raise NodeAttributeError(key)
 
         return key
 
@@ -160,6 +165,7 @@ class BaseTagNode(BaseNode):
         :return: key (str) valid assigned key
 
         """
+        key = self.check_attribute(key)
         if key not in self._attributes:
             self.set_attribute(key, value)
         else:

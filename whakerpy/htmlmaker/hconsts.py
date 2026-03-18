@@ -4,7 +4,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+    Copyright (C) 2023-2026 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -340,3 +340,7 @@ ARIA_TAG_ATTR = {
 # List of accepted child tags in an HTML header.
 HEAD_TAGS = ("title", "meta", "link", "style", "script")
 
+HTML_ELT_ATT = (
+    'lang', 'dir', 'class', 'id', 'style', 'title', 'hidden', 'translate', 'xmlns', 'prefix',
+    'vocab', 'typeof', 'about', 'resource', 'property', 'content', 'datatype'
+)
