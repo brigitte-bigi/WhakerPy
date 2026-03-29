@@ -396,7 +396,7 @@ This banner notice must not be removed.
     --table-caption-fg-color: rgb(30, 30, 40);
 
     /* Other colors */
-    --a-color: rgb(0, 120, 200);
+    --a-color: rgb(0, 100, 150);
     --ins-color: rgba(20, 200, 20, 0.8);
     --del-color: rgba(240, 40, 40, 0.8);
     --s-color: rgb(100, 100, 100);
@@ -407,17 +407,17 @@ This banner notice must not be removed.
 
     /* Alerts */
     --info-color: rgb(60, 100, 160);
-    --info-bg-color: rgb(230, 240, 255);
-    --warning-color: rgb(180, 110, 0);
-    --warning-bg-color: rgb(255, 240, 210);
+    --info-bg-color: rgba(230, 240, 255, 0.75);
+    --warning-color: rgb(150, 90, 0);
+    --warning-bg-color: rgba(255, 240, 210, 0.75);
     --error-color: rgb(170, 30, 30);
-    --error-bg-color: rgb(255, 230, 230);
+    --error-bg-color: rgba(255, 230, 230, 0.75);
     --success-color: rgb(40, 120, 40);
-    --success-bg-color: rgb(225, 245, 225);
+    --success-bg-color: rgba(225, 245, 225, 0.75);
     --tips-color: rgb(160, 130, 40);
-    --tips-bg-color: rgb(250, 245, 225);
+    --tips-bg-color: rgba(250, 245, 225, 0.75);
     --question-color: rgb(120, 60, 180);
-    --question-bg-color: rgb(240, 230, 250);
+    --question-bg-color: rgba(240, 230, 250);
 }
 
 /*
@@ -746,7 +746,7 @@ footer {
 
 /* -------------------------------- menu --------------------------------- */
 
-nav {
+nav, [role=doc-toc] {
     color: var(--nav-fg-color);
     background: var(--nav-bg-color);
     z-index: 10;
@@ -767,7 +767,7 @@ nav {
     column-gap: calc(1rem / var(--size-divisor));
 }
 
-nav * {
+nav *, [role=doc-toc] * {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -788,6 +788,7 @@ nav li, nav dt, nav dd, nav a {
     margin: 0;
 }
 
+.menuitem,
 [role=menuitem] {
     text-decoration: none;
 }
@@ -1059,7 +1060,11 @@ button, [type=button], [type=reset], [type=submit], [role=button] {
     -webkit-appearance: button;
 }
 
-button, *[role=button], *[role=menuitem], summary {
+button,
+*[role=button],
+*[role="menuitem"],
+.menuitem,
+summary {
     background-color: var(--buttons-bg-color);
     color: var(--buttons-fg-color);
 
@@ -1073,7 +1078,10 @@ button, *[role=button], *[role=menuitem], summary {
     margin: 0;
 }
 
-button, *[role=button], *[role=menuitem] {
+button,
+*[role=button],
+*[role="menuitem"],
+.menuitem {
     border: var(--border-width) solid var(--border-color);
     border-radius: var(--border-radius);
 
@@ -1121,7 +1129,10 @@ button:enabled img:hover {
 }
 
 /* Propagate button colors to its children */
-button *, *[role=button] *, *[role=menuitem] * {
+button *,
+*[role=button] *,
+*[role="menuitem"] *,
+*.menuitem * {
     background-color: transparent;
     color: var(--buttons-fg-color);
 }
@@ -1747,7 +1758,10 @@ dialog[role=alertdialog] * {
                            Wexa Accessibility
    ======================================================================= */
 
-[role='menuitem'].accessibility, .dark [role='menuitem'].accessibility  {
+.menuitem.accessibility,
+[role='menuitem'].accessibility,
+.dark [role='menuitem'].accessibility,
+.dark .menuitem.accessibility {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -1769,6 +1783,7 @@ dialog[role=alertdialog] * {
 }
 
 /* Toggle visual effect */
+.menuitem[aria-pressed='true'].accessibility,
 [role='menuitem'][aria-pressed='true'].accessibility {
     transform: scaleX(-1);
     opacity: 1;

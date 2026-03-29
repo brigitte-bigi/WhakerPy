@@ -64,12 +64,12 @@
                 </ul>
             </nav>
         
-    <h1>WhakerPy 2.0</h1>
+    <h1>WhakerPy 2.1</h1>
         <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 2.0</h1>
+    <h1>WhakerPy 2.1</h1>
     <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     <ul>
@@ -304,7 +304,7 @@ View Source
 <h4>blacklisted_page_answer</h4>
 
     <article class="docstring">
-<p><em>Create the response with 418 status code.</em></p>
+<p><em>Create the response with 418 (forbidden) status code.</em></p>
 
 <h5>Returns</h5>
 
@@ -321,13 +321,13 @@ View Source
     </summary>
 <div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">blacklisted_page_answer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the response with 418 status code.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the response with 418 (forbidden) status code.</span>
 
 <span class="sd">        :return: (tuple) Response content and status to send back to the client</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">418</span><span class="p">)</span>
-    <span class="n">content</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="s2">&quot;I&#39;m a teapot. If you are not a robot, send an e-mail to the administrator.&quot;</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">encode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">msg_error</span><span class="o">=</span><span class="s2">&quot;I&#39;m a Teapot. If you are not a robot, send an e-mail to the administrator.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
 </code></pre></div>
 

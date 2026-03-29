@@ -6,7 +6,7 @@
 
 [project]
     name = "WhakerPy"
-    version = "2.0"
+    version = "2.1"
     authors = [{ name="Brigitte Bigi", email="contact@sppas.org" }]
     description = "Web HTML maker in Python - a light web application framework"
     readme = "README.md"
@@ -24,10 +24,9 @@
         "Development Status :: 5 - Production/Stable"]
 
 [project.urls]
-    "Homepage" = "https://sourceforge.net/projects/whakerpy/"
-    "Documentation" = "https://whakerpy.sourceforge.io"
+    "Repo" = "https://github.com/brigitte-bigi/WhakerPy"
+    "Doc" = "https://brigitte-bigi.github.io/WhakerPy/"
     "Pypi" = "https://pypi.org/project/whakerpy/"
-    "Repository" = "https://git.code.sf.net/p/whakerpy/code"
 
 # -------------------
 # Distrib builder
@@ -37,10 +36,9 @@
     docs = [
         "pygments",
         "markdown2",
-        "ClammingPy >=1.9"]
+        "ClammingPy >=2.2"]
     tests = [
         "coverage ~=7.3.0",
-        "selenium ~=4.18.1",
         "python-dotenv ~=1.0.0"]
 
 [build-system]

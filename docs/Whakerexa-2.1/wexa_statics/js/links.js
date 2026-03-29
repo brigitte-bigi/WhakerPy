@@ -78,6 +78,36 @@ export class LinkController {
      * @returns {void}
      */
     handleLinks(selectors) {
+        this._bindLinks(selectors, false);
+    }
+
+    /**
+     * Attach event listeners to all elements whose ids are listed in `selectors`.
+     *
+     * Each valid element will respond to both mouse clicks and Enter key events,
+     * invoking the internal `_handleActivation()` method.
+     *
+     * @param {string[]} selectors - List of element ids to be handled.
+     * @returns {void}
+     */
+    handleLinksWithParameters(selectors) {
+        this._bindLinks(selectors, true);
+    }
+
+    // ----------------------------------------------------------------------
+    // Private
+    // ----------------------------------------------------------------------
+
+    /**
+     * Attach event listeners to all elements whose ids are listed in `selectors`.
+     *
+     * Each valid element will respond to both mouse clicks and Enter key events,
+     * invoking the internal `_handleActivation()` method.
+     *
+     * @param {string[]} selectors - List of element ids to be handled.
+     * @returns {void}
+     */
+    _bindLinks(selectors, withParameters) {
         if (!Array.isArray(selectors)) {
             console.error('LinkController: Expected a list of element ids.');
             return;
@@ -94,8 +124,8 @@ export class LinkController {
             element.removeEventListener('click', this._handleActivation);
             element.removeEventListener('keydown', this._handleActivation);
 
-            element.addEventListener('click', (event) => this._handleActivation(event, element));
-            element.addEventListener('keydown', (event) => this._handleActivation(event, element));
+            element.addEventListener('click', (event) => this._handleActivation(event, element, withParameters));
+            element.addEventListener('keydown', (event) => this._handleActivation(event, element, withParameters));
         }
     }
 
@@ -106,13 +136,14 @@ export class LinkController {
      *
      * @param {Event} event - The event object.
      * @param {HTMLElement} element - The element that triggered the event.
+     * @param {Boolean} withParameters - Preserve accessibility
      * @private
      */
-    _handleActivation(event, element) {
+    _handleActivation(event, element, withParameters) {
         const isClick = (event.type === 'click');
         const isEnter = (event.type === 'keydown' && event.key === 'Enter');
 
-        if (!isClick && !isEnter) {
+        if (isClick === false && isEnter === false) {
             return;
         }
 
@@ -126,7 +157,7 @@ export class LinkController {
         }
 
         const target = element.dataset.target || '_blank';
-        this._openUrl(url, target);
+        this._openUrl(url, target, withParameters);
     }
 
     // ----------------------------------------------------------------------
@@ -136,20 +167,28 @@ export class LinkController {
      *
      * @param {string} url - The URL to open.
      * @param {string} target - The target mode: `_blank`, `_self`, or iframe id.
+     * @param {Boolean} withParameters - Preserve accessibility
      * @private
      */
-    _openUrl(url, target) {
+    _openUrl(url, target, withParameters) {
+        let finalUrl = url;
+
+        if (withParameters === true) {
+            const absoluteUrl = new URL(url, window.location.href).href;
+            finalUrl = window.Wexa.accessibility.setUrlWithParameters(absoluteUrl);
+        }
+
         if (target === '_blank' || target === '_self') {
-            window.open(url, target, 'noopener');
+            window.open(finalUrl, target, 'noopener');
             return;
         }
 
         const iframe = document.getElementById(target);
         if (iframe && iframe.tagName.toLowerCase() === 'iframe') {
-            iframe.src = url;
+            iframe.src = finalUrl;
         } else {
             console.warn(`LinkController: No iframe found with id="${target}". Opening in new tab.`);
-            window.open(url, '_blank', 'noopener');
+            window.open(finalUrl, '_blank', 'noopener');
         }
     }
 }

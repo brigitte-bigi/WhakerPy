@@ -63,17 +63,14 @@ This banner notice must not be removed.
   ======================================================================== */
 
 .width_10 {
-    width: 8%;
     min-width: 8%;
 }
 
 .width_20 {
-    width: 18%;
     min-width: 18%;
 }
 
 .width_30 {
-    width: 28%;
     min-width: 28%;
 }
 
@@ -141,15 +138,16 @@ main > .panel-item:nth-child(odd) {
 }
 
 main > .panel-item:nth-child(odd) * {
-    background-color: inherit;
+    background-color: transparent;
 }
 
 main > .panel-item:nth-child(even) {
     background-color: var(--bg-color-alt);
     color: var(--fg-color-alt);
 }
+
 main > .panel-item:nth-child(even) * {
-    background-color: inherit;
+    background-color: transparent;
 }
 
 /* ----------------------------------------------------------------------- */
@@ -435,6 +433,7 @@ main > .panel-item:nth-child(even) * {
 ol.enumerate-cards {
     list-style: none;
     padding: 0;
+    counter-reset: list-item;
 }
 
 li.enumerate-cards-item + li {
@@ -442,7 +441,26 @@ li.enumerate-cards-item + li {
 }
 
 li.enumerate-cards-item {
-    background: var(--bg-color-alt);
+    background: linear-gradient(
+        120deg,
+        var(--bg-color-alt) 0%,
+        var(--bg-color) 50%,
+        var(--bg-color-alt) 100%
+    ) !important;
+    color: var(--fg-color-alt);
+}
+
+main > .panel-item:nth-child(2n) li.enumerate-cards-item {
+    background: linear-gradient(
+        120deg,
+        var(--bg-color) 0%,
+        var(--bg-color-alt) 50%,
+        var(--bg-color) 100%
+    ) !important;
+    color: var(--fg-color);
+}
+
+li.enumerate-cards-item {
     font-weight: var(--font-weight-black);
     font-size: calc(var(--font-size) * 1.25);
     margin: auto;
@@ -453,11 +471,12 @@ li.enumerate-cards-item {
     padding: 1.5rem;
     border-radius: 1rem;
     width: calc(100% - 2rem);
-    box-shadow: 0.25rem 0.25rem 0.75rem rgb(0 0 0 / 0.1);
+    box-shadow: 0.4rem 0.4rem 0.8rem rgb(0 0 0 / 0.1);
 }
 
 li.enumerate-cards-item::before {
-    background: var(--header-bg-color);
+    background: var(--li-color);
+    color: white;
     counter-increment: list-item;
     content: counter(list-item);
     font-size: calc(var(--font-size) * 2);
@@ -466,7 +485,6 @@ li.enumerate-cards-item::before {
     height: 1.5em;
     flex: 0 0 auto;
     border-radius: 50%;
-    color: var(--header-fg-color);
     display: flex;
     justify-content: center;
     align-items: center;

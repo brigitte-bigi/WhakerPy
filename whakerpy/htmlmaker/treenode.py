@@ -9,7 +9,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2026 Brigitte Bigi, CNRS
+    Copyright (C) 2023-2024 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,6 @@ from .hexc import NodeIdentifierError
 from .basenodes import BaseNode
 from .basenodes import Doctype
 from .basenodes import HTMLComment
-from .htmnodes import TagNode
 from .htmnodes import HTMLNode
 from .treeelts import HTMLHeadNode
 from .treeelts import HTMLHeaderNode
@@ -130,7 +129,7 @@ class HTMLTree(BaseNode):
 
         # The HTML tree has 2 children: a doctype and an HTML element.
         self.__doctype = Doctype()
-        self.__html = TagNode(identifier, None, "html")
+        self.__html = HTMLNode(identifier, None, "html")
 
         # The HTML node has 2 children: the <head> and the <body> (public)
         self.__html.append_child(HTMLHeadNode(self.__html.identifier))
@@ -168,8 +167,8 @@ class HTMLTree(BaseNode):
         :param key: (str) Key property of an HTML attribute
         :param value: (str) Value of the attribute
 
-        :raises: NodeTypeError: if key or value is not a string
-        :raises: NodeAttributeError: if unknown key.
+        :Raises: NodeTypeError: if key or value is not a string
+        :Raises: NodeAttributeError: if unknown key.
 
         """
         self.__html.add_attribute(key, value)

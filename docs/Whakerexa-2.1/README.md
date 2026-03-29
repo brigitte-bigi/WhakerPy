@@ -78,7 +78,7 @@ Whakerexa is under the terms of the GNU Affero General Public License, version 3
 ## Support
 
 Whakerexa was initially developed within <https://auto-cuedspeech.org> project, generously funded by FIRAH (Fondation Internationale de Recherche Appliquée sur le Handicap), <https://www.firah.org/>.
-It is also developed with the support of Laboratoire Parole et Langage <https://www.lpl-aix.fr>.
+It is also developed with the support of Laboratoire Parole et Langage <https://lpl-aix.fr>.
 
 
 
@@ -155,8 +155,7 @@ Version 1.0 establishes Whakerexa as a modular, object-oriented web kit centered
 
 This version also includes a set of monochrome SVG icons.
 
-
-## Version 2.0 — stable
+## Version 2.0 
 
 Version 2.0 is a complete modernization.
 Previous procedural APIs are not preserved.
@@ -169,3 +168,9 @@ Previous procedural APIs are not preserved.
 - Improved `request.js`: JSON detection through `Content-Type` with silent fallback for non-JSON responses.
 - Updated documentation and offline demos. Fixed license documentation to GFDL 1.3, except for slides. See: <https://www.gnu.org/licenses/fdl-1.3.en.html> for details.
 - Added an "extra" JS package for slides. Currently proposed as a PoC.
+
+
+## Version 2.1 - stable
+
+Increased accessibility and corrected bugs.
+

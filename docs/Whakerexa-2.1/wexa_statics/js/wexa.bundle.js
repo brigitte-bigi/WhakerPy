@@ -1,4 +1,4 @@
-// Bundle automatically generated on 2025-12-20 15:55:31
+// Bundle automatically generated on 2026-03-29 10:24:31
 
 // ---------------- logger.js ---------------
 class WexaLogger {
@@ -35,7 +35,7 @@ window.Wexa.WexaLogger = WexaLogger;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- transport\request.js ---------------
+// ---------------- transport/request.js ---------------
 class RequestManager {
     // FIELDS
     // The declaration outside the constructor and the '#' symbol notify a private attribute.
@@ -255,7 +255,7 @@ window.Wexa.RequestManager = RequestManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- transport\base_manager.js ---------------
+// ---------------- transport/base_manager.js ---------------
 'use strict';
 class BaseManager {
     // ----------------------------------------------------------------------
@@ -364,7 +364,7 @@ window.Wexa.BaseManager = BaseManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\visibility.js ---------------
+// ---------------- extras/slides/visibility.js ---------------
 'use strict';
 class SlidesVisibilityController {
     constructor(element) {
@@ -398,7 +398,7 @@ window.Wexa.SlidesVisibilityController = SlidesVisibilityController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\visibility_manager.js ---------------
+// ---------------- extras/slides/visibility_manager.js ---------------
 'use strict';
 class SlidesVisibilityManager {
     constructor(elementsMap = {}) {
@@ -449,7 +449,7 @@ window.Wexa.SlidesVisibilityManager = SlidesVisibilityManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\focus.js ---------------
+// ---------------- extras/slides/focus.js ---------------
 'use strict';
 class SlidesFocusController {
     constructor(options = {}) {
@@ -543,7 +543,7 @@ window.Wexa.SlidesFocusController = SlidesFocusController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\fullscreen.js ---------------
+// ---------------- extras/slides/fullscreen.js ---------------
 'use strict';
 class SlidesFullscreenController {
     constructor(target = null) {
@@ -599,7 +599,7 @@ window.Wexa.SlidesFullscreenController = SlidesFullscreenController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\keyboard.js ---------------
+// ---------------- extras/slides/keyboard.js ---------------
 'use strict';
 class SlidesKeyboardController {
     static SLIDE_KEYS = new Set([
@@ -762,7 +762,7 @@ window.Wexa.SlidesKeyboardController = SlidesKeyboardController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\overview.js ---------------
+// ---------------- extras/slides/overview.js ---------------
 'use strict';
 class SlidesOverview {
     constructor(slides, panelElement, onSelectSlide) {
@@ -833,7 +833,7 @@ window.Wexa.SlidesOverview = SlidesOverview;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\presentation.js ---------------
+// ---------------- extras/slides/presentation.js ---------------
 'use strict';
 class SlidesPresentation {
     constructor(slides, progressBar = null, controlsElement = null) {
@@ -933,7 +933,7 @@ window.Wexa.SlidesPresentation = SlidesPresentation;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\slides_view.js ---------------
+// ---------------- extras/slides/slides_view.js ---------------
 'use strict';
 class SlidesView {
     // ---------------------------------------------------------------------------
@@ -1066,7 +1066,7 @@ window.Wexa.SlidesView = SlidesView;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\slides_manager.js ---------------
+// ---------------- extras/slides/slides_manager.js ---------------
 'use strict';
 class SlidesManager {
     // ----------------------------------------------------------------------
@@ -1354,7 +1354,7 @@ window.Wexa.SlidesManager = SlidesManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\touch.js ---------------
+// ---------------- extras/slides/touch.js ---------------
 'use strict';
 class SlidesTouchController {
     constructor(slidesManager, options = {}) {
@@ -1417,7 +1417,7 @@ window.Wexa.SlidesTouchController = SlidesTouchController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\controls.js ---------------
+// ---------------- extras/slides/controls.js ---------------
 'use strict';
 class SlidesControlsController {
     constructor(manager, {
@@ -1561,7 +1561,7 @@ window.Wexa.SlidesControlsController = SlidesControlsController;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\modeview.js ---------------
+// ---------------- extras/slides/modeview.js ---------------
 'use strict';
 class SlidesViewModeManager {
     constructor(slidesView, controlsController) {
@@ -1598,7 +1598,7 @@ window.Wexa.SlidesViewModeManager = SlidesViewModeManager;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\slides_app.js ---------------
+// ---------------- extras/slides/slides_app.js ---------------
 'use strict';
 class SlidesApp {
     // ----------------------------------------------------------------------
@@ -1710,7 +1710,7 @@ window.Wexa.SlidesApp = SlidesApp;
 // ---- END AUTO-GENERATED EXPORTS ----
 
 
-// ---------------- extras\slides\slides.js ---------------
+// ---------------- extras/slides/slides.js ---------------
 'use strict';
 class Slides {
     constructor(config = {}) {
@@ -1943,16 +1943,35 @@ class AccessibilityManager extends BaseManager {
         }
     }
     // -----------------------------------------------------------------------
-    goToLink(element) {
-        if (element.host !== window.location.host) {
-            document.location.href = element.href;
+    goToLink(element, openInNewTab = false) {
+        const rawHref = element.getAttribute('href');
+        if (rawHref === null || rawHref === '') {
             return;
         }
-        document.location.href = this.setUrlWithParameters(element.href);
+        const url = new URL(element.href, window.location.href);
+        // Determine whether accessibility parameters must be propagated.
+        // They are added when:
+        //   - running from localhost (development server), or
+        //   - navigating within the same host.
+        let targetUrl;
+        if (window.location.protocol !== 'file:' && (window.location.hostname === 'localhost' || url.host === window.location.host)) {
+            targetUrl = this.setUrlWithParameters(url.href);
+        } else {
+            targetUrl = url.href;
+        }
+        // Open either in a new tab or in the current page.
+        if (openInNewTab === true) {
+            window.open(targetUrl, '_blank', 'noopener');
+            return;
+        }
+        document.location.href = targetUrl;
     }
     // -----------------------------------------------------------------------
     setUrlWithParameters(url) {
-        const customUrl = new URL(url);
+        if (url === null || url === '') {
+            return '';
+        }
+        const customUrl = new URL(url, window.location.origin);
         if (this.#activated_color !== '') {
             customUrl.searchParams.set(AccessibilityManager.COLOR_PARAMETER_NAME, this.#activated_color);
         } else {
@@ -2001,10 +2020,11 @@ class AccessibilityManager extends BaseManager {
     // -----------------------------------------------------------------------
     #setAllLinksCustom() {
         let link_elements = Array.from(document.querySelectorAll("a"));
+        link_elements = link_elements.filter(el => el.href !== null && el.href !== '');
         link_elements.forEach(element => {
             element.addEventListener("click", event => {
                 event.preventDefault();
-                this.goToLink(element);
+                this.goToLink(element, element.target === '_blank');
             });
         });
     }
@@ -2546,6 +2566,7 @@ window.Wexa.ProgressBar = ProgressBar;
 
 
 // ---------------- book.js ---------------
+'use strict';
 class Book {
     // FIELDS
     #toc_element;
@@ -2961,6 +2982,15 @@ class LinkController {
     }
     // ----------------------------------------------------------------------
     handleLinks(selectors) {
+        this._bindLinks(selectors, false);
+    }
+    handleLinksWithParameters(selectors) {
+        this._bindLinks(selectors, true);
+    }
+    // ----------------------------------------------------------------------
+    // Private
+    // ----------------------------------------------------------------------
+    _bindLinks(selectors, withParameters) {
         if (!Array.isArray(selectors)) {
             console.error('LinkController: Expected a list of element ids.');
             return;
@@ -2974,15 +3004,15 @@ class LinkController {
             // Avoid multiple bindings on the same element
             element.removeEventListener('click', this._handleActivation);
             element.removeEventListener('keydown', this._handleActivation);
-            element.addEventListener('click', (event) => this._handleActivation(event, element));
-            element.addEventListener('keydown', (event) => this._handleActivation(event, element));
+            element.addEventListener('click', (event) => this._handleActivation(event, element, withParameters));
+            element.addEventListener('keydown', (event) => this._handleActivation(event, element, withParameters));
         }
     }
     // ----------------------------------------------------------------------
-    _handleActivation(event, element) {
+    _handleActivation(event, element, withParameters) {
         const isClick = (event.type === 'click');
         const isEnter = (event.type === 'keydown' && event.key === 'Enter');
-        if (!isClick && !isEnter) {
+        if (isClick === false && isEnter === false) {
             return;
         }
         event.preventDefault();
@@ -2993,20 +3023,25 @@ class LinkController {
             return;
         }
         const target = element.dataset.target || '_blank';
-        this._openUrl(url, target);
+        this._openUrl(url, target, withParameters);
     }
     // ----------------------------------------------------------------------
-    _openUrl(url, target) {
+    _openUrl(url, target, withParameters) {
+        let finalUrl = url;
+        if (withParameters === true) {
+            const absoluteUrl = new URL(url, window.location.href).href;
+            finalUrl = window.Wexa.accessibility.setUrlWithParameters(absoluteUrl);
+        }
         if (target === '_blank' || target === '_self') {
-            window.open(url, target, 'noopener');
+            window.open(finalUrl, target, 'noopener');
             return;
         }
         const iframe = document.getElementById(target);
         if (iframe && iframe.tagName.toLowerCase() === 'iframe') {
-            iframe.src = url;
+            iframe.src = finalUrl;
         } else {
             console.warn(`LinkController: No iframe found with id="${target}". Opening in new tab.`);
-            window.open(url, '_blank', 'noopener');
+            window.open(finalUrl, '_blank', 'noopener');
         }
     }
 }

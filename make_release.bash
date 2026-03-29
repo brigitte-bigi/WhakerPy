@@ -15,7 +15,7 @@ PACKAGE_NAME=`pwd`/${PROGRAM_NAME}-${PROGRAM_VERSION}.zip
 echo "Create release for WhakerPy-"$PROGRAM_VERSION
 
 echo "Create documentation"
-.venv/bin/python makedoc.py
+python makedoc.py
 
 echo "Delete any __pycache__ folder"
   for pycache in `find . -name "__pycache__"`;
@@ -38,7 +38,7 @@ echo "Create 'zip' archive" $PACKAGE_NAME
   fi
 
 echo "Create wheel"
-.venv/bin/python -m build
+python -m build
 
 # transfert to pypi.org:
-# .venv/bin/twine upload -r pypi dist/whakerpy-1.X-py3-none-any.whl
+# twine upload -r pypi dist/whakerpy-2.X-py3-none-any.whl

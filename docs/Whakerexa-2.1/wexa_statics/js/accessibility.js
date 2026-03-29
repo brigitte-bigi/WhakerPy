@@ -12,7 +12,7 @@ import { OnLoadManager } from './dom-loader.js';
 
 This file is part of Whakerexa: https://whakerexa.sf.net/
 
-Copyright (C) 2023-2025 Brigitte Bigi, CNRS
+Copyright (C) 2023-2026 Brigitte Bigi, CNRS
 Laboratoire Parole et Langage, Aix-en-Provence, France
 
 This program is free software: you can redistribute it and/or modify
@@ -428,21 +428,40 @@ export class AccessibilityManager extends BaseManager {
     /**
      * Redirect the client while preserving accessibility parameters.
      *
-     * This method customizes internal link navigation to ensure that color and
-     * contrast schemes are preserved across pages. If the target URL points to an
-     * external domain, the redirection occurs without modification. For internal
-     * links, accessibility parameters are appended to the URL before navigation.
+     * Accessibility parameters are appended when navigating within the same
+     * host or when the current page is served from localhost (development mode).
+     * External domains are left unchanged unless the current host is localhost.
      *
-     * @param {HTMLAnchorElement} element - The `<a>` element containing the target URL.
+     * @param {HTMLAnchorElement} element - The <a> element providing the target URL.
+     * @param {boolean} openInNewTab - True to open the destination in a new tab. False to navigate in place.
      * @returns {void}
      */
-    goToLink(element) {
-        if (element.host !== window.location.host) {
-            document.location.href = element.href;
+    goToLink(element, openInNewTab = false) {
+        const rawHref = element.getAttribute('href');
+        if (rawHref === null || rawHref === '') {
+            return;
+        }
+        const url = new URL(element.href, window.location.href);
+
+        // Determine whether accessibility parameters must be propagated.
+        // They are added when:
+        //   - running from localhost (development server), or
+        //   - navigating within the same host.
+        let targetUrl;
+
+        if (window.location.protocol !== 'file:' && (window.location.hostname === 'localhost' || url.host === window.location.host)) {
+            targetUrl = this.setUrlWithParameters(url.href);
+        } else {
+            targetUrl = url.href;
+        }
+
+        // Open either in a new tab or in the current page.
+        if (openInNewTab === true) {
+            window.open(targetUrl, '_blank', 'noopener');
             return;
         }
 
-        document.location.href = this.setUrlWithParameters(element.href);
+        document.location.href = targetUrl;
     }
 
     // -----------------------------------------------------------------------
@@ -459,7 +478,10 @@ export class AccessibilityManager extends BaseManager {
      * @returns {string} The updated URL containing accessibility parameters.
      */
     setUrlWithParameters(url) {
-        const customUrl = new URL(url);
+        if (url === null || url === '') {
+            return '';
+        }
+        const customUrl = new URL(url, window.location.origin);
 
         if (this.#activated_color !== '') {
             customUrl.searchParams.set(AccessibilityManager.COLOR_PARAMETER_NAME, this.#activated_color);
@@ -539,11 +561,12 @@ export class AccessibilityManager extends BaseManager {
      */
     #setAllLinksCustom() {
         let link_elements = Array.from(document.querySelectorAll("a"));
+        link_elements = link_elements.filter(el => el.href !== null && el.href !== '');
 
         link_elements.forEach(element => {
             element.addEventListener("click", event => {
                 event.preventDefault();
-                this.goToLink(element);
+                this.goToLink(element, element.target === '_blank');
             });
         });
     }

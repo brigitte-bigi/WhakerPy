@@ -83,6 +83,7 @@ nav ul > li {
     position: relative;
 }
 
+/* DEPRECATED: checkbox-based toggle, use #menu-button instead. */
 /* Hide checkboxes */
 nav input[type=checkbox] {
     display: none;
@@ -203,9 +204,17 @@ nav.nav-wexa.side.collapsible {
 
 body:has(nav.nav-wexa.side) {
     transition: padding-left 0.3s ease;
-    padding-left: var(--nav-min-width);
     margin: 0;  /* avoid cumulative spacing */
     width: 100%;
+}
+
+/* Padding left */
+body:has(nav.nav-wexa.side.collapsible) {
+    padding-left: var(--nav-min-width);
+}
+
+body:has(nav.nav-wexa.side:not(.collapsible)) {
+    padding-left: var(--nav-expanded-width);
 }
 
 /* When the side menu is pinned-expanded */
@@ -216,7 +225,7 @@ body:has(nav.nav-wexa.side.collapsible.expanded[aria-pinned="true"]) {
 /* When the side menu is expanded either with hover, focus, or .expanded */
 /* Do not expand on hover/focus while a submenu inside nav is open */
 nav.nav-wexa.side.collapsible:hover:not(:has(aside.appmenu.open)),
-nav.nav-wexa.side.collapsible:has([role="menuitem"]:focus-visible):not(:has(aside.appmenu.open)),
+nav.nav-wexa.side.collapsible:has(:is([role="menuitem"], .menuitem):focus-visible):not(:has(aside.appmenu.open)),
 nav.nav-wexa.side.collapsible.expanded {
     width: var(--nav-expanded-width);
 }
@@ -230,7 +239,7 @@ nav.nav-wexa.side.collapsible.expanded {
     Base style for all nav menu items
    ----------------------------------------------------------------------- */
 
-[role="menuitem"] {
+:is([role="menuitem"], .menuitem) {
     min-height: var(--nav-item-min-height);
     height:     var(--nav-item-height);
     max-height: var(--nav-item-max-height);
@@ -242,15 +251,15 @@ nav.nav-wexa.side.collapsible.expanded {
 }
 
 /* -------- the current nav item -------- */
-nav.nav-wexa [role="menuitem"][aria-current] {
+nav.nav-wexa :is([role="menuitem"], .menuitem)[aria-current] {
     opacity: 0.9;
     box-shadow: none;
     filter: none;
 }
 
 /* -------- images in items -------- */
-[role="menuitem"] > img,
-[role="menuitem"] > svg {
+:is([role="menuitem"], .menuitem) > img,
+:is([role="menuitem"], .menuitem) > svg {
     display: inline-block;
     width: calc(1.8rem / var(--size-divisor));
     height: calc(1.8rem / var(--size-divisor));
@@ -260,7 +269,7 @@ nav.nav-wexa [role="menuitem"][aria-current] {
 }
 
 /* -------- text in items -------- */
-[role="menuitem"]:not(img) {
+:is([role="menuitem"], .menuitem):not(img) {
     text-align: center;
     font-family: inherit;
     font-style: normal;
@@ -276,8 +285,8 @@ nav.nav-wexa [role="menuitem"][aria-current] {
     Specific style for the menu items of the main menu
    ----------------------------------------------------------------------- */
 
-nav.nav-wexa [role="menuitem"],
-aside.appmenu nav [role="menuitem"] {
+nav.nav-wexa :is([role="menuitem"], .menuitem),
+aside.appmenu nav :is([role="menuitem"], .menuitem) {
     font-variant: small-caps;
     font-size: 0.8rem;
     width: auto;
@@ -290,42 +299,42 @@ aside.appmenu nav [role="menuitem"] {
     background-color: var(--nav-bg-color);
 }
 
-nav.nav-wexa [role="menuitem"]:not([aria-current]),
-aside.appmenu nav [role="menuitem"]:not([aria-current]) {
+nav.nav-wexa :is([role="menuitem"], .menuitem):not([aria-current]),
+aside.appmenu nav :is([role="menuitem"], .menuitem):not([aria-current]) {
     opacity: 1;
 }
 
 /* ---- the menuitem is opening a submenu ---- */
 
-[role="menuitem"][aria-haspopup="true"] {
+:is([role="menuitem"], .menuitem)[aria-haspopup="true"] {
     border-left: calc(4 * var(--border-width)) solid var(--a-color);
 }
 
 
 /* ---------------------- Vertical at side main menu ------------------- */
 
-nav.nav-wexa.side [role="menuitem"] {
+nav.nav-wexa.side :is([role="menuitem"], .menuitem) {
     flex-direction: column;
     justify-content: center;
     width: 100%;
 }
 
-nav.nav-wexa.side [role="menuitem"]:hover,
-nav.nav-wexa.side [role="menuitem"]:focus-visible {
+nav.nav-wexa.side :is([role="menuitem"], .menuitem):hover,
+nav.nav-wexa.side :is([role="menuitem"], .menuitem):focus-visible {
     background-color: rgba(128, 128, 128, 0.5);
 }
 
-nav.nav-wexa [role="menuitem"] span {
+nav.nav-wexa :is([role="menuitem"], .menuitem) span {
     font-variant: small-caps;
     font-size: 0.8rem;
 }
 
-nav.nav-wexa [role=menuitem] * {
+nav.nav-wexa :is([role="menuitem"], .menuitem) * {
     color: inherit;
 }
 
 /* Fixed, non-collapsible: show labels and use expanded width */
-nav.nav-wexa.side:not(.collapsible) [role="menuitem"] {
+nav.nav-wexa.side:not(.collapsible) :is([role="menuitem"], .menuitem) {
     min-width: var(--nav-item-width-v-expanded);
     width:     var(--nav-item-width-v-expanded);
     max-width: var(--nav-item-width-v-expanded);
@@ -334,35 +343,35 @@ nav.nav-wexa.side:not(.collapsible) [role="menuitem"] {
 /* ------------------ Expand side if collapsible --------------- */
 
 /* Collapsible — collapsed = icons only, labels hidden */
-nav.nav-wexa.side.collapsible:not(.expanded) > [role="menuitem"],
-nav.nav-wexa.side.collapsible:not(.expanded) > section > [role="menuitem"] {
+nav.nav-wexa.side.collapsible:not(.expanded) > :is([role="menuitem"], .menuitem),
+nav.nav-wexa.side.collapsible:not(.expanded) > section > :is([role="menuitem"], .menuitem) {
     min-width: var(--nav-item-width-v-collapsed);
     width:     var(--nav-item-width-v-collapsed);
     max-width: var(--nav-item-width-v-collapsed);
 }
 
-nav.nav-wexa.side.collapsible:not(.expanded) [role="menuitem"] span {
+nav.nav-wexa.side.collapsible:not(.expanded) :is([role="menuitem"], .menuitem) span {
     display: none;
 }
 
 /* Smooth transition for menu items and container */
 nav.nav-wexa.side.collapsible,
-nav.nav-wexa.side.collapsible [role="menuitem"] {
+nav.nav-wexa.side.collapsible :is([role="menuitem"], .menuitem) {
     transition: min-width 0.3s ease, width 0.3s ease, max-width 0.3s ease;
 }
 
 /* Do not expand items on hover/focus while a submenu inside nav is open */
-nav.nav-wexa.side.collapsible:hover:not(:has(aside.appmenu.open)) [role="menuitem"],
-nav.nav-wexa.side.collapsible:has([role="menuitem"]:focus-visible):not(:has(aside.appmenu.open)) [role="menuitem"],
-nav.nav-wexa.side.collapsible.expanded [role="menuitem"] {
+nav.nav-wexa.side.collapsible:hover:not(:has(aside.appmenu.open)) :is([role="menuitem"], .menuitem),
+nav.nav-wexa.side.collapsible:has(:is([role="menuitem"], .menuitem):focus-visible):not(:has(aside.appmenu.open)) :is([role="menuitem"], .menuitem),
+nav.nav-wexa.side.collapsible.expanded :is([role="menuitem"], .menuitem) {
     min-width: var(--nav-item-width-v-expanded);
     width:     var(--nav-item-width-v-expanded);
     max-width: var(--nav-item-width-v-expanded);
 }
 
-nav.nav-wexa.side.collapsible:hover:not(:has(aside.appmenu.open)) [role="menuitem"] span,
-nav.nav-wexa.side.collapsible:has([role="menuitem"]:focus-visible):not(:has(aside.appmenu.open)) [role="menuitem"] span,
-nav.nav-wexa.side.collapsible.expanded [role="menuitem"] span {
+nav.nav-wexa.side.collapsible:hover:not(:has(aside.appmenu.open)) :is([role="menuitem"], .menuitem) span,
+nav.nav-wexa.side.collapsible:has(:is([role="menuitem"], .menuitem):focus-visible):not(:has(aside.appmenu.open)) :is([role="menuitem"], .menuitem) span,
+nav.nav-wexa.side.collapsible.expanded :is([role="menuitem"], .menuitem) span {
     display: inline;
 }
 
@@ -379,7 +388,7 @@ nav.nav-wexa.side.collapsible.expanded [role="menuitem"] span {
     padding-bottom: calc(0.3 * var(--typography-spacing-vertical));
 }
 
-.submenu [role=menuitem] {
+.submenu :is([role="menuitem"], .menuitem) {
     background-color: var(--bg-color-alt);
     font-weight: var(--font-weight-normal);
 }
@@ -422,6 +431,8 @@ body > nav > * *:focus-within .submenu {
 
 /* -------- via #mobile + .expanded  -------- */
 
+/* DEPRECATED: #mobile (input[type=checkbox]) is no longer recommended.
+   Use #menu-button (button) with aria-label instead. */
 #mobile {
     display: none;
 }
@@ -499,7 +510,7 @@ body > nav label {
     display: none;
 }
 
-[role=menuitem].expand::after {
+:is([role="menuitem"], .menuitem).expand::after {
     content: " ▼";
 }
 
@@ -553,15 +564,15 @@ aside.appmenu[data-submenu-align-vertical="bottom"] nav {
 }
 
 /* Size */
-aside.appmenu nav [role="menuitem"] {
+aside.appmenu nav :is([role="menuitem"], .menuitem) {
     min-width: var(--nav-item-width-v-expanded);
     width:     var(--nav-item-width-v-expanded);
     max-width: var(--nav-item-width-v-expanded);
 }
 
 /* Hover/Focus */
-aside.appmenu [role="menuitem"]:hover,
-aside.appmenu [role="menuitem"]:focus-visible {
+aside.appmenu :is([role="menuitem"], .menuitem):hover,
+aside.appmenu :is([role="menuitem"], .menuitem):focus-visible {
     background-color: rgba(128, 128, 128, 0.5);
 }
 
@@ -683,22 +694,22 @@ nav#nav-content.bottom > section {
 }
 
 nav#nav-content.side > section + section,
-nav#nav-content.side > section + [role="menuitem"],
-nav#nav-content.side > [role="menuitem"] + section {
+nav#nav-content.side > section + :is([role="menuitem"], .menuitem),
+nav#nav-content.side > :is([role="menuitem"], .menuitem) + section {
     margin-top: var(--typography-spacing-vertical);
     margin-bottom: var(--typography-spacing-vertical);
 }
 
 nav#nav-content.top > section + section,
-nav#nav-content.top > section + [role="menuitem"],
-nav#nav-content.top > [role="menuitem"] + section {
+nav#nav-content.top > section + :is([role="menuitem"], .menuitem),
+nav#nav-content.top > :is([role="menuitem"], .menuitem) + section {
     margin-left: var(--typography-spacing-horizontal);
     margin-right: var(--typography-spacing-horizontal);
 }
 
 nav#nav-content.bottom > section + section,
-nav#nav-content.bottom > section + [role="menuitem"],
-nav#nav-content.bottom > [role="menuitem"] + section {
+nav#nav-content.bottom > section + :is([role="menuitem"], .menuitem),
+nav#nav-content.bottom > :is([role="menuitem"], .menuitem) + section {
     margin-left: var(--typography-spacing-horizontal);
     margin-right: var(--typography-spacing-horizontal);
 }
@@ -706,7 +717,7 @@ nav#nav-content.bottom > [role="menuitem"] + section {
 
 @media (min-width: 920px) {
 
-    nav#nav-content [role=menuitem] {
+    nav#nav-content :is([role="menuitem"], .menuitem) {
         flex-direction: row;
         align-items: center;
         gap: 0.5rem;
@@ -717,7 +728,7 @@ nav#nav-content.bottom > [role="menuitem"] + section {
 
 @media (max-width: 920px) {
 
-    nav#nav-content [role=menuitem] {
+    nav#nav-content :is([role="menuitem"], .menuitem) {
         flex-direction: column; /* Stack image and text vertically */
         gap: 0.5rem;
         width: 100%; /* Occupy the full width */
@@ -731,11 +742,11 @@ nav#nav-content.bottom > [role="menuitem"] + section {
                             BUTTONS
   ======================================================================== */
 
-nav.nav-wexa.side [role=menuitem][aria-pressed="false"] {
+nav.nav-wexa.side :is([role="menuitem"], .menuitem)[aria-pressed="false"] {
     border-color: var(--border-color);
 }
 
-nav.nav-wexa.side [role=menuitem][aria-pressed="true"] {
+nav.nav-wexa.side :is([role="menuitem"], .menuitem)[aria-pressed="true"] {
     border-color: var(--nav-fg-color);
 }
 
@@ -769,7 +780,7 @@ nav.nav-wexa.side [role=menuitem][aria-pressed="true"] {
   It has the same sizing as other menu items.
   ------------------------------------------------------------------------ */
 
-nav.nav-wexa.side [role=menuitem]#pin-menu {
+nav.nav-wexa.side :is([role="menuitem"], .menuitem)#pin-menu {
     align-items: center;
     justify-content: center;
     color: var(--nav-fg-color);
