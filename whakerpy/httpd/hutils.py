@@ -191,6 +191,26 @@ class HTTPDHandlerUtils:
     # -----------------------------------------------------------------------
 
     @staticmethod
+    def parse_query_string(query_string: str) -> dict:
+        """Parse a URL query string into a dictionary of events.
+
+        Allows a GET request to carry data the very same way a POST does,
+        e.g. for a plain HTML form using method="get".
+
+        :param query_string: (str) The query string of the request (without the leading '?').
+        :return: (dict) key=parameter name, value=parameter value
+
+        """
+        if query_string is None or len(query_string) == 0:
+            return dict()
+
+        return dict(parse_qsl(
+            query_string,
+            keep_blank_values=True,
+            strict_parsing=False  # errors are silently ignored
+        ))
+
+    @staticmethod
     def blacklisted_page_answer() -> tuple:
         """Create the response with 418 (forbidden) status code.
 
@@ -303,7 +323,8 @@ class HTTPDHandlerUtils:
         :param pages: (dict) A dictionary with key=page_name and value=ResponseRecipe
         :param page_name: (str) The current page name
         :param headers: (dict) The headers of the http request
-        :param events: (dict) The events extract from the request (only for POST request, send empty dict for GET)
+        :param events: (dict) The events extracted from the request: the POST body,
+               or the GET query string, parsed the same way
         :param has_to_return_data: (bool) False by default, Boolean to know if we have to return the html page or data
         :return: (tuple[bytes, HTTPDStatus]) The content to answer to the client and the status of the response
 

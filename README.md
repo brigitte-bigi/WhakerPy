@@ -181,7 +181,7 @@ Other projects:
 
 - the website <https://auto-cuedspeech.org>
 - the website <https://sppas.org>
-- the 'setup' application of SPPAS
+- the web appis of SPPAS
 - the intranet of the Laboratoire Parole et Langage
 - *contact the author if your project is based on WhakerPy*
 
