@@ -64,12 +64,12 @@
                 </ul>
             </nav>
         
-    <h1>WhakerPy 2.1</h1>
+    <h1>WhakerPy 2.2</h1>
         <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 2.1</h1>
+    <h1>WhakerPy 2.2</h1>
     <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     <ul>
@@ -227,7 +227,9 @@ View Source
 - extracts the query string (before path normalization),
 - applies blacklist (if enabled),
 - applies signed URL verification (if enabled),
-- serves static files or generated HTML pages.</p>
+- serves static files or generated HTML pages, with the query
+string parsed into events exactly like a POST request body
+(e.g. for a plain HTML form using method="get").</p>
 
     </article>
 
@@ -243,7 +245,9 @@ View Source
 <span class="sd">        - extracts the query string (before path normalization),</span>
 <span class="sd">        - applies blacklist (if enabled),</span>
 <span class="sd">        - applies signed URL verification (if enabled),</span>
-<span class="sd">        - serves static files or generated HTML pages.</span>
+<span class="sd">        - serves static files or generated HTML pages, with the query</span>
+<span class="sd">          string parsed into events exactly like a POST request body</span>
+<span class="sd">          (e.g. for a plain HTML form using method=&quot;get&quot;).</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39; ---- DO GET -- requested: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
@@ -261,7 +265,8 @@ View Source
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">())</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">handler_utils</span><span class="o">.</span><span class="n">get_path</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]):</span>
             <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
         <span class="k">elif</span> <span class="n">mime_type</span> <span class="o">==</span> <span class="s1">&#39;text/html&#39;</span><span class="p">:</span>
-            <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">handler_utils</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(),</span> <span class="n">mime_type</span><span class="p">)</span>
+            <span class="n">events</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">parse_query_string</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span>
+            <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">handler_utils</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">else</span><span class="p">:</span>

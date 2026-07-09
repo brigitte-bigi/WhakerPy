@@ -962,7 +962,9 @@ def do_GET(self) -> None:
         - extracts the query string (before path normalization),
         - applies blacklist (if enabled),
         - applies signed URL verification (if enabled),
-        - serves static files or generated HTML pages.
+        - serves static files or generated HTML pages, with the query
+          string parsed into events exactly like a POST request body
+          (e.g. for a plain HTML form using method="get").
 
         """
     logging.debug(' ---- DO GET -- requested: {}'.format(self.path))
@@ -980,7 +982,8 @@ def do_GET(self) -> None:
         if os.path.exists(handler_utils.get_path()) or os.path.exists(handler_utils.get_path()[1:]):
             content, status = handler_utils.static_content(self.path[1:])
         elif mime_type == 'text/html':
-            content, status = self._bakery(handler_utils, dict(), mime_type)
+            events = HTTPDHandlerUtils.parse_query_string(query_string)
+            content, status = self._bakery(handler_utils, events, mime_type)
         else:
             content, status = handler_utils.static_content(self.path[1:])
     else:
@@ -994,7 +997,9 @@ This method:
 - extracts the query string (before path normalization),
 - applies blacklist (if enabled),
 - applies signed URL verification (if enabled),
-- serves static files or generated HTML pages.
+- serves static files or generated HTML pages, with the query
+string parsed into events exactly like a POST request body
+(e.g. for a plain HTML form using method="get").
 
 #### do_POST
 
@@ -1295,6 +1300,39 @@ def process_post(self, body: BufferedReader) -> tuple[dict, str]:
 
 - (*dict*, *str*) the body and accept mime type
 
+#### parse_query_string
+
+```python
+@staticmethod
+def parse_query_string(query_string: str) -> dict:
+    """Parse a URL query string into a dictionary of events.
+
+        Allows a GET request to carry data the very same way a POST does,
+        e.g. for a plain HTML form using method="get".
+
+        :param query_string: (str) The query string of the request (without the leading '?').
+        :return: (dict) key=parameter name, value=parameter value
+
+        """
+    if query_string is None or len(query_string) == 0:
+        return dict()
+    return dict(parse_qsl(query_string, keep_blank_values=True, strict_parsing=False))
+```
+
+*Parse a URL query string into a dictionary of events.*
+
+Allows a GET request to carry data the very same way a POST does,
+e.g. for a plain HTML form using method="get".
+
+##### Parameters
+
+- **query_string**: (*str*) The query string of the request (without the leading '?').
+
+
+##### Returns
+
+- (*dict*) key=parameter name, value=parameter value
+
 #### blacklisted_page_answer
 
 ```python
@@ -1450,7 +1488,8 @@ def bakery(pages: dict, page_name: str, headers: dict, events: dict, has_to_retu
         :param pages: (dict) A dictionary with key=page_name and value=ResponseRecipe
         :param page_name: (str) The current page name
         :param headers: (dict) The headers of the http request
-        :param events: (dict) The events extract from the request (only for POST request, send empty dict for GET)
+        :param events: (dict) The events extracted from the request: the POST body,
+               or the GET query string, parsed the same way
         :param has_to_return_data: (bool) False by default, Boolean to know if we have to return the html page or data
         :return: (tuple[bytes, HTTPDStatus]) The content to answer to the client and the status of the response
 
@@ -1480,7 +1519,7 @@ def bakery(pages: dict, page_name: str, headers: dict, events: dict, has_to_retu
 - **pages**: (*dict*) A dictionary with key=page_name and value=ResponseRecipe
 - **page_name**: (*str*) The current page name
 - **headers**: (*dict*) The headers of the http request
-- **events**: (*dict*) The events extract from the request (only for POST request, send empty dict for GET)
+- **events**: (*dict*) The events extracted from the request: the POST body, or the GET query string, parsed the same way
 - **has_to_return_data**: (*bool*) False by default, Boolean to know if we have to return the html page or data
 
 

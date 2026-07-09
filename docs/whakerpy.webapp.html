@@ -64,12 +64,12 @@
                 </ul>
             </nav>
         
-    <h1>WhakerPy 2.1</h1>
+    <h1>WhakerPy 2.2</h1>
         <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 2.1</h1>
+    <h1>WhakerPy 2.2</h1>
     <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     <ul>
@@ -143,11 +143,28 @@ Those belong to <code>httpd</code>.</p>
 
 <h3>1. Clear separation from HTTPD</h3>
 
-<p>| Concern | Package |
-|------|---------|
-| HTTP protocol, handlers, policies | <code>httpd</code> |
-| Application configuration and launch | <code>webapp</code> |
-| UI / HTML generation | <code>response</code> (external) |</p>
+<table>
+<thead>
+<tr>
+  <th>Concern</th>
+  <th>Package</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>HTTP protocol, handlers, policies</td>
+  <td><code>httpd</code></td>
+</tr>
+<tr>
+  <td>Application configuration and launch</td>
+  <td><code>webapp</code></td>
+</tr>
+<tr>
+  <td>UI / HTML generation</td>
+  <td><code>response</code> (external)</td>
+</tr>
+</tbody>
+</table>
 
 <p><code>webapp</code> glues <strong>applications</strong> to the <strong>HTTP engine</strong>.</p>
 

@@ -64,12 +64,12 @@
                 </ul>
             </nav>
         
-    <h1>WhakerPy 2.1</h1>
+    <h1>WhakerPy 2.2</h1>
         <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 2.1</h1>
+    <h1>WhakerPy 2.2</h1>
     <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     <ul>
@@ -301,6 +301,52 @@ View Source
     </details>
 
 
+<h4>parse_query_string</h4>
+
+    <article class="docstring">
+<p><em>Parse a URL query string into a dictionary of events.</em></p>
+
+<p>Allows a GET request to carry data the very same way a POST does,
+e.g. for a plain HTML form using method="get".</p>
+
+<h5>Parameters</h5>
+
+<ul>
+<li><strong>query_string</strong>: (<em>str</em>) The query string of the request (without the leading '?').</li>
+</ul>
+
+<h5>Returns</h5>
+
+<ul>
+<li>(<em>dict</em>) key=parameter name, value=parameter value</li>
+</ul>
+
+    </article>
+
+
+    <details>
+    <summary>
+View Source
+    </summary>
+<div class="highlight"><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_query_string</span><span class="p">(</span><span class="n">query_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a URL query string into a dictionary of events.</span>
+
+<span class="sd">        Allows a GET request to carry data the very same way a POST does,</span>
+<span class="sd">        e.g. for a plain HTML form using method=&quot;get&quot;.</span>
+
+<span class="sd">        :param query_string: (str) The query string of the request (without the leading &#39;?&#39;).</span>
+<span class="sd">        :return: (dict) key=parameter name, value=parameter value</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">query_string</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">parse_qsl</span><span class="p">(</span><span class="n">query_string</span><span class="p">,</span> <span class="n">keep_blank_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">strict_parsing</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</code></pre></div>
+
+    </details>
+
+
 <h4>blacklisted_page_answer</h4>
 
     <article class="docstring">
@@ -520,7 +566,7 @@ View Source
 <li><strong>pages</strong>: (<em>dict</em>) A dictionary with key=page_name and value=ResponseRecipe</li>
 <li><strong>page_name</strong>: (<em>str</em>) The current page name</li>
 <li><strong>headers</strong>: (<em>dict</em>) The headers of the http request</li>
-<li><strong>events</strong>: (<em>dict</em>) The events extract from the request (only for POST request, send empty dict for GET)</li>
+<li><strong>events</strong>: (<em>dict</em>) The events extracted from the request: the POST body, or the GET query string, parsed the same way</li>
 <li><strong>has<em>to</em>return_data</strong>: (<em>bool</em>) False by default, Boolean to know if we have to return the html page or data</li>
 </ul>
 
@@ -544,7 +590,8 @@ View Source
 <span class="sd">        :param pages: (dict) A dictionary with key=page_name and value=ResponseRecipe</span>
 <span class="sd">        :param page_name: (str) The current page name</span>
 <span class="sd">        :param headers: (dict) The headers of the http request</span>
-<span class="sd">        :param events: (dict) The events extract from the request (only for POST request, send empty dict for GET)</span>
+<span class="sd">        :param events: (dict) The events extracted from the request: the POST body,</span>
+<span class="sd">               or the GET query string, parsed the same way</span>
 <span class="sd">        :param has_to_return_data: (bool) False by default, Boolean to know if we have to return the html page or data</span>
 <span class="sd">        :return: (tuple[bytes, HTTPDStatus]) The content to answer to the client and the status of the response</span>
 

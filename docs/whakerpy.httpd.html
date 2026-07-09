@@ -64,12 +64,12 @@
                 </ul>
             </nav>
         
-    <h1>WhakerPy 2.1</h1>
+    <h1>WhakerPy 2.2</h1>
         <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 2.1</h1>
+    <h1>WhakerPy 2.2</h1>
     <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     <ul>
@@ -124,13 +124,36 @@ It implements <strong>transport, routing, and security policies</strong>.</p>
 
 <h3>1. Strict separation of responsibilities</h3>
 
-<p>| Concern | Location |
-|------|---------|
-| HTTP protocol handling | <code>HTTPDHandler</code>, <code>BaseHTTPDServer</code> |
-| Web application data | <code>WebSiteData</code> (outside this package) |
-| HTML generation | <code>BaseResponseRecipe</code> (outside this package) |
-| Security / routing policies | <code>HTTPDPolicy</code> |
-| Utilities / helpers | <code>HTTPDHandlerUtils</code>, <code>HTTPDStatus</code> |</p>
+<table>
+<thead>
+<tr>
+  <th>Concern</th>
+  <th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>HTTP protocol handling</td>
+  <td><code>HTTPDHandler</code>, <code>BaseHTTPDServer</code></td>
+</tr>
+<tr>
+  <td>Web application data</td>
+  <td><code>WebSiteData</code> (outside this package)</td>
+</tr>
+<tr>
+  <td>HTML generation</td>
+  <td><code>BaseResponseRecipe</code> (outside this package)</td>
+</tr>
+<tr>
+  <td>Security / routing policies</td>
+  <td><code>HTTPDPolicy</code></td>
+</tr>
+<tr>
+  <td>Utilities / helpers</td>
+  <td><code>HTTPDHandlerUtils</code>, <code>HTTPDStatus</code></td>
+</tr>
+</tbody>
+</table>
 
 <p>No class mixes <strong>data</strong>, <strong>business logic</strong>, and <strong>transport policy</strong>.</p>
 
