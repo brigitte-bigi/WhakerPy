@@ -283,4 +283,4 @@ or products, in accordance with the best practices of the AGPL license.
 Use the following reference to cite WhakerPy:
 
 > Brigitte Bigi. WhakerPy, a Python library to create dynamic HTML content and
-> web applications. Version 1.5. 2024. <https://hal.science/hal-04743687>
+> web applications. Version 1.x. 202x. <https://hal.science/hal-04743687>
