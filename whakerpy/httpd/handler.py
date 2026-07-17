@@ -218,6 +218,14 @@ class HTTPDHandler(http.server.BaseHTTPRequestHandler):
             elif mime_type == "text/html":
                 events = HTTPDHandlerUtils.parse_query_string(query_string)
                 content, status = self._bakery(handler_utils, events, mime_type)
+                # A GET is a navigation, not a form submission: query
+                # parameters the recipe does not handle (status 205) must
+                # not prevent the page from being served. The baked content
+                # is complete: serve it with a 200.
+                if status.code == 205:
+                    logging.warning("Ignored unknown GET events {} for page {}"
+                                    "".format(events, self.path))
+                    status = HTTPDStatus(200)
 
             # Unknown mime type: try to get a static file anyway.
             else:

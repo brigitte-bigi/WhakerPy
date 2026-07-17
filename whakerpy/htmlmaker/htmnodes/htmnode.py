@@ -284,7 +284,7 @@ class TagNode(BaseTagNode):
         html = ""
         try:
             # For some tags, the space char is meaningful. textarea is one of them. others???
-            if self.tag != "textarea":
+            if self.tag not in ("textarea", "pre"):
                 html += indent + " " * nbs
             html += self._value
             html += "\n"

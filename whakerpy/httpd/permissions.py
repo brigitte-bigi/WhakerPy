@@ -203,21 +203,22 @@ class FileAccessChecker:
     def __check_permission_for_role(self, role: str) -> bool:
         """Helper function to check permissions for a single role.
 
+        The permission of a role is given by the mode bits of the file
+        only: the role does not have to match the effective uid/gid of
+        the current process. It answers "is the file readable by this
+        role", not "can the current process read it as this role" --
+        otherwise no file can be served from a mount owning the files
+        to a foreign user, like a FUSE/NTFS partition.
+
         :param role: (str) Who to check permissions for: 'others', 'group', or 'owner'.
 
         """
-        current_uid = os.geteuid()  # Effective user ID of the current process
-        current_gid = os.getegid()  # Effective group ID of the current process
-
-        # Check owner, group, and others' permissions
         mode = self.__file_stat.st_mode
-        owner_uid = self.__file_stat.st_uid
-        group_gid = self.__file_stat.st_gid
 
         # Determine read permission based on the role
-        if role == "owner" and current_uid == owner_uid:
+        if role == "owner":
             return bool(mode & stat.S_IRUSR)  # Owner read permission
-        elif role == "group" and current_gid == group_gid:
+        elif role == "group":
             return bool(mode & stat.S_IRGRP)  # Group read permission
         elif role == "others":
             return bool(mode & stat.S_IROTH)  # Others' read permission
