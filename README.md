@@ -23,47 +23,84 @@
 
 ### Uses cases
 
-You want all users to get access to dynamic web pages via web browser. You then need to create a web application allowing creating HTML pages and communicating via HTTPD.
-WhakerPy is a Python library of such a tool.
+You want your users to reach dynamic web pages from a browser, without adopting a full templating stack. WhakerPy is a Python library to build and serve that content.
 
-In fact, you may have already heard of Django — high-level, full-stack framework, and Flash — a micro-framework. Both of them generate output in the form of content from the model presented and formatted based on a template file.
-The WhakerPy library does not offer views, templates or models! 
-On the contrary, **WhakerPy offers a 100% pure-Python solution** by creating HTML pages entirely dynamically, or with a static content. 
+Django and Flask both render a template file against a model. WhakerPy has no views, no templates and no models: a page is an HTML tree, built and serialized directly in Python.
 
 WhakerPy is your solution if:
-- you're looking to design a relatively simple web app with a few static pages; 
-- and/or you want a full control on dynamic HTML creation content;
-- **you want to build a web app with nothing but Python**.
+- you want a relatively simple web app with a few static or semi-dynamic pages;
+- you want full, programmatic control over the generated HTML, without a template language to learn;
+- **you want to build and secure a web app with nothing but Python and its standard library**.
 
 
 ### Features
 
-WhakerPy is a Python, free, open source, self-hosted library to create dynamic HTML content and web applications. It offers more flexibility than a framework: it's a library!
-WhakerPy is then a collection of packages and modules that help developers to create static or dynamic web content without having to worry about the details involved. 
+WhakerPy is a free, open-source, self-hosted Python library — not a framework — to build dynamic HTML content and web applications. It stays out of the way: no views, no templates, no models, no third-party dependency for the core library.
 
-* Build powerful web apps with all the flexibility of Python: building a web app with WhakerPy is as simple as coding with Python 
-* Create HTML pages dynamically: create a tree with nodes and serialize the tree into a string
-* Can save as static HTML files
-* Create a web-frontend with its HTTPD response "bakery" system
-* Run locally with its HTTPD server
-* Run locally or remotely with its WSGI application
+* Build an HTML page as a tree of Python objects (`HTMLTree`, `HTMLNode`), then serialize it to a string or to a static file
+* Serve pages dynamically with a "bakery" response system that re-renders only what changed
+* Deploy the same application three ways, unchanged: as static files, behind the built-in HTTPD dev server, or behind a production WSGI server (Apache, nginx, gunicorn, ...)
+* Parse GET query strings, POST bodies (JSON, url-encoded forms) and multipart file uploads yourself — hand-written against the standard library, no `python-multipart`, and no dependency on the `cgi` module removed from Python 3.13
+* Protect pages and endpoints with a built-in HTTP security policy, shared by the HTTPD server and the WSGI application:
+  - a configurable blacklist rejecting requests by URL path or User-Agent
+  - HMAC-SHA256 signed, time-limited URLs (tokens) to share ephemeral links without sessions, cookies or server-side storage — no `itsdangerous`, no `PyJWT`
+* Serve static files only after checking Unix read permissions (owner/group/others), so a misconfigured file is never served by accident
 
 
 ### Main advantages
 
->Creating and manipulating HTML from the power of Python!
+>Build, secure and serve dynamic HTML web applications with nothing but the power of Python!
 
-* easy to learn, consistent, simple syntax
-* flexible and easy usage
-* open-source: easily add new features and functionalities 
-* easily customizable: it's a pure python library in Object-Oriented Programming
-* portable: can be hosted on any web server - as soon as python is available, or used locally
-* it is distributed as a single folder module and has no dependencies other than the Python Standard Library.
+* easy to learn: one consistent, explicit syntax, from the HTML tag tree to the HTTP response
+* a single dependency-free package: HTML generation, HTTPD/WSGI serving, security policy and upload parsing all ship in the Python Standard Library only
+* open-source and easily customizable: pure-Python, Object-Oriented, no compiled extension
+* portable: runs anywhere Python runs, from a local script to a production WSGI deployment
+
+
+## How it works
+
+WhakerPy is not Flask, not Django, and does not try to be. There is no template engine and nothing to render: 
+a page **is** a tree of Python objects.
+
+### No templates — an HTML tree, in Python
+
+Flask and Django keep a page as a text file (Jinja2 / Django templates) with placeholders (`{% if %}`, `{% for %}`, `{{ variable }}`) filled from a context dictionary at render time. 
+That file is not Python: it has its own syntax, its own scoping rules, and its own way of drifting out of sync with the code that feeds it.
+
+WhakerPy has no such file. An `HTMLTree` is a tree of `HTMLNode` objects — `<head>`, `<body>` and every element inside are Python instances, built and traversed with ordinary Python: `if`, `for`, functions, classes. 
+To change what gets rendered, write Python; there is no second language to learn:
+
+```python
+>>> if user.is_admin:
+...     htree.body_main.append_child(HTMLNode(main_id, None, "p", value="Admin panel"))
+```
+
+That is the whole of "the WhakerPy templating language".
+
+### One page class, three ways to serve it
+
+A page is a subclass of `BaseResponseRecipe`. `create()` builds the parts of the tree that never change; `bake(events)` runs on every request, decides from the incoming `events` (query string or POST data) whether anything changed, and only rebuilds the dynamic part when it did — a static page is never re-serialized for nothing.
+
+The same recipe instances can then be exposed three ways, without touching the page code:
+- `tree.serialize_to_file(...)` — dumped once to a static `.html` file;
+- `BaseHTTPDServer` / `HTTPDHandler` — the stdlib `http.server`, for local development or a small deployment with zero extra process;
+- `WSGIApplication` — the same recipes, the same bakery, behind any production WSGI server (Apache, nginx + gunicorn/uWSGI, ...).
+
+### Security is a policy, not a decorator
+
+`HTTPDPolicy` sits in front of both servers and is configured once: a blacklist of paths/User-Agents, and a set of HMAC-signed, time-limited URLs. 
+It applies identically whether a request comes through the dev HTTPD server or through WSGI in production — one place to configure it, not one per route.
+
+### Minimalism as a security stance
+
+WhakerPy is deliberately small: code that is not written cannot be exploited. The handlers only emit the status codes their own logic actually needs — 200 (OK), 205 (Reset Content, an unhandled GET is still served), 403 (Forbidden), 404 (Not Found, including an expired signed URL), 410 (Gone, shuts the server down), 418 (I'm a Teapot, a blacklisted request), 500 (Internal Server Error) — which covers the large majority of real needs, instead of a generic status-code framework bolted onto every route.
+
+`HTTPDStatus` still validates against the full IANA status registry, so any `BaseResponseRecipe` is free to return whichever code its page actually needs. If the built-in handlers should react to more of them, that is what contributions are for.
 
 
 ## Get and install WhakerPy
 
-Get it from its repository <https://sourceforge.net/projects/whakerpy/> or from Pypi <https://pypi.org/project/whakerpy/>, and get documentation <https://whakerpy.sourceforge.io>.
+Get it from its repository <https://github.com/brigitte-bigi/WhakerPy> or from Pypi <https://pypi.org/project/whakerpy/>, and get documentation <https://whakerpy.sourceforge.io>.
 
 ### Install from pypi.org:
 
@@ -89,8 +126,8 @@ Download the latest ".zip" from it's web page and unpack it, or clone the reposi
 4. "sample": a web application sample 
 
 ```bash
-> unzip WhakerPy-1.1.zip 
-> git clone https://git.code.sf.net/p/whakerpy/code whakerpy-code
+> unzip WhakerPy-2.2.zip 
+> git clone https://github.com/brigitte-bigi/WhakerPy.git whakerpy-code
 > python -m pip install .
 ```
 
@@ -167,16 +204,8 @@ created from a custom `BaseResponseRecipe()` object, available in the file
 `sample/response.py`. The response is the interface between a local back-end 
 python application and the web front-end.
 
-For a more complex example of an already in-used application web frontend, see: 
-<https://sourceforge.net/p/sppas/code/ci/master/tree/sppas/ui/swapp/app_setup/setupmaker.py>.
-
 
 ## Projects using WhakerPy
-
-WhakerPy was initially developed within SPPAS <https://sppas.org>. 
-It was extracted from its original software by the author to lead its own life as standalone package. 
-
-Projects based on WhakerPy: 
 
 - the website <https://auto-cuedspeech.org>
 - the website <https://sppas.org>
@@ -283,4 +312,4 @@ or products, in accordance with the best practices of the AGPL license.
 Use the following reference to cite WhakerPy:
 
 > Brigitte Bigi. WhakerPy, a Python library to create dynamic HTML content and
-> web applications. Version 1.x. 202x. <https://hal.science/hal-04743687>
+> web applications. Version 2.2. 2026. <https://hal.science/hal-04743687>
