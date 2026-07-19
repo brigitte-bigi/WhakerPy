@@ -10,7 +10,7 @@
 ..
     -------------------------------------------------------------------------
 
-    Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+    Copyright (C) 2023-2026 Brigitte Bigi, CNRS
     Laboratoire Parole et Langage, Aix-en-Provence, France
 
     This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,12 @@ from urllib.parse import unquote
 from .hstatus import HTTPDStatus
 from .permissions import UnixPermissions
 from .permissions import FileAccessChecker
+
+# The stdlib "mimetypes" default type for ".js" changed across Python
+# versions (RFC 9239 moved it from "application/javascript" to
+# "text/javascript"). Pin it explicitly so the mime type returned by
+# get_mime_type() is identical on every supported Python version.
+mimetypes.add_type("text/javascript", ".js")
 
 # -----------------------------------------------------------------------
 

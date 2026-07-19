@@ -175,15 +175,15 @@ For a more complex example of an already in-used application web frontend, see:
 
 WhakerPy was initially developed within SPPAS <https://sppas.org>. 
 It was extracted from its original software by the author to lead its own life as standalone package. 
-The "setup" of SPPAS is entirely based on `whakerpy` API.
 
-Other projects: 
+Projects based on WhakerPy: 
 
 - the website <https://auto-cuedspeech.org>
 - the website <https://sppas.org>
-- the web appis of SPPAS
+- the SPPAS graphical user interface
 - the intranet of the Laboratoire Parole et Langage
-- *contact the author if your project is based on WhakerPy*
+- *contact the author if your project is based on WhakerPy* and you want it to be included in this list.
+
 
 
 # The developer's corner
