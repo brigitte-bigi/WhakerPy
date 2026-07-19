@@ -64,12 +64,12 @@
                 </ul>
             </nav>
         
-    <h1>WhakerPy 2.2</h1>
+    <h1>WhakerPy 2.3</h1>
         <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 2.2</h1>
+    <h1>WhakerPy 2.3</h1>
     <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     <ul>
@@ -263,6 +263,13 @@ View Source
     <article class="docstring">
 <p><em>Helper function to check permissions for a single role.</em></p>
 
+<p>The permission of a role is given by the mode bits of the file
+only: the role does not have to match the effective uid/gid of
+the current process. It answers "is the file readable by this
+role", not "can the current process read it as this role" --
+otherwise no file can be served from a mount owning the files
+to a foreign user, like a FUSE/NTFS partition.</p>
+
 <h5>Parameters</h5>
 
 <ul>
@@ -279,17 +286,20 @@ View Source
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__check_permission_for_role</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">role</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to check permissions for a single role.</span>
 
+<span class="sd">        The permission of a role is given by the mode bits of the file</span>
+<span class="sd">        only: the role does not have to match the effective uid/gid of</span>
+<span class="sd">        the current process. It answers &quot;is the file readable by this</span>
+<span class="sd">        role&quot;, not &quot;can the current process read it as this role&quot; --</span>
+<span class="sd">        otherwise no file can be served from a mount owning the files</span>
+<span class="sd">        to a foreign user, like a FUSE/NTFS partition.</span>
+
 <span class="sd">        :param role: (str) Who to check permissions for: &#39;others&#39;, &#39;group&#39;, or &#39;owner&#39;.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-    <span class="n">current_uid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">()</span>
-    <span class="n">current_gid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getegid</span><span class="p">()</span>
     <span class="n">mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file_stat</span><span class="o">.</span><span class="n">st_mode</span>
-    <span class="n">owner_uid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file_stat</span><span class="o">.</span><span class="n">st_uid</span>
-    <span class="n">group_gid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file_stat</span><span class="o">.</span><span class="n">st_gid</span>
-    <span class="k">if</span> <span class="n">role</span> <span class="o">==</span> <span class="s1">&#39;owner&#39;</span> <span class="ow">and</span> <span class="n">current_uid</span> <span class="o">==</span> <span class="n">owner_uid</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">role</span> <span class="o">==</span> <span class="s1">&#39;owner&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">mode</span> <span class="o">&amp;</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IRUSR</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">role</span> <span class="o">==</span> <span class="s1">&#39;group&#39;</span> <span class="ow">and</span> <span class="n">current_gid</span> <span class="o">==</span> <span class="n">group_gid</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">role</span> <span class="o">==</span> <span class="s1">&#39;group&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">mode</span> <span class="o">&amp;</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IRGRP</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">role</span> <span class="o">==</span> <span class="s1">&#39;others&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">mode</span> <span class="o">&amp;</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IROTH</span><span class="p">)</span>

@@ -351,8 +351,8 @@ To be overridden by subclasses.
 def __get_json_whakerpy_section(filename: str):
     """Return the configuration section related to WhakerPy.
 
-        - Look for a top‐level "WhakerPy" key (new format).
-        - Otherwise use the full JSON (old format) and issue a deprecation warning.
+        Requires a top-level "WhakerPy" key, introduced in WhakerPy 1.2.
+        Configuration files predating this key are not supported.
 
         :param filename: path to JSON configuration file
         :return: dict with keys "pagespath", "<page>.html", …
@@ -376,8 +376,8 @@ def __get_json_whakerpy_section(filename: str):
 
 *Return the configuration section related to WhakerPy.*
 
-- Look for a top‐level "WhakerPy" key (new format).
-- Otherwise use the full JSON (old format) and issue a deprecation warning.
+Requires a top-level "WhakerPy" key, introduced in WhakerPy 1.2.
+Configuration files predating this key are not supported.
 
 ##### Parameters
 

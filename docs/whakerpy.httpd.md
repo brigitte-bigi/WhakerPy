@@ -250,17 +250,20 @@ read access. Forbidden combination is for example:
 def __check_permission_for_role(self, role: str) -> bool:
     """Helper function to check permissions for a single role.
 
+        The permission of a role is given by the mode bits of the file
+        only: the role does not have to match the effective uid/gid of
+        the current process. It answers "is the file readable by this
+        role", not "can the current process read it as this role" --
+        otherwise no file can be served from a mount owning the files
+        to a foreign user, like a FUSE/NTFS partition.
+
         :param role: (str) Who to check permissions for: 'others', 'group', or 'owner'.
 
         """
-    current_uid = os.geteuid()
-    current_gid = os.getegid()
     mode = self.__file_stat.st_mode
-    owner_uid = self.__file_stat.st_uid
-    group_gid = self.__file_stat.st_gid
-    if role == 'owner' and current_uid == owner_uid:
+    if role == 'owner':
         return bool(mode & stat.S_IRUSR)
-    elif role == 'group' and current_gid == group_gid:
+    elif role == 'group':
         return bool(mode & stat.S_IRGRP)
     elif role == 'others':
         return bool(mode & stat.S_IROTH)
@@ -268,6 +271,13 @@ def __check_permission_for_role(self, role: str) -> bool:
 ```
 
 *Helper function to check permissions for a single role.*
+
+The permission of a role is given by the mode bits of the file
+only: the role does not have to match the effective uid/gid of
+the current process. It answers "is the file readable by this
+role", not "can the current process read it as this role" --
+otherwise no file can be served from a mount owning the files
+to a foreign user, like a FUSE/NTFS partition.
 
 ##### Parameters
 
@@ -984,6 +994,9 @@ def do_GET(self) -> None:
         elif mime_type == 'text/html':
             events = HTTPDHandlerUtils.parse_query_string(query_string)
             content, status = self._bakery(handler_utils, events, mime_type)
+            if status.code == 205:
+                logging.warning('Ignored unknown GET events {} for page {}'.format(events, self.path))
+                status = HTTPDStatus(200)
         else:
             content, status = handler_utils.static_content(self.path[1:])
     else:

@@ -28,6 +28,7 @@ You want your users to reach dynamic web pages from a browser, without adopting 
 Django and Flask both render a template file against a model. WhakerPy has no views, no templates and no models: a page is an HTML tree, built and serialized directly in Python.
 
 WhakerPy is your solution if:
+
 - you want a relatively simple web app with a few static or semi-dynamic pages;
 - you want full, programmatic control over the generated HTML, without a template language to learn;
 - **you want to build and secure a web app with nothing but Python and its standard library**.
@@ -82,6 +83,7 @@ That is the whole of "the WhakerPy templating language".
 A page is a subclass of `BaseResponseRecipe`. `create()` builds the parts of the tree that never change; `bake(events)` runs on every request, decides from the incoming `events` (query string or POST data) whether anything changed, and only rebuilds the dynamic part when it did — a static page is never re-serialized for nothing.
 
 The same recipe instances can then be exposed three ways, without touching the page code:
+
 - `tree.serialize_to_file(...)` — dumped once to a static `.html` file;
 - `BaseHTTPDServer` / `HTTPDHandler` — the stdlib `http.server`, for local development or a small deployment with zero extra process;
 - `WSGIApplication` — the same recipes, the same bakery, behind any production WSGI server (Apache, nginx + gunicorn/uWSGI, ...).

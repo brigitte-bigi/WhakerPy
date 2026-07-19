@@ -64,12 +64,12 @@
                 </ul>
             </nav>
         
-    <h1>WhakerPy 2.2</h1>
+    <h1>WhakerPy 2.3</h1>
         <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 2.2</h1>
+    <h1>WhakerPy 2.3</h1>
     <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     <ul>
@@ -267,6 +267,9 @@ View Source
         <span class="k">elif</span> <span class="n">mime_type</span> <span class="o">==</span> <span class="s1">&#39;text/html&#39;</span><span class="p">:</span>
             <span class="n">events</span> <span class="o">=</span> <span class="n">HTTPDHandlerUtils</span><span class="o">.</span><span class="n">parse_query_string</span><span class="p">(</span><span class="n">query_string</span><span class="p">)</span>
             <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bakery</span><span class="p">(</span><span class="n">handler_utils</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">status</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">205</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Ignored unknown GET events </span><span class="si">{}</span><span class="s1"> for page </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="n">HTTPDStatus</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">content</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">handler_utils</span><span class="o">.</span><span class="n">static_content</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="k">else</span><span class="p">:</span>

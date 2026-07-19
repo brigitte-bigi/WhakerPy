@@ -64,12 +64,12 @@
                 </ul>
             </nav>
         
-    <h1>WhakerPy 2.2</h1>
+    <h1>WhakerPy 2.3</h1>
         <p><img class="small-logo" src="./statics/whakerpy.png" alt="Software logo"/></p>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     </header>
     <nav id="nav-book" class="side-nav">
-    <h1>WhakerPy 2.2</h1>
+    <h1>WhakerPy 2.3</h1>
     <img class="small-logo center" src="./statics/whakerpy.png" alt=""/>
         <p><a class="external-link" href="https://github.com/brigitte-bigi/WhakerPy/">https://github.com/brigitte-bigi/WhakerPy/</a></p>
     <ul>
@@ -588,10 +588,8 @@ View Source
     <article class="docstring">
 <p><em>Return the configuration section related to WhakerPy.</em></p>
 
-<ul>
-<li>Look for a top‐level "WhakerPy" key (new format).</li>
-<li>Otherwise use the full JSON (old format) and issue a deprecation warning.</li>
-</ul>
+<p>Requires a top-level "WhakerPy" key, introduced in WhakerPy 1.2.
+Configuration files predating this key are not supported.</p>
 
 <h5>Parameters</h5>
 
@@ -625,8 +623,8 @@ View Source
 <span class="k">def</span><span class="w"> </span><span class="nf">__get_json_whakerpy_section</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the configuration section related to WhakerPy.</span>
 
-<span class="sd">        - Look for a top‐level &quot;WhakerPy&quot; key (new format).</span>
-<span class="sd">        - Otherwise use the full JSON (old format) and issue a deprecation warning.</span>
+<span class="sd">        Requires a top-level &quot;WhakerPy&quot; key, introduced in WhakerPy 1.2.</span>
+<span class="sd">        Configuration files predating this key are not supported.</span>
 
 <span class="sd">        :param filename: path to JSON configuration file</span>
 <span class="sd">        :return: dict with keys &quot;pagespath&quot;, &quot;&lt;page&gt;.html&quot;, …</span>
