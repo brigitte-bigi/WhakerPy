@@ -60,6 +60,7 @@ key/values:
 
 import os
 import types
+import logging
 
 from ..httpd import HTTPDStatus
 from ..httpd import HTTPDHandlerUtils
@@ -238,6 +239,14 @@ class WSGIApplication(object):
         else:
             # Process dynamic content. Events are empty if POST request.
             events, accept = handler_utils.process_post(environ['wsgi.input'])
+
+            # A GET carries its data in the query string, the very same way a
+            # POST carries it in its body -- e.g. for a plain HTML form using
+            # method="get" (see do_GET() of the httpd request handler).
+            is_get = environ.get("REQUEST_METHOD", "GET").upper() == "GET"
+            if is_get is True:
+                events = HTTPDHandlerUtils.parse_query_string(environ.get("QUERY_STRING", ""))
+
             has_to_return_data = HTTPDHandlerUtils.has_to_return_data(accept)
             content, status = HTTPDHandlerUtils.bakery(
                 self._pages,
@@ -246,6 +255,16 @@ class WSGIApplication(object):
                 events,
                 has_to_return_data
             )
+
+            # A GET is a navigation, not a form submission: query parameters
+            # the recipe does not handle (status 205) must not prevent the
+            # page from being served. The baked content is complete: serve
+            # it with a 200.
+            if is_get is True and status.code == 205:
+                logging.warning("Ignored unknown GET events {} for page {}"
+                                "".format(events, page_name))
+                status = HTTPDStatus(200)
+
             if has_to_return_data is False:
                 content = self.__policy.finalize_html(content)
         return content, status
