@@ -3,6 +3,10 @@
 # Allows to create the WhakerPy distribution with:
 # python -m build
 # ---------------------------------------------------------------------------
+# Copyright (C) 2023-2026 Brigitte Bigi, CNRS, Laboratoire Parole et Langage,
+# Aix-en-Provence, France. Governed by the GNU Affero General Public License,
+# version 3 or later. See the LICENSE file for details.
+# ---------------------------------------------------------------------------
 
 [project]
     name = "WhakerPy"
@@ -58,15 +62,16 @@
 # -------------------
 # Code tests
 # -------------------
+# Run all the tests (from the repository root):
+#   python -m unittest discover -s tests -p "test_*.py"
+# Run all the tests with the coverage report:
+#   python -m coverage run
+#   python -m coverage report
+#
 # Can check this config file with:
 # import coverage
 # x = coverage.config.HandyConfigParser(False)
 # x.read("pyproject.toml")
-
-[tool.pytest.ini_options]
-    minversion = "7.3"
-    addopts = "-ra -q"
-    testpaths = ["tests"]
 
 [tool.coverage.report]
     fail_under = 5
