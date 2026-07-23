@@ -793,8 +793,14 @@ def __serve_dynamic_content(self, page_name: str, filepath: str, environ, handle
         content = status.to_html(encode=True, msg_error=f'Page not found: {filepath}')
     else:
         events, accept = handler_utils.process_post(environ['wsgi.input'])
+        is_get = environ.get('REQUEST_METHOD', 'GET').upper() == 'GET'
+        if is_get is True:
+            events = HTTPDHandlerUtils.parse_query_string(environ.get('QUERY_STRING', ''))
         has_to_return_data = HTTPDHandlerUtils.has_to_return_data(accept)
         content, status = HTTPDHandlerUtils.bakery(self._pages, page_name, environ['PATH_INFO'], events, has_to_return_data)
+        if is_get is True and status.code == 205:
+            logging.warning('Ignored unknown GET events {} for page {}'.format(events, page_name))
+            status = HTTPDStatus(200)
         if has_to_return_data is False:
             content = self.__policy.finalize_html(content)
     return (content, status)

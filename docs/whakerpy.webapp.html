@@ -89,52 +89,20 @@
     <h1>whakerpy.webapp module</h1>
     <section id="readme">
 
-<pre>
-
------------------------------------------------------------------------------                                                           
-
- ██╗    ██╗ ██╗  ██╗  █████╗  ██╗  ██╗ ███████╗ ██████╗  ██████╗ ██╗   ██╗
- ██║    ██║ ██║  ██║ ██╔══██╗ ██║ ██╔╝ ██╔════╝ ██╔══██╗ ██╔══██╗╚██╗ ██╔╝
- ██║ █╗ ██║ ███████║ ███████║ █████╔╝  █████╗   ██████╔╝ ██████╔╝ ╚████╔╝ 
- ██║███╗██║ ██╔══██║ ██╔══██║ ██╔═██╗  ██╔══╝   ██╔══██╗ ██╔═══╝   ╚██╔╝  
- ╚███╔███╔╝ ██║  ██║ ██║  ██║ ██║  ██╗ ███████╗ ██║  ██║ ██║        ██║   
-  ╚══╝╚══╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝        ╚═╝   
-       
-   a Python library to create dynamic HTML content and web applications
-
-               Copyright (C) 2023-2024 Brigitte Bigi, CNRS, 
-         Laboratoire Parole et Langage, Aix-en-Provence, France
-         
------------------------------------------------------------------------------                                                              
-</pre>
-<hr />
-
-<p>██╗    ██╗ ██╗  ██╗  █████╗  ██╗  ██╗ ███████╗ ██████╗  ██████╗ ██╗   ██╗
- ██║    ██║ ██║  ██║ ██╔══██╗ ██║ ██╔╝ ██╔════╝ ██╔══██╗ ██╔══██╗╚██╗ ██╔╝
- ██║ █╗ ██║ ███████║ ███████║ █████╔╝  █████╗   ██████╔╝ ██████╔╝ ╚████╔╝ 
- ██║███╗██║ ██╔══██║ ██╔══██║ ██╔═██╗  ██╔══╝   ██╔══██╗ ██╔═══╝   ╚██╔╝<br />
- ╚███╔███╔╝ ██║  ██║ ██║  ██║ ██║  ██╗ ███████╗ ██║  ██║ ██║        ██║<br />
-  ╚══╝╚══╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝        ╚═╝   </p>
-
-<p>a Python library to create dynamic HTML content and web applications</p>
-
-<pre><code>           Copyright (C) 2023-2025 Brigitte Bigi, CNRS
-     Laboratoire Parole et Langage, Aix-en-Provence, France
-</code></pre>
-
-<hr />
-
 <h1>WebApp package</h1>
 
 <h2>Scope</h2>
 
 <p>The <code>webapp</code> package implements the <strong>application layer</strong> of WhakerPy.</p>
 
-<p>It is responsible for:
-- loading and validating web application configuration
-- launching a local HTTP server
-- connecting applications to the HTTPD engine
-- providing a clean interface between <strong>applications</strong> and <strong>HTTP transport</strong></p>
+<p>It is responsible for:</p>
+
+<ul>
+<li>loading and validating web application configuration</li>
+<li>launching a local HTTP server</li>
+<li>connecting applications to the HTTPD engine</li>
+<li>providing a clean interface between <strong>applications</strong> and <strong>HTTP transport</strong></li>
+</ul>
 
 <p>This package <strong>does not</strong> implement HTTP mechanics or security logic.
 Those belong to <code>httpd</code>.</p>
@@ -160,8 +128,12 @@ Those belong to <code>httpd</code>.</p>
   <td><code>webapp</code></td>
 </tr>
 <tr>
-  <td>UI / HTML generation</td>
-  <td><code>response</code> (external)</td>
+  <td>HTML tree and serialization</td>
+  <td><code>htmlmaker</code></td>
+</tr>
+<tr>
+  <td>UI / HTML response recipe</td>
+  <td><code>WebSiteResponse</code> (subclass of <code>httpd.BaseResponseRecipe</code>)</td>
 </tr>
 </tbody>
 </table>
@@ -170,120 +142,187 @@ Those belong to <code>httpd</code>.</p>
 
 <h3>2. One application = one configuration</h3>
 
-<p>Each web application is described by:
-- a JSON configuration file
-- parsed once into a <code>WebSiteData</code> object</p>
+<p>Each web application is described by:</p>
 
-<p>That object becomes the <strong>single source of truth</strong> for:
-- page tree
-- static paths
-- blacklist rules
-- signed URL rules</p>
+<ul>
+<li>a JSON configuration file</li>
+<li>parsed once into a <code>WebSiteData</code> object</li>
+</ul>
+
+<p>That object becomes the <strong>single source of truth</strong> for:</p>
+
+<ul>
+<li>page tree</li>
+<li>static paths</li>
+<li>blacklist rules</li>
+<li>signed URL rules</li>
+</ul>
 
 <p>No duplicated parsing.</p>
 
 <h3>3. Same application, two execution modes</h3>
 
 <p>The same application can run:
-- locally (built-in HTTP server)
-- in production (uWSGI / WSGI)</p>
+- locally with its built-in HTTP server;
+- in production or locally with uWSGI / WSGI service.</p>
 
-<p><code>webapp</code> ensures:
-- identical configuration
-- identical policy behavior
-- no application-side branching</p>
+<p><code>webapp</code> ensures:</p>
+
+<ul>
+<li>identical configuration</li>
+<li>identical policy behavior</li>
+<li>no application-side branching</li>
+</ul>
 
 <h2>Main modules and roles</h2>
 
 <h3>WebSiteData</h3>
 
-<p>Role:
-- configuration loader and validator</p>
+<p>Role:</p>
 
-<p>Main class:
-- <code>WebSiteData</code></p>
+<ul>
+<li>configuration loader and validator</li>
+</ul>
 
-<p>Responsibilities:
-- parse JSON configuration
-- expose structured attributes (pages, static paths, blacklist, signed_url)
-- create the dynamic page tree</p>
+<p>Main class:</p>
 
-<p>It does <strong>not</strong>:
-- serve HTTP
-- apply policies
-- generate responses</p>
+<ul>
+<li><code>WebSiteData</code></li>
+</ul>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>parse JSON configuration</li>
+<li>expose structured attributes (pages, static paths, blacklist, signed_url)</li>
+<li>create the dynamic page tree</li>
+</ul>
+
+<p>It does <strong>not</strong>:</p>
+
+<ul>
+<li>serve HTTP</li>
+<li>apply policies</li>
+<li>generate responses</li>
+</ul>
 
 <p>It is a <strong>data container</strong>, not a controller.</p>
 
 <h3>WebSiteApplication</h3>
 
-<p>Role:
-- local application launcher</p>
+<p>Role:</p>
 
-<p>Main class:
-- <code>WebSiteApplication</code></p>
+<ul>
+<li>local application launcher</li>
+</ul>
 
-<p>Responsibilities:
-- instantiate the HTTP server (<code>BaseHTTPDServer</code>)
-- pass configuration to the server
-- start / stop the local server
-- compute client URL</p>
+<p>Main class:</p>
 
-<p>This is the <strong>only place</strong> where:
-- server lifecycle is managed
-- configuration is injected into the server</p>
+<ul>
+<li><code>WebSiteApplication</code></li>
+</ul>
 
-<p>It does <strong>not</strong>:
-- handle requests
-- implement policies
-- generate HTML</p>
+<p>Responsibilities:</p>
+
+<ul>
+<li>instantiate the HTTP server (<code>BaseHTTPDServer</code>)</li>
+<li>pass configuration to the server</li>
+<li>start / stop the local server</li>
+<li>compute client URL</li>
+</ul>
+
+<p>This is the <strong>only place</strong> where:</p>
+
+<ul>
+<li>server lifecycle is managed</li>
+<li>configuration is injected into the server</li>
+</ul>
+
+<p>It does <strong>not</strong>:</p>
+
+<ul>
+<li>handle requests</li>
+<li>implement policies</li>
+<li>generate HTML</li>
+</ul>
 
 <h3>WebSiteResponse</h3>
 
-<p>Role:
-- base interface between applications and the server</p>
+<p>Role:</p>
 
-<p>Responsibilities:
-- define how an application exposes pages
-- map page names to response builders
-- provide default behaviors</p>
+<ul>
+<li>base interface between applications and the server</li>
+</ul>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>define how an application exposes pages</li>
+<li>map page names to response builders</li>
+<li>provide default behaviors</li>
+</ul>
 
 <p>This module defines the <strong>contract</strong> an application must satisfy
 to be served by WhakerPy.</p>
 
-<p>It does <strong>not</strong>:
-- know routing rules
-- know security policies
-- access configuration directly</p>
+<p>It does <strong>not</strong>:</p>
+
+<ul>
+<li>know routing rules</li>
+<li>know security policies</li>
+<li>access configuration directly</li>
+</ul>
 
 <h3>WSGIApplication</h3>
 
-<p>Role:
-- WSGI entry point for production deployment</p>
+<p>Role:</p>
 
-<p>Main class:
-- <code>WSGIApplication</code></p>
+<ul>
+<li>WSGI entry point for production deployment</li>
+</ul>
 
-<p>Responsibilities:
-- adapt WhakerPy to the WSGI interface
-- forward requests to the same HTTPD logic
-- apply the same policies as the local server</p>
+<p>Main class:</p>
 
-<p>Guarantees:
-- identical behavior local / production
-- no duplicated logic</p>
+<ul>
+<li><code>WSGIApplication</code></li>
+</ul>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>adapt WhakerPy to the WSGI interface</li>
+<li>register pages (<code>add_page</code>)</li>
+<li>forward requests to the same HTTPD logic</li>
+<li>apply the same policies as the local server</li>
+</ul>
+
+<p>Guarantees:</p>
+
+<ul>
+<li>identical behavior local / production</li>
+<li>no duplicated logic</li>
+<li>a <code>GET</code> request carries its parameters the same way a <code>POST</code> does, and an
+unhandled <code>GET</code> event (status <code>205</code>) still serves the page with a <code>200</code>,
+exactly like the local <code>HTTPDHandler</code></li>
+</ul>
 
 <h2>Extensibility</h2>
 
-<p>This package is the right place to add:
-- new application launchers
-- alternative configuration sources
-- new application descriptors</p>
+<p>This package is the right place to add:</p>
 
-<p>Without touching:
-- HTTP handlers
-- security policies
-- application code</p>
+<ul>
+<li>new application launchers</li>
+<li>alternative configuration sources</li>
+<li>new application descriptors</li>
+</ul>
+
+<p>Without touching:</p>
+
+<ul>
+<li>HTTP handlers</li>
+<li>security policies</li>
+<li>application code</li>
+</ul>
 
 <h2>Summary</h2>
 

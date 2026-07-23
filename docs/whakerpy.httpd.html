@@ -89,33 +89,19 @@
     <h1>whakerpy.httpd module</h1>
     <section id="readme">
 
-<hr />
-
-<p>██╗    ██╗ ██╗  ██╗  █████╗  ██╗  ██╗ ███████╗ ██████╗  ██████╗ ██╗   ██╗
- ██║    ██║ ██║  ██║ ██╔══██╗ ██║ ██╔╝ ██╔════╝ ██╔══██╗ ██╔══██╗╚██╗ ██╔╝
- ██║ █╗ ██║ ███████║ ███████║ █████╔╝  █████╗   ██████╔╝ ██████╔╝ ╚████╔╝ 
- ██║███╗██║ ██╔══██║ ██╔══██║ ██╔═██╗  ██╔══╝   ██╔══██╗ ██╔═══╝   ╚██╔╝<br />
- ╚███╔███╔╝ ██║  ██║ ██║  ██║ ██║  ██╗ ███████╗ ██║  ██║ ██║        ██║<br />
-  ╚══╝╚══╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝        ╚═╝   </p>
-
-<p>a Python library to create dynamic HTML content and web applications</p>
-
-<pre><code>           Copyright (C) 2023-2025 Brigitte Bigi, CNRS
-     Laboratoire Parole et Langage, Aix-en-Provence, France
-</code></pre>
-
-<hr />
-
 <h1>HTTPD package</h1>
 
 <h2>Scope</h2>
 
 <p>The <code>httpd</code> package implements the <strong>HTTP layer</strong> of WhakerPy.</p>
 
-<p>It provides:
-- a local HTTP server (based on <code>http.server</code>)
-- a WSGI-compatible execution path
-- a unified policy mechanism for request filtering and response post-processing</p>
+<p>It provides:</p>
+
+<ul>
+<li>a local HTTP server (based on <code>http.server</code>)</li>
+<li>a WSGI-compatible execution path</li>
+<li>a unified policy mechanism for request filtering and response post-processing</li>
+</ul>
 
 <p>This package <strong>does not</strong> implement application logic.
 It implements <strong>transport, routing, and security policies</strong>.</p>
@@ -146,7 +132,11 @@ It implements <strong>transport, routing, and security policies</strong>.</p>
 </tr>
 <tr>
   <td>Security / routing policies</td>
-  <td><code>HTTPDPolicy</code></td>
+  <td><code>HTTPDPolicy</code>, <code>Blacklist</code>, <code>SignedURL</code></td>
+</tr>
+<tr>
+  <td>Static file access control</td>
+  <td><code>FileAccessChecker</code>, <code>UnixPermissions</code></td>
 </tr>
 <tr>
   <td>Utilities / helpers</td>
@@ -160,124 +150,222 @@ It implements <strong>transport, routing, and security policies</strong>.</p>
 <h3>2. One decision point</h3>
 
 <p>All request filtering and security decisions are centralized in <strong>one class</strong>:
-<code>HTTPD Policy</code>. Neither handlers nor responses implement:
-- blacklist checks
-- signed URL verification
-- security decisions</p>
+<code>HTTPD Policy</code>. Neither handlers nor responses implement:</p>
+
+<ul>
+<li>blacklist checks</li>
+<li>signed URL verification</li>
+<li>security decisions</li>
+</ul>
 
 <p>They delegate <strong>once</strong> to the policy.</p>
 
 <h3>3. Identical behavior in local HTTPD and WSGI</h3>
 
-<p>The same policy object is used by:
-- <code>HTTPDHandler</code> (local server)
-- <code>WSGIApplication</code> (uWSGI / production)</p>
+<p>The same policy object is used by:</p>
 
-<p>This guarantees:
-- same access rules
-- same error responses
-- same security semantics</p>
+<ul>
+<li><code>HTTPDHandler</code> (local server)</li>
+<li><code>WSGIApplication</code> (uWSGI / production)</li>
+</ul>
+
+<p>This guarantees:</p>
+
+<ul>
+<li>same access rules</li>
+<li>same error responses</li>
+<li>same security semantics</li>
+</ul>
 
 <h2>Main classes and relationships</h2>
 
 <h3>BaseHTTPDServer</h3>
 
-<p>Role:
-- orchestrates request handling
-- stores baked pages
-- owns the policy instance</p>
+<p>Role:</p>
 
-<p>Responsibilities:
-- page creation (<code>_create_pages</code>)
-- page baking (<code>page_bakery</code>)
-- policy configuration (<code>configure</code>)
-- delegation to <code>HTTPDPolicy</code></p>
+<ul>
+<li>orchestrates request handling</li>
+<li>stores baked pages</li>
+<li>owns the policy instance</li>
+</ul>
 
-<p>It <strong>does not</strong>:
-- inspect requests
-- apply security rules
-- know blacklist or signed URL details</p>
+<p>Responsibilities:</p>
+
+<ul>
+<li>page creation (<code>_create_pages</code>)</li>
+<li>page baking (<code>page_bakery</code>)</li>
+<li>policy configuration (<code>configure</code>)</li>
+<li>delegation to <code>HTTPDPolicy</code></li>
+</ul>
+
+<p>It <strong>does not</strong>:</p>
+
+<ul>
+<li>inspect requests</li>
+<li>apply security rules</li>
+<li>know blacklist or signed URL details</li>
+</ul>
 
 <h3>HTTPDHandler</h3>
 
-<p>Role:
-- receive HTTP requests
-- normalize paths and queries
-- delegate decisions to the server policy</p>
+<p>Role:</p>
+
+<ul>
+<li>receive HTTP requests</li>
+<li>normalize paths and queries</li>
+<li>delegate decisions to the server policy</li>
+</ul>
 
 <p>Flow (GET / POST):</p>
+
+<ol>
+<li>extract the query string, then normalize the path</li>
+<li>delegate the request to the server policy (<code>policy_check</code>)</li>
+<li>serve a static file when it exists, else bake the dynamic page</li>
+<li>send the response</li>
+</ol>
+
+<p>A <code>GET</code> carries its data in the query string exactly the way a <code>POST</code>
+carries it in its body: both are parsed into the same <code>events</code> dictionary
+(see <code>parse_query_string</code>). Because a <code>GET</code> is a navigation and not a form
+submission, query parameters the recipe does not handle (status <code>205</code>) do
+not prevent the page from being served: the baked page is returned with a
+<code>200</code>.</p>
 
 <p>No security logic exists here.</p>
 
 <h3>HTTPDPolicy</h3>
 
-<p>Role:
-- central decision engine
-- transport-level security and routing policy</p>
+<p>Role:</p>
 
-<p>Current policies implemented:
-- blacklist (User-Agent and/or path)
-- signed URLs (time-limited access)</p>
+<ul>
+<li>central decision engine</li>
+<li>transport-level security and routing policy</li>
+</ul>
 
-<p>Responsibilities:
-- accept or reject a request
-- generate standard rejection responses
-- post-process outgoing HTML (<code>finalize_html</code>)</p>
+<p>Current policies implemented:</p>
 
-<p>This is the <strong>only</strong> place where:
-- blacklist logic exists
-- signed URL verification exists
-- HTML rewriting for signed URLs exists</p>
+<ul>
+<li>blacklist (User-Agent and/or path)</li>
+<li>signed URLs (time-limited access)</li>
+</ul>
+
+<p>Responsibilities:</p>
+
+<ul>
+<li>accept or reject a request</li>
+<li>generate standard rejection responses</li>
+<li>post-process outgoing HTML (<code>finalize_html</code>)</li>
+</ul>
+
+<p>This is the <strong>only</strong> place where:</p>
+
+<ul>
+<li>blacklist logic exists</li>
+<li>signed URL verification exists</li>
+<li>HTML rewriting for signed URLs exists</li>
+</ul>
 
 <h3>Blacklist</h3>
 
-<p>Role:
-- store and match forbidden patterns</p>
+<p>Role:</p>
 
-<p>Characteristics:
-- configuration-based
-- supports file-based or dict-based configuration
-- pure matching logic</p>
+<ul>
+<li>store and match forbidden patterns</li>
+</ul>
 
-<p>It does <strong>not</strong>:
-- decide responses
-- know HTTP semantics</p>
+<p>Characteristics:</p>
+
+<ul>
+<li>configuration-based</li>
+<li>supports file-based or dict-based configuration</li>
+<li>pure matching logic</li>
+</ul>
+
+<p>It does <strong>not</strong>:</p>
+
+<ul>
+<li>decide responses</li>
+<li>know HTTP semantics</li>
+</ul>
 
 <h3>SignedURL</h3>
 
-<p>Role:
-- stateless signed URL mechanism</p>
+<p>Role:</p>
 
-<p>Characteristics:
-- HMAC-based
-- time-limited (TTL)
-- no cookies
-- no server-side state
-- standard library only</p>
+<ul>
+<li>stateless signed URL mechanism</li>
+</ul>
 
-<p>It does <strong>not</strong>:
-- know request context
-- know HTML
-- apply policy decisions</p>
+<p>Characteristics:</p>
+
+<ul>
+<li>HMAC-based</li>
+<li>time-limited (TTL)</li>
+<li>no cookies</li>
+<li>no server-side state</li>
+<li>standard library only</li>
+</ul>
+
+<p>It does <strong>not</strong>:</p>
+
+<ul>
+<li>know request context</li>
+<li>know HTML</li>
+<li>apply policy decisions</li>
+</ul>
 
 <h3>HTTPDHandlerUtils</h3>
 
-<p>Role:
-- shared helper utilities</p>
+<p>Role:</p>
 
-<p>Includes:
-- response helpers
-- HTML error generation
-- content baking helpers
-- MIME utilities</p>
+<ul>
+<li>shared helper utilities</li>
+</ul>
+
+<p>Includes:</p>
+
+<ul>
+<li>response helpers</li>
+<li>HTML error generation</li>
+<li>content baking helpers</li>
+<li>MIME utilities</li>
+<li>query string parsing (<code>parse_query_string</code>, shared by GET and POST)</li>
+</ul>
 
 <p>No policy logic here.</p>
 
+<h3>FileAccessChecker / UnixPermissions</h3>
+
+<p>Role:</p>
+
+<ul>
+<li>static file access control, before any file is served</li>
+</ul>
+
+<p>Characteristics:</p>
+
+<ul>
+<li><code>UnixPermissions</code> reads the owner / group / others read bits of a file</li>
+<li><code>FileAccessChecker</code> answers <code>read_allowed(who)</code> for a given file</li>
+<li>used by <code>HTTPDHandlerUtils.static_content</code> to refuse unreadable files</li>
+</ul>
+
+<p>It does <strong>not</strong>:</p>
+
+<ul>
+<li>know HTTP semantics</li>
+<li>apply routing or blacklist rules</li>
+</ul>
+
 <h3>HTTPDStatus</h3>
 
-<p>Role:
-- HTTP status abstraction
-- generation of consistent HTML error pages</p>
+<p>Role:</p>
+
+<ul>
+<li>HTTP status abstraction</li>
+<li>generation of consistent HTML error pages</li>
+</ul>
 
 <h2>Request lifecycle (simplified)</h2>
 
@@ -298,29 +386,41 @@ response sent</p>
 
 <h2>Why policies are not in Responses</h2>
 
-<p>Responses:
-- generate HTML content
-- express application UI logic</p>
+<p>Responses:</p>
 
-<p>They must <strong>not</strong>:
-- know routing rules
-- know security constraints
-- modify URLs for transport reasons</p>
+<ul>
+<li>generate HTML content</li>
+<li>express application UI logic</li>
+</ul>
+
+<p>They must <strong>not</strong>:</p>
+
+<ul>
+<li>know routing rules</li>
+<li>know security constraints</li>
+<li>modify URLs for transport reasons</li>
+</ul>
 
 <p>Signed URLs, blacklist, and access rules are <strong>transport policies</strong>, not UI logic.</p>
 
 <h2>Extensibility</h2>
 
-<p>New policies can be added by extending <code>HTTPDPolicy</code>, for example:
-- rate limiting
-- authentication
-- CSP headers
-- referer rules</p>
+<p>New policies can be added by extending <code>HTTPDPolicy</code>, for example:</p>
 
-<p>Without modifying:
-- handlers
-- responses
-- applications</p>
+<ul>
+<li>rate limiting</li>
+<li>authentication</li>
+<li>CSP headers</li>
+<li>referer rules</li>
+</ul>
+
+<p>Without modifying:</p>
+
+<ul>
+<li>handlers</li>
+<li>responses</li>
+<li>applications</li>
+</ul>
 
 <h2>Summary</h2>
 
