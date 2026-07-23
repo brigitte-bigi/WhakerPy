@@ -3,12 +3,12 @@
 // contact:  contact@sppas.org
 // summary:  UML class diagram for HTTPD package.
 //
-// This file is part of SPPAS: https://sppas.org/
-//     Copyright (C) 2011-2023 Brigitte Bigi
+// This file is part of WhakerPy: https://whakerpy.sf.net
+//     Copyright (C) 2011-2026 Brigitte Bigi, CNRS
 //     Laboratoire Parole et Langage, Aix-en-Provence, France
 //     Use of this software is governed by the GNU Affero Public License, version 3.
 //
-// This file was migrated to the "WhakerPy" library by its author.
+// Inheritance is written [Superclass]^[Subclass].
 //
 // Copy/paste the following at:
 // https://yuml.me/diagram/scruffy/class/draw
@@ -18,26 +18,56 @@
 // Class descriptions
 // -------------------
 
-// Class to bake an HTML response page.
+// The HTTP status of a response.
+[HTTPDStatus|+code:int|get();set();check();to_html()]
+[HTTPDValueError]
+
+// The threading HTTP server: holds the pages and the security policy.
+[BaseHTTPDServer|#pages:dict;#default:str;#policy:HTTPDPolicy|configure();policy_check();default();page_bakery()]
+
+// Base class to bake an HTML response page.
 // Intent to be used as base class for any html page.
-[HTTPDStatus|+code:int;]
-[BaseHTTPDServer|-pages:dict;-default:str;]
-[BaseResponseRecipe|+name:str;+page:str;+status:int;+tree:HTMLTree|+bake(events);-process_events(events);]
-[HTTPDHandler]
-[HTTPDHandlerUtils]
+[BaseResponseRecipe|+name:str;+status:HTTPDStatus;+tree:HTMLTree|bake(events);create();get_data();reset_data();-process_events(events)]
+
+// The request handler: turns a GET/POST/HEAD request into a response.
+[HTTPDHandler|get_default_page();do_HEAD();do_GET();do_POST();log_request()]
+
+// Stateless helpers shared by the handler and the WSGI application.
+[HTTPDHandlerUtils|get_path();get_page_name();static_content();process_post();parse_query_string();bakery();has_to_return_data();build_default_headers()]
+
+// The security policy: blacklist and signed URL verification.
+[HTTPDPolicy|configure();check();finalize_html()]
+[Blacklist|-blacklist:set|configure();match();load()]
+[SignedURL|-secret:bytes|configure();load();match_protect();sign();verify()]
+
+// Static file access control, on Unix filesystems.
+[UnixPermissions|+owner;+group;+others|is_valid_role()]
+[FileAccessChecker|-filename:str|get_filename();read_allowed()]
 
 // -------------------
 // Class relations
 // -------------------
 
-[BaseHTTPDServer]-1>[BaseResponseRecipe]
 [http.server.ThreadingHTTPServer {bg:purple}]^[BaseHTTPDServer]
+[http.server.BaseHTTPRequestHandler {bg:purple}]^[HTTPDHandler]
+
+[BaseHTTPDServer]-1>[BaseResponseRecipe]
+[BaseHTTPDServer]-1>[HTTPDPolicy]
 
 [BaseResponseRecipe]-1>[HTMLTree {bg:purple}]
 [BaseResponseRecipe]-1>[HTTPDStatus]
 
+[HTTPDHandler]->[BaseHTTPDServer]
 [HTTPDHandler]-1>[HTTPDHandlerUtils]
-[http.server.BaseHTTPRequestHandler {bg:purple}]^[HTTPDHandler]
 
 [HTTPDHandlerUtils]-1>[HTTPDStatus]
+[HTTPDHandlerUtils]->[FileAccessChecker]
+[FileAccessChecker]-1>[UnixPermissions]
+
+[HTTPDPolicy]-1>[Blacklist]
+[HTTPDPolicy]-1>[SignedURL]
+
+[HTTPDStatus]->[HTTPDValueError]
+
 [WSGIApplication {bg:purple}]-1>[HTTPDHandlerUtils]
+[WSGIApplication {bg:purple}]-1>[HTTPDPolicy]

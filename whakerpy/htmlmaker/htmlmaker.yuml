@@ -1,12 +1,14 @@
-// filename: sppas.ui.htmlmaker.htmlmaker.yuml
+// filename: whakerpy.htmlmaker.htmlmaker.yuml
 // author:   Brigitte Bigi
 // contact:  contact@sppas.org
 // summary:  UML class diagram for Hyper Text Markup Language Maker of WhakerPy.
 //
-// This file is part of SPPAS: https://sppas.org/
-//     Copyright (C) 2011-2023 Brigitte Bigi
+// This file is part of WhakerPy: https://whakerpy.sf.net
+//     Copyright (C) 2011-2026 Brigitte Bigi, CNRS
 //     Laboratoire Parole et Langage, Aix-en-Provence, France
 //     Use of this software is governed by the GNU Affero Public License, version 3.
+//
+// Inheritance is written [Superclass]^[Subclass].
 //
 // Copy/paste the following at:
 // https://yuml.me/diagram/scruffy/class/draw
@@ -16,39 +18,70 @@
 // Class descriptions
 // -------------------
 
-// An HTML page is a tree of nodes.
-// The root has 2 children: the head and the body
-[HTMLTree|-id:str;-body:HTMLNode;+head:HTMLHeadNode;+body_header:HTMLNode,;+body_nav:HTMLNode;+body_main:HTMLNode;+body_footer:HTMLNode;+body_script:HTMLNode|serialize_to_file()]
+// The root class of any node of an HTML tree.
+[BaseNode|+identifier:str;+parent:BaseNode|is_leaf();is_root();get_parent();set_parent();has_child(id);serialize()]
 
-// A Node of an HTML tree
-[BaseNode|identifier: str; parent: BaseNode|is_leaf();is_root();get_parent();set_parent();serialize()]
-[BaseTagNode|tag: str; attributes: dict|get_tag()|has_attribute(k);set_attribute(k,v);add_attribute(k,v);remove_attribute(k);serialize()]
-[TagNode|children:list;value:str|get_child(id);has_child(id);append_child(node);insert_child(pos,node);remove_child(id);pop_child(pos)|set_value(v)]
-[HTMLHeadNode|title();meta();script();link();css()]
+// Leaf nodes without children nor attributes.
+[Doctype]
+[HTMLComment]
+
+// A node with attributes but no children.
+[BaseTagNode|+tag:str;-attributes:dict|check_attribute(k);set_attribute(k,v);add_attribute(k,v);get_attribute_value(k);has_attribute(k);remove_attribute(k);nb_attributes();serialize()]
+[EmptyNode]
+[HTMLInputText]
+[HTMLImage]
+[HTMLHr]
+[HTMLBr]
+
+// A node with attributes and children.
+[TagNode|-children:list;-value:str|get_child(id);children_size();has_child(id);append_child(node);insert_child(pos,node);remove_child(id);pop_child(pos);clear_children();set_value(v);serialize()]
+[HTMLNode]
+[HTMLRadioBox]
+[HTMLButtonNode]
+[HTMLHeadNode|title();meta();link();script();css()]
+[HTMLHeaderNode]
+[HTMLNavNode]
+[HTMLMainNode]
+[HTMLFooterNode]
+[HTMLScriptNode]
+
+// An HTML page is a tree of nodes.
+// The root has 2 children: the head and the body.
+[HTMLTree|-id:str;+head:HTMLHeadNode;+body_header:HTMLNode;+body_nav:HTMLNode;+body_main:HTMLNode;+body_footer:HTMLNode;+body_script:HTMLNode|element();button();image();comment();serialize();serialize_to_file()]
+[HTMLTreeError]
 
 // -------------------
 // Class relations
 // -------------------
 
-[HTMLComment]^[BaseNode]
-[Doctype]^[BaseNode]
-[TagNode]^[BaseNode]
+[BaseNode]^[Doctype]
+[BaseNode]^[HTMLComment]
+[BaseNode]^[BaseTagNode]
+[BaseNode]^[HTMLTree]
 
-[BaseTagNode]^[BaseNode]
-[EmptyNode]^[BaseTagNode]
-[HTMLImage]^[EmptyNode]
-[HTMLInputText]^[EmptyNode]
-[HTMLBr]^[EmptyNode]
-[HTMLHr]^[EmptyNode]
+[BaseTagNode]^[EmptyNode]
+[BaseTagNode]^[TagNode]
 
-[HTMLNode]^[TagNode]
+[EmptyNode]^[HTMLInputText]
+[EmptyNode]^[HTMLImage]
+[EmptyNode]^[HTMLHr]
+[EmptyNode]^[HTMLBr]
 
-[HTMLHeadNode]^[HTMLNode]
-[HTMLButton]^[HTMLNode]
-[HTMLRadioBox]^[HTMLNode]
+[TagNode]^[HTMLNode]
+
+[HTMLNode]^[HTMLRadioBox]
+[HTMLNode]^[HTMLButtonNode]
+[HTMLNode]^[HTMLHeadNode]
+[HTMLNode]^[HTMLHeaderNode]
+[HTMLNode]^[HTMLNavNode]
+[HTMLNode]^[HTMLMainNode]
+[HTMLNode]^[HTMLFooterNode]
+[HTMLNode]^[HTMLScriptNode]
+
+[HTMLTree]^[HTMLTreeError]
+
+// A tag node aggregates its children nodes.
+[TagNode]<>-*>[BaseNode]
 
 [HTMLTree]-1>[Doctype]
 [HTMLTree]-1>[HTMLNode]
-
-// Probably wrong cardinality and relation: to be verified...
-[TagNode]-*>[BaseTagNode]

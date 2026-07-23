@@ -1,37 +1,3 @@
-```
------------------------------------------------------------------------------                                                           
-
- ██╗    ██╗ ██╗  ██╗  █████╗  ██╗  ██╗ ███████╗ ██████╗  ██████╗ ██╗   ██╗
- ██║    ██║ ██║  ██║ ██╔══██╗ ██║ ██╔╝ ██╔════╝ ██╔══██╗ ██╔══██╗╚██╗ ██╔╝
- ██║ █╗ ██║ ███████║ ███████║ █████╔╝  █████╗   ██████╔╝ ██████╔╝ ╚████╔╝ 
- ██║███╗██║ ██╔══██║ ██╔══██║ ██╔═██╗  ██╔══╝   ██╔══██╗ ██╔═══╝   ╚██╔╝  
- ╚███╔███╔╝ ██║  ██║ ██║  ██║ ██║  ██╗ ███████╗ ██║  ██║ ██║        ██║   
-  ╚══╝╚══╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝        ╚═╝   
-       
-   a Python library to create dynamic HTML content and web applications
-
-               Copyright (C) 2023-2024 Brigitte Bigi, CNRS, 
-         Laboratoire Parole et Langage, Aix-en-Provence, France
-         
------------------------------------------------------------------------------                                                              
-```
-
------------------------------------------------------------------------------
-
- ██╗    ██╗ ██╗  ██╗  █████╗  ██╗  ██╗ ███████╗ ██████╗  ██████╗ ██╗   ██╗
- ██║    ██║ ██║  ██║ ██╔══██╗ ██║ ██╔╝ ██╔════╝ ██╔══██╗ ██╔══██╗╚██╗ ██╔╝
- ██║ █╗ ██║ ███████║ ███████║ █████╔╝  █████╗   ██████╔╝ ██████╔╝ ╚████╔╝ 
- ██║███╗██║ ██╔══██║ ██╔══██║ ██╔═██╗  ██╔══╝   ██╔══██╗ ██╔═══╝   ╚██╔╝  
- ╚███╔███╔╝ ██║  ██║ ██║  ██║ ██║  ██╗ ███████╗ ██║  ██║ ██║        ██║   
-  ╚══╝╚══╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝        ╚═╝   
-
-   a Python library to create dynamic HTML content and web applications
-
-               Copyright (C) 2023-2025 Brigitte Bigi, CNRS
-         Laboratoire Parole et Langage, Aix-en-Provence, France
-
------------------------------------------------------------------------------
-
 # WebApp package
 
 ## Scope
@@ -39,6 +5,7 @@
 The `webapp` package implements the **application layer** of WhakerPy.
 
 It is responsible for:
+
 - loading and validating web application configuration
 - launching a local HTTP server
 - connecting applications to the HTTPD engine
@@ -56,7 +23,8 @@ Those belong to `httpd`.
 |------|---------|
 | HTTP protocol, handlers, policies | `httpd` |
 | Application configuration and launch | `webapp` |
-| UI / HTML generation | `response` (external) |
+| HTML tree and serialization | `htmlmaker` |
+| UI / HTML response recipe | `WebSiteResponse` (subclass of `httpd.BaseResponseRecipe`) |
 
 `webapp` glues **applications** to the **HTTP engine**.
 
@@ -64,10 +32,12 @@ Those belong to `httpd`.
 ### 2. One application = one configuration
 
 Each web application is described by:
+
 - a JSON configuration file
 - parsed once into a `WebSiteData` object
 
 That object becomes the **single source of truth** for:
+
 - page tree
 - static paths
 - blacklist rules
@@ -79,10 +49,11 @@ No duplicated parsing.
 ### 3. Same application, two execution modes
 
 The same application can run:
-- locally (built-in HTTP server)
-- in production (uWSGI / WSGI)
+- locally with its built-in HTTP server;
+- in production or locally with uWSGI / WSGI service.
 
 `webapp` ensures:
+
 - identical configuration
 - identical policy behavior
 - no application-side branching
@@ -93,17 +64,21 @@ The same application can run:
 ### WebSiteData
 
 Role:
+
 - configuration loader and validator
 
 Main class:
+
 - `WebSiteData`
 
 Responsibilities:
+
 - parse JSON configuration
 - expose structured attributes (pages, static paths, blacklist, signed_url)
 - create the dynamic page tree
 
 It does **not**:
+
 - serve HTTP
 - apply policies
 - generate responses
@@ -113,22 +88,27 @@ It is a **data container**, not a controller.
 ### WebSiteApplication
 
 Role:
+
 - local application launcher
 
 Main class:
+
 - `WebSiteApplication`
 
 Responsibilities:
+
 - instantiate the HTTP server (`BaseHTTPDServer`)
 - pass configuration to the server
 - start / stop the local server
 - compute client URL
 
 This is the **only place** where:
+
 - server lifecycle is managed
 - configuration is injected into the server
 
 It does **not**:
+
 - handle requests
 - implement policies
 - generate HTML
@@ -137,9 +117,11 @@ It does **not**:
 ### WebSiteResponse
 
 Role:
+
 - base interface between applications and the server
 
 Responsibilities:
+
 - define how an application exposes pages
 - map page names to response builders
 - provide default behaviors
@@ -148,6 +130,7 @@ This module defines the **contract** an application must satisfy
 to be served by WhakerPy.
 
 It does **not**:
+
 - know routing rules
 - know security policies
 - access configuration directly
@@ -156,29 +139,39 @@ It does **not**:
 ### WSGIApplication
 
 Role:
+
 - WSGI entry point for production deployment
 
 Main class:
+
 - `WSGIApplication`
 
 Responsibilities:
+
 - adapt WhakerPy to the WSGI interface
+- register pages (`add_page`)
 - forward requests to the same HTTPD logic
 - apply the same policies as the local server
 
 Guarantees:
+
 - identical behavior local / production
 - no duplicated logic
+- a `GET` request carries its parameters the same way a `POST` does, and an
+  unhandled `GET` event (status `205`) still serves the page with a `200`,
+  exactly like the local `HTTPDHandler`
 
 
 ## Extensibility
 
 This package is the right place to add:
+
 - new application launchers
 - alternative configuration sources
 - new application descriptors
 
 Without touching:
+
 - HTTP handlers
 - security policies
 - application code

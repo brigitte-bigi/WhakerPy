@@ -4,9 +4,11 @@
 // summary: UML class diagram for Webapp package.
 //
 // This file is part of WhakerPy: https://whakerpy.sf.net
-//     Copyright (C) 2023-2024 Brigitte Bigi, CNRS
+//     Copyright (C) 2023-2026 Brigitte Bigi, CNRS
 //     Laboratoire Parole et Langage, Aix-en-Provence, France
 //     Use of this software is governed by the GNU Affero Public License, version 3.
+//
+// Inheritance is written [Superclass]^[Subclass].
 //
 // Copy/paste the following at:
 // https://yuml.me/diagram/scruffy/class/draw
@@ -16,21 +18,30 @@
 // Class descriptions
 // -------------------
 
-[WebSiteData|~main_path:str;~default:str]
-[WebSiteApplication|-server: BaseHTTPServer;-port: int;-location: str]
-[WebSiteResponse]
-[WSGIApplication|-default_path:str;-default_file:str;~pages:dict]
+// The pages description, loaded from a JSON configuration file.
+[WebSiteData|~main_path:str;~default:str;~pages:dict|get_default_page();is_page();filename();title();short_description();has_header();has_footer();create_pages();bake_response()]
+
+// Create and run a local HTTPD server for a web front-end.
+[WebSiteApplication|-server:BaseHTTPDServer;-port:int;-location:str|client_url();run()]
+
+// The response recipe of a dynamic page, built from WebSiteData.
+[WebSiteResponse|+page()]
+
+// The WSGI application entry point, for a production UWSGI server.
+[WSGIApplication|-default_path:str;-default_file:str;~pages:dict;-policy:HTTPDPolicy|add_page()]
 
 // -------------------
 // Class relations
 // -------------------
 
+[BaseResponseRecipe {bg:purple}]^[WebSiteResponse]
+
+[WebSiteApplication]-1>[BaseHTTPDServer {bg:purple}]
 [WebSiteApplication]->[HTTPDHandler {bg:purple}]
 
 [WebSiteData]->[WebSiteResponse]
 
-[BaseResponseRecipe {bg:purple}]^[WebSiteResponse]
-
-[WSGIApplication]->[WebSiteData]
+[WSGIApplication]-1>[WebSiteData]
 [WSGIApplication]-n>[WebSiteResponse]
-[WSGIApplication]->[HTTPDHandlerUtils {bg:purple}]
+[WSGIApplication]-1>[HTTPDHandlerUtils {bg:purple}]
+[WSGIApplication]-1>[HTTPDPolicy {bg:purple}]
