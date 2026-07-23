@@ -225,6 +225,33 @@ class TagNode(BaseTagNode):
         self._children.clear()
 
     # -----------------------------------------------------------------------
+    # Convenient method to create and add a child node
+    # -----------------------------------------------------------------------
+
+    def element(self, tag: str = "div", ident=None, class_name=None, value=None) -> HTMLNode:
+        """Create an HTML node and append it as a direct child of this node.
+
+        Convenient method to create a node and add it to the children of this
+        node in a single call, for example self.element("p", value="Hello.").
+
+        :param tag: (str) HTML element name
+        :param ident: (str) Optional identifier of the created node
+        :param class_name: (str) Optional value of the class attribute
+        :param value: (str) Optional text content of the tag
+        :return: (HTMLNode) The created and appended node
+
+        """
+        attributes = dict()
+        if ident is not None:
+            attributes["id"] = str(ident)
+        if class_name is not None:
+            attributes["class"] = str(class_name)
+
+        node = HTMLNode(self.identifier, ident, tag, attributes=attributes, value=value)
+        self.append_child(node)
+        return node
+
+    # -----------------------------------------------------------------------
     # HTML management: getters and setters
     # -----------------------------------------------------------------------
 

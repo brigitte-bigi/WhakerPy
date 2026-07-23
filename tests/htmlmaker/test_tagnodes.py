@@ -194,6 +194,36 @@ class TestTagNode(unittest.TestCase):
         node.set_value(3)
         self.assertEqual("3", node.get_value())
 
+    # -----------------------------------------------------------------------
+
+    def test_element(self):
+        pnode = HTMLNode(parent=None, identifier="parent", tag="div")
+
+        # The created node is appended as a direct child and returned.
+        child = pnode.element("p", value="This is a paragraph")
+        self.assertEqual(1, pnode.children_size())
+        self.assertTrue(pnode.has_child(child.identifier))
+        self.assertIs(child, pnode.get_nidx_child(0))
+
+        # The created node has the requested tag and value.
+        self.assertIsInstance(child, HTMLNode)
+        self.assertEqual("p", child.tag)
+        self.assertEqual("This is a paragraph", child.get_value())
+        self.assertEqual("parent", child.get_parent())
+
+        # Optional identifier and class attributes are set.
+        img = pnode.element("img", ident="logo", class_name="thumb")
+        self.assertEqual(2, pnode.children_size())
+        self.assertEqual("logo", img.get_attribute_value("id"))
+        self.assertEqual("thumb", img.get_attribute_value("class"))
+
+        # The default tag is a div.
+        self.assertEqual("div", pnode.element().tag)
+
+        # An unknown tag is refused, exactly like the HTMLNode constructor.
+        with self.assertRaises(NodeTagError):
+            pnode.element("notatag")
+
 # ---------------------------------------------------------------------------
 
 

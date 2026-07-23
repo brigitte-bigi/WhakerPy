@@ -65,9 +65,9 @@ BaseNode
 >>> tree = HTMLTree("Home Page")
 >>> # Add a title node to the main of the body with the generic method 'element'
 >>> tree.element("h1")
->>> # Add a paragraph node to the main of the body
->>> p_node = HTMLNode(tree.body_main.identifier, "my_p_id", 'p', value="This is a paragraph.")
->>> tree.body_main.append_child(p_node)
+>>> # Add a paragraph node to the main of the body. The generic method
+>>> # 'element' creates the node and appends it as a child in a single call.
+>>> p_node = tree.body_main.element("p", value="This is a paragraph.")
 >>> # Serialize the HTML tree into a string
 >>> html_content = tree.serialize()
 >>> # Serialize the HTML tree into a file
