@@ -10,7 +10,7 @@
 
 [project]
     name = "WhakerPy"
-    version = "2.3"
+    version = "2.4"
     authors = [{ name="Brigitte Bigi", email="contact@sppas.org" }]
     description = "Web HTML maker in Python - a light web application framework"
     readme = "README.md"
